@@ -1,0 +1,87 @@
+import 'package:easy_localization/easy_localization.dart';
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/styles/styles.dart';
+import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import '../molecules/admin_notification_item.dart';
+
+class AdminNotificationScreen extends StatelessWidget {
+  const AdminNotificationScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: buildCustomAppBar(context, 'Notification'.tr(context: context)),
+      body: BlocBuilder<EmployeeCubit, EmployeeState>(
+        buildWhen: (previous, current) =>
+            current is GetAddAccountRequestsSuccess ||
+            current is GetAddAccountRequestsFailure ||
+            current is GetAddAccountRequestsLoading,
+        builder: (context, state) {
+          if (state is GetAddAccountRequestsSuccess) {
+            return state.value.data!.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.value.data!.length,
+                    itemBuilder: (context, index) {
+                      return AdminNotificationItem(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.allUsersScreen,
+                            arguments: state.value.data![index],
+                          ).then((_) => BlocProvider.of<EmployeeCubit>(context)
+                              .getAddAccountRequests());
+                        },
+                        name: state.value.data![index].name ?? "",
+                        mobileId: state.value.data![index].mobileId ?? "",
+                      );
+                    })
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.notifications_active_rounded,
+                          color: Colors.grey,
+                          size: 100,
+                        ),
+                        verticalSpace(20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "You Don't have any Notification Yet"
+                                  .tr(context: context),
+                              style: AppStylesManger.font20semiBoldBlack,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        verticalSpace(10),
+                        Text('we will send you notification soon .'
+                            .tr(context: context))
+                      ],
+                    ),
+                  );
+          } else if (state is GetAddAccountRequestsFailure) {
+            return Text(state.error);
+          } else if (state is GetAddAccountRequestsLoading) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.orange,
+            ));
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+    );
+  }
+}

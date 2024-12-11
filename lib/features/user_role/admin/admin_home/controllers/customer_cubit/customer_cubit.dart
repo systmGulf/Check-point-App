@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
+import 'package:hr_management_system_package/admin/data/models/customers/get_customer_model.dart';
+import 'package:hr_management_system_package/admin/data/repo/customer_repo/customer_repo.dart';
+
+import '../../../../../../core/enums/customer_type.dart';
+
+part 'customer_state.dart';
+
+class CustomerCubit extends Cubit<CustomerState> {
+  final CustomerRepo customerRepo;
+  CustomerCubit(this.customerRepo) : super(CustomerInitial());
+  GlobalKey<FormState> formKey = GlobalKey();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController workedAsController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+
+  TextEditingController editNameController = TextEditingController();
+  TextEditingController editWorkedAsController = TextEditingController();
+  TextEditingController editLocationController = TextEditingController();
+  List<CustomerLocation> customersLocation = [];
+  Future<void> addCustomer({required CustomerType customerType}) async {
+    emit(AddCustomerLoading());
+    try {
+      await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
+          customerType: customerType.name,
+          coordinates: customersLocation,
+          name: nameController.text,
+          workesAs: workedAsController.text,
+          location: locationController.text));
+
+      emit(AddCustomerSuccess());
+      getCustomersByType(customerType: customerType);
+    } on Exception catch (e) {
+      emit(
+        AddCustomerError(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> editCustomer(
+      {required String id, required CustomerType customerType}) async {
+    emit(EditCustomerLoading());
+    try {
+      await customerRepo.editCustomer(
+        id: id,
+        AddOrEditCustomerRequestBody(
+          customerType: customerType.name,
+          coordinates: customersLocation,
+          name: editNameController.text,
+          workesAs: editWorkedAsController.text,
+          location: editLocationController.text,
+        ),
+      );
+      nameController.clear();
+      workedAsController.clear();
+      locationController.clear();
+      emit(EditCustomerSuccess());
+
+      getCustomersByType(customerType: customerType);
+    } on Exception catch (e) {
+      emit(
+        EditCustomerError(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> deleteCustomer(
+      {required String id, required CustomerType customerType}) async {
+    emit(DeleteCustomerLoading());
+    try {
+      final result = await customerRepo.deleteCustomer(id: id);
+      result.fold(
+        (l) => emit(
+          DeleteCustomerError(
+            error: l.toString(),
+          ),
+        ),
+        (r) {
+          getCustomersByType(customerType: customerType);
+          emit(DeleteCustomerSuccess());
+        },
+      );
+    } on Exception catch (e) {
+      emit(
+        DeleteCustomerError(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getCustomersByType({required CustomerType customerType}) async {
+    emit(GetAllCustomersLoading());
+    final result =
+        await customerRepo.getCustomersByType(type: customerType.name);
+    result.fold(
+      (l) {
+        if (isClosed) return;
+        emit(
+          GetAllCustomersError(
+            error: l.toString(),
+          ),
+        );
+      },
+      (r) async {
+        if (isClosed) return;
+        emit(
+          GetAllCustomersSuccess(customers: r),
+        );
+      },
+    );
+  }
+}

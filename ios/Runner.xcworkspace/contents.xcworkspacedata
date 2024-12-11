@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:"
+      name = "Frameworks">
+      <FileRef
+         location = "build:Pods_Runner.framework"
+         assignedFileDataType = "com.apple.framework">
+      </FileRef>
+      <FileRef
+         location = "build:Pods_RunnerTests.framework"
+         assignedFileDataType = "com.apple.framework">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:Runner.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>

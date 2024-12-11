@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "Apiservice",
+        "userattendance"
+    ],
+    "notebook.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    }
+}

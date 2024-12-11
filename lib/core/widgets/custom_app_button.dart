@@ -1,0 +1,43 @@
+import '../styles/colors.dart';
+import '../styles/styles.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class CustomAppButton extends StatelessWidget {
+  const CustomAppButton(
+      {super.key,
+      required this.textButton,
+      required this.buttonColor,
+      this.border,
+      this.onPressed});
+  final String textButton;
+  final Color buttonColor;
+  final double? border;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(border ?? 0),
+        width: double.infinity,
+        height: 51.h,
+        decoration: BoxDecoration(
+            color: ColorsManger.lighorage,
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [ColorsManger.primaryColor, Colors.yellow]),
+            borderRadius: BorderRadius.circular(12)),
+        child: Center(
+          child: Text(
+            textButton,
+            style: AppStylesManger.font19reguleWhite
+                .copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
+          ),
+        ),
+      ),
+    );
+  }
+}

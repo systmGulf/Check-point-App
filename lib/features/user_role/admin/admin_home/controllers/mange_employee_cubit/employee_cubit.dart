@@ -1,0 +1,179 @@
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:hr_management_system_package/admin/data/models/add_employee_model/add_account_request_model.dart';
+import 'package:hr_management_system_package/admin/data/models/all_employees_model/edit_employee_request_body.dart';
+import 'package:hr_management_system_package/admin/data/models/department_model/get_employees_in_department.dart';
+import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+
+part 'employee_state.dart';
+
+class EmployeeCubit extends Cubit<EmployeeState> {
+  final AdminManageEmployeeRepo adminManageEmployeeRepo;
+  EmployeeCubit(this.adminManageEmployeeRepo) : super(EmployeeInitial());
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController positionController = TextEditingController();
+  TextEditingController mobileIdController = TextEditingController();
+  int departmentId = 00;
+  int branchId = 00;
+
+  String role = 'Employee';
+  TextEditingController editNameController = TextEditingController();
+  TextEditingController editUsernameController = TextEditingController();
+  TextEditingController editPasswordController = TextEditingController();
+  TextEditingController editPositionController = TextEditingController();
+  TextEditingController editMobileIdController = TextEditingController();
+
+  Future<void> getAllEmployees({int pageNumber = 0}) async {
+    if (pageNumber == 0) {
+      emit(GetAllEmployeesLoading());
+    } else {
+      emit(GetAllEmployeesPaginationLoading());
+    }
+    final result =
+        await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber);
+    result.fold(
+      (error) {
+        if (pageNumber == 0) {
+          emit(GetAllEmployeesFailure(error: error.message));
+        } else {
+          emit(GetAllEmployeesPaginationFailure(error: error.message));
+        }
+      },
+      (allEmployeesList) {
+        emit(GetAllEmployeesSuccess(value: allEmployeesList));
+      },
+    );
+  }
+
+  Future<void> getEmployeeByDepartment({required int departmentId}) async {
+    emit(GetEmployeeByDepartmentLoading());
+    final result = await adminManageEmployeeRepo.GetEmployeesInDepartment(
+        id: departmentId);
+    await result.fold(
+      (error) {
+        emit(GetEmployeeByDepartmentError(error.message));
+      },
+      (employeeList) async {
+        emit(GetEmployeeByDepartmentSuccess(employeeList));
+      },
+    );
+  }
+
+  Future<void> deleteUserAccount({required String userId}) async {
+    emit(DeleteUserAccountLoading());
+    try {
+      await adminManageEmployeeRepo.deleteUserAccount(userId: userId);
+      await getAllEmployees();
+      emit(DeleteUserAccountSuccess());
+    } catch (e) {
+      emit(DeleteUserAccountFailure(error: e.toString()));
+    }
+  }
+
+  Future<void> addEmployee({required String role}) async {
+    emit(AddEmployeeLoading());
+    final result = await adminManageEmployeeRepo.addEmployee(
+      AddEmployeeRequestBody(
+        departmentId: departmentId,
+        branchId: branchId,
+        name: nameController.text,
+        username: usernameController.text,
+        password: passwordController.text,
+        position: positionController.text,
+        mobileId: mobileIdController.text,
+        role: role,
+      ),
+    );
+
+    result.fold(
+      (l) => emit(AddEmployeeFailure(error: l.message)),
+      (r) async {
+        emit(AddEmployeeSuccess());
+      },
+    );
+  }
+
+  Future<void> getAddAccountRequests() async {
+    emit(GetAddAccountRequestsLoading());
+    final result = await adminManageEmployeeRepo.getAddAccountsRequests();
+    result.fold(
+      (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
+      (r) => emit(GetAddAccountRequestsSuccess(value: r)),
+    );
+  }
+
+  Future<void> deleteAddAccountRequest({required int id}) async {
+    emit(DeleteAddAccountRequestLoading());
+    final result =
+        await adminManageEmployeeRepo.deleteAddAccountsRequest(id: id);
+    result.fold(
+      (l) => emit(DeleteAddAccountRequestFailure(error: l.message)),
+      (r) async {
+        await getAddAccountRequests();
+        emit(DeleteAddAccountRequestSuccess());
+      },
+    );
+  }
+
+  Future<void> editEmployee({required String id}) async {
+    emit(EditEmployeeLoading());
+    if (departmentId == 00) {
+      emit(EditEmployeeFailure(error: "Please Select Department"));
+    } else if (branchId == 00) {
+      emit(EditEmployeeFailure(error: "Please Select Branch"));
+    }
+    try {
+      var result = await adminManageEmployeeRepo.editEmployee(
+        EditEmployeeRequestBody(
+          branchId: branchId,
+          name: editNameController.text,
+          userName: editUsernameController.text,
+          password: editPasswordController.text,
+          position: editPositionController.text,
+          mobileId: editMobileIdController.text,
+          role: role,
+          departmentId: departmentId,
+        ),
+        id: id,
+      );
+
+      result.fold(
+        (l) => emit(EditEmployeeFailure(error: l.message)),
+        (r) async {
+          await getAllEmployees();
+          emit(EditEmployeeSuccess());
+        },
+      );
+    } catch (e) {
+      emit(EditEmployeeFailure(error: e.toString()));
+    }
+  }
+
+  Future<void> attendAntherEmployeePermission(
+      {required String employeeId, required bool permission}) async {
+    emit(AttendAntherEmployeePermissionLoading());
+    final result = await adminManageEmployeeRepo.attendAntherUserPermission(
+        supervisorId: employeeId, permission: permission);
+    result.fold((l) {
+      emit(AttendAntherEmployeePermissionFailure(l.message));
+    }, (r) {
+      emit(AttendAntherEmployeePermissionSuccess());
+    });
+  }
+
+  Future<void> setPlanPermission(
+      {required String employeeId, required bool permission}) async {
+    emit(SetPlanPermissionLoading());
+    final result = await adminManageEmployeeRepo.setPlanPermission(
+        supervisorId: employeeId, permission: permission);
+    result.fold((l) {
+      emit(SetPlanPermissionFailure(l.message));
+    }, (r) {
+      emit(SetPlanPermissionSuccess());
+    });
+  }
+}

@@ -1,0 +1,112 @@
+name: employee_mangement
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.1+1
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+dependencies:
+  # UI
+  analog_clock: ^0.1.0
+  animate_do: ^3.3.4
+  cached_network_image: ^3.4.1
+  collection: ^1.18.0
+  flutter_advanced_switch: ^3.1.0
+  flutter_bloc: ^8.1.6
+  flutter_screenutil: ^5.9.3
+  flutter_speed_dial: ^7.0.0
+  flutter_svg: ^2.0.16
+  flutter_swipe_button: ^2.1.3
+  flutter_xlider: ^3.5.0
+  dotted_line: ^3.2.2
+  easy_date_timeline: ^1.1.3
+  easy_localization: ^3.0.7
+  expansion_tile_group: ^1.2.4
+  fl_chart: ^0.68.0
+  simple_progress_indicators: ^0.2.0
+  skeletonizer: ^1.4.2
+  slide_switcher: ^1.1.2
+  sliding_clipped_nav_bar: ^3.1.1
+  timeline_tile: ^2.0.0
+  top_snackbar_flutter: ^3.1.0
+  url_launcher: ^6.0.20
+  lottie: ^2.2.0
+  material_floating_search_bar_2: ^0.5.0
+  modal_progress_hud_nsn: ^0.5.1
+  pie_chart: ^5.4.0
+
+  
+  # Network
+  connectivity_plus: ^6.0.3
+  http: ^1.2.2
+  location: ^6.0.2
+
+  # Utils
+  excel: ^2.0.4
+  file_picker: ^8.0.6
+  image: ^4.3.0
+  image_picker: ^1.1.2
+  intl: ^0.19.0    
+  geocoding: ^3.0.0
+  get_it: ^7.7.0
+  google_maps_flutter: ^2.1.0
+  sentry_flutter: ^8.9.0
+  share_plus: ^10.0.0
+  permission_handler: ^11.3.1
+
+  # Firebase
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.4
+
+  flutter:
+    sdk: flutter
+
+  # App Package
+  hr_management_system_package:
+    path: /home/osama/Desktop/hr_mangement_system_package/packages/hr_management_system_package
+
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+
+  flutter_test:
+    sdk: flutter
+# dependency_overrides:
+#   hr_management_system_package:
+#     git:
+#       url: https://github.com/osamamahmoud2/hr_mangement_system_package.git
+#       path: packages/hr_management_system_package
+#       ref: main
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/animated_images/attendance_done_animated_image.json
+    - assets/animated_images/no_data_found.json
+    - assets/translations/
+    - shorebird.yaml
+  # example:
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 800
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+icons_launcher:
+  image_path: "assets/images/app_logo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+flutter_intl:
+  enabled: true

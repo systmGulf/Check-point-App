@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:hr_management_system_package/employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
+import 'package:hr_management_system_package/supervisor/data/models/employee_summary_model/employee_summary_model.dart';
+import 'package:hr_management_system_package/supervisor/supervisor_data.dart';
+
+part 'get_employees_data_state.dart';
+
+class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
+  final SupervisorRepo supervisorRepo;
+  GetEmployeesDataCubit(this.supervisorRepo) : super(GetEmployeesDataInitial());
+
+  Future<void> getEmployeesByDepartmentId() async {
+    emit(GetAllEmployeesLoading());
+    final result = await supervisorRepo.getEmployeeByDepartmentId();
+    result.fold(
+      (error) {
+        emit(GetAllEmployeesFailure(errorMsg: error.message));
+      },
+      (allEmployeesList) {
+        emit(GetAllEmployeesSuccess(allEmployeesValue: allEmployeesList));
+      },
+    );
+  }
+
+  Future<void> supervisorAttendSomeEmployeeCheckIn(
+      EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
+    emit(SupervisorAttendSomeEmployeeLoading());
+    final result = await supervisorRepo
+        .supervisorAttendSomeEmployeeCheckIn(employeeCheckInRequestBody);
+    result.fold((l) {
+      emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
+    }, (r) {
+      emit(SupervisorAttendSomeEmployeeSuccess(
+        successMsg: 'User Attended Successfully',
+      ));
+    });
+  }
+
+  Future<void> supervisorAttendSomeEmployeeCheckOut(String employeeId, String? image) async {
+    emit(SupervisorAttendSomeEmployeeLoading());
+    final result =
+        await supervisorRepo.supervisorAttendSomeEmployeeCheckOut(employeeId, image);
+    result.fold((l) {
+      emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
+    }, (r) {
+      emit(
+        SupervisorAttendSomeEmployeeSuccess(
+          successMsg: 'User Checked Out Successfully',
+        ),
+      );
+    });
+  }
+
+  Future<void> getEmployeeSummaryByDepartmentId({
+    required String employeeId,
+    required int month,
+    required int year,
+  }) async {
+    emit(GetEmployeeSummaryLoading());
+    final result = await supervisorRepo.getEmployeeSummary(
+        employeeId: employeeId, month: month, year: year);
+    result.fold((l) {
+      emit(GetEmployeeSummaryFailure(errorMsg: l.message));
+    }, (r) {
+      emit(GetEmployeeSummarySuccess(getEmployeeSummaryValue: r));
+    });
+  }
+}

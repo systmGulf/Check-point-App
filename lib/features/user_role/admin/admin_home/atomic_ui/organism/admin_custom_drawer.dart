@@ -1,0 +1,136 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:hr_management_system_package/core/core.dart';
+
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/styles/styles.dart';
+
+class AdminCustomDrawer extends StatelessWidget {
+  const AdminCustomDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    List<AdminDrawerItem> drawerItems = [
+      AdminDrawerItem(
+          onTap: () {
+            context.pushName(Routes.termsAndConditionsScreen);
+          },
+          icon: Icons.warning_rounded,
+          trailingIcon: Icons.arrow_forward_ios,
+          title: 'Terms & Conditions'.tr(context: context)),
+      AdminDrawerItem(
+          icon: Icons.notifications,
+          trailingIcon: Icons.arrow_forward_ios,
+          onTap: () {
+            context.pushName(Routes.notifyUsersScreen);
+          },
+          title: 'Notifications'.tr(context: context)),
+      AdminDrawerItem(
+          icon: Icons.person_add_alt,
+          trailingIcon: Icons.arrow_forward_ios,
+          onTap: () {
+            context.pushName(Routes.allUsersScreen);
+          },
+          title: 'Add User'.tr(context: context)),
+      AdminDrawerItem(
+          icon: Icons.language,
+          trailingIcon: Icons.arrow_forward_ios,
+          title: 'Change Language'.tr(context: context),
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (cnx) {
+                  return IntrinsicHeight(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onTap: () {
+                              EasyLocalization.of(context)!
+                                  .setLocale(const Locale('en', 'US'));
+                              Navigator.pop(context);
+                            },
+                            title: const Text('English'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              EasyLocalization.of(context)!
+                                  .setLocale(const Locale('ar', 'AE'));
+                              Navigator.pop(context);
+                            },
+                            title: const Text('العربية'),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          }),
+      AdminDrawerItem(
+          onTap: () async {
+            await SecureCache.deleteFromCache();
+            ApiConstant.token = await SecureCache.getFromCache(key: 'username');
+            if (!context.mounted) return;
+            context.pushReplacementName(Routes.userRoleScreen);
+          },
+          icon: Icons.logout,
+          trailingIcon: Icons.arrow_forward_ios,
+          title: 'Logout'.tr(context: context)),
+    ];
+    return Drawer(
+      backgroundColor: Colors.white,
+      child: SafeArea(
+        child: Column(
+          children: [
+            verticalSpace(15),
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('assets/images/manger.png'),
+            ),
+            verticalSpace(15),
+            Text(
+              ApiConstant.username,
+              style: AppStylesManger.font14RegularBlack
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            verticalSpace(15),
+            Expanded(
+              child: ListView(children: drawerItems),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AdminDrawerItem extends StatelessWidget {
+  const AdminDrawerItem(
+      {super.key,
+      required this.icon,
+      required this.trailingIcon,
+      required this.title,
+      this.onTap});
+  final IconData icon, trailingIcon;
+  final String title;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ListTile(
+        leading: Icon(icon, color: Colors.grey, size: 23),
+        title: Text(title,
+            style: AppStylesManger.font14RegularBlack.copyWith(
+                color: const Color.fromARGB(255, 93, 93, 93),
+                fontWeight: FontWeight.bold,
+                fontSize: 13.5)),
+        trailing: Icon(trailingIcon, color: Colors.grey, size: 15),
+      ),
+    );
+  }
+}
