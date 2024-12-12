@@ -5,11 +5,22 @@ version: 1.0.1+1
 environment:
   sdk: '>=3.4.0 <4.0.0'
 dependencies:
-  # UI
   analog_clock: ^0.1.0
   animate_do: ^3.3.4
   cached_network_image: ^3.4.1
   collection: ^1.18.0
+  connectivity_plus: ^6.0.3
+  dotted_line: ^3.2.2
+  easy_date_timeline: ^1.1.3
+  easy_localization: ^3.0.7
+  excel: ^2.0.4
+  expansion_tile_group: ^1.2.4
+  file_picker: ^8.0.6
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.4
+  fl_chart: ^0.68.0
+  flutter:
+    sdk: flutter
   flutter_advanced_switch: ^3.1.0
   flutter_bloc: ^8.1.6
   flutter_screenutil: ^5.9.3
@@ -17,11 +28,24 @@ dependencies:
   flutter_svg: ^2.0.16
   flutter_swipe_button: ^2.1.3
   flutter_xlider: ^3.5.0
-  dotted_line: ^3.2.2
-  easy_date_timeline: ^1.1.3
-  easy_localization: ^3.0.7
-  expansion_tile_group: ^1.2.4
-  fl_chart: ^0.68.0
+  geocoding: ^3.0.0
+  get_it: ^7.7.0
+  google_maps_flutter: ^2.1.0
+  hr_management_system_package:
+    path: /home/osama/Desktop/hr_mangement_system_package/packages/hr_management_system_package
+  http: ^1.2.2
+  image: ^4.3.0
+  image_picker: ^1.1.2
+  intl: ^0.19.0
+  location: ^6.0.2
+  lottie: ^2.2.0
+  material_floating_search_bar_2: ^0.5.0
+  modal_progress_hud_nsn: ^0.5.1
+  overlay_loader_with_app_icon: ^0.0.4
+  permission_handler: ^11.3.1
+  pie_chart: ^5.4.0
+  sentry_flutter: ^8.9.0
+  share_plus: ^10.0.0
   simple_progress_indicators: ^0.2.0
   skeletonizer: ^1.4.2
   slide_switcher: ^1.1.2
@@ -29,41 +53,6 @@ dependencies:
   timeline_tile: ^2.0.0
   top_snackbar_flutter: ^3.1.0
   url_launcher: ^6.0.20
-  lottie: ^2.2.0
-  material_floating_search_bar_2: ^0.5.0
-  modal_progress_hud_nsn: ^0.5.1
-  pie_chart: ^5.4.0
-
-  
-  # Network
-  connectivity_plus: ^6.0.3
-  http: ^1.2.2
-  location: ^6.0.2
-
-  # Utils
-  excel: ^2.0.4
-  file_picker: ^8.0.6
-  image: ^4.3.0
-  image_picker: ^1.1.2
-  intl: ^0.19.0    
-  geocoding: ^3.0.0
-  get_it: ^7.7.0
-  google_maps_flutter: ^2.1.0
-  sentry_flutter: ^8.9.0
-  share_plus: ^10.0.0
-  permission_handler: ^11.3.1
-
-  # Firebase
-  firebase_core: ^3.1.0
-  firebase_messaging: ^15.0.4
-
-  flutter:
-    sdk: flutter
-
-  # App Package
-  hr_management_system_package:
-    path: /home/osama/Desktop/hr_mangement_system_package/packages/hr_management_system_package
-
 
 dev_dependencies:
   flutter_lints: ^3.0.0

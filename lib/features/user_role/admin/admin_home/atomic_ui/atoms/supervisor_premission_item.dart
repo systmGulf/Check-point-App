@@ -1,17 +1,16 @@
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 
-import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/styles/styles.dart';
-
 class SupervisorPermissionItem extends StatefulWidget {
   const SupervisorPermissionItem({
-    super.key,
     required this.text,
     required this.icon,
     required this.iconColor,
     required this.isChecked,
     required this.onChanged,
+    super.key,
   });
   final String text;
   final IconData icon;
@@ -36,7 +35,7 @@ class _SupervisorPermissionItemState extends State<SupervisorPermissionItem> {
       trailing: AdvancedSwitch(
         initialValue: widget.isChecked,
         onChanged: (value) {
-          widget.onChanged(value);
+          widget.onChanged(value as bool);
         },
         activeColor: ColorsManger.primaryColor,
       ),

@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../email_and_password_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../../core/styles/styles.dart';
 import '../../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
+import '../email_and_password_text_field.dart';
 
 class SupervisorLoginScreen extends StatelessWidget {
   const SupervisorLoginScreen({super.key});

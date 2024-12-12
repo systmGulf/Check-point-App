@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/admin/data/models/branches/get_branches_models.dart';
 import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
 import 'package:hr_management_system_package/employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee/data/models/user_attendace_model/get_plan_by_employee_id_model.dart';

@@ -1,5 +1,6 @@
-import '../widgets/user_role_screen_body.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/user_role_screen_body.dart';
 
 class UserRoleScreen extends StatelessWidget {
   const UserRoleScreen({super.key});

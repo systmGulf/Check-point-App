@@ -3,23 +3,22 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
+import '../dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../dependencyـinjection/registerـfactory.dart';
-
 Future<String?> pickImage() async {
   try {
-    final ImagePicker _picker = ImagePicker();
+    final picker = ImagePicker();
 
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final image = await picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
-      File imageFile = File(image.path);
+      final imageFile = File(image.path);
 
-      final String base64Image = await computeBase64Encoding(imageFile);
+      final base64Image = await computeBase64Encoding(imageFile);
       return base64Image;
     }
 
@@ -60,33 +59,45 @@ Future<void> _showAlertPermissionsDialog() {
 }
 
 Future<String> computeBase64Encoding(File imageFile) async {
-  final ReceivePort receivePort = ReceivePort();
-
-  await Isolate.spawn(
-      _base64EncodeImage, [imageFile.path, receivePort.sendPort]);
-
-  final String base64String = await receivePort.first as String;
-
-  return base64String;
-}
-
-void _base64EncodeImage(List<dynamic> args) async {
-  final String imagePath = args[0];
-  final SendPort sendPort = args[1];
+  final receivePort = ReceivePort();
 
   try {
-    final File imageFile = File(imagePath);
+    await Isolate.spawn(
+      _base64EncodeImage,
+      [imageFile.path, receivePort.sendPort],
+    );
+
+    final base64String = await receivePort.first as String;
+
+    return base64String;
+  } catch (e) {
+    debugPrint('Error in computeBase64Encoding: $e');
+    return '';
+  } finally {
+    receivePort.close();
+  }
+}
+
+Future<void> _base64EncodeImage(List<dynamic> args) async {
+  final imagePath = args[0] as String;
+  final sendPort = args[1] as SendPort;
+
+  try {
+    final imageFile = File(imagePath);
     final imageBytes = await imageFile.readAsBytes();
-    img.Image? image = img.decodeImage(imageBytes);
+    final image = img.decodeImage(imageBytes);
     if (image == null) {
+      sendPort.send('');
       return;
     }
-    img.Image resized = img.copyResize(image, width: 600);
-    List<int> compressedBytes = img.encodeJpg(resized, quality: 85);
-    String base64String = base64Encode(compressedBytes);
+
+    final resized = img.copyResize(image, width: 600);
+    final List<int> compressedBytes = img.encodeJpg(resized, quality: 85);
+    final base64String = base64Encode(compressedBytes);
 
     sendPort.send(base64String);
   } catch (e) {
+    debugPrint('Error in _base64EncodeImage: $e');
     sendPort.send('');
   }
 }

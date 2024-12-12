@@ -1,6 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'supervisor_tasks_screen.dart';
-import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,10 +12,12 @@ import '../../../../employee/employee_home/atomic_ui/organism/employee_custom_dr
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
+import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../molecules/supervisor_set_plan_screen_body.dart';
 import 'attandace_screen.dart';
 import 'supervisor_attendance_screen.dart';
 import 'supervisor_requests_screen.dart';
+import 'supervisor_tasks_screen.dart';
 
 class SupervisorHomeScreen extends StatefulWidget {
   const SupervisorHomeScreen({super.key});

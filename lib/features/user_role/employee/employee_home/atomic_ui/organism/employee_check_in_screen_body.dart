@@ -1,9 +1,6 @@
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'check_in_auth_bloc_listener.dart';
-import 'site_map_screen.dart';
-import '../../controller/attendence/attendence_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,10 +8,13 @@ import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../controller/attendence/attendence_cubit.dart';
 import '../molecules/custom_checking_screen_app_bar.dart';
 import 'attendance_map_bottom_sheet.dart';
+import 'check_in_auth_bloc_listener.dart';
 import 'customer_map_screen.dart';
 import 'office_map_screen.dart';
+import 'site_map_screen.dart';
 
 class EmployeeCheckInScreenBody extends StatefulWidget {
   const EmployeeCheckInScreenBody(

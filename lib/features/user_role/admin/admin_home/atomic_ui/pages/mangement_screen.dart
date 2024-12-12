@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../atoms/admin_permission_screen_item.dart';

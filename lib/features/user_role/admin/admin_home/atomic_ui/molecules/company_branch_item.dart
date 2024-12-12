@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../core/widgets/build_alart_message.dart';
-import '../../../../../../employee_mangement_system.dart';
-import '../../controllers/branch_cubit/branch_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/widgets/build_alart_message.dart';
+import '../../controllers/branch_cubit/branch_cubit.dart';
 
 class CompanyBranchItem extends StatelessWidget {
   const CompanyBranchItem(

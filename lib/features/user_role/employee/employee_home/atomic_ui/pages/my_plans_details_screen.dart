@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
-import '../organism/time_line_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controller/attendence/attendence_cubit.dart';
+import '../organism/time_line_tile.dart';
 
 class MyPlansDetailsScreen extends StatelessWidget {
   const MyPlansDetailsScreen({super.key});
