@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/helpers/extention.dart';
-import 'package:employee_mangement/core/styles/styles.dart';
+import '../helpers/extention.dart';
+import '../styles/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

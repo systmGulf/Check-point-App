@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/enums/customer_type.dart';
-import 'package:employee_mangement/core/styles/styles.dart';
-import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/molecules/sites_item.dart';
-import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
+import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/styles/styles.dart';
+import '../molecules/sites_item.dart';
+import '../../controllers/customer_cubit/customer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

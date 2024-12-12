@@ -1,5 +1,5 @@
-import 'package:employee_mangement/core/styles/colors.dart';
-import 'package:employee_mangement/core/styles/styles.dart';
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 

@@ -1,6 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../molecules/client_image_and_name.dart';
 import '../organism/edit_customer_bloc_listener.dart';

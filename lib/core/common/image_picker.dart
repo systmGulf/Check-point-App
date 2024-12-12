@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
+import '../dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';

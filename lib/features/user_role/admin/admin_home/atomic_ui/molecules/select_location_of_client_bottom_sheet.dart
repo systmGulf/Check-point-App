@@ -1,8 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/styles/colors.dart';
-import 'package:employee_mangement/core/widgets/custom_app_button.dart';
-import 'package:employee_mangement/core/widgets/custom_app_text_form_field.dart';
-import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
@@ -10,6 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/custom_app_button.dart';
+import '../../../../../../core/widgets/custom_app_text_form_field.dart';
+import '../../controllers/customer_cubit/customer_cubit.dart';
 
 class SelectLocationOfClientBottomSheet extends StatefulWidget {
   const SelectLocationOfClientBottomSheet({
