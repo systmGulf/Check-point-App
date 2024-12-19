@@ -56,23 +56,18 @@ class TimeLineTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
-                  enableFeedback: true,
-
-                  // dense: true,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                   ),
-                  title: Expanded(
-                    child: Text(
-                      name,
-                      style: const TextStyle(
-                        color: Color(0xFF24252C),
-                        fontSize: 16,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w700,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+                  title: Text(
+                    name,
+                    style: const TextStyle(
+                      color: Color(0xFF24252C),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w700,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   leading: visitType == "Customer"
                       ? CircleAvatar(

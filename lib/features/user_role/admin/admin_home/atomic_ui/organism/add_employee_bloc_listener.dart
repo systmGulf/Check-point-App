@@ -42,10 +42,10 @@ class AddEmployeeBlocListener extends StatelessWidget {
             context
                 .read<EmployeeCubit>()
                 .deleteAddAccountRequest(id: requestId);
-            FcmNotificationService.sendNotification(
-                deviceToken,
-                'Your account has been created'.tr(context: context),
-                '${"your userName is".tr(context: context)} : $userName , ${"your Password is".tr(context: context)} : $password ');
+            // FcmNotificationService.sendNotification(
+            //     deviceToken,
+            //     'Your account has been created'.tr(context: context),
+            //     '${"your userName is".tr(context: context)} : $userName , ${"your Password is".tr(context: context)} : $password ');
           } else if (state is AddEmployeeFailure) {
             context.pop();
             showTopSnackBar(

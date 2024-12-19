@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
@@ -184,8 +185,29 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                   ],
                 );
               } else if (state is GetAllEmployeesLoading) {
-                return Center(
-                  child: CircularProgressIndicator(color: ColorsManger.primaryColor),);
+                return Skeletonizer(
+                  child: ListView.builder(
+                    itemCount: 10,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 7),
+                      child: UserItemListView(
+                        onDelete: () {},
+                        branchId: 0,
+                        branch: "Data Load",
+                        departmentId: 0,
+                        role: "Data Load",
+                        mobileId: "Data Load",
+                        userName: "Data Load",
+                        department: "Data Load",
+                        userId: "Data Load",
+                        name: "Data Load",
+                        position: "Data Load",
+                      ),
+                    ),
+                  ),
+                );
               } else {
                 return const SizedBox();
               }

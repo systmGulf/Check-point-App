@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../controller/attendence/attendence_cubit.dart';
@@ -160,7 +161,16 @@ class MyPlansScreen extends StatelessWidget {
                 return SliverToBoxAdapter(child: NoDataFound());
               } else {
                 return SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()));
+                    child: Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.sizeOf(context).height * 0.3,
+                  ),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: ColorsManger.primaryColor,
+                    strokeWidth: 2,
+                  )),
+                ));
               }
             })
       ]),

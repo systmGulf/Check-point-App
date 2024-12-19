@@ -36,6 +36,14 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.close),
+                )),
             Text(
               'Set Plan'.tr(context: context),
               style: AppStylesManger.font16BoldBlack,

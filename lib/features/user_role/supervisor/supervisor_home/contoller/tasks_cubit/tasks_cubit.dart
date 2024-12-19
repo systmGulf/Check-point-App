@@ -45,7 +45,7 @@ class TasksCubit extends Cubit<TasksState> {
     } else {
       emit(GetTaskPaginationLoading());
     }
-    final result = await supervisorRepo.getAllTasks(
+    final result = await supervisorRepo.getAllTasksById(
       pageNumber: pageNumber,
     );
     result.fold((l) {

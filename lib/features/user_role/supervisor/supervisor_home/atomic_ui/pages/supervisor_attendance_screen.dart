@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_switcher/slide_switcher.dart';
 
 import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
@@ -66,7 +67,10 @@ class _SupervisorAttendanceScreenState
                     } else if (state is GetEmployeeFailure) {
                       return Text(state.error);
                     } else {
-                      return  Center(child: CircularProgressIndicator(),);
+                      return Skeletonizer(
+                          child: const UserNameAndTimeAndCheckInAndOutItem(
+                        name: "Data Loading",
+                      ));
                     }
                   }),
               verticalSpace(20),

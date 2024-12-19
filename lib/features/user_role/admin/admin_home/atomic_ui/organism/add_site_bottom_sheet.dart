@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'select_location_of_site_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -12,6 +11,7 @@ import '../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import 'add_customer_bloc_listener.dart';
+import 'select_location_of_site_bottom_sheet.dart';
 
 class AddSiteBottomSheet extends StatefulWidget {
   const AddSiteBottomSheet({super.key});
@@ -54,6 +54,14 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
               child: Center(
                 child: Column(
                   children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.close),
+                        )),
                     SizedBox(
                       child: Text(
                         'Add New Site'.tr(context: context),

@@ -1,10 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/styles/colors.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import 'select_department_drop_button.dart';
 
 class SelectDepartment extends StatefulWidget {
   const SelectDepartment({
@@ -20,8 +21,6 @@ class SelectDepartment extends StatefulWidget {
 }
 
 class _SelectDepartmentState extends State<SelectDepartment> {
-  String? selectedValue;
-  int? departmentId;
   @override
   void initState() {
     super.initState();
@@ -35,47 +34,17 @@ class _SelectDepartmentState extends State<SelectDepartment> {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
         builder: (context, state) {
       if (state is GetDepartmentLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
+        return Skeletonizer(
+          child: SelectDepartmentDropButton(
+              departments: DepartmentValue(data: []),
+              department: widget.department,
+              departmentId: widget.departmentId),
         );
       } else if (state is GetDepartmentSuccess) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: ColorsManger.primaryColor),
-              borderRadius: BorderRadius.circular(10)),
-          child: DropdownButton(
-            value: selectedValue ?? widget.department,
-            hint: Text(
-              'Select Department'.tr(context: context),
-            ),
-            isExpanded: true,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            dropdownColor: Colors.white,
-            iconSize: 24,
-            elevation: 16,
-            underline: const SizedBox(),
-            onChanged: (value) {
-              setState(() {
-                selectedValue = value.toString();
-                departmentId = state.departmentList.data!
-                    .firstWhere(
-                        (element) => element.departmentName == selectedValue)
-                    .id;
-
-                BlocProvider.of<EmployeeCubit>(context).departmentId =
-                    departmentId!;
-              });
-            },
-            items: state.departmentList.data!
-                .map((e) => DropdownMenuItem(
-                      value: e.departmentName,
-                      child: Text(e.departmentName ?? ""),
-                    ))
-                .toList(),
-          ),
-        );
+        return SelectDepartmentDropButton(
+            departments: state.departmentList,
+            department: widget.department,
+            departmentId: widget.departmentId);
       }
       return const SizedBox.shrink();
     });
