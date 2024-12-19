@@ -54,6 +54,14 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
               child: Center(
                 child: Column(
                   children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.close),
+                        )),
                     SizedBox(
                       child: Text(
                         'Add New Client'.tr(context: context),

@@ -1,9 +1,8 @@
-import '../contoller/roles_login_cubit/login_cubit.dart';
-import '../dependency%D9%80injection/register%D9%80factory.dart';
-import '../enums/customer_type.dart';
-import 'base_route.dart';
-import 'routes.dart';
-import '../widgets/no_route_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:hr_management_system_package/employee/data/repo/attendance_repo/employee_attendance_repo.dart';
+
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/intro/presentation/views/screen/on_boarding_screen.dart';
 import '../../features/intro/presentation/views/screen/user_role_screen.dart';
@@ -17,9 +16,9 @@ import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_branch
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_branshes_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/departments_screen.dart.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/edit_user_screen.dart';
-import '../../features/user_role/admin/admin_home/atomic_ui/pages/events_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/holidays_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/notifiy_users_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/shifts_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/sites_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/team_in_department_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/terms_and_conditions_screen.dart';
@@ -28,6 +27,7 @@ import '../../features/user_role/admin/admin_home/controllers/customer_cubit/cus
 import '../../features/user_role/admin/admin_home/controllers/department_cubit/department_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/mange_employee_cubit/employee_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/notification_cubit/notification_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import '../../features/user_role/employee/employee_auth/ui/views/screen/employee_login_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/organism/employee_Leave_request_history_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/organism/employee_change_password_screen.dart';
@@ -59,10 +59,12 @@ import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supe
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
-import 'package:hr_management_system_package/employee/data/repo/attendance_repo/employee_attendance_repo.dart';
+import '../contoller/roles_login_cubit/login_cubit.dart';
+import '../dependency%D9%80injection/register%D9%80factory.dart';
+import '../enums/customer_type.dart';
+import '../widgets/no_route_screen.dart';
+import 'base_route.dart';
+import 'routes.dart';
 
 abstract class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -360,9 +362,12 @@ abstract class AppRouter {
             child: const EmployeeAddNewCustomerScreen(),
           ),
         );
-      case Routes.eventsScreen:
+      case Routes.shiftsScreen:
         return BaseRoute(
-          page: const EventsScreen(),
+          page: BlocProvider(
+            create: (context) => getIt<ShiftsAndPolicesCubit>()..getShifts(),
+            child: const ShiftsScreen(),
+          ),
         );
       case Routes.sitesScreen:
         return BaseRoute(

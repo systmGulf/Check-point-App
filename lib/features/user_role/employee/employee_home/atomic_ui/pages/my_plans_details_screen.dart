@@ -24,6 +24,7 @@ class MyPlansDetailsScreen extends StatelessWidget {
             if (state is GetPlanByIdIdDone) {
               return ListView.builder(
                 itemCount: state.plansById.customerPlans!.length,
+                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return TimeLineTile(
                     date: state.plansById.planDate ?? '',
@@ -49,7 +50,10 @@ class MyPlansDetailsScreen extends StatelessWidget {
               return Text(state.error);
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                  strokeWidth: 2,
+                ),
               );
               // return ListView.builder(
               //     itemCount: 5,

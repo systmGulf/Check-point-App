@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -164,13 +165,29 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
               ],
             );
           } else if (state is GetAllEmployeesLoading) {
-            return isPressed == false
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  );
+            return Skeletonizer(
+              child: ListView.builder(
+                itemCount: 10,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: UserItemListView(
+                    onDelete: () {},
+                    branchId: 0,
+                    branch: "Data Load",
+                    departmentId: 0,
+                    role: "Data Load",
+                    mobileId: "Data Load",
+                    userName: "Data Load",
+                    department: "Data Load",
+                    userId: "Data Load",
+                    name: "Data Load",
+                    position: "Data Load",
+                  ),
+                ),
+              ),
+            );
           } else if (state is GetAllEmployeesFailure) {
             return Text(state.error);
           } else {

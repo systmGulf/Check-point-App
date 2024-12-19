@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -19,6 +21,8 @@ import 'employee_mangement_system.dart';
 Future<void> initializeServices() async {
   await Firebase.initializeApp();
   await FcmNotificationService.init();
+  final currentFCMToken = await FirebaseMessaging.instance.getToken();
+  log('FCM Token: $currentFCMToken');
   await LocalNotificationService.init();
   await Permission.storage.request();
   await ScreenUtil.ensureScreenSize();

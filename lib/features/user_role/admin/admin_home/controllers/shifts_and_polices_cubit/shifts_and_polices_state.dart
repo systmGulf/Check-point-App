@@ -1,0 +1,30 @@
+part of 'shifts_and_polices_cubit.dart';
+
+@immutable
+abstract class ShiftsAndPolicesState {}
+
+class ShiftsAndPolicesInitial extends ShiftsAndPolicesState {}
+
+class AddShiftLoading extends ShiftsAndPolicesState {}
+
+class AddShiftSuccess extends ShiftsAndPolicesState {}
+
+class AddShiftError extends ShiftsAndPolicesState {
+  final String error;
+
+  AddShiftError({required this.error});
+}
+class GetShiftsLoading extends ShiftsAndPolicesState {}
+
+class GetShiftsSuccess extends ShiftsAndPolicesState {
+  final ShiftModel shiftModel;
+
+  GetShiftsSuccess({required this.shiftModel});
+}
+
+class GetShiftsError extends ShiftsAndPolicesState {
+  final String error;
+
+  GetShiftsError({required this.error});
+}
+

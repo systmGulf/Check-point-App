@@ -48,6 +48,14 @@ class _AddDepartmentBottomSheetState extends State<AddDepartmentBottomSheet> {
             ),
             child: Column(
               children: [
+                Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.close),
+                    )),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {

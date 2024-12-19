@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../atoms/premission_item.dart';
@@ -43,10 +43,10 @@ class ManagementScreenGridView extends StatelessWidget {
       ),
       ManagementScreenGridViewItem(
         onTap: () {
-          context.pushName(Routes.eventsScreen);
+          context.pushName(Routes.shiftsScreen);
         },
         image: 'assets/images/people.png',
-        text: 'Events'.tr(context: context),
+        text: 'Shifts & Policies'.tr(context: context),
         color1: const Color.fromARGB(255, 207, 171, 168),
         color2: Colors.white,
       ),
