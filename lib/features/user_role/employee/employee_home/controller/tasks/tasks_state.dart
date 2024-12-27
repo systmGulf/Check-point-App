@@ -16,3 +16,12 @@ class GetMyTasksError extends EmployeeTasksState {
   final String error;
   GetMyTasksError(this.error);
 }
+
+class UpdateTaskStatusLoading extends EmployeeTasksState {}
+
+class UpdateTaskStatusError extends EmployeeTasksState {
+  final String error;
+  UpdateTaskStatusError(this.error);
+}
+
+class UpdateTaskStatusSuccess extends EmployeeTasksState {}

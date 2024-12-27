@@ -1,7 +1,9 @@
-class DropdownItem {
+class DropdownItemModel {
   final String name;
   final String id;
+  final List<String> employeesDeviceTokens;
   bool isSelected;
 
-  DropdownItem( {required this.name, this.isSelected = false, required this.id});
+  DropdownItemModel(this.employeesDeviceTokens,
+      {required this.name, this.isSelected = false, required this.id});
 }

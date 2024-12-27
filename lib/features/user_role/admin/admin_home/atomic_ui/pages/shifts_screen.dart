@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
@@ -56,24 +57,54 @@ class ShiftsScreen extends StatelessWidget {
                     ? const Center(
                         child: Text('No Shifts'),
                       )
-                    : ListView.builder(
-                        itemCount: state.shiftModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: ShiftItem(
-                              shiftName:
-                                  state.shiftModel.value!.data![index].name!,
-                            ),
-                          );
+                    : RefreshIndicator(
+                        color: ColorsManger.primaryColor,
+                        onRefresh: () async {
+                          context.read<ShiftsAndPolicesCubit>().getShifts(isLoading: true);
                         },
+                        child: ListView.builder(
+                          itemCount: state.shiftModel.value!.data!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: ShiftItem(
+                                onDelete: () async {
+                                  await context
+                                      .read<ShiftsAndPolicesCubit>()
+                                      .deleteShift(
+                                          id: state.shiftModel.value!
+                                              .data![index].id!);
+                                },
+                                shiftName:
+                                    state.shiftModel.value!.data![index].name!,
+                              ),
+                            );
+                          },
+                        ),
                       );
               } else if (state is GetShiftsError) {
                 return Center(
                   child: Text(state.error),
                 );
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return Skeletonizer(
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 10.h),
+                        child: ShiftItem(
+                          onDelete: () {
+                            context
+                                .read<ShiftsAndPolicesCubit>()
+                                .deleteShift(id: 00);
+                          },
+                          shiftName: 'Data Loading',
+                        ),
+                      );
+                    },
+                  ),
+                );
               }
             },
           )),

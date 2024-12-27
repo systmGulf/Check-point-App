@@ -18,7 +18,7 @@ class TaskItem extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.onEdit,
-    required this.employeeName,
+    required this.employeeName, required this.onSelected,
   });
   final String title, description, priority, date, state;
   final String id;
@@ -26,6 +26,7 @@ class TaskItem extends StatefulWidget {
   final VoidCallback onDelete, onEdit;
 
   final List<GetEmployeesForTheTask> employeeName;
+  final ValueChanged onSelected;
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -52,6 +53,7 @@ class _TaskItemState extends State<TaskItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TodoTitleAndStateItem(
+                        onSelected:   widget.onSelected,
                         visible: true,
                         onEdit: widget.onEdit,
                         onDelete: widget.onDelete,
@@ -85,6 +87,7 @@ class _TaskItemState extends State<TaskItem> {
             verticalSpace(8),
             Wrap(
                 alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
                 children: List.generate(widget.employeeName.length, (index) {
                   return Container(
                     margin:

@@ -365,7 +365,8 @@ abstract class AppRouter {
       case Routes.shiftsScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<ShiftsAndPolicesCubit>()..getShifts(),
+            create: (context) =>
+                getIt<ShiftsAndPolicesCubit>()..getShifts(isLoading: true),
             child: const ShiftsScreen(),
           ),
         );
@@ -400,7 +401,10 @@ abstract class AppRouter {
       case Routes.companyBranchesScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<BranchCubit>()..getBranches(),
+            create: (context) => getIt<BranchCubit>()
+              ..getBranches(
+                isLoading: true,
+              ),
             child: const CompanyBranchesScreen(),
           ),
         );

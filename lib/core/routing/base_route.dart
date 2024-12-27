@@ -23,4 +23,5 @@ class BaseRoute extends PageRouteBuilder<dynamic> {
           },
         );
   Widget page;
+  
 }

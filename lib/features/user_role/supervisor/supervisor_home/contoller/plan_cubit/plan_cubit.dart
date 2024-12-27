@@ -63,7 +63,9 @@ class PlanCubit extends Cubit<PlanState> {
     if (planDate != '0') {
       final result = await supervisorRepo.setPlanByDate(
           SetPlanByDateRequestBody(
-              planDate: planDate, note: noteController?.text ?? ''));
+              planDate: planDate,
+              note: noteController?.text ?? '',
+              departmentId: ApiConstant.departmentId));
       result.fold((l) {
         if (isClosed) return;
 

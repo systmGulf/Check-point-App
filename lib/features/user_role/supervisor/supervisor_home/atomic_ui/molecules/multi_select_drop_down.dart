@@ -33,13 +33,15 @@ class _MultiSelectEmployeesDropdownState
             current is GetAllEmployeesLoading,
         builder: (context, state) {
           if (state is GetAllEmployeesSuccess) {
-            List<DropdownItem> dropdownItems = state.allEmployeesValue.data!
-                .map((employee) => DropdownItem(
-                      id: employee.id ?? '',
-                      name: employee.name ?? '',
-                      isSelected: false,
-                    ))
-                .toList();
+            List<DropdownItemModel> dropdownItems =
+                state.allEmployeesValue.data!
+                    .map((employee) => DropdownItemModel(
+                          employee.deviceTokens ?? [],
+                          id: employee.id ?? '',
+                          name: employee.name ?? '',
+                          isSelected: false,
+                        ))
+                    .toList();
             return SelectEmployeesForSubPLanDropButton(
               dropdownItems: dropdownItems,
             );
@@ -60,7 +62,7 @@ class _MultiSelectEmployeesDropdownState
 class SelectEmployeesForSubPLanDropButton extends StatefulWidget {
   const SelectEmployeesForSubPLanDropButton(
       {super.key, required this.dropdownItems});
-  final List<DropdownItem> dropdownItems;
+  final List<DropdownItemModel> dropdownItems;
   @override
   State<SelectEmployeesForSubPLanDropButton> createState() =>
       _SelectEmployeesForSubPLanDropButtonState();
@@ -101,7 +103,7 @@ class _SelectEmployeesForSubPLanDropButtonState
             style: AppStylesManger.font15BoldBlue.copyWith(color: Colors.black),
           ),
           items: widget.dropdownItems.map((item) {
-            return DropdownMenuItem<DropdownItem>(
+            return DropdownMenuItem<DropdownItemModel>(
               value: item,
               child: Text(
                 item.name,
@@ -110,7 +112,7 @@ class _SelectEmployeesForSubPLanDropButtonState
               ),
             );
           }).toList(),
-          onChanged: (DropdownItem? selectedItem) {
+          onChanged: (DropdownItemModel? selectedItem) {
             setState(() {
               if (!context
                   .read<PlanCubit>()

@@ -42,6 +42,15 @@ class MyTasksScreen extends StatelessWidget {
                             vertical: 10,
                           ),
                           child: MyTaskItem(
+                            onSelected: (value) {
+                              context.read<EmployeeTasksCubit>().taskStatus =
+                                  value;
+                              context
+                                  .read<EmployeeTasksCubit>()
+                                  .updateTaskStatus(
+                                      taskId:
+                                          state.getTaskResponse[index].id ?? 0);
+                            },
                             date: DateFormat('yyyy-MM-dd').format(
                                 DateTime.parse(
                                     state.getTaskResponse[index].dueDate ??
@@ -66,6 +75,7 @@ class MyTasksScreen extends StatelessWidget {
                               vertical: 10,
                             ),
                             child: MyTaskItem(
+                              onSelected: (value) {},
                               date: DateFormat('yyyy-MM-dd')
                                   .format(DateTime.parse('2023-01-01')),
                               des: 'Data load',

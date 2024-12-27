@@ -18,13 +18,14 @@ class AddShiftBottomSheet extends StatefulWidget {
 }
 
 class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
-  late TextEditingController shiftNameController;
   @override
   initState() {
     super.initState();
-    shiftNameController =
-        context.read<ShiftsAndPolicesCubit>().shiftNameController;
+
+    context.read<ShiftsAndPolicesCubit>().shiftNameController.clear();
   }
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -38,29 +39,41 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
               topRight: Radius.circular(20),
             ),
           ),
-          child: Column(children: [
-            Align(
-                alignment: Alignment.topRight,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
+          child: Form(
+            key: formKey,
+            child: Column(children: [
+              Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.close),
+                  )),
+              verticalSpace(20.h),
+              CustomAppTextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Shift Name Required'.tr(context: context);
+                    }
+                    return null;
                   },
-                  child: const Icon(Icons.close),
-                )),
-            verticalSpace(20.h),
-            CustomAppTextFormField(
-                controller: shiftNameController,
-                hint: 'Shift Name'.tr(context: context)),
-            verticalSpace(20.h),
-            CustomAppButton(
-              textButton: 'Add Shift'.tr(context: context),
-              buttonColor: ColorsManger.primaryColor,
-              onPressed: () {
-                context.read<ShiftsAndPolicesCubit>().addShift();
-              },
-            ),
-            AddShiftBlocListener()
-          ])),
+                  controller:
+                      context.read<ShiftsAndPolicesCubit>().shiftNameController,
+                  hint: 'Shift Name'.tr(context: context)),
+              verticalSpace(20.h),
+              CustomAppButton(
+                textButton: 'Add Shift'.tr(context: context),
+                buttonColor: ColorsManger.primaryColor,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<ShiftsAndPolicesCubit>().addShift();
+                  }
+                },
+              ),
+              AddShiftBlocListener()
+            ]),
+          )),
     );
   }
 }

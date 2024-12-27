@@ -24,6 +24,7 @@ class MembersInDepartmentListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: manger.length,
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (_, index) {
           return Padding(

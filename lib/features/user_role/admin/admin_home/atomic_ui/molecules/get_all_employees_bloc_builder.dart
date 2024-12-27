@@ -166,26 +166,57 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
             );
           } else if (state is GetAllEmployeesLoading) {
             return Skeletonizer(
-              child: ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (_, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 7),
-                  child: UserItemListView(
-                    onDelete: () {},
-                    branchId: 0,
-                    branch: "Data Load",
-                    departmentId: 0,
-                    role: "Data Load",
-                    mobileId: "Data Load",
-                    userName: "Data Load",
-                    department: "Data Load",
-                    userId: "Data Load",
-                    name: "Data Load",
-                    position: "Data Load",
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text('Users List'.tr(context: context),
+                          style: AppStylesManger.font15BoldBlack),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          changeIcon();
+                          setState(() {});
+                        },
+                        child: AnimatedIcon(
+                          icon: AnimatedIcons.list_view,
+                          color: ColorsManger.primaryColor,
+                          size: 30,
+                          progress: progress,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: WidgetStateProperty.all(
+                                  ColorsManger.primaryColor)),
+                          onPressed: () {},
+                          child: Text('see all'.tr(context: context),
+                              style: AppStylesManger.font13regulerBlue)),
+                    ],
                   ),
-                ),
+                  ListView.builder(
+                    itemCount: 10,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 7),
+                      child: UserItemListView(
+                        onDelete: () {},
+                        branchId: 0,
+                        branch: "Data Load",
+                        departmentId: 0,
+                        role: "Data Load",
+                        mobileId: "Data Load",
+                        userName: "Data Load",
+                        department: "Data Load",
+                        userId: "Data Load",
+                        name: "Data Load",
+                        position: "Data Load",
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           } else if (state is GetAllEmployeesFailure) {

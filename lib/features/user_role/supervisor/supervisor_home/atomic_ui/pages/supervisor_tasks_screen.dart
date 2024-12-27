@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
-import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/build_snake_bar.dart';
+import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
+import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../atoms/task_item.dart';
 import 'edit_task_screen.dart';
 
@@ -131,6 +131,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (_, __) => TaskItem(
+                  onSelected: (value) {},
                   employeeName: [],
                   onEdit: () {},
                   onDelete: () {},
@@ -163,6 +164,15 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                             itemCount: context.read<TasksCubit>().tasks.length,
                             itemBuilder: (_, index) {
                               return TaskItem(
+                                onSelected: (status) {
+                                  context.read<TasksCubit>().taskStatus =
+                                      status;
+                                  context.read<TasksCubit>().changeTaskStatus(
+                                      taskId: context
+                                          .read<TasksCubit>()
+                                          .tasks[index]
+                                          .id!);
+                                },
                                 employeeName: context
                                     .read<TasksCubit>()
                                     .tasks[index]

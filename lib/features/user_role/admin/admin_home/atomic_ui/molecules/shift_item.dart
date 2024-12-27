@@ -7,9 +7,10 @@ import '../../../../../../core/styles/styles.dart';
 class ShiftItem extends StatelessWidget {
   const ShiftItem({
     super.key,
-    required this.shiftName,
+    required this.shiftName, required this.onDelete,
   });
   final String shiftName;
+  final VoidCallback onDelete;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +41,7 @@ class ShiftItem extends StatelessWidget {
               Text(shiftName, style: AppStylesManger.font16BoldBlack)
             ]),
         Spacer(),
-        Icon(Icons.delete_outlined)
+        IconButton(onPressed: onDelete , icon:    Icon(Icons.delete_outlined))
       ]),
     );
   }

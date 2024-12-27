@@ -10,7 +10,7 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   ShiftsAndPolicesCubit(this.shiftsAndPolicesRepo)
       : super(ShiftsAndPolicesInitial());
   final TextEditingController shiftNameController = TextEditingController();
-
+  // add shift
   Future<void> addShift() async {
     emit(AddShiftLoading());
     final result = await shiftsAndPolicesRepo.addShift(
@@ -18,17 +18,33 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     result.fold((l) {
       emit(AddShiftError(error: l.message));
     }, (r) {
+      getShifts(isLoading: false);
       emit(AddShiftSuccess());
     });
   }
 
-  Future<void> getShifts() async {
-    emit(GetShiftsLoading());
+  // get shifts
+  Future<void> getShifts({required bool isLoading}) async {
+    if (isLoading) emit(GetShiftsLoading());
     final result = await shiftsAndPolicesRepo.getShifts();
     result.fold((l) {
       emit(GetShiftsError(error: l.message));
     }, (r) {
       emit(GetShiftsSuccess(shiftModel: r));
     });
-  } 
+  }
+
+  // delete shift
+  Future<void> deleteShift({required int id}) async {
+    emit(DeleteShiftLoading());
+    final result = await shiftsAndPolicesRepo.deleteShift(id: id);
+    result.fold((l) {
+      emit(DeleteShiftError(error: l.message));
+    }, (r) {
+      getShifts(
+        isLoading: false,
+      );
+      emit(DeleteShiftSuccess());
+    });
+  }
 }

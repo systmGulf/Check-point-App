@@ -28,3 +28,12 @@ class GetShiftsError extends ShiftsAndPolicesState {
   GetShiftsError({required this.error});
 }
 
+class DeleteShiftLoading extends ShiftsAndPolicesState {}
+
+class DeleteShiftSuccess extends ShiftsAndPolicesState {}
+
+class DeleteShiftError extends ShiftsAndPolicesState {
+  final String error;
+
+  DeleteShiftError({required this.error});
+}

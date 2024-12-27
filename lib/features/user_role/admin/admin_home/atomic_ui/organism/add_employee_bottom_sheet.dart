@@ -5,6 +5,7 @@ import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/helpers/app_regex.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_app_button.dart';
@@ -39,6 +40,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
 
   @override
   void initState() {
+    super.initState();
     nameController = BlocProvider.of<EmployeeCubit>(context).nameController
       ..text = widget.name ?? '';
 
@@ -48,12 +50,15 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
     BlocProvider.of<EmployeeCubit>(context).passwordController =
         TextEditingController();
 
+    BlocProvider.of<EmployeeCubit>(context)
+        .deviceToken
+        .add(widget.deviceToken ?? '');
+
     BlocProvider.of<EmployeeCubit>(context).positionController =
         TextEditingController();
     mobileIdController = BlocProvider.of<EmployeeCubit>(context)
         .mobileIdController
       ..text = widget.mobileId ?? '';
-    super.initState();
   }
 
   @override
@@ -68,7 +73,9 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
         BlocProvider(
             create: (context) => BranchCubit(
                   getIt<BranchesRepo>(),
-                )..getBranches()),
+                )..getBranches(
+                    isLoading: true,
+                  )),
       ],
       child: Padding(
         padding: EdgeInsets.only(
@@ -125,9 +132,9 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                       verticalSpace(7),
                       CustomAppTextFormField(
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Password can't be empty"
-                                .tr(context: context);
+                          if (value!.isEmpty ||
+                              !AppRegex.isPasswordValid(value)) {
+                            return 'Please a valid password'.tr();
                           }
                           return null;
                         },

@@ -13,8 +13,9 @@ class MyTaskItem extends StatelessWidget {
       required this.des,
       required this.status,
       required this.priority,
-      required this.date});
+      required this.date, required this.onSelected});
   final String title, des, status, priority, date;
+  final ValueChanged onSelected;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +39,7 @@ class MyTaskItem extends StatelessWidget {
               children: [
                 TodoTitleAndStateItem(
                   visible: false,
+                  onSelected: onSelected,
                   onEdit: () {},
                   onDelete: () {},
                   toDoId: "",
@@ -54,6 +56,7 @@ class MyTaskItem extends StatelessWidget {
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
