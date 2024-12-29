@@ -24,12 +24,14 @@ class EditUser extends StatefulWidget {
       required this.branchId});
   final String name, userName, position, department, id, mobileId, role, branch;
   final int departmentId, branchId;
+ 
 
   @override
   State<EditUser> createState() => _EditUserState();
 }
 
 class _EditUserState extends State<EditUser> {
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

@@ -33,12 +33,11 @@ class OnboardingScreenBody extends StatelessWidget {
                         onPressed: () {
                           buildChangeLanguageBottomSheet(context);
                         },
-                        child: const SizedBox(
-                          width: 30,
-                          child: Image(
-                              image: AssetImage(
-                                  'assets/images/icon-language.png')),
-                        )),
+                        child: CustomAppButton(
+                            height: 40.h,
+                            width: 80.w,
+                            textButton: 'language'.tr(),
+                            buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
                   const Image(

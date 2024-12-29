@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Future<dynamic> buildChangeLanguageBottomSheet(BuildContext context) {
   return showModalBottomSheet(
+      backgroundColor: Colors.white,
       context: context,
       builder: (cnx) {
         return IntrinsicHeight(
