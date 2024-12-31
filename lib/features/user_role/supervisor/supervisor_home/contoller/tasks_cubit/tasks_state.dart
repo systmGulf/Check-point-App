@@ -50,3 +50,9 @@ class AssignTaskError extends TasksState {
   AssignTaskError({required this.errorMessage});  
 }
 
+class ChangeTaskStatusLoading extends TasksState {}
+class ChangeTaskStatusSuccess extends TasksState {}
+class ChangeTaskStatusError extends TasksState {
+  final String errorMessage;
+  ChangeTaskStatusError({required this.errorMessage});
+}

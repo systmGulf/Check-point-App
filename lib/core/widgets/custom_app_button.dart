@@ -9,11 +9,13 @@ class CustomAppButton extends StatelessWidget {
       required this.textButton,
       required this.buttonColor,
       this.border,
-      this.onPressed});
+      this.onPressed, this.height, this.width});
   final String textButton;
   final Color buttonColor;
   final double? border;
   final void Function()? onPressed;
+  final double? height;
+    final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,8 @@ class CustomAppButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: EdgeInsets.all(border ?? 0),
-        width: double.infinity,
-        height: 51.h,
+        width: width ?? double.infinity,
+        height: height ??  51.h,
         decoration: BoxDecoration(
             color: ColorsManger.lighorage,
             gradient: LinearGradient(

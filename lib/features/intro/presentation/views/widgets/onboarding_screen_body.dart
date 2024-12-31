@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/styles/styles.dart';
+import '../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 import '../../../../../core/widgets/custom_app_button.dart';
 import '../../cubit/register_account/register_account_cubit.dart';
 import 'register_account_bloc_listener.dart';
 import 'register_account_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 
 class OnboardingScreenBody extends StatelessWidget {
   const OnboardingScreenBody({super.key});
@@ -33,12 +33,11 @@ class OnboardingScreenBody extends StatelessWidget {
                         onPressed: () {
                           buildChangeLanguageBottomSheet(context);
                         },
-                        child: const SizedBox(
-                          width: 30,
-                          child: Image(
-                              image: AssetImage(
-                                  'assets/images/icon-language.png')),
-                        )),
+                        child: CustomAppButton(
+                            height: 40.h,
+                            width: 80.w,
+                            textButton: 'language'.tr(),
+                            buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
                   const Image(
@@ -48,7 +47,6 @@ class OnboardingScreenBody extends StatelessWidget {
                   CustomAppButton(
                     onPressed: () {
                       context.pushName(Routes.userRoleScreen);
-                    
                     },
                     textButton: 'get_started'.tr(),
                     buttonColor: ColorsManger.primaryColor,

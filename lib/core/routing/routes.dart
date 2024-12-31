@@ -53,4 +53,6 @@ class Routes {
   static const String subPlansScreen = '/SubPLansScreen';
   static const String supervisorAddTasksScreen = '/supervisorAddTasksScreen';
   static const String myTasksScreen = '/myTasksScreen';
+  static const String policeScreen = '/policeScreen';
+
 }

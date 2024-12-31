@@ -1,9 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/admin/data/models/add_employee_model/add_account_request_model.dart';
-import 'package:hr_management_system_package/admin/data/models/all_employees_model/edit_employee_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/department_model/get_employees_in_department.dart';
-import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'employee_state.dart';
@@ -19,7 +15,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController mobileIdController = TextEditingController();
   int departmentId = 00;
   int branchId = 00;
-
+  List<String> deviceToken = [];
   String role = 'Employee';
   TextEditingController editNameController = TextEditingController();
   TextEditingController editUsernameController = TextEditingController();
@@ -78,6 +74,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(AddEmployeeLoading());
     final result = await adminManageEmployeeRepo.addEmployee(
       AddEmployeeRequestBody(
+        deviceToken,
         departmentId: departmentId,
         branchId: branchId,
         name: nameController.text,
@@ -92,6 +89,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     result.fold(
       (l) => emit(AddEmployeeFailure(error: l.message)),
       (r) async {
+        await getAllEmployees();
         emit(AddEmployeeSuccess());
       },
     );

@@ -9,6 +9,7 @@ import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../atoms/plan_item.dart';
 import '../pages/sub_plans_screen.dart';
+import 'add_plan_bloc_listener.dart';
 import 'add_plan_bottom_sheet.dart';
 
 class SetPlanScreen extends StatelessWidget {
@@ -67,24 +68,30 @@ class PlansScreen extends StatelessWidget {
                 ? ListView.builder(
                     itemCount: state.planModel.data!.length,
                     itemBuilder: (context, index) {
-                      return PlanItem(
-                        planId: state.planModel.data![index].id!,
-                        planDate: state.planModel.data![index].planDate ?? '',
-                        note: state.planModel.data![index].note ?? '',
-                        onTap: () {
-                          context.read<PlanCubit>().planId =
-                              state.planModel.data![index].id!;
-                          log(state.planModel.data![index].id!.toString());
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return BlocProvider.value(
-                              value: context.read<PlanCubit>()
-                                ..getPlanById(
-                                    id: state.planModel.data![index].id!),
-                              child: const SubPlansScreen(),
-                            );
-                          }));
-                        },
+                      return Column(
+                        children: [
+                          const AddPlanBlocListener(),
+                          PlanItem(
+                            planId: state.planModel.data![index].id!,
+                            planDate:
+                                state.planModel.data![index].planDate ?? '',
+                            note: state.planModel.data![index].note ?? '',
+                            onTap: () {
+                              context.read<PlanCubit>().planId =
+                                  state.planModel.data![index].id!;
+                              log(state.planModel.data![index].id!.toString());
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) {
+                                return BlocProvider.value(
+                                  value: context.read<PlanCubit>()
+                                    ..getPlanById(
+                                        id: state.planModel.data![index].id!),
+                                  child: const SubPlansScreen(),
+                                );
+                              }));
+                            },
+                          ),
+                        ],
                       );
                     })
                 : NoDataFound();

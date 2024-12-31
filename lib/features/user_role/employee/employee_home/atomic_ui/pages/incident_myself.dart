@@ -63,8 +63,8 @@ class _IncidentMyselfState extends State<IncidentMyself> {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(children: [
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('For a while',
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('For a while'.tr(context: context),
                     style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
@@ -83,8 +83,9 @@ class _IncidentMyselfState extends State<IncidentMyself> {
               ),
               verticalSpace(10),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Reason', style: AppStylesManger.font12RegularGrey),
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('Reason'.tr(context: context),
+                    style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
               CustomAppTextFormField(
@@ -99,8 +100,9 @@ class _IncidentMyselfState extends State<IncidentMyself> {
                   hint: 'Reason * (200 Chaaracters Max)'.tr(context: context)),
               verticalSpace(10),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Remark', style: AppStylesManger.font12RegularGrey),
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('Remark'.tr(context: context),
+                    style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
               CustomAppTextFormField(

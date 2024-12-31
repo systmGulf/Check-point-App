@@ -11,6 +11,7 @@ import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
+import '../molecules/add_sub_plan_bloc_listener.dart';
 import '../molecules/add_sub_plan_bottom_sheet.dart';
 import '../molecules/set_sub_plan_list_view.dart';
 
@@ -107,20 +108,10 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                       child: CircularProgressIndicator(),
                     ),
                   );
-                  // return Skeletonizer(
-                  //   child: Expanded(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //       child: GetSubPlanListView(
-                  //         planType: planType,
-                  //         planModel: getDummyPlanByIdValue(),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // );
                 }
               },
-            )
+            ),
+            const AddPlanSubBlocListener()
           ],
         ));
   }

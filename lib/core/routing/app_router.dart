@@ -1,3 +1,4 @@
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/admin/admin_data.dart';
@@ -157,6 +158,9 @@ abstract class AppRouter {
               ),
               BlocProvider(
                 create: (context) => getIt<LoginCubit>()..getEmployeeById(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
               ),
             ],
             child: const EmployeeHomeScreen(),
@@ -362,10 +366,15 @@ abstract class AppRouter {
             child: const EmployeeAddNewCustomerScreen(),
           ),
         );
+      case Routes.policeScreen:
+        return BaseRoute(
+          page: const PoliceScreen(),
+        );
       case Routes.shiftsScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<ShiftsAndPolicesCubit>()..getShifts(),
+            create: (context) =>
+                getIt<ShiftsAndPolicesCubit>()..getShifts(isLoading: true),
             child: const ShiftsScreen(),
           ),
         );
@@ -400,7 +409,10 @@ abstract class AppRouter {
       case Routes.companyBranchesScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<BranchCubit>()..getBranches(),
+            create: (context) => getIt<BranchCubit>()
+              ..getBranches(
+                isLoading: true,
+              ),
             child: const CompanyBranchesScreen(),
           ),
         );

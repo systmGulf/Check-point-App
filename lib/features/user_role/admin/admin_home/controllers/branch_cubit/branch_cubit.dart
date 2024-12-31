@@ -14,8 +14,8 @@ class BranchCubit extends Cubit<BranchState> {
   TextEditingController descriptionController = TextEditingController();
   List<LocationFrameLatLng> locationFrame = [];
 
-  Future<void> getBranches() async {
-    emit(GetBranchLoading());
+  Future<void> getBranches({required bool isLoading}) async {
+    if (isLoading) emit(GetBranchLoading());
     final result = await branchesRepo.getAllBranches();
     result.fold((l) {
       emit(GetBranchError(error: l.message));
@@ -39,7 +39,7 @@ class BranchCubit extends Cubit<BranchState> {
       ));
     }, (r) async {
       emit(AddBranchSuccess());
-      await getBranches();
+      await getBranches(isLoading: false);
     });
   }
 
@@ -51,7 +51,7 @@ class BranchCubit extends Cubit<BranchState> {
         error: l.message,
       ));
     }, (r) {
-      getBranches();
+      getBranches(isLoading: false);
       emit(DeleteBranchSuccess());
     });
   }

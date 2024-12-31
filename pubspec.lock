@@ -674,6 +674,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.4"
+  from_to_time_picker:
+    dependency: "direct main"
+    description:
+      name: from_to_time_picker
+      sha256: f9b1033a7005ae0a3b174ee69e0066ac781136fc7b261a018ec3534d61382011
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   geocoding:
     dependency: "direct main"
     description:
@@ -1113,6 +1121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  multi_dropdown:
+    dependency: "direct main"
+    description:
+      name: multi_dropdown
+      sha256: da25f6defdc62aaf8ce0842d31ff7875fad29aeb13f5b2de9e157a06d53f4b74
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   nested:
     dependency: transitive
     description:
@@ -1815,5 +1831,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.5.0 <3.19.2"
   flutter: ">=3.24.0"

@@ -21,7 +21,7 @@ class AddBranchBlocListener extends StatelessWidget {
         if (state is AddBranchSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);
-          BlocProvider.of<BranchCubit>(context).getBranches();
+         
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(

@@ -8,7 +8,8 @@ part 'tasks_state.dart';
 class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
   final EmployeeRepo employeeRepo;
   EmployeeTasksCubit(this.employeeRepo) : super(TasksInitial());
-
+  String taskStatus = "Pending";
+  // get employee tasks
   Future<void> getMyTasks() async {
     emit(GetMyTasksLoading());
     final result = await employeeRepo.getMyTasks();
@@ -16,6 +17,19 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
       emit(GetMyTasksError(l.message));
     }, (r) {
       emit(GetMyTasksSuccess(r));
+    });
+  }
+
+  // update task Status
+  Future<void> updateTaskStatus({required int taskId}) async {
+    emit(UpdateTaskStatusLoading());
+    final result =
+        await employeeRepo.changeTaskStatus(taskId: taskId, status: taskStatus);
+    result.fold((l) {
+      emit(UpdateTaskStatusError(l.message));
+    }, (r) {
+      getMyTasks();
+      emit(UpdateTaskStatusSuccess());
     });
   }
 }

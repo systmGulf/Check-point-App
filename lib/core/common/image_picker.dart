@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 
-import '../dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../dependency%D9%80injection/register%D9%80factory.dart';
 
 Future<String?> pickImage() async {
   try {
@@ -17,8 +17,7 @@ Future<String?> pickImage() async {
 
     if (image != null) {
       final imageFile = File(image.path);
-
-      final base64Image = await computeBase64Encoding(imageFile);
+      final base64Image = await base64EncodeImage(imageFile);
       return base64Image;
     }
 
@@ -58,46 +57,19 @@ Future<void> _showAlertPermissionsDialog() {
   );
 }
 
-Future<String> computeBase64Encoding(File imageFile) async {
-  final receivePort = ReceivePort();
-
+Future<String> base64EncodeImage(File imageFile) async {
   try {
-    await Isolate.spawn(
-      _base64EncodeImage,
-      [imageFile.path, receivePort.sendPort],
-    );
-
-    final base64String = await receivePort.first as String;
-
-    return base64String;
-  } catch (e) {
-    debugPrint('Error in computeBase64Encoding: $e');
-    return '';
-  } finally {
-    receivePort.close();
-  }
-}
-
-Future<void> _base64EncodeImage(List<dynamic> args) async {
-  final imagePath = args[0] as String;
-  final sendPort = args[1] as SendPort;
-
-  try {
-    final imageFile = File(imagePath);
     final imageBytes = await imageFile.readAsBytes();
     final image = img.decodeImage(imageBytes);
     if (image == null) {
-      sendPort.send('');
-      return;
+      return '';
     }
 
     final resized = img.copyResize(image, width: 600);
     final List<int> compressedBytes = img.encodeJpg(resized, quality: 85);
-    final base64String = base64Encode(compressedBytes);
-
-    sendPort.send(base64String);
+    return base64Encode(compressedBytes);
   } catch (e) {
-    debugPrint('Error in _base64EncodeImage: $e');
-    sendPort.send('');
+    debugPrint('Error in base64EncodeImage ==> $e');
+    return '';
   }
 }

@@ -11,7 +11,7 @@ class SupervisorPermission extends StatefulWidget {
       {super.key,
       required this.supervisorId,
       required this.attendancePermission,
-      required this.planPermission});
+      required this.planPermission, });
   final String supervisorId;
   final bool attendancePermission;
   final bool planPermission;
