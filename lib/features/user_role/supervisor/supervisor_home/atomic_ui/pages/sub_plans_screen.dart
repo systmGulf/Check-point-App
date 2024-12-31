@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
@@ -28,8 +29,11 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          child: const Icon(Icons.add),
+          backgroundColor: ColorsManger.primaryColor,
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           onPressed: () {
             showModalBottomSheet(
               context: context,

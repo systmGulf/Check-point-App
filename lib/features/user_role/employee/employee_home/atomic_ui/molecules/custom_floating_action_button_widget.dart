@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 
@@ -19,6 +19,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
     return SpeedDial(
       backgroundColor: ColorsManger.primaryColor,
       icon: Icons.add,
+      iconTheme: const IconThemeData(size: 30, color: Colors.white),
       activeIcon: Icons.close,
       activeForegroundColor: Colors.white,
       activeBackgroundColor: ColorsManger.primaryColor,
@@ -29,7 +30,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
       children: [
         SpeedDialChild(
           child: const Icon(Icons.radio_button_checked_outlined),
-          backgroundColor: Colors.orange,
+          backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
           label: 'Claim Application'.tr(context: context),
           onTap: () {
@@ -38,7 +39,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
         ),
         SpeedDialChild(
           child: const Icon(Icons.accessibility),
-          backgroundColor: Colors.orange,
+          backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
           label: 'Leave Application'.tr(context: context),
           onTap: () {
@@ -47,7 +48,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
         ),
         SpeedDialChild(
           child: const Icon(Icons.local_hospital_outlined),
-          backgroundColor: Colors.orange,
+          backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
           label: 'accident Myself'.tr(context: context),
           onTap: () {

@@ -87,7 +87,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
+        backgroundColor: ColorsManger.primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
         onPressed: () {
           context.pushName(Routes.supervisorAddTasksScreen).then((value) {

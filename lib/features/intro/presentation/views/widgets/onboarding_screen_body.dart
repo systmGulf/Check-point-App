@@ -55,6 +55,7 @@ class OnboardingScreenBody extends StatelessWidget {
                   TextButton(
                     child: Text.rich(TextSpan(
                       text: 'Ask Admin to Create Account  '.tr(),
+                      style: AppStylesManger.font14RegularBlack,
                       children: [
                         TextSpan(
                             text: 'register'.tr(),

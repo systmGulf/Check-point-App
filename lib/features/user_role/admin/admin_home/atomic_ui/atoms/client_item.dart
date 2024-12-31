@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 
@@ -44,8 +45,8 @@ class ClientItem extends StatelessWidget {
             children: [
               Text(
                 workedAs,
-                style: const TextStyle(
-                  color: Colors.orange,
+                style: TextStyle(
+                  color: ColorsManger.primaryColor,
                   fontSize: 16.0,
                 ),
               ),
@@ -67,8 +68,7 @@ class ClientItem extends StatelessWidget {
                       .tr(context: context), onYes: () {
                 context.pop();
                 BlocProvider.of<CustomerCubit>(context).deleteCustomer(
-                    customerType: CustomerType.Customer,
-                  id: id);
+                    customerType: CustomerType.Customer, id: id);
               });
             },
             icon: SizedBox(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
+import '../../../../../../core/styles/colors.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../../model/drop_down_item.dart';
@@ -38,12 +40,19 @@ class _MultiSelectEmployeesDropdownState
               controller: controller,
               enabled: true,
               searchEnabled: true,
-              chipDecoration: const ChipDecoration(
-                backgroundColor: Colors.orange,
-                wrap: true,
-                runSpacing: 2,
-                spacing: 10,
-              ),
+              chipDecoration: ChipDecoration(
+                  backgroundColor: ColorsManger.primaryColor,
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  wrap: true,
+                  runSpacing: 2,
+                  spacing: 10,
+                  deleteIcon: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 15.h,
+                  )),
               onSelectionChange: (selectedItems) {
                 context.read<PlanCubit>().dropdownItems.addAll(selectedItems);
               },

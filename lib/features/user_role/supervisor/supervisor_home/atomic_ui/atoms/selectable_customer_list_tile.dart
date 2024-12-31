@@ -93,7 +93,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
               child: Center(
                 child: SvgPicture.asset(
                   'assets/images/arrow_down.svg',
-                  color: Colors.orange,
+                  color: ColorsManger.primaryColor,
                 ),
               )),
           iconEnabledColor: ColorsManger.primaryColor,

@@ -85,7 +85,11 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                     children: List.generate(3, (index) {
                       return Text(
                         checkingText[index],
-                        style: AppStylesManger.font18BoldBlack,
+                        style: AppStylesManger.font18BoldBlack.copyWith(
+                          color: selectedIndex == index
+                              ? ColorsManger.primaryColor
+                              : Colors.white,
+                        ),
                       );
                     }),
                   ),

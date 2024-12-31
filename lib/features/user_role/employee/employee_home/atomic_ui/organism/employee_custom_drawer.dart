@@ -39,7 +39,7 @@ class EmployeeCustomDrawer extends StatelessWidget {
                       },
                       child: CircleAvatar(
                         radius: 40,
-                        backgroundColor: ColorsManger.lighorage,
+                        backgroundColor: ColorsManger.primaryColor,
                         child: const Image(
                             image: AssetImage(
                           'assets/images/employee_image.png',

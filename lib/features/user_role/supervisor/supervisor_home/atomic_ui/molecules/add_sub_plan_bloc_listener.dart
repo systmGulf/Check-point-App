@@ -17,9 +17,7 @@ class AddPlanSubBlocListener extends StatelessWidget {
       listenWhen: (previous, current) =>
           current is SetSubPlanError ||
           current is SetSubPlanLoading ||
-          current is SetSubPlanSuccess ||
-          current is DeleteSubPlanError ||
-          current is DeleteSubPlanSuccess,
+          current is SetSubPlanSuccess,
       listener: (context, state) {
         if (state is SetSubPlanError) {
           context.pop();
@@ -39,21 +37,7 @@ class AddPlanSubBlocListener extends StatelessWidget {
               message: "Sub plan added successfully".tr(context: context),
             ),
           );
-        } else if (state is DeleteSubPlanError) {
-          showTopSnackBar(
-            Overlay.of(context),
-            CustomSnackBar.error(
-              message: state.error,
-            ),
-          );
-        } else if (state is DeleteSubPlanSuccess) {
-          showTopSnackBar(
-            Overlay.of(context),
-            CustomSnackBar.success(
-              message: "Sub plan deleted successfully".tr(context: context),
-            ),
-          );
-        } else {
+        } else if (state is SetSubPlanLoading) {
           customLoadingIndicator(context);
         }
       },

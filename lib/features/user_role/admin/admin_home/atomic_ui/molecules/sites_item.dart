@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/enums/customer_type.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../controllers/customer_cubit/customer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
+import '../../controllers/customer_cubit/customer_cubit.dart';
 
 class SitesItem extends StatelessWidget {
   const SitesItem({
@@ -45,8 +46,8 @@ class SitesItem extends StatelessWidget {
             children: [
               Text(
                 descritption,
-                style: const TextStyle(
-                  color: Colors.orange,
+                style: TextStyle(
+                  color: ColorsManger.primaryColor,
                   fontSize: 16.0,
                 ),
               ),
@@ -69,7 +70,7 @@ class SitesItem extends StatelessWidget {
                 context
                     .read<CustomerCubit>()
                     .deleteCustomer(id: id, customerType: CustomerType.Site);
-                      
+
                 context.pop();
               });
             },

@@ -11,7 +11,6 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../atoms/selectable_customer_list_tile.dart';
-import 'add_sub_plan_bloc_listener.dart';
 import 'multi_select_drop_down.dart';
 import 'set_sub_plan_list_view.dart';
 
@@ -95,7 +94,6 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
                 textButton: 'Add'.tr(context: context),
                 buttonColor: ColorsManger.primaryColor,
               ),
-              const AddPlanSubBlocListener()
             ],
           ),
         ),

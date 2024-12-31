@@ -26,7 +26,8 @@ class PoliceScreen extends StatelessWidget {
               context: context,
               builder: (_) => FromToTimePicker(
                 onTab: (from, to) {
-                  print('from ${from} to $to');
+                  print(
+                      '${"from".tr(context: context)} ${from} ${"to".tr(context: context)} $to');
                 },
                 dialogBackgroundColor: Color(0xFF121212),
                 fromHeadlineColor: Colors.white,

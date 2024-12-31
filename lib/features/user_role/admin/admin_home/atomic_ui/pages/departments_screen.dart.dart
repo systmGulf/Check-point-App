@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../molecules/custom_search_for_item_bar.dart';
 import '../organism/add_department_bottom_sheet.dart';
@@ -19,7 +20,7 @@ class DepartmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
+        backgroundColor: ColorsManger.primaryColor,
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -37,7 +38,7 @@ class DepartmentScreen extends StatelessWidget {
             },
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       appBar: buildCustomAppBar(
         context,

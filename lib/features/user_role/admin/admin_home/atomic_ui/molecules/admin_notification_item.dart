@@ -1,17 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 
 class AdminNotificationItem extends StatelessWidget {
   const AdminNotificationItem({
     super.key,
     required this.name,
-    required this.mobileId, required this.onTap,
+    required this.mobileId,
+    required this.onTap,
   });
   final String name, mobileId;
- final VoidCallback onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +53,18 @@ class AdminNotificationItem extends StatelessWidget {
                   ),
                 ),
                 verticalSpace(10),
-                MaterialButton(
-                    color: Colors.orange,
-                    padding: const EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      'Add'.tr(context: context),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                    onPressed:onTap )
+                CustomAppButton(
+                  height: 35.h,
+                  width: 100.w,
+                  textButton: 'Add'.tr(context: context),
+                  buttonColor: ColorsManger.primaryColor,
+                  onPressed: onTap,
+                )
               ],
             ),
-            const Icon(
+            Icon(
               Icons.notifications_active,
-              color: Colors.orange,
+              color: ColorsManger.primaryColor,
             ),
           ],
         ),

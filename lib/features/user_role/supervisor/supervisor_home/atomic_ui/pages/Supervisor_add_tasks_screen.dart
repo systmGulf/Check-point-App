@@ -40,42 +40,42 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Task title',
+                    child: Text('Task title'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter title';
+                          return 'Please enter title'.tr(context: context);
                         }
                         return null;
                       },
                       controller: context.read<TasksCubit>().titleController,
-                      hint: 'Enter title here...'),
+                      hint: 'Enter title here...'.tr(context: context)),
                   verticalSpace(12),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Task Description',
+                    child: Text('Task Description'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter description';
+                        return 'Please enter description'.tr(context: context);
                       }
                       return null;
                     },
                     controller:
                         context.read<TasksCubit>().descriptionController,
-                    hint: 'Enter description here...',
+                    hint: 'Enter description here...'.tr(context: context),
                     maxLines: 5,
                   ),
                   verticalSpace(12),
                   SizedBox(
                     width: 331,
-                    child: Text('Priority',
+                    child: Text('Priority'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(16),
@@ -90,14 +90,14 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                   verticalSpace(12),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Due date',
+                    child: Text('Due date'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                     hint: context.read<TasksCubit>().dueDate != ''
                         ? context.read<TasksCubit>().dueDate
-                        : 'Select date',
+                        : 'Select date'.tr(context: context),
                     readOnly: true,
                     hintStyle: const TextStyle(
                       color: Color(0xFF7F7F7F),

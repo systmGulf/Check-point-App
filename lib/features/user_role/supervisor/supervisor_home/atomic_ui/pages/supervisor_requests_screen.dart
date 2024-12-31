@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import 'recent_leave_application.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SupervisorRequestsScreen extends StatefulWidget {
   const SupervisorRequestsScreen({super.key});

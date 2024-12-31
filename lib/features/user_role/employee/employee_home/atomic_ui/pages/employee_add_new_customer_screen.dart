@@ -166,7 +166,6 @@ class _EmployeeAddNewCustomerScreenState
                                 CustomSnackBar.error(
                                   message: 'Please Select Location'
                                       .tr(context: context),
-                                  // backgroundColor: Colors.red,
                                 ),
                               );
                             }

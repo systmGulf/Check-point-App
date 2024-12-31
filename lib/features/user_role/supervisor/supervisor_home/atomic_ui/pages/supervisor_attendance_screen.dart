@@ -90,10 +90,12 @@ class _SupervisorAttendanceScreenState
                     containerHeight: 40.h,
                     containerWight: 350.w,
                     children: List.generate(3, (index) {
-                      return Text(
-                        checkingText[index],
-                        style: AppStylesManger.font18BoldBlack,
-                      );
+                      return Text(checkingText[index],
+                          style: AppStylesManger.font18BoldBlack.copyWith(
+                            color: selectedIndex == index
+                                ? ColorsManger.primaryColor
+                                : Colors.white,
+                          ));
                     }),
                   ),
                 ),

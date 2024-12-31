@@ -245,10 +245,11 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
         } else if (state is GetPlanByIdError) {
           return Center(child: Text(state.error));
         } else {
-          return const Center(
+          return Center(
               child: CircularProgressIndicator(
-            color: Colors.orange,
+            color: ColorsManger.primaryColor,
             strokeCap: StrokeCap.round,
+            strokeWidth: 3,
           ));
         }
       },

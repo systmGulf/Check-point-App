@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -28,7 +29,7 @@ class PlansScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
+        backgroundColor: ColorsManger.primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
         onPressed: () {
           showModalBottomSheet(

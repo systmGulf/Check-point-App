@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/common/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/admin/admin_data.dart';
@@ -7,6 +6,7 @@ import 'package:hr_management_system_package/employee/data/models/user_attendace
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
+import '../../../../../../core/common/image_picker.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -36,9 +36,9 @@ class _SupervisorAttendSomeEmployeeScreenState
         appIcon: Image.asset(
           'assets/images/logo-w.png',
           height: 50,
-          color: Colors.orange,
+          color: ColorsManger.primaryColor,
         ),
-        circularProgressColor: Colors.orange,
+        circularProgressColor: ColorsManger.primaryColor,
         child: Container(),
       ),
       inAsyncCall: isloading,
@@ -49,13 +49,15 @@ class _SupervisorAttendSomeEmployeeScreenState
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             verticalSpace(20),
-            const CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.orange,
-              backgroundImage: AssetImage(
-                'assets/images/app_logo.png',
-              ),
-            ),
+            CircleAvatar(
+                radius: 50,
+                backgroundColor: ColorsManger.grey.withOpacity(0.4),
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/app_logo.png',
+                    fit: BoxFit.cover,
+                  ),
+                )),
             verticalSpace(15),
             Text(widget.getEmployeesValue.name!,
                 style: AppStylesManger.font16BoldBlack),

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,9 +74,11 @@ class AdminNotificationScreen extends StatelessWidget {
           } else if (state is GetAddAccountRequestsFailure) {
             return Text(state.error);
           } else if (state is GetAddAccountRequestsLoading) {
-            return const Center(
+            return Center(
                 child: CircularProgressIndicator(
-              color: Colors.orange,
+              color: ColorsManger.primaryColor,
+              strokeWidth: 2,
+              backgroundColor: ColorsManger.lighorage,
             ));
           } else {
             return const SizedBox.shrink();

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor/data/models/task_model/get_task_response.dart';
@@ -18,7 +19,8 @@ class TaskItem extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.onEdit,
-    required this.employeeName, required this.onSelected,
+    required this.employeeName,
+    required this.onSelected,
   });
   final String title, description, priority, date, state;
   final String id;
@@ -53,13 +55,13 @@ class _TaskItemState extends State<TaskItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TodoTitleAndStateItem(
-                        onSelected:   widget.onSelected,
+                        onSelected: widget.onSelected,
                         visible: true,
                         onEdit: widget.onEdit,
                         onDelete: widget.onDelete,
                         toDoId: widget.id,
                         title: widget.title,
-                        state: widget.state,
+                        state: widget.state.tr(context: context),
                       ),
                       SizedBox(
                         width: 219.w,
@@ -76,7 +78,7 @@ class _TaskItemState extends State<TaskItem> {
                       ),
                       verticalSpace(4),
                       TodoFlagAndDateItem(
-                        priority: widget.priority,
+                        priority: widget.priority.tr(context: context),
                         date: widget.date,
                       ),
                     ],
