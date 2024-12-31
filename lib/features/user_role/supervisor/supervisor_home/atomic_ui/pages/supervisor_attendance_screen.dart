@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,6 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
-import '../../../../employee/employee_home/atomic_ui/molecules/employee_home_section_item.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/office_checking_in.dart';
 
 class SupervisorAttendanceScreen extends StatefulWidget {
@@ -74,36 +74,32 @@ class _SupervisorAttendanceScreenState
                     }
                   }),
               verticalSpace(20),
-              Directionality(
-                textDirection: TextDirection.ltr,
-                child: SlideSwitcher(
-                  initialIndex: selectedIndex,
-                  onSelect: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  containerColor: ColorsManger.primaryColor,
-                  slidersBorder: Border.all(color: ColorsManger.primaryColor),
-                  containerHeight: 40.h,
-                  containerWight: 350.w,
-                  children: List.generate(3, (index) {
-                    return Text(
-                      checkingText[index],
-                      style: AppStylesManger.font18BoldBlack,
-                    );
-                  }),
+              FadeInLeft(
+                delay: const Duration(milliseconds: 300),
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: SlideSwitcher(
+                    initialIndex: selectedIndex,
+                    onSelect: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    containerColor: ColorsManger.primaryColor,
+                    slidersBorder: Border.all(color: ColorsManger.primaryColor),
+                    containerHeight: 40.h,
+                    containerWight: 350.w,
+                    children: List.generate(3, (index) {
+                      return Text(
+                        checkingText[index],
+                        style: AppStylesManger.font18BoldBlack,
+                      );
+                    }),
+                  ),
                 ),
               ),
               verticalSpace(15),
               checkingSites[selectedIndex],
-              verticalSpace(30),
-              EmployeeHomeSectionItem(
-                title: 'Alart'.tr(context: context),
-                content:
-                    'No Alert available for today. Please check back again tomorrow.'
-                        .tr(context: context),
-              ),
             ],
           ),
         ),

@@ -3,6 +3,8 @@ import 'package:employee_mangement/core/common/show_menu_position.dart';
 import 'package:employee_mangement/core/enums/task_status.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/common/delete_or_edit_dialog.dart';
+
 class TodoTitleAndStateItem extends StatelessWidget {
   const TodoTitleAndStateItem({
     super.key,
@@ -50,9 +52,9 @@ class TodoTitleAndStateItem extends StatelessWidget {
               items: [
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.InProgress.name);
+                    onSelected(TaskStatus.InProgress.name.tr(context: context));
                   },
-                  value: TaskStatus.InProgress.name,
+                  value: TaskStatus.InProgress.name.tr(context: context),
                   child: Text(
                     TaskStatus.InProgress.name.tr(context: context),
                     style: const TextStyle(color: const Color(0xFF5F33E1)),
@@ -60,9 +62,9 @@ class TodoTitleAndStateItem extends StatelessWidget {
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.Done.name);
+                    onSelected(TaskStatus.Done.name.tr(context: context));
                   },
-                  value: TaskStatus.Done.name,
+                  value: TaskStatus.Done.name.tr(context: context),
                   child: Text(
                     TaskStatus.Done.name.tr(context: context),
                     style: const TextStyle(color: const Color(0xFF0087FF)),
@@ -70,9 +72,9 @@ class TodoTitleAndStateItem extends StatelessWidget {
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.Pending.name);
+                    onSelected(TaskStatus.Pending.name.tr(context: context));
                   },
-                  value: TaskStatus.Pending.name,
+                  value: TaskStatus.Pending.name.tr(context: context),
                   child: Text(
                     TaskStatus.Pending.name.tr(context: context),
                     style: const TextStyle(color: const Color(0xFFE73C3C)),
@@ -84,9 +86,9 @@ class TodoTitleAndStateItem extends StatelessWidget {
           height: 22,
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: ShapeDecoration(
-            color: state == TaskStatus.InProgress.name
+            color: state == TaskStatus.InProgress.name.tr(context: context)
                 ? const Color(0xFFF0ECFF)
-                : state == TaskStatus.Done.name
+                : state == TaskStatus.Done.name.tr(context: context)
                     ? const Color(0xFFE3F2FF)
                     : Color(0XFFFFE4F2),
             shape:
@@ -99,9 +101,10 @@ class TodoTitleAndStateItem extends StatelessWidget {
                 child: Text(
                   state,
                   style: TextStyle(
-                    color: state == TaskStatus.Done.name
+                    color: state == TaskStatus.Done.name.tr(context: context)
                         ? const Color(0xFF0087FF)
-                        : state == TaskStatus.InProgress.name
+                        : state ==
+                                TaskStatus.InProgress.name.tr(context: context)
                             ? const Color(0xFF5F33E1)
                             : const Color(0xFFE73C3C),
                     fontSize: 11,
@@ -121,49 +124,7 @@ class TodoTitleAndStateItem extends StatelessWidget {
             padding: EdgeInsets.zero,
             onPressed: () {
               final position = showMenuPosition(context: context);
-              showMenu(
-                color: Colors.white,
-                context: context,
-                position: position,
-                clipBehavior: Clip.hardEdge,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                items: [
-                  PopupMenuItem(
-                    value: 'Edit',
-                    onTap: onEdit,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Assign Task'.tr(context: context),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                  PopupMenuItem(
-                    onTap: onDelete,
-                    value: 'Delete',
-                    child: const Text(
-                      'Delete',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ).then((value) {
-                if (value != null) {
-                  print("Selected: $value");
-                }
-              });
+              DeleteOrEditDialog(context, position, onEdit, onDelete);
             },
             icon: const Icon(Icons.more_vert),
           ),

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -48,15 +49,20 @@ class ManagementScreen extends StatelessWidget {
           child: Column(
             children: [
               verticalSpace(20),
-              const ManagementScreenGridView(),
+              FadeInLeft(
+                  delay: const Duration(milliseconds: 300),
+                  child: const ManagementScreenGridView()),
               verticalSpace(30),
               Expanded(
-                child: ListView.builder(
-                    itemCount: categoryItems.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return categoryItems[index];
-                    }),
+                child: FadeInUp(
+                  delay: const Duration(milliseconds: 300),
+                  child: ListView.builder(
+                      itemCount: categoryItems.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return categoryItems[index];
+                      }),
+                ),
               ),
             ],
           ),

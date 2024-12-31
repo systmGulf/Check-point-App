@@ -13,7 +13,8 @@ class MyTaskItem extends StatelessWidget {
       required this.des,
       required this.status,
       required this.priority,
-      required this.date, required this.onSelected});
+      required this.date,
+      required this.onSelected});
   final String title, des, status, priority, date;
   final ValueChanged onSelected;
   @override
@@ -43,8 +44,8 @@ class MyTaskItem extends StatelessWidget {
                   onEdit: () {},
                   onDelete: () {},
                   toDoId: "",
-                  title: title,
-                  state: status,
+                  title: title.tr(context: context),
+                  state: status.tr(context: context),
                 ),
                 SizedBox(
                   width: 219.w,
@@ -62,7 +63,7 @@ class MyTaskItem extends StatelessWidget {
                 ),
                 verticalSpace(4),
                 TodoFlagAndDateItem(
-                  priority: priority,
+                  priority: priority.tr(context: context),
                   date: DateFormat('yyyy-MM-dd').format(DateTime.parse(
                     date,
                   )),

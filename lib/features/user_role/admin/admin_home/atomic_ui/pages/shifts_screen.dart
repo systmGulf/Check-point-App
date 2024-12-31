@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
@@ -42,8 +44,7 @@ class ShiftsScreen extends StatelessWidget {
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      appBar:
-          buildCustomAppBar(context, 'Shifts & Polices'.tr(context: context)),
+      appBar: buildCustomAppBar(context, 'Shifts'.tr(context: context)),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: BlocBuilder<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
@@ -60,7 +61,9 @@ class ShiftsScreen extends StatelessWidget {
                     : RefreshIndicator(
                         color: ColorsManger.primaryColor,
                         onRefresh: () async {
-                          context.read<ShiftsAndPolicesCubit>().getShifts(isLoading: true);
+                          context
+                              .read<ShiftsAndPolicesCubit>()
+                              .getShifts(isLoading: true);
                         },
                         child: ListView.builder(
                           itemCount: state.shiftModel.value!.data!.length,
@@ -68,6 +71,9 @@ class ShiftsScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.only(top: 10.h),
                               child: ShiftItem(
+                                onTap: () {
+                                  context.pushName(Routes.policeScreen);
+                                },
                                 onDelete: () async {
                                   await context
                                       .read<ShiftsAndPolicesCubit>()
@@ -94,11 +100,8 @@ class ShiftsScreen extends StatelessWidget {
                       return Padding(
                         padding: EdgeInsets.only(top: 10.h),
                         child: ShiftItem(
-                          onDelete: () {
-                            context
-                                .read<ShiftsAndPolicesCubit>()
-                                .deleteShift(id: 00);
-                          },
+                          onTap: () {},
+                          onDelete: () {},
                           shiftName: 'Data Loading',
                         ),
                       );

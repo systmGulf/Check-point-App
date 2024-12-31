@@ -67,8 +67,8 @@ class _LeavePlannerState extends State<LeavePlanner> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(children: [
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('For a while',
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('For a while'.tr(context: context),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -91,9 +91,9 @@ class _LeavePlannerState extends State<LeavePlanner> {
                 ),
                 verticalSpace(10),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child:
-                      Text('Reason', style: AppStylesManger.font12RegularGrey),
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Reason'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
                 CustomAppTextFormField(
@@ -112,9 +112,9 @@ class _LeavePlannerState extends State<LeavePlanner> {
                     )),
                 verticalSpace(10),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child:
-                      Text('Remark', style: AppStylesManger.font12RegularGrey),
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Remark'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
                 CustomAppTextFormField(

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_switcher/slide_switcher.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -10,6 +11,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controller/get_employee_history/get_employee_history_cubit.dart';
+import '../../controller/tasks/tasks_cubit.dart';
 import '../molecules/employee_home_section_item.dart';
 import '../molecules/office_checking_in.dart';
 import 'employee_attendace_bloc_builder.dart';
@@ -60,6 +62,7 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
             onRefresh: () async {
               BlocProvider.of<GetEmployeeHistoryCubit>(context)
                   .getEmployeeHistory();
+              BlocProvider.of<EmployeeTasksCubit>(context).getMyTasks();
             },
             child: ListView(
               physics: const BouncingScrollPhysics(),
@@ -90,26 +93,41 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                 verticalSpace(20),
                 checkingSites[selectedIndex],
                 verticalSpace(30),
-                EmployeeHomeSectionItem(
-                  title: 'Alart'.tr(
-                    context: context,
-                  ),
-                  content:
-                      'No Alert available for today. Please check back again tomorrow.'
-                          .tr(
-                    context: context,
-                  ),
-                ),
-                verticalSpace(30),
-                EmployeeHomeSectionItem(
-                  title: 'Announcement'.tr(
-                    context: context,
-                  ),
-                  content:
-                      'No Announcement Yet. 3 Latest Announcements will be displayed here.'
-                          .tr(
-                    context: context,
-                  ),
+                BlocBuilder<EmployeeTasksCubit, EmployeeTasksState>(
+                  buildWhen: (previous, current) =>
+                      current is GetMyTasksError ||
+                      current is GetMyTasksSuccess ||
+                      current is GetMyTasksLoading,
+                  builder: (context, state) {
+                    if (state is GetMyTasksError) {
+                      return Text(state.error);
+                    }
+                    if (state is GetMyTasksSuccess) {
+                      return EmployeeHomeSectionItem(
+                        getTaskResponse: state.getTaskResponse,
+                        title: 'New tasks today'.tr(
+                          context: context,
+                        ),
+                        content:
+                            'No Alert available for today. Please check back again tomorrow.'
+                                .tr(
+                          context: context,
+                        ),
+                      );
+                    }
+                    return Skeletonizer(
+                        child: EmployeeHomeSectionItem(
+                      getTaskResponse: [],
+                      title: 'Data Loading'.tr(
+                        context: context,
+                      ),
+                      content:
+                          'No Alert available for today. Please check back again tomorrow.'
+                              .tr(
+                        context: context,
+                      ),
+                    ));
+                  },
                 ),
                 verticalSpace(30),
                 Row(
