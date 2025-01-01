@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,9 +38,21 @@ class _MultiSelectEmployeesDropdownState
                         id: state.allEmployeesValue.data![index].id!)));
             return MultiDropdown<DropdownItemModel>(
               items: dropdownItems,
+              fieldDecoration: FieldDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'select employees'.tr(context: context),
+              ),
               controller: controller,
               enabled: true,
               searchEnabled: true,
+              searchDecoration: SearchFieldDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Search'.tr(context: context),
+              ),
               chipDecoration: ChipDecoration(
                   backgroundColor: ColorsManger.primaryColor,
                   labelStyle: TextStyle(

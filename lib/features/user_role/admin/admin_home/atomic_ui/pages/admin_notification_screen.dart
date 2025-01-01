@@ -30,6 +30,7 @@ class AdminNotificationScreen extends StatelessWidget {
                     itemCount: state.value.data!.length,
                     itemBuilder: (context, index) {
                       return AdminNotificationItem(
+                        id: state.value.data![index].id!,
                         onTap: () {
                           Navigator.pushNamed(
                             context,

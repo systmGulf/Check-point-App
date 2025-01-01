@@ -72,7 +72,9 @@ class ShiftsScreen extends StatelessWidget {
                               padding: EdgeInsets.only(top: 10.h),
                               child: ShiftItem(
                                 onTap: () {
-                                  context.pushName(Routes.policeScreen);
+                                  context.pushName(Routes.policeScreen,
+                                      arguments: state
+                                          .shiftModel.value!.data![index].id);
                                 },
                                 onDelete: () async {
                                   await context

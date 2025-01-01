@@ -14,7 +14,7 @@ import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../atoms/task_item.dart';
-import 'edit_task_screen.dart';
+import 'assign_task_screen.dart';
 
 class SupervisorTasksScreen extends StatefulWidget {
   const SupervisorTasksScreen({super.key});
@@ -152,104 +152,103 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
           if (state is GetTasksSuccess || state is GetTaskPaginationLoading) {
             return context.read<TasksCubit>().tasks.isEmpty
                 ? const NoDataFound()
-                : Column(
-                    children: [
-                      Expanded(
-                        child: RefreshIndicator(
-                          onRefresh: () =>
-                              context.read<TasksCubit>().getTasks(),
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            shrinkWrap: true,
-                            itemCount: context.read<TasksCubit>().tasks.length,
-                            itemBuilder: (_, index) {
-                              return TaskItem(
-                                onSelected: (status) {
-                                  context.read<TasksCubit>().taskStatus =
-                                      status;
-                                  context.read<TasksCubit>().changeTaskStatus(
-                                      taskId: context
-                                          .read<TasksCubit>()
-                                          .tasks[index]
-                                          .id!);
-                                },
-                                employeeName: context
-                                    .read<TasksCubit>()
-                                    .tasks[index]
-                                    .employees!,
-                                onEdit: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => MultiBlocProvider(
-                                          providers: [
-                                            BlocProvider.value(
-                                              value: context.read<TasksCubit>(),
-                                            ),
-                                            BlocProvider(
-                                              create: (context) => getIt<
-                                                  GetEmployeesDataCubit>()
-                                                ..getEmployeesByDepartmentId(),
-                                            ),
-                                          ],
-                                          child: EditTaskScreen(
-                                            taskId: context
-                                                .read<TasksCubit>()
-                                                .tasks[index]
-                                                .id!,
+                : RefreshIndicator(
+                    onRefresh: () => context.read<TasksCubit>().getTasks(),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        ListView.builder(
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: context.read<TasksCubit>().tasks.length,
+                          itemBuilder: (_, index) {
+                            return TaskItem(
+                              onSelected: (status) {
+                                context.read<TasksCubit>().taskStatus = status;
+                                context.read<TasksCubit>().changeTaskStatus(
+                                    taskId: context
+                                        .read<TasksCubit>()
+                                        .tasks[index]
+                                        .id!);
+                              },
+                              employeeName: context
+                                  .read<TasksCubit>()
+                                  .tasks[index]
+                                  .employees!,
+                              onEdit: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                            value: context.read<TasksCubit>(),
                                           ),
+                                          BlocProvider(
+                                            create: (context) => getIt<
+                                                GetEmployeesDataCubit>()
+                                              ..getEmployeesByDepartmentId(),
+                                          ),
+                                        ],
+                                        child: AssignTaskScreen(
+                                          taskId: context
+                                              .read<TasksCubit>()
+                                              .tasks[index]
+                                              .id!,
                                         ),
-                                      )).then((value) {
-                                    context.read<TasksCubit>().getTasks();
-                                  });
-                                },
-                                onDelete: () => _deleteTask(index),
-                                tasks: [],
-                                id: context
-                                    .read<TasksCubit>()
-                                    .tasks[index]
-                                    .id
-                                    .toString(),
-                                priority: context
+                                      ),
+                                    )).then((value) {
+                                  context.read<TasksCubit>().getTasks();
+                                });
+                              },
+                              onDelete: () => _deleteTask(index),
+                              tasks: [],
+                              id: context
+                                  .read<TasksCubit>()
+                                  .tasks[index]
+                                  .id
+                                  .toString(),
+                              priority: context
+                                      .read<TasksCubit>()
+                                      .tasks[index]
+                                      .priorityStatus ??
+                                  '',
+                              state: context
+                                      .read<TasksCubit>()
+                                      .tasks[index]
+                                      .status ??
+                                  '',
+                              title: context
+                                      .read<TasksCubit>()
+                                      .tasks[index]
+                                      .title ??
+                                  '',
+                              description: context
+                                      .read<TasksCubit>()
+                                      .tasks[index]
+                                      .description ??
+                                  '',
+                              date: DateFormat('yyyy-MM-dd')
+                                  .format(DateTime.parse(
+                                context
                                         .read<TasksCubit>()
                                         .tasks[index]
-                                        .priorityStatus ??
+                                        .dueDate ??
                                     '',
-                                state: context
-                                        .read<TasksCubit>()
-                                        .tasks[index]
-                                        .status ??
-                                    '',
-                                title: context
-                                        .read<TasksCubit>()
-                                        .tasks[index]
-                                        .title ??
-                                    '',
-                                description: context
-                                        .read<TasksCubit>()
-                                        .tasks[index]
-                                        .description ??
-                                    '',
-                                date: DateFormat('yyyy-MM-dd')
-                                    .format(DateTime.parse(
-                                  context
-                                          .read<TasksCubit>()
-                                          .tasks[index]
-                                          .dueDate ??
-                                      '',
-                                )),
-                              );
-                            },
+                              )),
+                            );
+                          },
+                        ),
+                        if (state is GetTaskPaginationLoading &&
+                            !maxScrollExtent)
+                          Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: CircularProgressIndicator(
+                                color: ColorsManger.primaryColor),
                           ),
-                        ),
-                      ),
-                      if (state is GetTaskPaginationLoading && !maxScrollExtent)
-                        Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: CircularProgressIndicator(
-                              color: ColorsManger.primaryColor),
-                        ),
-                    ],
+                      ],
+                    ),
                   );
           }
           return const SizedBox.shrink();

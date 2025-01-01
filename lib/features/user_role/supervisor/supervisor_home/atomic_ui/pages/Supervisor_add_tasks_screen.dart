@@ -39,7 +39,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
               child: Column(
                 children: [
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text('Task title'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
@@ -55,7 +55,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                       hint: 'Enter title here...'.tr(context: context)),
                   verticalSpace(12),
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text('Task Description'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),
@@ -89,7 +89,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                   ),
                   verticalSpace(12),
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text('Due date'.tr(context: context),
                         style: AppStylesManger.font12RegularGrey),
                   ),

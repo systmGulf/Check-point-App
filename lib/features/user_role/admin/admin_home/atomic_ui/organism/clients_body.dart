@@ -26,100 +26,108 @@ class ClientsBodyScreen extends StatelessWidget {
     return BlocBuilder<CustomerCubit, CustomerState>(
       builder: (context, state) {
         if (state is GetAllCustomersSuccess) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Center(
-                      child: Transform(
-                        alignment: Alignment.center,
-                        transform: currentLanguageCode == 'ar'
-                            ? Matrix4.rotationY(3.14)
-                            : Matrix4.rotationY(0),
-                        child: SvgPicture.asset('assets/images/arrow_back.svg'),
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<CustomerCubit>().getCustomersByType(
+                    customerType: CustomerType.Customer,
+                  );
+            },
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Center(
+                        child: Transform(
+                          alignment: Alignment.center,
+                          transform: currentLanguageCode == 'ar'
+                              ? Matrix4.rotationY(3.14)
+                              : Matrix4.rotationY(0),
+                          child:
+                              SvgPicture.asset('assets/images/arrow_back.svg'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                excludeHeaderSemantics: true,
-                pinned: true,
-                expandedHeight: 130,
-                backgroundColor: Colors.white,
-                elevation: 0,
-                scrolledUnderElevation: 0.5,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    'Clients'.tr(context: context),
-                    style: AppStylesManger.font15BoldBlack,
+                  excludeHeaderSemantics: true,
+                  pinned: true,
+                  expandedHeight: 130,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  scrolledUnderElevation: 0.5,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      'Clients'.tr(context: context),
+                      style: AppStylesManger.font15BoldBlack,
+                    ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    childCount: state.customers.data!
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      childCount: state.customers.data!
+                          .where(
+                            (c) => c.customerType == CustomerType.Customer.name,
+                          )
+                          .length, (
+                    BuildContext context,
+                    int index,
+                  ) {
+                    final List clients = state.customers.data!
                         .where(
                           (c) => c.customerType == CustomerType.Customer.name,
                         )
-                        .length, (
-                  BuildContext context,
-                  int index,
-                ) {
-                  final List clients = state.customers.data!
-                      .where(
-                        (c) => c.customerType == CustomerType.Customer.name,
-                      )
-                      .toList();
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        // ignore: inference_failure_on_instance_creation
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return BlocProvider(
-                              create: (context) => CustomerCubit(
-                                getIt<CustomerRepo>(),
-                              ),
-                              child: ClientProfileScreen(
-                                mapLoaction: LatLng(
-                                  clients[index].coordinates![0].latitude!
-                                      as double,
-                                  clients[index].coordinates![0].longitude!
-                                      as double,
+                        .toList();
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          // ignore: inference_failure_on_instance_creation
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return BlocProvider(
+                                create: (context) => CustomerCubit(
+                                  getIt<CustomerRepo>(),
                                 ),
-                                id: clients[index].id as String,
-                                name: clients[index].name as String,
-                                workedAs: clients[index].workesAs as String,
-                                location: clients[index].location as String,
-                              ),
+                                child: ClientProfileScreen(
+                                  mapLoaction: LatLng(
+                                    clients[index].coordinates![0].latitude!
+                                        as double,
+                                    clients[index].coordinates![0].longitude!
+                                        as double,
+                                  ),
+                                  id: clients[index].id as String,
+                                  name: clients[index].name as String,
+                                  workedAs: clients[index].workesAs as String,
+                                  location: clients[index].location as String,
+                                ),
+                              );
+                            },
+                          ),
+                        ).then(
+                          (value) {
+                            return BlocProvider.of<CustomerCubit>(context)
+                                .getCustomersByType(
+                              customerType: CustomerType.Customer,
                             );
                           },
-                        ),
-                      ).then(
-                        (value) {
-                          return BlocProvider.of<CustomerCubit>(context)
-                              .getCustomersByType(
-                            customerType: CustomerType.Customer,
-                          );
-                        },
-                      );
-                    },
-                    child: ClientItem(
-                      id: clients[index].id as String,
-                      name: clients[index].name as String,
-                      workedAs: clients[index].workesAs as String,
-                      location: clients[index].location as String,
-                    ),
-                  );
-                }),
-              ),
-            ],
+                        );
+                      },
+                      child: ClientItem(
+                        id: clients[index].id as String,
+                        name: clients[index].name as String,
+                        workedAs: clients[index].workesAs as String,
+                        location: clients[index].location as String,
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
           );
         } else {
           return CustomScrollView(

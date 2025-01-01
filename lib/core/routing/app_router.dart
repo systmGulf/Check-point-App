@@ -368,7 +368,12 @@ abstract class AppRouter {
         );
       case Routes.policeScreen:
         return BaseRoute(
-          page: const PoliceScreen(),
+          page: BlocProvider(
+            create: (context) => getIt<ShiftsAndPolicesCubit>(),
+            child: PoliceScreen(
+              ShiftId: settings.arguments! as int,
+            ),
+          ),
         );
       case Routes.shiftsScreen:
         return BaseRoute(

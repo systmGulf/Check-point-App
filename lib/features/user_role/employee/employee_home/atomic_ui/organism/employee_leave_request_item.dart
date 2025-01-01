@@ -54,10 +54,10 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                   ),
                 ),
                 Text(status,
-                    style: status == 'Approved'
+                    style: status == 'Approved'.tr(context: context)
                         ? const TextStyle(
                             color: Colors.green, fontWeight: FontWeight.bold)
-                        : status == 'Cancelled'
+                        : status == 'Cancelled'.tr(context: context)
                             ? const TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.bold)
                             : const TextStyle(
@@ -65,14 +65,14 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                                 fontWeight: FontWeight.bold)),
                 horizontalSpace(4),
                 Icon(
-                  status == 'Approved'
+                  status == 'Approved'.tr(context: context)
                       ? Icons.check_circle
-                      : status == 'Cancelled'
+                      : status == 'Cancelled'.tr(context: context)
                           ? Icons.cancel
                           : Icons.hourglass_empty,
-                  color: status == 'Approved'
+                  color: status == 'Approved'.tr(context: context)
                       ? Colors.green
-                      : status == 'Cancelled'
+                      : status == 'Cancelled'.tr(context: context)
                           ? Colors.red
                           : Colors.orange,
                 )

@@ -66,35 +66,42 @@ class PlansScreen extends StatelessWidget {
           }
           if (state is GetPlanSuccess) {
             return state.planModel.data!.isNotEmpty
-                ? ListView.builder(
-                    itemCount: state.planModel.data!.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          const AddPlanBlocListener(),
-                          PlanItem(
-                            planId: state.planModel.data![index].id!,
-                            planDate:
-                                state.planModel.data![index].planDate ?? '',
-                            note: state.planModel.data![index].note ?? '',
-                            onTap: () {
-                              context.read<PlanCubit>().planId =
-                                  state.planModel.data![index].id!;
-                              log(state.planModel.data![index].id!.toString());
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) {
-                                return BlocProvider.value(
-                                  value: context.read<PlanCubit>()
-                                    ..getPlanById(
-                                        id: state.planModel.data![index].id!),
-                                  child: const SubPlansScreen(),
-                                );
-                              }));
-                            },
-                          ),
-                        ],
-                      );
-                    })
+                ? RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<PlanCubit>().getPlan();
+                    },
+                    child: ListView.builder(
+                        itemCount: state.planModel.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              const AddPlanBlocListener(),
+                              PlanItem(
+                                planId: state.planModel.data![index].id!,
+                                planDate:
+                                    state.planModel.data![index].planDate ?? '',
+                                note: state.planModel.data![index].note ?? '',
+                                onTap: () {
+                                  context.read<PlanCubit>().planId =
+                                      state.planModel.data![index].id!;
+                                  log(state.planModel.data![index].id!
+                                      .toString());
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) {
+                                    return BlocProvider.value(
+                                      value: context.read<PlanCubit>()
+                                        ..getPlanById(
+                                            id: state
+                                                .planModel.data![index].id!),
+                                      child: const SubPlansScreen(),
+                                    );
+                                  }));
+                                },
+                              ),
+                            ],
+                          );
+                        }),
+                  )
                 : NoDataFound();
           }
           return ListView.builder(

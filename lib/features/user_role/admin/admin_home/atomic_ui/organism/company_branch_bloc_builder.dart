@@ -16,7 +16,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final currentLocale = EasyLocalization.of(context)!.locale;
+    final currentLocale = EasyLocalization.of(context)!.locale;
     final currentLanguageCode = currentLocale.languageCode;
     return BlocBuilder<BranchCubit, BranchState>(
       buildWhen: ((previous, current) =>
@@ -37,11 +37,12 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                     width: 24,
                     child: Center(
                       child: Transform(
-              alignment: Alignment.center,
-              transform: currentLanguageCode == 'ar'
-                  ? Matrix4.rotationY(3.14)
-                  : Matrix4.rotationY(0),
-              child: SvgPicture.asset('assets/images/arrow_back.svg')),
+                          alignment: Alignment.center,
+                          transform: currentLanguageCode == 'ar'
+                              ? Matrix4.rotationY(3.14)
+                              : Matrix4.rotationY(0),
+                          child:
+                              SvgPicture.asset('assets/images/arrow_back.svg')),
                     ),
                   ),
                 ),
@@ -72,62 +73,67 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
             ],
           );
         } else if (state is GetBranchSuccess) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                excludeHeaderSemantics: true,
-                pinned: true,
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Center(
-                      child:  Transform(
-                          alignment: Alignment.center,
-                          transform: currentLanguageCode == 'ar'
-                              ? Matrix4.rotationY(3.14)
-                              : Matrix4.rotationY(0),
-                          child:
-                              SvgPicture.asset('assets/images/arrow_back.svg')),
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<BranchCubit>().getBranches(isLoading: true);
+            },
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  excludeHeaderSemantics: true,
+                  pinned: true,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Center(
+                        child: Transform(
+                            alignment: Alignment.center,
+                            transform: currentLanguageCode == 'ar'
+                                ? Matrix4.rotationY(3.14)
+                                : Matrix4.rotationY(0),
+                            child: SvgPicture.asset(
+                                'assets/images/arrow_back.svg')),
+                      ),
                     ),
                   ),
-                ),
-                expandedHeight: 150.0,
-                backgroundColor: Colors.white,
-                flexibleSpace: FlexibleSpaceBar(
-                  expandedTitleScale: 1.1,
-                  title: Text('Company Branches'.tr(context: context),
-                      style: AppStylesManger.font18BoldBlack),
-                ),
-              ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      childCount: state.branches.data!.length, (
-                BuildContext context,
-                int index,
-              ) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(Routes.companyBranchDetails, arguments: [
-                      state.branches.data![index].name,
-                      state.branches.data![index].location,
-                      state.branches.data![index].description,
-                      state.branches.data![index].coordinates
-                    ]);
-                  },
-                  child: CompanyBranchItem(
-                    departmentId: state.branches.data![index].id ?? 0,
-                    name: state.branches.data![index].name ?? '',
-                    location: state.branches.data![index].location ?? '',
-                    decoration: state.branches.data![index].description ?? '',
+                  expandedHeight: 150.0,
+                  backgroundColor: Colors.white,
+                  flexibleSpace: FlexibleSpaceBar(
+                    expandedTitleScale: 1.1,
+                    title: Text('Company Branches'.tr(context: context),
+                        style: AppStylesManger.font18BoldBlack),
                   ),
-                );
-              }))
-            ],
+                ),
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        childCount: state.branches.data!.length, (
+                  BuildContext context,
+                  int index,
+                ) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(Routes.companyBranchDetails, arguments: [
+                        state.branches.data![index].name,
+                        state.branches.data![index].location,
+                        state.branches.data![index].description,
+                        state.branches.data![index].coordinates
+                      ]);
+                    },
+                    child: CompanyBranchItem(
+                      departmentId: state.branches.data![index].id ?? 0,
+                      name: state.branches.data![index].name ?? '',
+                      location: state.branches.data![index].location ?? '',
+                      decoration: state.branches.data![index].description ?? '',
+                    ),
+                  );
+                }))
+              ],
+            ),
           );
         } else if (state is GetBranchError) {
           return Center(

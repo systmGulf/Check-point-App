@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/add_police_request_body.dart';
+import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/shifts_model.dart';
 import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 
@@ -45,6 +47,36 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
         isLoading: false,
       );
       emit(DeleteShiftSuccess());
+    });
+  }
+  // get police by shift id
+
+  Future<void> getPoliceByShiftId({required int shiftId}) async {
+    emit(GetPoliceByShiftIDLoading());
+    final result =
+        await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
+    result.fold((l) {
+      emit(GetPoliceByShiftIDError(error: l.message));
+    }, (response) {
+      emit(GetPoliceByShiftIDSuccess(policeResponse: response));
+    });
+  }
+
+  // add police
+  Future<void> addPolice() async {
+    AddPoliceLoading();
+    final result = await shiftsAndPolicesRepo.addPolice(
+        addPoliceRequestBody: AddPoliceRequestBody(
+            month: "",
+            year: "",
+            clockInTime: "",
+            clockOutTime: "",
+            shiftId: "",
+            area: ""));
+    result.fold((errorMassage) {
+      AddPoliceFailure(error: errorMassage.message);
+    }, (r) {
+      AddPoliceSuccess();
     });
   }
 }

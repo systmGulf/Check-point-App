@@ -124,7 +124,9 @@ class EmployeeAttendance extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                location,
+                location.tr(
+                  context: context,
+                ),
                 style: AppStylesManger.font15BoldrBlue
                     .copyWith(color: Colors.black),
               ),

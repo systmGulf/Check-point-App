@@ -91,7 +91,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                         )
                       : Center(
                           child: Lottie.asset(
-                              'assets/animated_images/no_data_found.json'),
+                            'assets/animated_images/no_data_found.json'),
                         );
                 } else if (state is GetPlanError) {
                   return Column(
@@ -109,7 +109,10 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                     padding: EdgeInsets.only(
                         top: MediaQuery.sizeOf(context).height * 0.4),
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: ColorsManger.primaryColor,
+                        strokeWidth: 2,
+                      ),
                     ),
                   );
                 }

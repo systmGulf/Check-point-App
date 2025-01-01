@@ -80,6 +80,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
                 thickness: 1,
                 color: ColorsManger.primaryColor,
               ),
+              verticalSpace(10),
               const IntrinsicHeight(child: MultiSelectEmployeesDropdown()),
               verticalSpace(10),
               CustomAppTextFormField(

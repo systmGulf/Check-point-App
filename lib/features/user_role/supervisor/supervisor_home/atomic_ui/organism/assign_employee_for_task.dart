@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
+import '../../../../../../core/styles/colors.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../../model/drop_down_item.dart';
@@ -40,11 +42,31 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
               items: dropdownItems,
               controller: controller,
               enabled: true,
+              fieldDecoration: FieldDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'select employees'.tr(context: context),
+              ),
               searchEnabled: true,
-              chipDecoration: const ChipDecoration(
-                backgroundColor: Colors.orange,
+              searchDecoration: SearchFieldDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Search'.tr(context: context),
+              ),
+              chipDecoration: ChipDecoration(
+                backgroundColor: ColorsManger.primaryColor,
                 wrap: true,
                 runSpacing: 2,
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+                deleteIcon: const Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                  size: 16,
+                ),
                 spacing: 10,
               ),
               onSelectionChange: (selectedItems) {
@@ -55,21 +77,6 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
             return Text(state.errorMsg);
           } else if (state is GetAllEmployeesLoading) {
             return const Center(child: CircularProgressIndicator());
-            // return Skeletonizer(
-            //   child: MultiDropdown<DropdownItemModel>(
-            //     items: [],
-            //     controller: controller,
-            //     enabled: false,
-            //     searchEnabled: true,
-            //     chipDecoration: const ChipDecoration(
-            //       backgroundColor: Colors.orange,
-            //       wrap: true,
-            //       runSpacing: 2,
-            //       spacing: 10,
-            //     ),
-            //     onSelectionChange: (selectedItems) {},
-            //   ),
-            // );
           } else {
             return const SizedBox();
           }

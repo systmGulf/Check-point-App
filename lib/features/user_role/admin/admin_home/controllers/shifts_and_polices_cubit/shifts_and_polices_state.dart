@@ -14,6 +14,7 @@ class AddShiftError extends ShiftsAndPolicesState {
 
   AddShiftError({required this.error});
 }
+
 class GetShiftsLoading extends ShiftsAndPolicesState {}
 
 class GetShiftsSuccess extends ShiftsAndPolicesState {
@@ -36,4 +37,27 @@ class DeleteShiftError extends ShiftsAndPolicesState {
   final String error;
 
   DeleteShiftError({required this.error});
+}
+
+class GetPoliceByShiftIDLoading extends ShiftsAndPolicesState {}
+
+class GetPoliceByShiftIDSuccess extends ShiftsAndPolicesState {
+  final PoliceResponse policeResponse;
+
+  GetPoliceByShiftIDSuccess({required this.policeResponse});
+}
+
+class GetPoliceByShiftIDError extends ShiftsAndPolicesState {
+  final String error;
+
+  GetPoliceByShiftIDError({required this.error});
+}
+
+class AddPoliceLoading extends ShiftsAndPolicesState {}
+
+class AddPoliceSuccess extends ShiftsAndPolicesState{}
+class AddPoliceFailure extends ShiftsAndPolicesState {
+  final String error;
+
+  AddPoliceFailure({required this.error});
 }

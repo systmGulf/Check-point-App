@@ -186,26 +186,50 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                 );
               } else if (state is GetAllEmployeesLoading) {
                 return Skeletonizer(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (_, index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
-                      child: UserItemListView(
-                        onDelete: () {},
-                        branchId: 0,
-                        branch: "Data Load",
-                        departmentId: 0,
-                        role: "Data Load",
-                        mobileId: "Data Load",
-                        userName: "Data Load",
-                        department: "Data Load",
-                        userId: "Data Load",
-                        name: "Data Load",
-                        position: "Data Load",
+                  child: ListView(
+                    children: [
+                      Row(
+                        children: [
+                          Text('Users List'.tr(context: context),
+                              style: AppStylesManger.font15BoldBlack),
+                          const Spacer(),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: ColorsManger.primaryColor),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Text(
+                                '0',
+                                style: AppStylesManger.font14regularWhite,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ),
+                      ListView.builder(
+                        itemCount: 10,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 7),
+                          child: UserItemListView(
+                            onDelete: () {},
+                            branchId: 0,
+                            branch: "Data Load",
+                            departmentId: 0,
+                            role: "Data Load",
+                            mobileId: "Data Load",
+                            userName: "Data Load",
+                            department: "Data Load",
+                            userId: "Data Load",
+                            name: "Data Load",
+                            position: "Data Load",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               } else {

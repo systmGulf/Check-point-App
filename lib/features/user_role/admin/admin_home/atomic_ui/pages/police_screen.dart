@@ -1,17 +1,32 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/molecules/police_item.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:from_to_time_picker/from_to_time_picker.dart';
 
-import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 
-class PoliceScreen extends StatelessWidget {
-  const PoliceScreen({super.key});
+class PoliceScreen extends StatefulWidget {
+  const PoliceScreen({super.key, required this.ShiftId});
+  final int ShiftId;
 
   @override
+  State<PoliceScreen> createState() => _PoliceScreenState();
+}
+
+class _PoliceScreenState extends State<PoliceScreen> {
+  @override
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<ShiftsAndPolicesCubit>()
+        .getPoliceByShiftId(shiftId: widget.ShiftId);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildCustomAppBar(context, 'Police'.tr(context: context)),
@@ -54,50 +69,48 @@ class PoliceScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Column(
             children: [
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Time in',
-                                style: AppStylesManger.font20MediumBlack),
-                            Text('10', style: AppStylesManger.font38BoldBlack),
-                            Text('00', style: AppStylesManger.font38BoldBlack),
-                          ],
-                        ),
-                      ),
-                    ),
-                    horizontalSpace(10.w),
-                    Expanded(
-                      child: Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Time out',
-                                style: AppStylesManger.font20MediumBlack),
-                            Text('05', style: AppStylesManger.font38BoldBlack),
-                            Text('00', style: AppStylesManger.font38BoldBlack),
-                          ],
-                        ),
-                      ),
-                    )
-                  ]))
+              BlocBuilder<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
+                buildWhen: (previous, current) =>
+                    current is GetPoliceByShiftIDLoading ||
+                    current is GetPoliceByShiftIDSuccess ||
+                    current is GetPoliceByShiftIDError,
+                builder: (context, state) {
+                  if (state is GetPoliceByShiftIDLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is GetPoliceByShiftIDSuccess) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.policeResponse.value!.data!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PoliceItem(
+                              year: state
+                                  .policeResponse.value!.data![index].year
+                                  .toString(),
+                              month: state
+                                  .policeResponse.value!.data![index].month
+                                  .toString(),
+                              timeIn: state.policeResponse.value!.data![index]
+                                  .clockInTime
+                                  .toString()
+                                  .substring(0, 5),
+                              timeOut: state.policeResponse.value!.data![index]
+                                  .clockOutTime
+                                  .toString()
+                                  .substring(0, 5),
+                            ),
+                          );
+                        });
+                  } else {
+                    return const Center(
+                      child: Text('No Police'),
+                    );
+                  }
+                },
+              )
             ],
           ),
         ));

@@ -40,12 +40,8 @@ class _CompanyBranchesScreenState extends State<CompanyBranchesScreen> {
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
-        body: const Column(
-          children: [
-            Expanded(
-              child: CompanyBranchesBlocBuilder(),
-            ),
-          ],
+        body: Expanded(
+          child: CompanyBranchesBlocBuilder(),
         ));
   }
 }
