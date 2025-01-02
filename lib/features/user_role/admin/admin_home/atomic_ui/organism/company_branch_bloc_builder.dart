@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../molecules/company_branch_item.dart';
 
@@ -48,7 +51,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                 ),
                 excludeHeaderSemantics: true,
                 pinned: true,
-                expandedHeight: 150.0,
+                expandedHeight: 150.h,
                 backgroundColor: Colors.white,
                 flexibleSpace: FlexibleSpaceBar(
                   expandedTitleScale: 1.1,
@@ -100,7 +103,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                       ),
                     ),
                   ),
-                  expandedHeight: 150.0,
+                  expandedHeight: 150.h,
                   backgroundColor: Colors.white,
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.1,
@@ -136,9 +139,17 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
             ),
           );
         } else if (state is GetBranchError) {
-          return Center(
-            child: Text(state.error),
-          );
+          return state.error == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context.read<BranchCubit>().getBranches(isLoading: true);
+                })
+              : Column(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    verticalSpace(20),
+                    Text(state.error)
+                  ],
+                );
         } else {
           return const SizedBox();
         }

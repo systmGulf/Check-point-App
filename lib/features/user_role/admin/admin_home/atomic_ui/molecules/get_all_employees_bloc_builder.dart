@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/delete_user_bloc_listener.dart';
@@ -220,7 +222,17 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
               ),
             );
           } else if (state is GetAllEmployeesFailure) {
-            return Text(state.error);
+            return state.error == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context.read<EmployeeCubit>().getAllEmployees();
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.error)
+                    ],
+                  );
           } else {
             return Container();
           }

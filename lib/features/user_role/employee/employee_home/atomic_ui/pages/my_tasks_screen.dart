@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/tasks/tasks_cubit.dart';
 import '../atoms/my_tasks_item.dart';
 
@@ -29,7 +31,17 @@ class MyTasksScreen extends StatelessWidget {
               current is GetMyTasksLoading,
           builder: (context, state) {
             if (state is GetMyTasksError) {
-              return Text(state.error);
+              return state.error == 'Please check your internet connection'
+                  ? NoInternetConnectionWidget(onPressed: () {
+                      context.read<EmployeeTasksCubit>().getMyTasks();
+                    })
+                  : Column(
+                      children: [
+                        const Icon(Icons.error, color: Colors.red),
+                        verticalSpace(20),
+                        Text(state.error)
+                      ],
+                    );
             }
             if (state is GetMyTasksSuccess) {
               return state.getTaskResponse.isEmpty

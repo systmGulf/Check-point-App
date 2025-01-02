@@ -5,12 +5,14 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/build_snake_bar.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../atoms/task_item.dart';
@@ -147,7 +149,17 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
             );
           }
           if (state is GetTasksError) {
-            return Center(child: Text(state.errorMessage));
+            return state.errorMessage == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context.read<TasksCubit>().getTasks();
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.errorMessage)
+                    ],
+                  );
           }
           if (state is GetTasksSuccess || state is GetTaskPaginationLoading) {
             return context.read<TasksCubit>().tasks.isEmpty

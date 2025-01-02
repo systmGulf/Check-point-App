@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import '../molecules/shift_item.dart';
 import '../organism/add_shifts_bottom_sheet.dart';
@@ -91,9 +93,19 @@ class ShiftsScreen extends StatelessWidget {
                         ),
                       );
               } else if (state is GetShiftsError) {
-                return Center(
-                  child: Text(state.error),
-                );
+                return state.error == 'Please check your internet connection'
+                    ? NoInternetConnectionWidget(onPressed: () {
+                        context
+                            .read<ShiftsAndPolicesCubit>()
+                            .getShifts(isLoading: true);
+                      })
+                    : Column(
+                        children: [
+                          const Icon(Icons.error, color: Colors.red),
+                          verticalSpace(20),
+                          Text(state.error)
+                        ],
+                      );
               } else {
                 return Skeletonizer(
                   child: ListView.builder(

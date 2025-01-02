@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 import 'my_plans_details_screen.dart';
 
@@ -158,7 +159,19 @@ class MyPlansScreen extends StatelessWidget {
                             child: Lottie.asset(
                                 'assets/animated_images/no_data_found.json')));
               } else if (state is GetCustomerAreaError) {
-                return SliverToBoxAdapter(child: NoDataFound());
+                return SliverToBoxAdapter(
+                    child: state.error ==
+                            'Please check your internet connection'
+                        ? NoInternetConnectionWidget(onPressed: () {
+                            context.read<AttendanceCubit>().getCustomerArea();
+                          })
+                        : Column(
+                            children: [
+                              const Icon(Icons.error, color: Colors.red),
+                              verticalSpace(20),
+                              Text(state.error)
+                            ],
+                          ));
               } else {
                 return SliverToBoxAdapter(
                     child: Padding(

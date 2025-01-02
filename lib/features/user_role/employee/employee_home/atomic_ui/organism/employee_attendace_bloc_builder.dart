@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/get_employee_history/get_employee_history_cubit.dart';
 import '../molecules/history_item.dart';
 
@@ -26,14 +27,19 @@ class EmployeeAttendanceBlocBuilder extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: HistoryItem(
-                      totalhours:
-                          state.attendanceHistory.data![index].totalHours.toString(),
+                      totalhours: state
+                          .attendanceHistory.data![index].totalHours
+                          .toString(),
                       area: state.attendanceHistory.data![index].area ?? '',
                       clockInTime:
-                          state.attendanceHistory.data![index].clockInTime ?? '',
+                          state.attendanceHistory.data![index].clockInTime ??
+                              '',
                       clockOutTime:
-                          state.attendanceHistory.data![index].clockOutTime ?? '',
-                      date: state.attendanceHistory.data![index].attendanceDate ?? '',
+                          state.attendanceHistory.data![index].clockOutTime ??
+                              '',
+                      date:
+                          state.attendanceHistory.data![index].attendanceDate ??
+                              '',
                     ),
                   );
                 })
@@ -45,23 +51,19 @@ class EmployeeAttendanceBlocBuilder extends StatelessWidget {
                     style: AppStylesManger.font15BoldRed),
               );
       } else if (state is GetEmployeeHistoryFailure) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.error,
-                color: Colors.red,
-              ),
-              verticalSpace(10),
-              Text(
-                state.error,
-                style: AppStylesManger.font14RedularRed,
-              ),
-            ],
-          ),
-        );
+        return state.error == 'Please check your internet connection'
+            ? NoInternetConnectionWidget(onPressed: () {
+                context
+                    .read<GetEmployeeHistoryCubit>()
+                    .getEmployeeHistory(pageNumber: 0);
+              })
+            : Column(
+                children: [
+                  const Icon(Icons.error, color: Colors.red),
+                  verticalSpace(20),
+                  Text(state.error)
+                ],
+              );
       } else {
         return const Center(child: CircularProgressIndicator());
       }

@@ -14,6 +14,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/admin/data/repo/customer_repo/customer_repo.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
+
 class ClientsBodyScreen extends StatelessWidget {
   const ClientsBodyScreen({
     super.key,
@@ -24,6 +27,10 @@ class ClientsBodyScreen extends StatelessWidget {
     final currentLocale = EasyLocalization.of(context)!.locale;
     final currentLanguageCode = currentLocale.languageCode;
     return BlocBuilder<CustomerCubit, CustomerState>(
+      buildWhen: ((previous, current) =>
+          current is GetAllCustomersSuccess ||
+          current is GetAllCustomersError ||
+          current is GetAllCustomersLoading),
       builder: (context, state) {
         if (state is GetAllCustomersSuccess) {
           return RefreshIndicator(
@@ -129,7 +136,7 @@ class ClientsBodyScreen extends StatelessWidget {
               ],
             ),
           );
-        } else {
+        } else if (state is GetAllCustomersLoading) {
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -179,6 +186,22 @@ class ClientsBodyScreen extends StatelessWidget {
               ),
             ],
           );
+        } else if (state is GetAllCustomersError) {
+          return state.error == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context
+                      .read<CustomerCubit>()
+                      .getCustomersByType(customerType: CustomerType.Customer);
+                })
+              : Column(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    verticalSpace(20),
+                    Text(state.error)
+                  ],
+                );
+        } else {
+          return Container();
         }
       },
     );

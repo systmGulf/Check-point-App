@@ -7,6 +7,8 @@ import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/share_attendace_cubit/shareattendance_cubit.dart';
 import '../organism/employee_attendace.dart';
@@ -24,13 +26,19 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
           current is SupervisorGetEmployeeAttendanceSuccess,
       builder: (context, state) {
         if (state is SupervisorGetEmployeeAttendanceFailure) {
-          return Column(
-            children: [
-              const Icon(Icons.error, color: Colors.red),
-              const SizedBox(height: 10),
-              Text(state.errorMsg),
-            ],
-          );
+          return state.errorMsg == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context
+                      .read<SupervisorGetEmployeeAttendanceCubit>()
+                      .supervisorGetEmployeesAttendanceByDepartmentId();
+                })
+              : Column(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    verticalSpace(20),
+                    Text(state.errorMsg)
+                  ],
+                );
         } else if (state is SupervisorGetEmployeeAttendanceSuccess) {
           final List<SupervisorGetAllEmployeesAttendanceData> filteredList =
               state.employeeAllAttendance.data!

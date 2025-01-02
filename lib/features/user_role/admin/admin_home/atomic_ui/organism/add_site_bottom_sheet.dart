@@ -47,7 +47,7 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: BorderRadius.only( 
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(20),
                   )),

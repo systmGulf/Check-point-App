@@ -5,7 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../molecules/sites_item.dart';
 
@@ -17,6 +19,10 @@ class SiteScreenBody extends StatelessWidget {
     final currentLocale = EasyLocalization.of(context)!.locale;
     final currentLanguageCode = currentLocale.languageCode;
     return BlocBuilder<CustomerCubit, CustomerState>(
+      buildWhen: ((previous, current) =>
+          current is GetAllCustomersSuccess ||
+          current is GetAllCustomersError ||
+          current is GetAllCustomersLoading),
       builder: (context, state) {
         if (state is GetAllCustomersSuccess) {
           return RefreshIndicator(
@@ -85,7 +91,7 @@ class SiteScreenBody extends StatelessWidget {
               ],
             ),
           );
-        } else {
+        } else if (state is GetAllCustomersLoading) {
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -135,6 +141,24 @@ class SiteScreenBody extends StatelessWidget {
               ),
             ],
           );
+        } else if (state is GetAllCustomersError) {
+          return state.error == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context
+                      .read<CustomerCubit>()
+                      .getCustomersByType(customerType: CustomerType.Site);
+                })
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(child: const Icon(Icons.error, color: Colors.red)),
+                    verticalSpace(20),
+                    Text(state.error)
+                  ],
+                );
+        } else {
+          return Container();
         }
       },
     );

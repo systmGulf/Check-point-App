@@ -91,8 +91,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     final result = await employeeAttendanceRepo.employeeCheckOut(
         employeeId: ApiConstant.employeeId);
     result.fold((l) {
+        if (isClosed) return;
       emit(AttendanceOutError(l.message));
     }, (userattendanceModel) {
+        if (isClosed) return;
       checkOut = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceOutedDone(userattendanceModel));
     });
@@ -101,6 +103,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   void attend({required String typeAttendance, required String area}) async {
     var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
     if (hasBiometrics) {
+        if (isClosed) return;
       emit(AuthenticationSuccess());
       if (typeAttendance == 'check_in') {
         doCheckIn(area: area);
@@ -108,6 +111,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
         doCheckOut();
       }
     } else {
+        if (isClosed) return;
       emit(AuthenticationFailed());
     }
   }
@@ -119,8 +123,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     switch (attendanceType) {
       case AttendanceTypeEnum.checkIn:
         if (inRightArea == true) {
+            if (isClosed) return;
           emit(AccessAbleAreaState());
         } else {
+            if (isClosed) return;
           emit(AccessAbleAreaErrorState());
         }
 

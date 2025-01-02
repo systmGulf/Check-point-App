@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -56,13 +57,17 @@ class PlansScreen extends StatelessWidget {
             current is GetPlanLoading,
         builder: (context, state) {
           if (state is GetPlanError) {
-            return Column(
-              children: [
-                const Icon(Icons.error, color: Colors.red),
-                verticalSpace(20),
-                Text(state.error)
-              ],
-            );
+            return state.error == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context.read<PlanCubit>().getPlan();
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.error)
+                    ],
+                  );
           }
           if (state is GetPlanSuccess) {
             return state.planModel.data!.isNotEmpty
@@ -93,7 +98,10 @@ class PlansScreen extends StatelessWidget {
                                         ..getPlanById(
                                             id: state
                                                 .planModel.data![index].id!),
-                                      child: const SubPlansScreen(),
+                                      child: SubPlansScreen(
+                                        planId:
+                                            state.planModel.data![index].id!,
+                                      ),
                                     );
                                   }));
                                 },

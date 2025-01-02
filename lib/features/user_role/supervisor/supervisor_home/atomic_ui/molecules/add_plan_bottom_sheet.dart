@@ -98,7 +98,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
                 letterSpacing: 0.20,
               ),
               hint: context.read<PlanCubit>().planDate == '0'
-                  ? 'choose due date...'
+                  ? 'choose due date...'.tr(context: context)
                   : context.read<PlanCubit>().planDate,
               suffixIcon: SizedBox(
                   height: 24,

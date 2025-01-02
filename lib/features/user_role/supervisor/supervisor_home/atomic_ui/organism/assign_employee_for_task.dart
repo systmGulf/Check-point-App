@@ -76,7 +76,12 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
           } else if (state is GetAllEmployeesFailure) {
             return Text(state.errorMsg);
           } else if (state is GetAllEmployeesLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: ColorsManger.primaryColor,
+              strokeWidth: 2,
+              backgroundColor: ColorsManger.lighorage,
+            ));
           } else {
             return const SizedBox();
           }

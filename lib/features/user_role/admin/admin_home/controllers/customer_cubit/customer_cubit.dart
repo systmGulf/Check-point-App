@@ -22,52 +22,47 @@ class CustomerCubit extends Cubit<CustomerState> {
   List<CustomerLocation> customersLocation = [];
   Future<void> addCustomer({required CustomerType customerType}) async {
     emit(AddCustomerLoading());
-    try {
-      await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
-          customerType: customerType.name,
-          coordinates: customersLocation,
-          name: nameController.text,
-          workesAs: workedAsController.text,
-          location: locationController.text));
+    final result = await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
+        customerType: customerType.name,
+        coordinates: customersLocation,
+        name: nameController.text,
+        workesAs: workedAsController.text,
+        location: locationController.text));
 
+    result.fold((l) {
+      emit(AddCustomerError(error: l.message));
+    }, (r) {
+      nameController.clear();
+      workedAsController.clear();
+      locationController.clear();
       emit(AddCustomerSuccess());
       getCustomersByType(customerType: customerType);
-    } on Exception catch (e) {
-      emit(
-        AddCustomerError(
-          error: e.toString(),
-        ),
-      );
-    }
+    });
   }
 
   Future<void> editCustomer(
       {required String id, required CustomerType customerType}) async {
     emit(EditCustomerLoading());
-    try {
-      await customerRepo.editCustomer(
-        id: id,
-        AddOrEditCustomerRequestBody(
-          customerType: customerType.name,
-          coordinates: customersLocation,
-          name: editNameController.text,
-          workesAs: editWorkedAsController.text,
-          location: editLocationController.text,
-        ),
-      );
+    final result = await customerRepo.editCustomer(
+      id: id,
+      AddOrEditCustomerRequestBody(
+        customerType: customerType.name,
+        coordinates: customersLocation,
+        name: editNameController.text,
+        workesAs: editWorkedAsController.text,
+        location: editLocationController.text,
+      ),
+    );
+
+    result.fold((l) {
+      emit(EditCustomerError(error: l.message));
+    }, (r) {
       nameController.clear();
       workedAsController.clear();
       locationController.clear();
       emit(EditCustomerSuccess());
-
       getCustomersByType(customerType: customerType);
-    } on Exception catch (e) {
-      emit(
-        EditCustomerError(
-          error: e.toString(),
-        ),
-      );
-    }
+    });
   }
 
   Future<void> deleteCustomer(
@@ -104,7 +99,7 @@ class CustomerCubit extends Cubit<CustomerState> {
         if (isClosed) return;
         emit(
           GetAllCustomersError(
-            error: l.toString(),
+            error: l.message,
           ),
         );
       },

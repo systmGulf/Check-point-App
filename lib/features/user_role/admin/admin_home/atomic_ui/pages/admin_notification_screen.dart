@@ -7,6 +7,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../molecules/admin_notification_item.dart';
 
@@ -73,7 +74,17 @@ class AdminNotificationScreen extends StatelessWidget {
                     ),
                   );
           } else if (state is GetAddAccountRequestsFailure) {
-            return Text(state.error);
+            return state.error == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context.read<EmployeeCubit>().getAddAccountRequests();
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.error)
+                    ],
+                  );
           } else if (state is GetAddAccountRequestsLoading) {
             return Center(
                 child: CircularProgressIndicator(

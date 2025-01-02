@@ -9,6 +9,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../employee/employee_home/atomic_ui/organism/employee_custom_drawer.dart';
+import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
@@ -134,7 +135,10 @@ class _SupervisorHomeScreenState extends State<SupervisorHomeScreen> {
   }
 
   List<Widget> screens = [
-    const SupervisorAttendanceScreen(),
+    BlocProvider(
+      create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
+      child: SupervisorAttendanceScreen(),
+    ),
     BlocProvider(
       create: (context) => getIt<SupervisorGetEmployeeAttendanceCubit>()
         ..supervisorGetEmployeesAttendanceByDepartmentId(),

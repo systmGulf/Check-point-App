@@ -14,6 +14,6 @@ Future<dynamic> customLoadingIndicator(BuildContext context) {
               color: ColorsManger.primaryColor,
             ),
             circularProgressColor: ColorsManger.primaryColor,
-            child: Container(),
+          child: Container(),
           ));
 }

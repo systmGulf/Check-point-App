@@ -10,8 +10,11 @@ import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
+import '../../../../employee/employee_home/atomic_ui/molecules/employee_home_section_item.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/office_checking_in.dart';
+import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 
 class SupervisorAttendanceScreen extends StatefulWidget {
   const SupervisorAttendanceScreen({super.key});
@@ -102,6 +105,54 @@ class _SupervisorAttendanceScreenState
               ),
               verticalSpace(15),
               checkingSites[selectedIndex],
+              verticalSpace(5),
+              BlocBuilder<EmployeeTasksCubit, EmployeeTasksState>(
+                buildWhen: (previous, current) =>
+                    current is GetMyTasksError ||
+                    current is GetMyTasksSuccess ||
+                    current is GetMyTasksLoading,
+                builder: (context, state) {
+                  if (state is GetMyTasksError) {
+                    return state.error ==
+                            'Please check your internet connection'
+                        ? NoInternetConnectionWidget(onPressed: () {
+                            context.read<EmployeeTasksCubit>().getMyTasks();
+                          })
+                        : Column(
+                            children: [
+                              const Icon(Icons.error, color: Colors.red),
+                              verticalSpace(20),
+                              Text(state.error)
+                            ],
+                          );
+                  }
+                  if (state is GetMyTasksSuccess) {
+                    return EmployeeHomeSectionItem(
+                      getTaskResponse: state.getTaskResponse,
+                      title: 'New tasks today'.tr(
+                        context: context,
+                      ),
+                      content:
+                          'No Alert available for today. Please check back again tomorrow.'
+                              .tr(
+                        context: context,
+                      ),
+                    );
+                  }
+                  return Skeletonizer(
+                      child: EmployeeHomeSectionItem(
+                    getTaskResponse: [],
+                    title: 'Data Loading'.tr(
+                      context: context,
+                    ),
+                    content:
+                        'No Alert available for today. Please check back again tomorrow.'
+                            .tr(
+                      context: context,
+                    ),
+                  ));
+                },
+              ),
             ],
           ),
         ),

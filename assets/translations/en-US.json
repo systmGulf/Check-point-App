@@ -398,5 +398,13 @@
   "Selected Site:": "Selected Site:",
   "Please Select Date": "Please Select Date",
   "Please Select Employees": "Please Select Employees",
-  "Please Select Customer": "Please Select Customer"
+  "Please Select Customer": "Please Select Customer",
+  "Add New Department": "Add New Department",
+  "Add New Company Branch": "Add New Company Branch",
+  "choose due date...": "choose due date...",
+  "Retry": "Retry",
+  "No Internet Connection": "No Internet Connection",
+  "Employee doesn't have access to add plan": "Employee doesn't have access to add plan",
+  "Delete Sub Plan" : "Delete Sub Plan",
+  "Are you sure you want to delete this Sub Plan?" : "Are you sure you want to delete this Sub Plan?"
 }

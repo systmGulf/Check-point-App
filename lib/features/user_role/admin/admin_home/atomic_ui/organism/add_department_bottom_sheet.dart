@@ -56,6 +56,16 @@ class _AddDepartmentBottomSheetState extends State<AddDepartmentBottomSheet> {
                       },
                       child: const Icon(Icons.close),
                     )),
+                SizedBox(
+                  child: Text(
+                    'Add New Department'.tr(context: context),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ColorsManger.primaryColor,
+                        fontSize: 16),
+                  ),
+                ),
+                verticalSpace(5),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {

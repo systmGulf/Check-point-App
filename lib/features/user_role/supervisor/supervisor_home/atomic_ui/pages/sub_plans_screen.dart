@@ -9,6 +9,7 @@ import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
@@ -17,7 +18,8 @@ import '../molecules/add_sub_plan_bottom_sheet.dart';
 import '../molecules/set_sub_plan_list_view.dart';
 
 class SubPlansScreen extends StatefulWidget {
-  const SubPlansScreen({super.key});
+  const SubPlansScreen({super.key, required this.planId});
+  final int planId;
 
   @override
   State<SubPlansScreen> createState() => _SubPlansScreenState();
@@ -75,8 +77,8 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
             BlocBuilder<PlanCubit, PlanState>(
               buildWhen: (previous, current) =>
                   current is GetPlanByIdSuccess ||
-                  current is GetPlanError ||
-                  current is GetPlanLoading,
+                  current is GetPlanByIdError ||
+                  current is GetPlanByIdLoading,
               builder: (context, state) {
                 if (state is GetPlanByIdSuccess) {
                   return state.planModel.customerPlans!.isNotEmpty
@@ -91,19 +93,22 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                         )
                       : Center(
                           child: Lottie.asset(
-                            'assets/animated_images/no_data_found.json'),
+                              'assets/animated_images/no_data_found.json'),
                         );
-                } else if (state is GetPlanError) {
-                  return Column(
-                    children: [
-                      const Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
-                      verticalSpace(20),
-                      Text(state.error),
-                    ],
-                  );
+                } else if (state is GetPlanByIdError) {
+                  return state.error == 'Please check your internet connection'
+                      ? NoInternetConnectionWidget(onPressed: () {
+                          context
+                              .read<PlanCubit>()
+                              .getPlanById(id: widget.planId);
+                        })
+                      : Column(
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            verticalSpace(20),
+                            Text(state.error)
+                          ],
+                        );
                 } else {
                   return Padding(
                     padding: EdgeInsets.only(

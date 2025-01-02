@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
 
@@ -46,15 +46,20 @@ class RecentLeaveApplication extends StatelessWidget {
                       current is GetLeaveApplicationLoading,
                   builder: (context, state) {
                     if (state is GetLeaveApplicationFailure) {
-                      return Center(
-                        child: Column(
-                          children: [
-                            Icon(Icons.warning, color: Colors.red, size: 50.h),
-                            verticalSpace(10),
-                            Text(state.error.tr(context: context)),
-                          ],
-                        ),
-                      );
+                      return state.error ==
+                              'Please check your internet connection'
+                          ? NoInternetConnectionWidget(onPressed: () {
+                              context
+                                  .read<LeaveApplicationCubitSupervisor>()
+                                  .getLeaveApplication(type: type);
+                            })
+                          : Column(
+                              children: [
+                                const Icon(Icons.error, color: Colors.red),
+                                verticalSpace(20),
+                                Text(state.error)
+                              ],
+                            );
                     }
                     if (state is GetLeaveApplicationSuccess) {
                       return state.getLeaveRequestModel.data!.isEmpty

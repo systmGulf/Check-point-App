@@ -15,13 +15,13 @@ import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_scre
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/clients_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_branches_details_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_branshes_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/department_users_and_permission.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/departments_screen.dart.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/edit_user_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/holidays_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/notifiy_users_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/shifts_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/sites_screen.dart';
-import '../../features/user_role/admin/admin_home/atomic_ui/pages/team_in_department_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/terms_and_conditions_screen.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
@@ -54,7 +54,6 @@ import '../../features/user_role/employee/employee_home/controller/tasks/tasks_c
 import '../../features/user_role/supervisor/supervisor_auth/ui/views/widgets/screen/supervisor_login_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supervisor_add_tasks_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
-import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/sub_plans_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_attend_some_employee_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_home_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
@@ -393,8 +392,7 @@ abstract class AppRouter {
             child: const SitesScreen(),
           ),
         );
-      case Routes.subPlansScreen:
-        return BaseRoute(page: const SubPlansScreen());
+
       case Routes.notifyUsersScreen:
         return BaseRoute(
           page: BlocProvider(

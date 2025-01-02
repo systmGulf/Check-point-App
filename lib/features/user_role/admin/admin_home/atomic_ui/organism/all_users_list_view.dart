@@ -11,6 +11,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/build_snake_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/user_item_list_view.dart';
 
@@ -232,8 +233,20 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                     ],
                   ),
                 );
+              } else if (state is GetAllEmployeesFailure) {
+                return state.error == 'Please check your internet connection'
+                    ? NoInternetConnectionWidget(onPressed: () {
+                        context.read<EmployeeCubit>().getAllEmployees();
+                      })
+                    : Column(
+                        children: [
+                          const Icon(Icons.error, color: Colors.red),
+                          verticalSpace(20),
+                          Text(state.error)
+                        ],
+                      );
               } else {
-                return const SizedBox();
+                return Container();
               }
             },
           ),

@@ -8,6 +8,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../molecules/employee_attendace_information.dart';
 import '../molecules/employee_card.dart';
@@ -62,7 +63,22 @@ class _EmployeePreviewState extends State<EmployeePreview> {
               current is GetEmployeeSummaryLoading,
           builder: (context, state) {
             if (state is GetEmployeeSummaryFailure) {
-              return Text(state.errorMsg);
+              return state.errorMsg == 'Please check your internet connection'
+                  ? NoInternetConnectionWidget(onPressed: () {
+                      context
+                          .read<GetEmployeesDataCubit>()
+                          .getEmployeeSummaryByDepartmentId(
+                              employeeId: widget.employeeId,
+                              month: widget.month,
+                              year: widget.year);
+                    })
+                  : Column(
+                      children: [
+                        const Icon(Icons.error, color: Colors.red),
+                        verticalSpace(20),
+                        Text(state.errorMsg)
+                      ],
+                    );
             }
             if (state is GetEmployeeSummarySuccess) {
               return Skeletonizer(

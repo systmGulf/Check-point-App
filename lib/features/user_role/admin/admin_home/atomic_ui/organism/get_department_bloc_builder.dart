@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../atoms/departments_item.dart';
 
@@ -21,9 +23,17 @@ class GetDepartmentBlocBuilder extends StatelessWidget {
           currentState is GetDepartmentError,
       builder: (context, state) {
         if (state is GetDepartmentError) {
-          return SizedBox(
-            child: Text(state.error),
-          );
+          return state.error == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context.read<DepartmentCubit>().getAllDepartments();
+                })
+              : Column(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    verticalSpace(20),
+                    Text(state.error)
+                  ],
+                );
         } else if (state is GetDepartmentSuccess) {
           return RefreshIndicator(
             onRefresh: () async {
