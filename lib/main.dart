@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/fcm_notification_service.dart';
@@ -49,7 +52,7 @@ Future<void> runMainApp() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await initializationBackgroundService();
   if (kReleaseMode) {
     await SentryFlutter.init((options) {
       options.dsn =
@@ -62,4 +65,40 @@ Future<void> main() async {
     await initializeServices();
     await runMainApp();
   }
+}
+
+initializationBackgroundService() async {
+  final FlutterBackgroundService service = FlutterBackgroundService();
+  await service.configure(
+    iosConfiguration: IosConfiguration(),
+    androidConfiguration: AndroidConfiguration(
+      onStart: onStart,
+      autoStart: true,
+      isForegroundMode: true,
+    ),
+  );
+  service.startService();
+}
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service) async {
+  if (service is AndroidServiceInstance) {
+    service
+        .on('setAsForeground')
+        .listen((event) => service.setAsForegroundService());
+    service
+        .on('setAsBackground')
+        .listen((event) => service.setAsBackgroundService());
+  }
+  service.on('stopService').listen((event) => service.stopSelf());
+  Timer.periodic(const Duration(seconds: 1), (_) async {
+    if (service is AndroidServiceInstance) {
+      if (await service.isForegroundService()) {
+        service.setForegroundNotificationInfo(
+          title: "Check point app",
+          content: "The service is running in background ${DateTime.now()}",
+        );
+      }
+    }
+  });
 }
