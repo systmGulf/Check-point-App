@@ -16,6 +16,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/common/bloc_observer.dart';
+import 'core/common/track_user_in_background.dart';
 import 'core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'employee_mangement_system.dart';
 
@@ -52,7 +53,13 @@ Future<void> runMainApp() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializationBackgroundService();
+
+  PermissionStatus status = await Permission.locationWhenInUse.request();
+  if (status.isGranted) {
+    await initializationBackgroundService();
+  } else {
+    openAppSettings();
+  }
   if (kReleaseMode) {
     await SentryFlutter.init((options) {
       options.dsn =
@@ -67,38 +74,3 @@ Future<void> main() async {
   }
 }
 
-initializationBackgroundService() async {
-  final FlutterBackgroundService service = FlutterBackgroundService();
-  await service.configure(
-    iosConfiguration: IosConfiguration(),
-    androidConfiguration: AndroidConfiguration(
-      onStart: onStart,
-      autoStart: true,
-      isForegroundMode: true,
-    ),
-  );
-  service.startService();
-}
-
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  if (service is AndroidServiceInstance) {
-    service
-        .on('setAsForeground')
-        .listen((event) => service.setAsForegroundService());
-    service
-        .on('setAsBackground')
-        .listen((event) => service.setAsBackgroundService());
-  }
-  service.on('stopService').listen((event) => service.stopSelf());
-  Timer.periodic(const Duration(seconds: 1), (_) async {
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        service.setForegroundNotificationInfo(
-          title: "Check point app",
-          content: "The service is running in background ${DateTime.now()}",
-        );
-      }
-    }
-  });
-}
