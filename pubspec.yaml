@@ -3,17 +3,17 @@ description: "A new Flutter project."
 publish_to: "none"
 version: 1.0.1+2
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: '>=3.4.0 <4.0.0'
 dependencies:
   analog_clock: ^0.1.0
   animate_do: ^3.3.4
   cached_network_image: ^3.4.1
   collection: ^1.18.0
-  connectivity_plus: ^6.0.3
+  connectivity_plus: ^6.1.1
   device_info_plus: ^11.2.0
   dotted_line: ^3.2.2
   easy_date_timeline: ^1.1.3
-  easy_localization: ^3.0.7
+  easy_localization: ^3.0.6
   excel: ^2.0.4
   expansion_tile_group: ^1.2.4
   file_picker: ^8.0.6
@@ -32,12 +32,14 @@ dependencies:
   flutter_svg: ^2.0.16
   flutter_swipe_button: ^2.1.3
   flutter_xlider: ^3.5.0
+  fluttertoast: ^8.2.10
   from_to_time_picker: ^1.2.2
   geocoding: ^3.0.0
+  geolocator: ^13.0.2
   get_it: ^7.7.0
   google_maps_flutter: ^2.1.0
   hr_management_system_package:
-    path: D:\Systm_Gulf\Check-point-package
+    path: C:\Users\osama\Desktop\Check-point-package
   http: ^1.2.2
   image: ^4.3.0
   image_picker: ^1.1.2
@@ -52,6 +54,7 @@ dependencies:
   pie_chart: ^5.4.0
   sentry_flutter: ^8.9.0
   share_plus: ^10.0.0
+  shared_preferences: ^2.3.5
   simple_progress_indicators: ^0.2.0
   skeletonizer: ^1.4.2
   slide_switcher: ^1.1.2

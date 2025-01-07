@@ -12,6 +12,14 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   ShiftsAndPolicesCubit(this.shiftsAndPolicesRepo)
       : super(ShiftsAndPolicesInitial());
   final TextEditingController shiftNameController = TextEditingController();
+  String mounth = '';
+  String year = '';
+    String clockInTime = '';
+  String clockOutTime = '';
+  int shiftId = 00;
+  
+
+
   // add shift
   Future<void> addShift() async {
     emit(AddShiftLoading());
@@ -51,8 +59,8 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   }
   // get police by shift id
 
-  Future<void> getPoliceByShiftId({required int shiftId}) async {
-    emit(GetPoliceByShiftIDLoading());
+  Future<void> getPoliceByShiftId({required int shiftId, required bool isLoading}) async {
+    if (isLoading) emit(GetPoliceByShiftIDLoading());
     final result =
         await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
     result.fold((l) {
@@ -67,16 +75,28 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     AddPoliceLoading();
     final result = await shiftsAndPolicesRepo.addPolice(
         addPoliceRequestBody: AddPoliceRequestBody(
-            month: "",
-            year: "",
-            clockInTime: "",
-            clockOutTime: "",
-            shiftId: "",
-            area: ""));
-    result.fold((errorMassage) {
+            month: mounth,
+            year: year,
+            clockInTime: clockInTime,
+            clockOutTime: clockOutTime,
+            shiftId: shiftId.toString(),
+            area: "Office"));
+    result.fold(    (errorMassage) {
       AddPoliceFailure(error: errorMassage.message);
     }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
       AddPoliceSuccess();
+    });
+  }
+  // delete police
+  Future<void> deletePolice({required int id}) async {
+    emit(DeletePoliceLoading());
+    final result = await shiftsAndPolicesRepo.deletePolice(id: id);
+    result.fold((l) {
+      emit(DeletePoliceError(error: l.message));
+    }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
+      emit(DeletePoliceSuccess());
     });
   }
 }

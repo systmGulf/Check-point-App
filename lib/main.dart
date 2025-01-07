@@ -6,7 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/fcm_notification_service.dart';
@@ -16,7 +15,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/common/bloc_observer.dart';
-import 'core/common/track_user_in_background.dart';
 import 'core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'employee_mangement_system.dart';
 
@@ -56,7 +54,7 @@ Future<void> main() async {
 
   PermissionStatus status = await Permission.locationWhenInUse.request();
   if (status.isGranted) {
-    await initializationBackgroundService();
+   
   } else {
     openAppSettings();
   }
@@ -66,11 +64,14 @@ Future<void> main() async {
           'https://35650b60ff2552d1818c538099a8a880@o4507923563544576.ingest.us.sentry.io/4507923566690304';
     }, appRunner: () async {
       await initializeServices();
+    
       await runMainApp();
     });
   } else {
     await initializeServices();
     await runMainApp();
+  
   }
+ 
 }
 

@@ -35,6 +35,8 @@ void registerFactory() {
       getIt<DepartmentRepo>(),
     ),
   );
+    final navigatorKey = GlobalKey<NavigatorState>();
+     getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
   getIt.registerFactory<TasksCubit>(
     () => TasksCubit(
       getIt<SupervisorRepo>(),
@@ -60,8 +62,7 @@ void registerFactory() {
       getIt<AdminManageEmployeeRepo>(),
     ),
   );
-  final navigatorKey = GlobalKey<NavigatorState>();
-  getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
+ 
   getIt.registerFactory<LoginCubit>(
     () => LoginCubit(
       getIt<LoginRepo>(),

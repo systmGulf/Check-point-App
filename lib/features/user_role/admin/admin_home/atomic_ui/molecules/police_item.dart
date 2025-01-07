@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -11,9 +13,10 @@ class PoliceItem extends StatelessWidget {
     required this.month,
     required this.year,
     required this.timeIn,
-    required this.timeOut,
+    required this.timeOut, required this.policeId,
   });
   final String month, year, timeIn, timeOut;
+  final int policeId;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,11 @@ class PoliceItem extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<ShiftsAndPolicesCubit>()
+                          .deletePolice(id:policeId);
+                    },
                     icon: Icon(
                       Icons.delete,
                       color: Colors.red,

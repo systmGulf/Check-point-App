@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
@@ -11,7 +13,9 @@ import 'package:hr_management_system_package/employee/data/repo/attendance_repo/
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../../core/common/track_user_in_background.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 
 part 'attendence_state.dart';
@@ -32,9 +36,14 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     result.fold((l) {
       if (isClosed) return;
       emit(GetUserBranchError(l.message));
-    }, (departmentModel) {
+    }, (departmentModel)async {
       if (isClosed) return;
-
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<Map<String, double?>> areaMap = departmentModel.coordinates!
+      .map((e) => {'latitude': e.latitude, 'longitude': e.longitude})
+      .toList();
+  String areaJson = jsonEncode(areaMap);
+  await prefs.setString('area', areaJson);
       emit(GetUserBranchDone(departmentModel));
     });
   }
@@ -78,13 +87,18 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       if (isClosed) return;
 
       emit(AttendanceInError(l.message));
-    }, (userattendanceModel) {
-      if (isClosed) return;
-
+    }, (userattendanceModel) async {
+        // get location from shared preferences
+       
       checkIn = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceIneDone(userattendanceModel));
+    
+      
+   
     });
   }
+
+
 
   void doCheckOut() async {
     emit(AttendanceOutLoading());
@@ -93,10 +107,14 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     result.fold((l) {
         if (isClosed) return;
       emit(AttendanceOutError(l.message));
-    }, (userattendanceModel) {
-        if (isClosed) return;
+    }, (userattendanceModel)   async {
+      
+    
+     
       checkOut = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceOutedDone(userattendanceModel));
+       FlutterBackgroundService().invoke('stopService');
+    
     });
   }
 
@@ -113,6 +131,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     } else {
         if (isClosed) return;
       emit(AuthenticationFailed());
+
     }
   }
 
@@ -120,6 +139,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       LatLng pointLatNong, List<LatLng> area, Enum attendanceType) async {
     bool inRightArea = await employeeAttendanceRepo
         .checkAccessibleAreaForPloygon(pointLatNong, area);
+     
     switch (attendanceType) {
       case AttendanceTypeEnum.checkIn:
         if (inRightArea == true) {
