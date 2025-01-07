@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hr_management_system_package/core/common_methods/local_notifications_service.dart';
+import 'package:maps_toolkit/maps_toolkit.dart' as map_tool;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,7 +100,6 @@ Future<bool> onIosBackground(ServiceInstance service) async {
   await preferences.setStringList('log', log);
   return true;
 }
-
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
@@ -111,12 +112,13 @@ void onStart(ServiceInstance service) async {
     service.on('setAsBackground').listen((event) {
       service.setAsBackgroundService();
     });
+
+    service.on('stop').listen((event) {
+      service.stopSelf();
+    });
   }
 
-  Timer.periodic(const Duration(seconds: 5), (timer) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    // Fetch current location
+  Timer.periodic(const Duration(seconds : 1), (timer) async {
     Position? position;
     try {
       position = await Geolocator.getCurrentPosition(
@@ -126,23 +128,49 @@ void onStart(ServiceInstance service) async {
       print('Failed to get location: $e');
     }
 
-    // Add log with timestamp and location info
-    final log = preferences.getStringList('log') ?? <String>[];
-    final currentTime = DateTime.now().toIso8601String();
-    final locationInfo = position != null
-        ? 'Lat: ${position.latitude}, Lon: ${position.longitude}'
-        : 'Location not available';
+    if (position != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? areaJson = prefs.getString('area');
+      if (areaJson != null) {
+        List<dynamic> areaList = jsonDecode(areaJson);
 
-    log.add('$currentTime - $locationInfo');
-    await preferences.setStringList('log', log);
-   LocalNotificationService.showbasicNotification(title: 'location', massBody: 'time now is  ${currentTime.substring(0, 10)} and your location is $locationInfo  ', );
-  
-    service.invoke(
-      'update',
-      {
-        "current_date": currentTime,
-        "location": locationInfo,
-      },
-    );
+
+        bool isInOffice = false;
+        List<map_tool.LatLng> conventedPolyGonsPoints = areaList.map((e) => map_tool.LatLng(e['latitude']!, e['longitude']!)).toList();
+        
+       isInOffice=   map_tool.PolygonUtil.containsLocation(
+       map_tool.LatLng(position.latitude, position.longitude),
+        conventedPolyGonsPoints,
+        false);
+       
+
+        if (isInOffice) {
+          print("Inside a branch area.");
+          LocalNotificationService.showbasicNotification(
+            title: 'Location tracking ✅',
+            massBody:
+                'You are inside the corrent area.',
+          );
+        } else {
+          print("Outside all branch areas.");
+          LocalNotificationService.showbasicNotification(
+            title: 'alart ',
+            massBody:
+                'You are outside the correct area. ',
+          );
+        }
+      } else {
+        print("No branch locations found in storage.");
+        LocalNotificationService.showbasicNotification(
+          title: 'Branch Check',
+          massBody: 'No branch locations configured in the app.',
+        );
+          service.stopSelf();
+      }
+    }
+  });
+
+  service.on('stop').listen((event) async {
+    service.stopSelf();
   });
 }

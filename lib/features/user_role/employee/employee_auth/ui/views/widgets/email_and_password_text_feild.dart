@@ -56,50 +56,55 @@ class _EmailAndPasswordTextFieldState extends State<EmailAndPasswordTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(children: [
-        CustomAppTextFormField(
-          controller: emailController,
-          icon: Icons.person,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Please enter user name'.tr();
-            }
-            return null;
-          },
-          hint: 'Email'.tr(),
-        ),
-        verticalSpace(10),
-        CustomAppTextFormField(
-          controller: passwordTextController,
-          obscureText: isObscure,
-          validator: (value) {
-            if (value!.isEmpty || !AppRegex.isPasswordValid(value)) {
-              return 'Please a valid password'.tr();
-            }
-            return null;
-          },
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  isObscure = !isObscure;
-                });
-              },
-              icon: Icon(
-                isObscure ? Icons.visibility : Icons.visibility_off,
-                color: Colors.grey,
-              )),
-          icon: Icons.person,
-          hint: 'Password'.tr(),
-        ),
-        verticalSpace(10),
-        PasswordValidation(
-          hasLowerCase: hasLowercase,
-          hasUpperCase: hasUppercase,
-          hasNumber: hasNumber,
-          hasSpecialCharacter: hasSpecialCharacters,
-          hasMinLength: hasMinLength,
-        ),
-      ]),
+      child: AutofillGroup(
+        onDisposeAction: AutofillContextAction.commit ,
+        child: Column(children: [
+          CustomAppTextFormField(
+            autofillHints: const [AutofillHints.email, AutofillHints.username],
+            controller: emailController,
+            icon: Icons.person,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter user name'.tr();
+              }
+              return null;
+            },
+            hint: 'Email'.tr(),
+          ),
+          verticalSpace(10),
+          CustomAppTextFormField(
+            autofillHints: const [AutofillHints.password],
+            controller: passwordTextController,
+            obscureText: isObscure,
+            validator: (value) {
+              if (value!.isEmpty || !AppRegex.isPasswordValid(value)) {
+                return 'Please a valid password'.tr();
+              }
+              return null;
+            },
+            suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isObscure = !isObscure;
+                  });
+                },
+                icon: Icon(
+                  isObscure ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey,
+                )),
+            icon: Icons.person,
+            hint: 'Password'.tr(),
+          ),
+          verticalSpace(10),
+          PasswordValidation(
+            hasLowerCase: hasLowercase,
+            hasUpperCase: hasUppercase,
+            hasNumber: hasNumber,
+            hasSpecialCharacter: hasSpecialCharacters,
+            hasMinLength: hasMinLength,
+          ),
+        ]),
+      ),
     );
   }
 }
