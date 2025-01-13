@@ -41,8 +41,9 @@ class OnboardingScreenBody extends StatelessWidget {
                             buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  const Image(
-                    image: AssetImage('assets/images/app_logo.png'),
+                   Image(
+                    height: 240.h,
+                    image: AssetImage('assets/images/app_logo.png', ),
                   ),
                   verticalSpace(30),
                   CustomAppButton(
@@ -70,7 +71,7 @@ class OnboardingScreenBody extends StatelessWidget {
                       ],
                     )),
                     onPressed: () {
-                     
+                    
                       showDialog(
                           barrierDismissible: false,
                           context: context,

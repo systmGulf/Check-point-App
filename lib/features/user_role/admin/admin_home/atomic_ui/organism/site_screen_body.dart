@@ -29,6 +29,7 @@ class SiteScreenBody extends StatelessWidget {
             onRefresh: () async {
               context.read<CustomerCubit>().getCustomersByType(
                     customerType: CustomerType.Site,
+                    isLoading: true
                   );
             },
             child: CustomScrollView(
@@ -146,7 +147,7 @@ class SiteScreenBody extends StatelessWidget {
               ? NoInternetConnectionWidget(onPressed: () {
                   context
                       .read<CustomerCubit>()
-                      .getCustomersByType(customerType: CustomerType.Site);
+                      .getCustomersByType(customerType: CustomerType.Site, isLoading: true);
                 })
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,

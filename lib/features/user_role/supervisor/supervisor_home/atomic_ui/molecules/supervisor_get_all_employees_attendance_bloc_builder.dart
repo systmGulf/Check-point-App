@@ -63,8 +63,9 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                             onPressed: () async {
                               await Permission.storage.request();
                               context
-                                  .read<ShareattendanceCubit>()
-                                  .exportAndShareExcel(filteredList);
+                                  .read<ShareattendanceCubit>().exportAndShareExcel(
+                                      filteredList);
+                                
                             },
                             icon: Icon(
                               Icons.share,
@@ -82,9 +83,10 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           child: EmployeeAttendance(
+                            customerId: filteredList[index].customerId.toString() ,
                             employeeImage: filteredList[index].employeeImage,
                             totalHours:
-                                filteredList[index].totalHours.toString() ?? '',
+                                filteredList[index].totalHours.toString() ,
                             id: filteredList[index].employeeId ?? '',
                             employeeName:
                                 filteredList[index].employeeName ?? '',

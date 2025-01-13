@@ -404,5 +404,7 @@
      "No Internet Connection": "لا يوجد اتصال بالانترنت",
      "Employee doesn't have access to add plan": "الموظف لا يملك صلاحية لاضافة خطة",
      "Delete Sub Plan" : "حذف خطة فرعية",
-     "Are you sure you want to delete this Sub Plan?" : "هل انت متاكد من حذف هذه الخطة الفرعية؟"
+     "Are you sure you want to delete this Sub Plan?" : "هل انت متاكد من حذف هذه الخطة الفرعية؟",
+     "Delete Plan" : "حذف خطة",
+     "Are you sure you want to delete this Plan?" : "هل انت متاكد من حذف هذه الخطه؟"
 }

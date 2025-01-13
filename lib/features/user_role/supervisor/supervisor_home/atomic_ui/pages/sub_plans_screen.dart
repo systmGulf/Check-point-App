@@ -55,6 +55,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                   BlocProvider(
                       create: (_) => getIt<CustomerCubit>()
                         ..getCustomersByType(
+                            isLoading: false,
                             customerType: CustomerType.Customer))
                 ], child: const AddSubPlanBottomSheet());
               },

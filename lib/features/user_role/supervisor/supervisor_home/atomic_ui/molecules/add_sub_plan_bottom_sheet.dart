@@ -62,6 +62,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
               PlanTypeBar(
                 onChange: (index) {
                   context.read<CustomerCubit>().getCustomersByType(
+                      isLoading: false,
                       customerType: index == 0
                           ? CustomerType.Customer
                           : CustomerType.Site);

@@ -239,7 +239,7 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) {
               return getIt<CustomerCubit>()
-                ..getCustomersByType(customerType: CustomerType.Customer);
+                ..getCustomersByType(customerType: CustomerType.Customer, isLoading: true);
             },
             child: const ClientsScreen(),
           ),
@@ -387,7 +387,7 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) {
               return getIt<CustomerCubit>()
-                ..getCustomersByType(customerType: CustomerType.Site);
+                ..getCustomersByType(customerType: CustomerType.Site, isLoading: true);
             },
             child: const SitesScreen(),
           ),

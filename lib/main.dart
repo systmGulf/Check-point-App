@@ -50,8 +50,8 @@ Future<void> runMainApp() async {
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+  WidgetsFlutterBinding.ensureInitialized();  
+  Permission.ignoreBatteryOptimizations.request();
   PermissionStatus status = await Permission.locationWhenInUse.request();
   if (status.isGranted) {
    

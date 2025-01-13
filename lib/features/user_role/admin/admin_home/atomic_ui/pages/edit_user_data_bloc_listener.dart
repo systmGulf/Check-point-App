@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
+import 'package:employee_mangement/core/widgets/custom_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../../core/helpers/extention.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 
 class EditUserDataBlocListener extends StatelessWidget {
@@ -39,18 +39,7 @@ class EditUserDataBlocListener extends StatelessWidget {
             ),
           );
         } else if (state is EditEmployeeLoading) {
-          showDialog(
-              context: context,
-              builder: (context) => OverlayLoaderWithAppIcon(
-                    isLoading: true,
-                    appIcon: Image.asset(
-                      'assets/images/logo-w.png',
-                      height: 50,
-                      color: Colors.orange,
-                    ),
-                    circularProgressColor: Colors.orange,
-                    child: Container(),
-                  ));
+         customLoadingIndicator(context);
         }
       },
       child: const SizedBox.shrink(),

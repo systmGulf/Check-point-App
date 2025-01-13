@@ -15,9 +15,10 @@ class ClientItem extends StatelessWidget {
     required this.name,
     required this.workedAs,
     required this.location,
-    required this.id,
+    required this.id, required this.color,
   });
   final String name, workedAs, location, id;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class ClientItem extends StatelessWidget {
       shadowColor: Colors.orange.shade100,
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
       elevation: 0.5,
-      color: Colors.white,
+      color:color ,
       child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

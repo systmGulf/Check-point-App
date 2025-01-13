@@ -118,7 +118,7 @@ void onStart(ServiceInstance service) async {
     });
   }
 
-  Timer.periodic(const Duration(seconds : 1), (timer) async {
+  Timer.periodic(const Duration( minutes : 1), (timer) async {
     Position? position;
     try {
       position = await Geolocator.getCurrentPosition(
@@ -127,6 +127,7 @@ void onStart(ServiceInstance service) async {
     } catch (e) {
       print('Failed to get location: $e');
     }
+    
 
     if (position != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -158,6 +159,7 @@ void onStart(ServiceInstance service) async {
             massBody:
                 'You are outside the correct area. ',
           );
+            service.stopSelf();
         }
       } else {
         print("No branch locations found in storage.");

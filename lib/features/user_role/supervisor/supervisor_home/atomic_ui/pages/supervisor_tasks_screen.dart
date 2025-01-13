@@ -102,7 +102,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
           if (state is GetTasksSuccess) {
             setState(() {
               context.read<TasksCubit>().tasks.clear();
-              final newTasks = state.tasks.value!.data!;
+              final newTasks =state.tasks;
               for (var newTask in newTasks) {
                 if (!context
                     .read<TasksCubit>()
@@ -111,7 +111,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                   context.read<TasksCubit>().tasks.add(newTask);
                 }
               }
-              maxScrollExtent = !state.tasks.value!.hasNextPage!;
+           
             });
           } else if (state is GetTaskPaginationFailure) {
             buildSnackBar(

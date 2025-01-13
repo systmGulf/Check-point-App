@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
@@ -45,7 +45,7 @@ class PlanItem extends StatelessWidget {
                   onTap: () {
                     buildAlertDialog(context,
                         title: 'Delete Plan'.tr(context: context),
-                        message: 'Are you sure you want to delete this Plan?'
+                        message: 'Are you sure you want to delete this Plan?'.tr(context: context)
                             .tr(context: context), onYes: () {
                       context.pop();
                       context.read<PlanCubit>().deletePlan(id: planId);
