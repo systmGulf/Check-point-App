@@ -12,7 +12,7 @@ class CommonMethods {
         await Connectivity().checkConnectivity();
     if (conmnectivityReult.contains(ConnectivityResult.mobile) ||
         conmnectivityReult.contains(ConnectivityResult.wifi)) {
-      Future.delayed(const Duration(seconds: 4), () {
+      Future.delayed(const Duration(seconds: 2), () {
         if (context.mounted) {
           context.pushReplacementName(Routes.onboardingscreen);
         }

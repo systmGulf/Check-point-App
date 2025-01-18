@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 
-class CustomSearchForItemBar extends StatelessWidget {
-  const CustomSearchForItemBar({super.key, required this.searchText, required this.child, this.onQueryChanged});
+class CustomSearchBar extends StatelessWidget {
+  const CustomSearchBar({super.key, required this.searchText, required this.child, this.onQueryChanged});
   final String searchText;
   final Widget child;
   final Function(String)? onQueryChanged;

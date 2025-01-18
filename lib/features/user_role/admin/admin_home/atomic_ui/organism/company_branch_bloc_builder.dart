@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +9,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
-import '../molecules/company_branch_item.dart';
+import '../atoms/company_branch_item.dart';
 
 class CompanyBranchesBlocBuilder extends StatelessWidget {
   const CompanyBranchesBlocBuilder({
@@ -64,12 +66,12 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                 BuildContext context,
                 int index,
               ) {
-                return const Skeletonizer(
+                return Skeletonizer(
                   child: CompanyBranchItem(
+                    onDelete: () {},
                     name: 'data Load',
                     location: 'data Load',
                     decoration: 'data Load',
-                    departmentId: 0,
                   ),
                 );
               }))
@@ -128,7 +130,18 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                       ]);
                     },
                     child: CompanyBranchItem(
-                      departmentId: state.branches.data![index].id ?? 0,
+                      onDelete: () {
+                        buildAlertDialog(context,
+                            title: 'Delete Branch'.tr(context: context),
+                            message:
+                                'Are you sure you want to delete this branch?'
+                                    .tr(context: context), onYes: () {
+                          context.pop();
+                          BlocProvider.of<BranchCubit>(context).deleteBranch(
+                            state.branches.data![index].id ?? 0,
+                          );
+                        });
+                      },
                       name: state.branches.data![index].name ?? '',
                       location: state.branches.data![index].location ?? '',
                       decoration: state.branches.data![index].description ?? '',

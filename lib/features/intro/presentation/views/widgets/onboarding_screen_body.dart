@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,13 +41,19 @@ class OnboardingScreenBody extends StatelessWidget {
                             buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  const Image(
-                    image: AssetImage('assets/images/app_logo.png'),
+                   Image(
+                    height: 240.h,
+                    image: AssetImage('assets/images/app_logo.png', ),
                   ),
                   verticalSpace(30),
                   CustomAppButton(
-                    onPressed: () {
+                    onPressed: () async {
+                         
+                    
                       context.pushName(Routes.userRoleScreen);
+                
+                  
+                    
                     },
                     textButton: 'get_started'.tr(),
                     buttonColor: ColorsManger.primaryColor,
@@ -64,6 +71,7 @@ class OnboardingScreenBody extends StatelessWidget {
                       ],
                     )),
                     onPressed: () {
+                    
                       showDialog(
                           barrierDismissible: false,
                           context: context,
@@ -73,6 +81,7 @@ class OnboardingScreenBody extends StatelessWidget {
                               child: const RegisterAccountDialog(),
                             );
                           });
+                             FlutterBackgroundService().invoke('stopService');
                     },
                   ),
                   SizedBox(

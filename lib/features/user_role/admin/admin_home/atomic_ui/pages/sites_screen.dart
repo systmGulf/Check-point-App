@@ -1,10 +1,10 @@
-import '../../../../../../core/styles/colors.dart';
-import '../organism/add_site_bottom_sheet.dart';
-import '../../controllers/customer_cubit/customer_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../controllers/customer_cubit/customer_cubit.dart';
+import '../organism/add_site_bottom_sheet.dart';
 import '../organism/site_screen_body.dart';
 
 class SitesScreen extends StatelessWidget {
@@ -13,9 +13,8 @@ class SitesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: GestureDetector(
-          onTap: () {
-            showModalBottomSheet(
+        floatingActionButton:CustomFloatingActionButton(text: 'Add Site'.tr(context: context), onTap: (){
+          showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
                 shape: const RoundedRectangleBorder(
@@ -29,14 +28,7 @@ class SitesScreen extends StatelessWidget {
                     child: const AddSiteBottomSheet(),
                   );
                 });
-          },
-          child: SizedBox(
-              height: 40.h,
-              child: Image.asset(
-                'assets/images/location.png',
-                color: ColorsManger.primaryColor,
-              )),
-        ),
+        }),
         body: const SiteScreenBody());
   }
 }

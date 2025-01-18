@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/excel_export_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +92,7 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
   List<Widget> employeeAttendanceItems = [
     BlocProvider(
       create: (context) => ShareattendanceCubit(),
-      child: const Attendance(),
+      child: const EmployeesAttendance(),
     ),
     // BlocProvider.value(
     //     value: SupervisorGetEmployeeAttendanceCubit(

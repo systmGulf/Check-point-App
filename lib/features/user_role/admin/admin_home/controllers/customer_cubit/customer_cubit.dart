@@ -36,7 +36,7 @@ class CustomerCubit extends Cubit<CustomerState> {
       workedAsController.clear();
       locationController.clear();
       emit(AddCustomerSuccess());
-      getCustomersByType(customerType: customerType);
+      getCustomersByType(customerType: customerType, isLoading: false);
     });
   }
 
@@ -61,7 +61,7 @@ class CustomerCubit extends Cubit<CustomerState> {
       workedAsController.clear();
       locationController.clear();
       emit(EditCustomerSuccess());
-      getCustomersByType(customerType: customerType);
+      getCustomersByType(customerType: customerType, isLoading: false);
     });
   }
 
@@ -77,7 +77,7 @@ class CustomerCubit extends Cubit<CustomerState> {
           ),
         ),
         (r) {
-          getCustomersByType(customerType: customerType);
+          getCustomersByType(customerType: customerType,isLoading: false );
           emit(DeleteCustomerSuccess());
         },
       );
@@ -90,8 +90,8 @@ class CustomerCubit extends Cubit<CustomerState> {
     }
   }
 
-  Future<void> getCustomersByType({required CustomerType customerType}) async {
-    emit(GetAllCustomersLoading());
+  Future<void> getCustomersByType({required CustomerType customerType, required bool isLoading}) async {
+    if (isLoading) emit(GetAllCustomersLoading());
     final result =
         await customerRepo.getCustomersByType(type: customerType.name);
     result.fold(

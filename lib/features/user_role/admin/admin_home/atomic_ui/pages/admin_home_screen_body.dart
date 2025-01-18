@@ -41,7 +41,7 @@ class AdminHomeScreenBody extends StatelessWidget {
                   verticalSpace(5),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: FadeInUp(
+                    child: FadeInRight(
                         delay: const Duration(milliseconds: 300),
                         child: AdminQuickActionsSection()),
                   ),

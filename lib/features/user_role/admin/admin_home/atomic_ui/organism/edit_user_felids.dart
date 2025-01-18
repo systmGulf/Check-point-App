@@ -11,7 +11,7 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../molecules/select_department.dart';
-import '../pages/edit_user_data_bloc_listener.dart';
+import 'edit_user_data_bloc_listener.dart';
 
 class EditUserFelids extends StatefulWidget {
   const EditUserFelids({
@@ -72,6 +72,8 @@ class _EditUserFelidsState extends State<EditUserFelids> {
     editUsernameController.dispose();
     editPasswordController.dispose();
     editPositionController.dispose();
+    mobileIdController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 

@@ -5,11 +5,14 @@ String convertTo12HourFormat(String clockOutTime) {
   int hour = int.parse(timeParts[0]);
   int minute = int.parse(timeParts[1]);
 
-  String period = hour >= 12 ? 'PM'.tr() : 'AM'.tr();
-  hour = hour % 12;
-  hour = hour == 0 ? 12 : hour;
+  // Increment the hour by 1
+  hour = (hour + 1) % 24; // Ensure it wraps around to 0 after 23
 
-  String formattedTime = '$hour.${minute.toString().padLeft(2, '0')} $period';
+  String period = hour >= 12 ? 'PM'.tr() : 'AM'.tr();
+  int displayHour = hour % 12;
+  displayHour = displayHour == 0 ? 12 : displayHour;
+
+  String formattedTime = '$displayHour:${minute.toString().padLeft(2, '0')} $period';
 
   return formattedTime;
 }

@@ -73,3 +73,15 @@ class SupervisorGetEarlyLeaversFailure
 
   const SupervisorGetEarlyLeaversFailure(super.selectedDate, this.errorMsg);
 }
+class GetCustomerCustomerInAttendanceSuccess extends SupervisorGetEmployeeAttendanceState {
+  final GetCustomerByIdModel customerInAttenadceModel;
+  const GetCustomerCustomerInAttendanceSuccess(super.selectedDate, this.customerInAttenadceModel);
+}
+
+  class GetCustomerCustomerInAttendanceFailure extends SupervisorGetEmployeeAttendanceState {
+    final String errorMessage;
+  const GetCustomerCustomerInAttendanceFailure(super.selectedDate, this.errorMessage);
+}
+class GetCustomerCustomerInAttendanceLoading extends SupervisorGetEmployeeAttendanceState {
+  const GetCustomerCustomerInAttendanceLoading(super.selectedDate);
+}

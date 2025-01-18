@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/add_police_request_body.dart';
+import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/shifts_model.dart';
 import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
@@ -12,6 +13,14 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   ShiftsAndPolicesCubit(this.shiftsAndPolicesRepo)
       : super(ShiftsAndPolicesInitial());
   final TextEditingController shiftNameController = TextEditingController();
+  String mounth = '';
+  String year = '';
+    String clockInTime = '';
+  String clockOutTime = '';
+  int shiftId = 00;
+  
+
+
   // add shift
   Future<void> addShift() async {
     emit(AddShiftLoading());
@@ -51,8 +60,8 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   }
   // get police by shift id
 
-  Future<void> getPoliceByShiftId({required int shiftId}) async {
-    emit(GetPoliceByShiftIDLoading());
+  Future<void> getPoliceByShiftId({required int shiftId, required bool isLoading}) async {
+    if (isLoading) emit(GetPoliceByShiftIDLoading());
     final result =
         await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
     result.fold((l) {
@@ -67,16 +76,46 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     AddPoliceLoading();
     final result = await shiftsAndPolicesRepo.addPolice(
         addPoliceRequestBody: AddPoliceRequestBody(
-            month: "",
-            year: "",
-            clockInTime: "",
-            clockOutTime: "",
-            shiftId: "",
-            area: ""));
-    result.fold((errorMassage) {
+            month: mounth,
+            year: year,
+            clockInTime: clockInTime,
+            clockOutTime: clockOutTime,
+            shiftId: shiftId.toString(),
+            area: "Office"));
+    result.fold(    (errorMassage) {
       AddPoliceFailure(error: errorMassage.message);
     }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
       AddPoliceSuccess();
     });
+  }
+  // delete police
+  Future<void> deletePolice({required int id}) async {
+    emit(DeletePoliceLoading());
+    final result = await shiftsAndPolicesRepo.deletePolice(id: id);
+    result.fold((l) {
+      emit(DeletePoliceError(error: l.message));
+    }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
+      emit(DeletePoliceSuccess());
+    });
+  }
+
+  // assign Shift
+  List<int> branchesIds = [];
+  Future<void> assignShift({required int shiftId}) async {
+    emit(AssignShiftLoading());
+   if (branchesIds.isNotEmpty) {
+     final result = await shiftsAndPolicesRepo.assignShift(assignShiftsRequestBody: AssignShiftsRequestBody(shiftId: shiftId, branchesIds: branchesIds));
+    result.fold((l) {
+      emit(AssignShiftError(error: l.message));
+    }, (r) {
+      getShifts(isLoading: false);
+      branchesIds = [];
+      emit(AssignShiftSuccess());
+    });
+   } else{
+     emit(AssignShiftError(error: "Select Branches First"));
+   }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -48,18 +50,28 @@ Future<void> runMainApp() async {
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+  WidgetsFlutterBinding.ensureInitialized();  
+  Permission.ignoreBatteryOptimizations.request();
+  PermissionStatus status = await Permission.locationWhenInUse.request();
+  if (status.isGranted) {
+   
+  } else {
+    openAppSettings();
+  }
   if (kReleaseMode) {
     await SentryFlutter.init((options) {
       options.dsn =
           'https://35650b60ff2552d1818c538099a8a880@o4507923563544576.ingest.us.sentry.io/4507923566690304';
     }, appRunner: () async {
       await initializeServices();
+    
       await runMainApp();
     });
   } else {
     await initializeServices();
     await runMainApp();
+  
   }
+
 }
+

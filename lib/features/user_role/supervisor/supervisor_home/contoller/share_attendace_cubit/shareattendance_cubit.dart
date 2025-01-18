@@ -22,23 +22,28 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
 
       // Add headers
       sheet.appendRow([
-        'ID',
+        'Employee ID',
+        'Customer ID',
         'Employee Name',
         'Location',
         'In Time',
         'Out Time',
         'Total Hours'
+        'Data',
       ]);
 
       // Add data
       for (var item in data) {
         sheet.appendRow([
+
           item.employeeId ?? '',
+          item.customerId ?? '',
           item.employeeName ?? '',
           item.area ?? '',
           item.clockInTime?.substring(0, 5) ?? '',
           item.clockOutTime?.substring(0, 5) ?? '',
-          item.totalHours.toString() ?? ''
+          item.totalHours.toString() ?? '',
+          item.attendanceDate
         ]);
       }
 

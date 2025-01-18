@@ -11,7 +11,7 @@ class ProgressLoadingBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProgressBarAnimation(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       gradient: LinearGradient(
         colors: [ColorsManger.primaryColor, ColorsManger.lighorage],
       ),

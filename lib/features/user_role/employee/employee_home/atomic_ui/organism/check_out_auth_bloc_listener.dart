@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -32,6 +33,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
               message: 'Check Out Success'.tr(context: context),
             ),
           );
+            FlutterBackgroundService().invoke('stop');
         }
 
         if (state is AttendanceOutError) {

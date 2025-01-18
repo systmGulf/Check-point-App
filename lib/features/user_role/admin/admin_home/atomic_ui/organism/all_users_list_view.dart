@@ -93,6 +93,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         child: RefreshIndicator(
           color: ColorsManger.primaryColor,
           onRefresh: () async {
+            users.clear();
             BlocProvider.of<EmployeeCubit>(
               context,
             ).getAllEmployees();
@@ -100,6 +101,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
           child: BlocConsumer<EmployeeCubit, EmployeeState>(
             listener: (context, state) {
               if (state is GetAllEmployeesSuccess) {
+    
                 setState(() {
                   final newUsers = state.value.data!;
                   for (var newUser in newUsers) {
@@ -116,6 +118,8 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                     message: state.error,
                   ),
                 );
+              } else if (state is GetAllEmployeesLoading) {
+                          users.clear();
               }
             },
             buildWhen: (previous, current) =>
@@ -126,6 +130,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
             builder: (context, state) {
               if (state is GetAllEmployeesSuccess ||
                   state is GetAllEmployeesPaginationLoading) {
+                    
                 return ListView(
                   controller: _scrollController,
                   shrinkWrap: true,

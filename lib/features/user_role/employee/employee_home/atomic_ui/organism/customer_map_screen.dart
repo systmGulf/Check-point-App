@@ -13,8 +13,9 @@ import '../../controller/attendence/attendence_cubit.dart';
 
 class CustomerMapScreen extends StatefulWidget {
   final AttendanceTypeEnum attendanceType;
+  final ValueChanged oncustomerChanged;
 
-  const CustomerMapScreen({super.key, required this.attendanceType});
+  const CustomerMapScreen({super.key, required this.attendanceType, required this.oncustomerChanged});
 
   @override
   State<StatefulWidget> createState() => _CustomerMapScreenState();
@@ -25,6 +26,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
   int currentCustomerIndex = 0;
   bool isNavigating = false;
   Set<Marker> markers = {};
+  Set<Polygon> customerPlongons = {};
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceCubit, AttendanceState>(
@@ -44,11 +46,12 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
               child: Stack(
                 children: [
                   GoogleMap(
+                
                     myLocationButtonEnabled: true,
                     myLocationEnabled: true,
                     onMapCreated: (GoogleMapController controller) async {
                       googleMapController = controller;
-
+  
                       LocationService.getRealTimeLocation((locationData) {
                         if (!mounted) return;
                         LatLng currentLocation = LatLng(
@@ -64,6 +67,8 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                             ),
                           );
                         }).toSet());
+
+                       
 
                         context.read<AttendanceCubit>().customerId =
                             customers[currentCustomerIndex].customer!.id!;
@@ -81,7 +86,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                     .coordinates![0]
                                     .longitude!,
                               ),
-                              zoom: 15.5,
+                              zoom: 16.5,
                             ),
                           ),
                         );
@@ -106,6 +111,22 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                       });
                     },
                     markers: markers,
+                        polygons: {
+                          Polygon(
+                            polygonId: PolygonId("1"),
+                            points: customers
+                                .map((customer) => LatLng(
+                                      customer.customer!.coordinates![0]
+                                          .latitude!,
+                                      customer.customer!.coordinates![0]
+                                          .longitude!,
+                                    ))
+                                .toList(),
+                            strokeWidth: 1,
+                            fillColor: Colors.blue.withOpacity(0.5),
+                          )
+                        }.toSet(),
+                        
                     circles: customers.map((customer) {
                       return Circle(
                         fillColor: Colors.blue.withOpacity(0.5),
@@ -123,6 +144,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                       zoom: 5,
                     ),
                   ),
+               
                   Positioned(
                       top: 55.0.h,
                       child: SizedBox(
@@ -136,6 +158,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                 setState(() {
                                   currentCustomerIndex =
                                       customers.indexOf(customer);
+                                      widget.oncustomerChanged(customers[currentCustomerIndex]);
                                 });
                                 googleMapController!.animateCamera(
                                   CameraUpdate.newCameraPosition(
@@ -146,7 +169,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                         customer.customer!.coordinates![0]
                                             .longitude!,
                                       ),
-                                      zoom: 15.5,
+                                      zoom: 10.5,
                                     ),
                                   ),
                                 );

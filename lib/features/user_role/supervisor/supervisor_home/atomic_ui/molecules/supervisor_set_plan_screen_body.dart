@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,10 +30,7 @@ class PlansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsManger.primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-        onPressed: () {
+      floatingActionButton: CustomFloatingActionButton(text: 'Add Plan'.tr(context: context), onTap: (){
           showModalBottomSheet(
             context: context,
             backgroundColor: Colors.white,
@@ -48,8 +46,7 @@ class PlansScreen extends StatelessWidget {
                   child: const AddPlanBottomSheet());
             },
           );
-        },
-      ),
+      }),
       body: BlocBuilder<PlanCubit, PlanState>(
         buildWhen: (previous, current) =>
             current is GetPlanSuccess ||

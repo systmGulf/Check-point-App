@@ -26,6 +26,7 @@ class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
             itemCount: state.employeeAllAttendance.data!.length,
             itemBuilder: (context, index) {
               return EmployeeAttendance(
+                customerId: state.employeeAllAttendance.data![index].customerId.toString(), 
                 totalHours:
                     state.employeeAllAttendance.data![index].totalHours.toString(),
                 id: state.employeeAllAttendance.data![index].id.toString(),

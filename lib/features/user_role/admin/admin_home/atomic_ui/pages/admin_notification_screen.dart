@@ -9,7 +9,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
-import '../molecules/admin_notification_item.dart';
+import '../atoms/admin_notification_item.dart';
 
 class AdminNotificationScreen extends StatelessWidget {
   const AdminNotificationScreen({super.key});

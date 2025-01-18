@@ -1,3 +1,4 @@
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/add_branches_to_shift_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,7 @@ import '../../features/user_role/supervisor/supervisor_auth/ui/views/widgets/scr
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supervisor_add_tasks_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_attend_some_employee_screen.dart';
-import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_home_screen.dart';
+import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_layout_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
@@ -198,7 +199,7 @@ abstract class AppRouter {
                   ..getEmployeesByDepartmentId(),
               ),
             ],
-            child: const SupervisorHomeScreen(),
+            child: const SupervisorLayoutScreen(),
           ),
         );
       case Routes.employeeCheckOutScreen:
@@ -239,7 +240,8 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) {
               return getIt<CustomerCubit>()
-                ..getCustomersByType(customerType: CustomerType.Customer);
+                ..getCustomersByType(
+                    customerType: CustomerType.Customer, isLoading: true);
             },
             child: const ClientsScreen(),
           ),
@@ -387,7 +389,8 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) {
               return getIt<CustomerCubit>()
-                ..getCustomersByType(customerType: CustomerType.Site);
+                ..getCustomersByType(
+                    customerType: CustomerType.Site, isLoading: true);
             },
             child: const SitesScreen(),
           ),
@@ -417,6 +420,22 @@ abstract class AppRouter {
                 isLoading: true,
               ),
             child: const CompanyBranchesScreen(),
+          ),
+        );
+      case Routes.addBranchsToShiftScreen:
+        return BaseRoute(
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<BranchCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<ShiftsAndPolicesCubit>(),
+              ),
+            ],
+            child: AddBranchesToShiftScreen(
+              shiftId: settings.arguments! as int,
+            ),
           ),
         );
 
