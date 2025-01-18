@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -88,11 +89,10 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsManger.primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          context.pushName(Routes.supervisorAddTasksScreen).then((value) {
+      floatingActionButton: CustomFloatingActionButton(
+        text: 'Add Task'.tr(context: context),
+        onTap: () {
+        context.pushName(Routes.supervisorAddTasksScreen).then((value) {
             context.read<TasksCubit>().getTasks();
           });
         },
@@ -134,7 +134,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                 itemCount: 10,
                 itemBuilder: (_, __) => TaskItem(
                   onSelected: (value) {},
-                  employeeName: [],
+                  // employeeName: [],
                   onEdit: () {},
                   onDelete: () {},
                   tasks: context.read<TasksCubit>().tasks,
@@ -184,10 +184,10 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                                         .tasks[index]
                                         .id!);
                               },
-                              employeeName: context
-                                  .read<TasksCubit>()
-                                  .tasks[index]
-                                  .employees!,
+                              // employeeName: context
+                              //     .read<TasksCubit>()
+                              //     .tasks[index]
+                              //     .employees!,
                               onEdit: () {
                                 Navigator.push(
                                     context,

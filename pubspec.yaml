@@ -9,7 +9,7 @@ dependencies:
   animate_do: ^3.3.4
   cached_network_image: ^3.4.1
   collection: ^1.18.0
-  connectivity_plus: ^6.1.1
+  connectivity_plus: ^6.1.2
   device_info_plus: ^11.2.0
   dotted_line: ^3.2.2
   easy_date_timeline: ^1.1.3

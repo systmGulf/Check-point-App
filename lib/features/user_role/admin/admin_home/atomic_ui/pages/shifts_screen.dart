@@ -1,17 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/routing/routes.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
-import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
-import '../molecules/shift_item.dart';
+import '../molecules/get_shifts_bloc_builder.dart';
 import '../organism/add_shifts_bottom_sheet.dart';
 
 class ShiftsScreen extends StatelessWidget {
@@ -20,10 +15,8 @@ class ShiftsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsManger.primaryColor,
-        onPressed: () {
-          showModalBottomSheet(
+      floatingActionButton: CustomFloatingActionButton(text: 'Add Shift'.tr(context: context), onTap: (){
+        showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
@@ -43,88 +36,11 @@ class ShiftsScreen extends StatelessWidget {
               );
             },
           );
-        },
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      }),
       appBar: buildCustomAppBar(context, 'Shifts'.tr(context: context)),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: BlocBuilder<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
-            buildWhen: (previous, current) =>
-                current is GetShiftsSuccess ||
-                current is GetShiftsError ||
-                current is GetShiftsLoading,
-            builder: (context, state) {
-              if (state is GetShiftsSuccess) {
-                return state.shiftModel.value!.data!.isEmpty
-                    ? const Center(
-                        child: Text('No Shifts'),
-                      )
-                    : RefreshIndicator(
-                        color: ColorsManger.primaryColor,
-                        onRefresh: () async {
-                          context
-                              .read<ShiftsAndPolicesCubit>()
-                              .getShifts(isLoading: true);
-                        },
-                        child: ListView.builder(
-                          itemCount: state.shiftModel.value!.data!.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 10.h),
-                              child: ShiftItem(
-                                onTap: () {
-                                  context.pushName(Routes.policeScreen,
-                                      arguments: state
-                                          .shiftModel.value!.data![index].id);
-                                },
-                                onDelete: () async {
-                                  await context
-                                      .read<ShiftsAndPolicesCubit>()
-                                      .deleteShift(
-                                          id: state.shiftModel.value!
-                                              .data![index].id!);
-                                },
-                                shiftName:
-                                    state.shiftModel.value!.data![index].name!,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-              } else if (state is GetShiftsError) {
-                return state.error == 'Please check your internet connection'
-                    ? NoInternetConnectionWidget(onPressed: () {
-                        context
-                            .read<ShiftsAndPolicesCubit>()
-                            .getShifts(isLoading: true);
-                      })
-                    : Column(
-                        children: [
-                          const Icon(Icons.error, color: Colors.red),
-                          verticalSpace(20),
-                          Text(state.error)
-                        ],
-                      );
-              } else {
-                return Skeletonizer(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: ShiftItem(
-                          onTap: () {},
-                          onDelete: () {},
-                          shiftName: 'Data Loading',
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-          )),
+          child: GetShiftsBlocBuilder()),
     );
   }
 }

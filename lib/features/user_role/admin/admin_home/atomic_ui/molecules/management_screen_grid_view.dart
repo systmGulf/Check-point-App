@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
-import '../atoms/premission_item.dart';
+import '../atoms/management_screen_grid_view_item.dart';
 
 class ManagementScreenGridView extends StatelessWidget {
   const ManagementScreenGridView({

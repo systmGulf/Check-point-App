@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/styles/styles.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 import '../molecules/time_and_date_widget.dart';
 import 'check_in_bloc_builder.dart';
@@ -16,12 +17,14 @@ class AttendanceMapBottomSheet extends StatelessWidget {
   const AttendanceMapBottomSheet({
     super.key,
     required this.widget,
-    required this.attendanceType, required this.area,
+    required this.attendanceType, required this.area, required this.customerPlans,
+    
   });
 
   final String widget;
   final AttendanceTypeEnum attendanceType;
   final String area;
+  final CustomerPlans customerPlans;
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +96,13 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                             verticalSpace(20),
                             attendanceType.name == "checkIn"
                                 ?  CheckInBlocBuilder(
+                                 
                                     area: area,
                                 )
-                                : const CheckOutBlocBuilder(),
+                                :  CheckOutBlocBuilder(
+                                  area: area,
+                                   customerPlans: customerPlans! ,
+                                ),
                           ],
                         );
                       } else {

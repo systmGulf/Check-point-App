@@ -13,8 +13,9 @@ import '../../controller/attendence/attendence_cubit.dart';
 
 class CustomerMapScreen extends StatefulWidget {
   final AttendanceTypeEnum attendanceType;
+  final ValueChanged oncustomerChanged;
 
-  const CustomerMapScreen({super.key, required this.attendanceType});
+  const CustomerMapScreen({super.key, required this.attendanceType, required this.oncustomerChanged});
 
   @override
   State<StatefulWidget> createState() => _CustomerMapScreenState();
@@ -157,6 +158,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                 setState(() {
                                   currentCustomerIndex =
                                       customers.indexOf(customer);
+                                      widget.oncustomerChanged(customers[currentCustomerIndex]);
                                 });
                                 googleMapController!.animateCamera(
                                   CameraUpdate.newCameraPosition(

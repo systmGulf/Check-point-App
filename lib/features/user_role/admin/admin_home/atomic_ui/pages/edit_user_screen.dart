@@ -33,6 +33,10 @@ class EditUser extends StatefulWidget {
 class _EditUserState extends State<EditUser> {
   
   @override
+  initState() {
+    super.initState();
+    
+  }
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [

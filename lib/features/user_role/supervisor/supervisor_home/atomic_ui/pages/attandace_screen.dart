@@ -92,7 +92,7 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
   List<Widget> employeeAttendanceItems = [
     BlocProvider(
       create: (context) => ShareattendanceCubit(),
-      child: const Attendance(),
+      child: const EmployeesAttendance(),
     ),
     // BlocProvider.value(
     //     value: SupervisorGetEmployeeAttendanceCubit(

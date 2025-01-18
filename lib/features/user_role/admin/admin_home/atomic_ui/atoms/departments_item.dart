@@ -27,65 +27,64 @@ class DepartmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        color: Colors.white,
-        elevation: 0.5,
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Text(
-                departmentName,
-                style: AppStylesManger.font16BoldBlack,
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: () {
-                  buildAlertDialog(context,
-                      title: 'Delete Department'.tr(context: context),
-                      message:
-                          'Are you sure you want to delete this department?'
-                              .tr(context: context), onYes: () {
-                    context.pop();
-                    context
-                        .read<DepartmentCubit>()
-                        .deleteDepartment(departmentId);
-                  });
-                },
-                icon: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Center(
-                        child:
-                            SvgPicture.asset('assets/images/delete_icon.svg'))),
-                color: Colors.red,
-              ),
-              horizontalSpace(10),
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => Dialog(
-                        child: BlocProvider.value(
-                            value: context.read<DepartmentCubit>(),
-                            child: EditDepartmentDialog(
-                                departmentId: departmentId))),
-                  );
-                },
-                icon: SizedBox(
-                  height: 30,
-                  width: 30,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Text(
+              departmentName,
+              style: AppStylesManger.font16BoldBlack,
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {
+                buildAlertDialog(context,
+                    title: 'Delete Department'.tr(context: context),
+                    message: 'Are you sure you want to delete this department?'
+                        .tr(context: context), onYes: () {
+                  context.pop();
+                  context
+                      .read<DepartmentCubit>()
+                      .deleteDepartment(departmentId);
+                });
+              },
+              icon: SizedBox(
+                  height: 24,
+                  width: 24,
                   child: Center(
-                    child: SvgPicture.asset(
-                      'assets/images/edit.svg',
-                      color: ColorsManger.primaryColor,
-                    ),
+                      child:
+                          SvgPicture.asset('assets/images/delete_icon.svg'))),
+              color: Colors.red,
+            ),
+            horizontalSpace(10),
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => Dialog(
+                      child: BlocProvider.value(
+                          value: context.read<DepartmentCubit>(),
+                          child: EditDepartmentDialog(
+                              departmentId: departmentId))),
+                );
+              },
+              icon: SizedBox(
+                height: 30,
+                width: 30,
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/images/edit.svg',
+                    color: ColorsManger.primaryColor,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

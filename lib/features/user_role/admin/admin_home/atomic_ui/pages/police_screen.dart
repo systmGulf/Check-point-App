@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:from_to_time_picker/from_to_time_picker.dart';
 
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../organism/police_screen_body.dart';
 
@@ -32,14 +32,8 @@ class _PoliceScreenState extends State<PoliceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildCustomAppBar(context, 'Police'.tr(context: context)),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: ColorsManger.primaryColor,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            showDialog(
+        floatingActionButton: CustomFloatingActionButton(text: 'Add Police'.tr(context: context), onTap: (){
+           showDialog(
               context: context,
               builder: (_) => FromToTimePicker(
                 onTab: (from, to) {
@@ -73,8 +67,7 @@ class _PoliceScreenState extends State<PoliceScreen> {
               ),
               
             );
-          },
-        ),
+        }),
         body:PoliceScreenBody ()
         );
   }

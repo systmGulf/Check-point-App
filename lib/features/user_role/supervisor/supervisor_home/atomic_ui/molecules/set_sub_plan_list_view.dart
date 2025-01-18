@@ -34,6 +34,7 @@ class GetSubPlanListView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     side: const BorderSide(
                       color: Colors.grey,
+                      width: 1,
                     )),
                 color: Colors.white,
                 margin: const EdgeInsets.all(8.0),
@@ -78,7 +79,9 @@ class GetSubPlanListView extends StatelessWidget {
                           "${"Note".tr(context: context)}: ${planModel.customerPlans![index].note}"),
                       verticalSpace(8),
                       Text(
-                          "${"Visited".tr(context: context)}: ${planModel.customerPlans![index].visited}"),
+                          "${"Visited".tr(context: context)}: ${planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ", style:  AppStylesManger.font15BoldBlue.copyWith(
+                              color:  planModel.customerPlans![index].visited == true ? Colors.green : Colors.red
+                          ) ,),
                       const SizedBox(height: 8),
                       if (planModel.customerPlans!.isNotEmpty) ...[
                         Text(

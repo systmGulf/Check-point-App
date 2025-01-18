@@ -1,22 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../core/widgets/build_alart_message.dart';
-import '../../controllers/branch_cubit/branch_cubit.dart';
 
 class CompanyBranchItem extends StatelessWidget {
   const CompanyBranchItem(
       {super.key,
       required this.name,
       required this.location,
-      required this.decoration,
-      required this.departmentId});
+      required this.decoration, required this.onDelete,
+     });
   final String name, location, decoration;
-  final int departmentId;
+  final VoidCallback onDelete;
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +21,11 @@ class CompanyBranchItem extends StatelessWidget {
         vertical: 8,
         horizontal: 16,
       ),
+      shadowColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: Colors.grey),
+        
       ),
       color: Colors.white,
       child: Padding(
@@ -63,17 +62,7 @@ class CompanyBranchItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {
-                buildAlertDialog(context,
-                    title: 'Delete Branch'.tr(context: context),
-                    message: 'Are you sure you want to delete this branch?'.tr( context: context),
-                    onYes: () {
-                  context.pop();
-                  BlocProvider.of<BranchCubit>(context).deleteBranch(
-                    departmentId,
-                  );
-                });
-              },
+              onPressed: onDelete,
               icon: SizedBox(
                   height: 24,
                   width: 24,

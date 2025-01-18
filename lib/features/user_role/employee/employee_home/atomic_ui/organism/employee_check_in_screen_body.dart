@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -59,7 +60,9 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                           .getPlanById(id: matchingAreas[0].id!);
 
                       return widget.checkType == "Customer"
-                          ? CustomerMapScreen(
+                          ? CustomerMapScreen(oncustomerChanged: (value) {
+                            
+                          },
                               attendanceType: widget.attendanceType,
                             )
                           : SiteMapScreen(
@@ -101,6 +104,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                 },
               ),
         AttendanceMapBottomSheet(
+          customerPlans: CustomerPlans() ,
           area: widget.checkType,
           attendanceType: widget.attendanceType,
           widget: widget.checkType,

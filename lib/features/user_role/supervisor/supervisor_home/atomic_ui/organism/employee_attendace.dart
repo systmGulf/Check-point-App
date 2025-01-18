@@ -21,12 +21,13 @@ class EmployeeAttendance extends StatelessWidget {
     required this.outTime,
     required this.id,
     required this.totalHours,
-    this.employeeImage, this.customerId,
+    this.employeeImage,
+    this.customerId,
   });
 
   final String employeeName, location, inTime, outTime, id;
   final String totalHours;
-  final String? employeeImage , customerId;
+  final String? employeeImage, customerId;
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +72,8 @@ class EmployeeAttendance extends StatelessWidget {
                   ? SizedBox(
                       child: IconButton(
                         onPressed: () {
-                      
-                          buildShowEmployeeImageDialog(context, employeeImage: employeeImage);
+                          buildShowEmployeeImageDialog(context,
+                              employeeImage: employeeImage);
                         },
                         icon: Icon(
                           Icons.camera,
@@ -87,78 +88,124 @@ class EmployeeAttendance extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              location == 'Customer' ? Row(
-                children: [
-                  InkWell(onTap: (){
-                         context.read<SupervisorGetEmployeeAttendanceCubit>().supervisorGetCustomerInAttendance(CustomerId: customerId!);
-                    showDialog(context: context, builder: (_){
-                      return BlocProvider.value(
-                        value: context.read<SupervisorGetEmployeeAttendanceCubit>(),
-                        child: AlertDialog(
-                            backgroundColor: Colors.white ,
-                          content: Container(
-                            
-                            child: BlocBuilder<SupervisorGetEmployeeAttendanceCubit, SupervisorGetEmployeeAttendanceState>(
-                              buildWhen: (previous, current) => current is GetCustomerCustomerInAttendanceFailure || current is GetCustomerCustomerInAttendanceSuccess || current is GetCustomerCustomerInAttendanceLoading,
-                              builder: (context, state) {
-                                if(state is GetCustomerCustomerInAttendanceSuccess){
-                                  return Column(
-                                      mainAxisSize: MainAxisSize.min ,
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.close),)),
-                                      CircleAvatar(radius: 25.r, child: Icon(Icons.person),),
-                                      Text('${state.customerInAttenadceModel.value?.name?? 'Data'}', style: AppStylesManger.font15BoldrBlue.copyWith(color: Colors.black),),
-                                      verticalSpace(5),
-                                      Text('${state.customerInAttenadceModel.value?.workesAs?? ''}'),
-                                      verticalSpace(5),
-
-                                      Text('${state.customerInAttenadceModel.value?.location?? ''}'),
-                                    ],
-                                  );
-                                }else if(state is GetCustomerCustomerInAttendanceLoading){
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min ,
-                                    children: [
-                                      const Center(child: CircularProgressIndicator(),),
-                                    ],
-                                  );
-                                }else if(state is GetCustomerCustomerInAttendanceFailure){
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min ,
-                                    children: [
-                                      Center(child: Text(state.errorMessage),),
-                                    ],
-                                  );
-                                }else{
-                                  return const SizedBox.shrink();
-                                }
-                              }
-                            )
+              location == 'Customer'
+                  ? Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              context
+                                  .read<SupervisorGetEmployeeAttendanceCubit>()
+                                  .supervisorGetCustomerInAttendance(
+                                      CustomerId: customerId!);
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return BlocProvider.value(
+                                      value: context.read<
+                                          SupervisorGetEmployeeAttendanceCubit>(),
+                                      child: AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        content: Container(
+                                            child: BlocBuilder<
+                                                    SupervisorGetEmployeeAttendanceCubit,
+                                                    SupervisorGetEmployeeAttendanceState>(
+                                                buildWhen: (previous,
+                                                        current) =>
+                                                    current is GetCustomerCustomerInAttendanceFailure ||
+                                                    current
+                                                        is GetCustomerCustomerInAttendanceSuccess ||
+                                                    current
+                                                        is GetCustomerCustomerInAttendanceLoading,
+                                                builder: (context, state) {
+                                                  if (state
+                                                      is GetCustomerCustomerInAttendanceSuccess) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Align(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            child: IconButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              icon: const Icon(
+                                                                  Icons.close),
+                                                            )),
+                                                        CircleAvatar(
+                                                          radius: 25.r,
+                                                          child: Icon(
+                                                              Icons.person),
+                                                        ),
+                                                        Text(
+                                                          '${state.customerInAttenadceModel.value?.name ?? 'Data'}',
+                                                          style: AppStylesManger
+                                                              .font15BoldrBlue
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        verticalSpace(5),
+                                                        Text(
+                                                            '${state.customerInAttenadceModel.value?.workesAs ?? ''}'),
+                                                        verticalSpace(5),
+                                                        Text(
+                                                            '${state.customerInAttenadceModel.value?.location ?? ''}'),
+                                                      ],
+                                                    );
+                                                  } else if (state
+                                                      is GetCustomerCustomerInAttendanceLoading) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else if (state
+                                                      is GetCustomerCustomerInAttendanceFailure) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(state
+                                                              .errorMessage),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  }
+                                                })),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Icon(Icons.visibility)),
+                        horizontalSpace(5),
+                        Text(
+                          location.tr(
+                            context: context,
                           ),
+                          style: AppStylesManger.font15BoldrBlue
+                              .copyWith(color: Colors.black),
                         ),
-                      );
-                    });
-                  }, child: Icon(Icons.visibility)),
-                  horizontalSpace(5),
-                     Text(
-                location.tr(
-                  context: context,
-                ),
-                style: AppStylesManger.font15BoldrBlue
-                    .copyWith(color: Colors.black),
-              ),
-
-                ],
-              ) :
-              Text(
-                location.tr(
-                  context: context,
-                ),
-                style: AppStylesManger.font15BoldrBlue
-                    .copyWith(color: Colors.black),
-              ),
+                      ],
+                    )
+                  : Text(
+                      location.tr(
+                        context: context,
+                      ),
+                      style: AppStylesManger.font15BoldrBlue
+                          .copyWith(color: Colors.black),
+                    ),
               Text(
                 'Present'.tr(
                   context: context,
@@ -234,7 +281,7 @@ class EmployeeAttendance extends StatelessWidget {
                   inTime == '00:00:00' || outTime == '00:00:00'
                       ? const Icon(CupertinoIcons.clock, color: Colors.grey)
                       : Text(
-                          totalHours.substring(0, 3),
+                          double.parse(totalHours).toStringAsFixed(2),
                           style: TextStyle(
                             color: isEarly
                                 ? Colors.red

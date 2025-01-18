@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -91,15 +90,12 @@ class UserItemGridView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  // padding: EdgeInsets.zero,
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
                           return BlocProvider(
-                            create: (context) => EmployeeCubit(
-                              getIt<AdminManageEmployeeRepo>(),
-                            ),
+                            create: (context) => getIt<EmployeeCubit>(),
                             child: EditUser(
                               branchId: branchId,
                               branch: branch,

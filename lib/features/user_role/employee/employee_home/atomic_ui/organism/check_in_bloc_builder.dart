@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
+import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 
 class CheckInBlocBuilder extends StatelessWidget {
-  const CheckInBlocBuilder({super.key, required this.area});
+  const CheckInBlocBuilder({super.key, required this.area, });
   final String area;
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceCubit, AttendanceState>(
@@ -30,8 +32,7 @@ class CheckInBlocBuilder extends StatelessWidget {
               ),
               activeThumbColor: ColorsManger.primaryColor,
               activeTrackColor: Colors.grey.shade300,
-              onSwipe: () {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
+              onSwipe: () { WidgetsBinding.instance.addPostFrameCallback((_) async {
                   context
                       .read<AttendanceCubit>()
                       .attend(typeAttendance: 'check_in', area: area);

@@ -19,7 +19,7 @@ class TaskItem extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.onEdit,
-    required this.employeeName,
+    // required this.employeeName,
     required this.onSelected,
   });
   final String title, description, priority, date, state;
@@ -27,7 +27,7 @@ class TaskItem extends StatefulWidget {
   final List<GetTasData> tasks;
   final VoidCallback onDelete, onEdit;
 
-  final List<GetEmployeesForTheTask> employeeName;
+  // final List<GetEmployeesForTheTask> employeeName;
   final ValueChanged onSelected;
 
   @override
@@ -87,21 +87,21 @@ class _TaskItemState extends State<TaskItem> {
               ],
             ),
             verticalSpace(8),
-            Wrap(
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                children: List.generate(widget.employeeName.length, (index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(widget.employeeName[index].name ?? ''),
-                  );
-                })),
+            // Wrap(
+            //     alignment: WrapAlignment.start,
+            //     runAlignment: WrapAlignment.start,
+            //     children: List.generate(widget.employeeName.length, (index) {
+            //       return Container(
+            //         margin:
+            //             const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            //         padding: const EdgeInsets.all(5),
+            //         decoration: BoxDecoration(
+            //           border: Border.all(color: Colors.grey),
+            //           borderRadius: BorderRadius.circular(10),
+            //         ),
+            //         child: Text(widget.employeeName[index].name ?? ''),
+            //       );
+            //     })),
             Divider(
               thickness: 1,
             )

@@ -71,3 +71,12 @@ class DeletePoliceError extends ShiftsAndPolicesState {
 
   DeletePoliceError({required this.error});
 }
+class AssignShiftLoading extends ShiftsAndPolicesState {}
+
+class AssignShiftSuccess extends ShiftsAndPolicesState{}
+
+class AssignShiftError extends ShiftsAndPolicesState {
+  final String error;
+
+  AssignShiftError({required this.error});
+}

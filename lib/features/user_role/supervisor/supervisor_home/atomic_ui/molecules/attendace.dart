@@ -4,8 +4,8 @@ import 'calender_widget.dart';
 import 'share_exal_file_bloc_listener.dart';
 import 'supervisor_get_all_employees_attendance_bloc_builder.dart';
 
-class Attendance extends StatelessWidget {
-  const Attendance({super.key});
+class EmployeesAttendance extends StatelessWidget {
+  const EmployeesAttendance({super.key});
   static const employee = 10;
   @override
   Widget build(BuildContext context) {

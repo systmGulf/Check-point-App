@@ -111,10 +111,10 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (context, index) {
-                return const Padding(
+                return  Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: EmployeeAttendance(
-                    totalHours: '10:00',
+                    totalHours: double.parse( '0.12').toStringAsFixed(2),
                     id: '',
                     employeeName: 'data loading',
                     location: 'data loading',

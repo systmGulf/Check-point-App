@@ -9,7 +9,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
-import '../molecules/sites_item.dart';
+import '../atoms/sites_item.dart';
 
 class SiteScreenBody extends StatelessWidget {
   const SiteScreenBody({super.key});

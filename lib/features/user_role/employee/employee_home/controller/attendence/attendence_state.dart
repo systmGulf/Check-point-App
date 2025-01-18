@@ -14,6 +14,8 @@ class AuthenticationLoading extends AttendanceState {}
 class PickImageSuccess extends AttendanceState {}
 
 class PickImageFailed extends AttendanceState {}
+class PickImageLoading extends AttendanceState {}
+
 
 class AttendanceIneDone extends AttendanceState {
   final UserAttendanceModel userAttendanceModel;
@@ -79,4 +81,15 @@ class GetPlanByIdIdDone extends AttendanceState {
 class GetPlanByIdError extends AttendanceState {
   final String error;
   GetPlanByIdError(this.error);
+}
+
+class AddPlanFeedbackLoading extends AttendanceState {}
+
+class AddPlanFeedbackDone extends AttendanceState {
+  
+}
+
+class AddPlanFeedbackError extends AttendanceState {
+  final String error;
+  AddPlanFeedbackError(this.error);
 }

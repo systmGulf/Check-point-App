@@ -6,8 +6,8 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
-import '../atoms/admin_permission_screen_item.dart';
-import '../molecules/pemission_grid_view.dart';
+import '../atoms/admin_management_screen_item.dart';
+import '../molecules/management_screen_grid_view.dart';
 
 class ManagementScreen extends StatelessWidget {
   const ManagementScreen({super.key});

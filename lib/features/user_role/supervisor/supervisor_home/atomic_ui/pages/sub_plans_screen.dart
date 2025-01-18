@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
@@ -30,14 +31,8 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: ColorsManger.primaryColor,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            showModalBottomSheet(
+        floatingActionButton: CustomFloatingActionButton(text: 'Add Plan'.tr(context: context), onTap: (){
+          showModalBottomSheet(
               context: context,
               backgroundColor: Colors.white,
               isScrollControlled: true,
@@ -60,8 +55,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                 ], child: const AddSubPlanBottomSheet());
               },
             );
-          },
-        ),
+        }),
         appBar: buildCustomAppBar(
           context,
           'Plans For this Day'.tr(context: context),

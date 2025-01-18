@@ -25,15 +25,19 @@ class ClientItem extends StatelessWidget {
     return Card(
       shadowColor: Colors.orange.shade100,
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
-      elevation: 0.5,
+      elevation:0,
       color:color ,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        side: BorderSide(color: Colors.grey),
+      ),
       child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           leading: CircleAvatar(
               radius: 30,
-              backgroundColor: Colors.orange.shade100,
-              child: Image.asset('assets/images/icon-default-user.png')),
+              backgroundColor: Colors.grey.shade100,
+              child: Icon(Icons.person)),
           title: Text(
             name,
             style: const TextStyle(

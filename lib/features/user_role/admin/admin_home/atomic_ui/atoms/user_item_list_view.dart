@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -90,9 +89,7 @@ class UserItemListView extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return BlocProvider(
-                      create: (context) => EmployeeCubit(
-                        getIt<AdminManageEmployeeRepo>(),
-                      ),
+                      create: (context) => getIt<EmployeeCubit>(),
                       child: EditUser(
                         branchId: branchId,
                         branch: branch,
@@ -109,8 +106,9 @@ class UserItemListView extends StatelessWidget {
                   },
                 ),
               ).then((value) {
-                if (!context.mounted) return;
+            
                 context.read<EmployeeCubit>().getAllEmployees();
+
               });
             },
             icon: SizedBox(
