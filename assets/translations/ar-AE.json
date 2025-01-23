@@ -412,5 +412,12 @@
      "Delete Shift" : "حذف الفتره",
      "Are you sure you want to delete this Shift?" : "هل انت متاكد من حذف هذا الفتره",
      "Add Branches to Shift" : "اضافة الفروع للفتره",
-     "branches in this Shift" : "الفروع في هذه الفتره"
+     "branches in this Shift" : "الفروع في هذه الفتره",
+     "Add Branch" : "اضافة فرع",
+     "Add Client" : "اضافة عميل",
+     "Add Department" : "اضافة قسم",
+     "Add Police" : "اضافة سياسة",
+     "Add Shift" : "اضافة فتره",
+     "Add Site" : "اضافة موقع",
+     "Add Plan" : "اضافه خطه"
 }

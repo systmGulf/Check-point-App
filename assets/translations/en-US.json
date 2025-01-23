@@ -413,5 +413,13 @@
   "Delete Shift" : "Delete Shift",
   "Are you sure you want to delete this Shift?" : "Are you sure you want to delete this Shift?",
   "Add Branches to Shift" : "Add Branches to Shift",
-  "branches in this Shift" : "branches in this Shift"
+  "branches in this Shift" : "branches in this Shift",
+  "Add Branch" : "Add Branch",
+  "Add Client" : "Add Client",
+  "Add Department" : "Add Department",
+  "Add Police" : "Add Police",
+  "Add Shift" : "Add Shift",
+  "Add Site" : "Add Site",
+  "Add Plan" : "Add Plan"
+  
 }

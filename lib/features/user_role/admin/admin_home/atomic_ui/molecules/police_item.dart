@@ -38,6 +38,11 @@ class PoliceItem extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
+                
+                  Text('ADD EMPLOYEES', style: AppStylesManger.font13DarkBlueMedium.copyWith(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold
+                  ),),
                 IconButton(
                     onPressed: () {
                       context
@@ -54,7 +59,7 @@ class PoliceItem extends StatelessWidget {
             Row(children: [
               Expanded(
                 child: Container(
-                  height: 200,
+                  height: 150.h,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(10),
@@ -72,7 +77,7 @@ class PoliceItem extends StatelessWidget {
               horizontalSpace(10.w),
               Expanded(
                 child: Container(
-                  height: 200,
+                  height: 150,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(10),

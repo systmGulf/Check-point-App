@@ -2,7 +2,7 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/controlle
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
-import 'package:hr_management_system_package/employee/data/repo/attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
 

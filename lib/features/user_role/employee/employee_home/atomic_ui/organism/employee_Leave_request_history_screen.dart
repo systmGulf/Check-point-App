@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -65,31 +66,20 @@ class _EmployeeLeaveRequestsHistoryScreenState
                           );
                   }
                   if (state is GetLeaveApplicationSuccess) {
+                    // 
                     return state.employeeLeaveRequests.data!.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.sizeOf(context).height *
-                                        0.42),
-                                child: Center(
-                                    child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.warning_rounded,
-                                      color: ColorsManger.primaryColor,
-                                    ),
-                                    verticalSpace(10),
-                                    Text(
-                                        'No Leave Requests'
-                                            .tr(context: context),
-                                        style: TextStyle(
-                                            color: ColorsManger.primaryColor)),
-                                  ],
-                                )),
-                              ),
+                              Center(
+                                  child: Column(
+                                children: [
+                                  Center(
+                                                          child: Lottie.asset(
+                              'assets/animated_images/no_data_found.json'))
+                                ],
+                              )),
                             ],
                           )
                         : ListView.builder(
