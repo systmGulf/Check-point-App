@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/core.dart';
 import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 
+import '../../../../../../core/common/track_user_in_background.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -109,6 +110,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                 250,
                                 widget.attendanceType);
                       });
+                       
                     },
                     markers: markers,
                         polygons: {

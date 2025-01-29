@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hr_management_system_package/core/common_methods/local_notifications_service.dart';
-import 'package:maps_toolkit/maps_toolkit.dart' as map_tool;
+import 'package:hr_management_system_package/core/core.dart';
+import 'package:hr_management_system_package/core/dependecy_injection/employee_service_locator.dart';
+import 'package:hr_management_system_package/employee/data/models/employee_leave_requests_models/track_user_request_body.dart';
+import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +17,7 @@ Future<void> initializeServiceBackground() async {
   await service.configure(
     androidConfiguration: AndroidConfiguration(
       onStart: onStart,
-      autoStart: true,
+      autoStart: false,
       autoStartOnBoot: true,
       isForegroundMode: true,
     ),
@@ -77,15 +79,10 @@ Future<bool>  _isGPSEnabled() async {
   bool serviceEnabled;
   LocationPermission permission;
 
-  // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    // Location services are not enabled, prompt the user to enable them.
-   
-
     return false;
   }
-
   return true;
 }
 
@@ -102,6 +99,9 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 }
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
+   setUpServiceLocator();
+   ApiConstant.employeeId =
+              await SecureCache.getFromCache(key: 'employeeId');
   DartPluginRegistrant.ensureInitialized();
 
   if (service is AndroidServiceInstance) {
@@ -117,61 +117,30 @@ void onStart(ServiceInstance service) async {
       service.stopSelf();
     });
   }
-
-  Timer.periodic(const Duration( minutes : 1), (timer) async {
-    Position? position;
-    try {
+  Timer.periodic(const Duration(minutes: 1), (timer) async {
+     
+      Position? position;
+        try {
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
     } catch (e) {
       print('Failed to get location: $e');
     }
-    
-
     if (position != null) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? areaJson = prefs.getString('area');
-      if (areaJson != null) {
-        List<dynamic> areaList = jsonDecode(areaJson);
-
-
-        bool isInOffice = false;
-        List<map_tool.LatLng> conventedPolyGonsPoints = areaList.map((e) => map_tool.LatLng(e['latitude']!, e['longitude']!)).toList();
-        
-       isInOffice=   map_tool.PolygonUtil.containsLocation(
-       map_tool.LatLng(position.latitude, position.longitude),
-        conventedPolyGonsPoints,
-        false);
-       
-
-        if (isInOffice) {
-          print("Inside a branch area.");
-          LocalNotificationService.showbasicNotification(
-            title: 'Location tracking ✅',
-            massBody:
-                'You are inside the corrent area.',
-          );
-        } else {
-          print("Outside all branch areas.");
-          LocalNotificationService.showbasicNotification(
-            title: 'alart ',
-            massBody:
-                'You are outside the correct area. ',
-          );
-            service.stopSelf();
-        }
-      } else {
-        print("No branch locations found in storage.");
-        LocalNotificationService.showbasicNotification(
-          title: 'Branch Check',
-          massBody: 'No branch locations configured in the app.',
-        );
-          service.stopSelf();
-      }
+      log('${position.latitude} , ${position.longitude}');
+       getIt<EmployeeAttendanceRepo>()..trackEmployeeLocation(trackUserRequestBody: TrackUserRequestBody(
+      employeeId: ApiConstant.employeeId,
+      coordinates: [
+        {
+      "latitude": position.latitude,
+      "longitude": position.longitude 
+    }
+      ],
+     ));
     }
   });
-
+ 
   service.on('stop').listen((event) async {
     service.stopSelf();
   });

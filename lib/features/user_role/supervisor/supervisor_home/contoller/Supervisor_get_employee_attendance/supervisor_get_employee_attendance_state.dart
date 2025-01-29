@@ -85,3 +85,16 @@ class GetCustomerCustomerInAttendanceSuccess extends SupervisorGetEmployeeAttend
 class GetCustomerCustomerInAttendanceLoading extends SupervisorGetEmployeeAttendanceState {
   const GetCustomerCustomerInAttendanceLoading(super.selectedDate);
 }
+class GetEmployeeTrackingSummarySuccess extends SupervisorGetEmployeeAttendanceState {
+  final UserTrackingSummaryResponseBody employeeTrackingSummary;
+  const GetEmployeeTrackingSummarySuccess(super.selectedDate, this.employeeTrackingSummary);
+}
+
+class GetEmployeeTrackingSummaryFailure extends SupervisorGetEmployeeAttendanceState {
+  final String errorMessage;
+  const GetEmployeeTrackingSummaryFailure(super.selectedDate, this.errorMessage);
+}
+
+class GetEmployeeTrackingSummaryLoading extends SupervisorGetEmployeeAttendanceState {
+  const GetEmployeeTrackingSummaryLoading(super.selectedDate);
+} 

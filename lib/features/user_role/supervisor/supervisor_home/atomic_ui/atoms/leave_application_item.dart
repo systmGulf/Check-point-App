@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 
+import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
@@ -17,10 +19,10 @@ class LeaveApplicationItem extends StatefulWidget {
     required this.status,
     required this.createdBy,
     required this.type,
-    required this.employeeId,
+    required this.employeeId, required this.userToken,
   });
 
-  final String name, from, to, reason, status, createdBy, type, employeeId;
+  final String name, from, to, reason, status, createdBy, type, employeeId, userToken;
   final int id;
 
   @override
@@ -131,14 +133,30 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Text(
-                    '${"Reason".tr(context: context)}: ${widget.reason}',
-                    style: AppStylesManger.font15regulerGrey
-                      ..copyWith(height: 1.5, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                GestureDetector(
+                  onTap: () {
+                    showDialog(context: context, builder: (context) =>
+                        Container(
+                          child: AlertDialog(
+                            backgroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                            title: Text('Reason'.tr(context: context)),
+                            content: Text(widget.reason),
+                          ),
+                        )
+                    );
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Text(
+                      '${"Reason".tr(context: context)}: ${widget.reason}',
+                      style: AppStylesManger.font15regulerGrey
+                        ..copyWith(height: 1.5, color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   ),
                 ),
               ]),
@@ -166,7 +184,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ),
                       color: Colors.green[200]!,
                       onPressed: () {
-                        approveOrCancelLeaveRequest('Approved', context);
+                        approveOrCancelLeaveRequest('Approved', context, widget.userToken, widget.name);
                       },
                     ),
                   ),
@@ -179,7 +197,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ),
                       color: Colors.red[200]!,
                       onPressed: () {
-                        approveOrCancelLeaveRequest('Cancelled', context);
+                        approveOrCancelLeaveRequest('Cancelled', context,widget.userToken, widget.name);
                       },
                     ),
                   ),
@@ -191,7 +209,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
     );
   }
 
-  void approveOrCancelLeaveRequest(String action, BuildContext context) {
+  void approveOrCancelLeaveRequest(String action, BuildContext context, String userToken, String userName,) {
     if (action == 'Approved') {
       setState(() {
         isApproved = true;
@@ -206,7 +224,13 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
 
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
         .approveOrRejectLeaveRequest(status: action, id: widget.id);
-  }
+         getIt<NotificationRepo>().sendSingleNotification(
+                token: userToken,
+                title: 'Hi, $userName'
+                    .tr(context: context),
+                body: 'your leave request has been $action'
+                    .tr(context: context));
+}
 }
 
 class RequestButton extends StatelessWidget {

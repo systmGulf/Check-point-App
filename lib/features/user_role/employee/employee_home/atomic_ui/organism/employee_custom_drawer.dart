@@ -106,6 +106,10 @@ class EmployeeCustomDrawer extends StatelessWidget {
                     ),
                   ),
                   verticalSpace(20),
+                  //   MaterialButton(onPressed: () { 
+                  //      FlutterBackgroundService().invoke("setAsForeground");
+                  //      FlutterBackgroundService().startService();}, child: Text('About'.tr(context: context))),
+                  // MaterialButton(onPressed: () {   FlutterBackgroundService().invoke('stop');}, child: Text('stop'.tr(context: context))),
                   Row(
                     children: [
                       const Spacer(),

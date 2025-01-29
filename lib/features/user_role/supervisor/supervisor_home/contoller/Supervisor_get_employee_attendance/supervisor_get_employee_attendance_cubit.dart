@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
@@ -87,6 +88,25 @@ class SupervisorGetEmployeeAttendanceCubit
     }, (employeeAllAttendance) {
       if (isClosed) return;
       emit(GetCustomerCustomerInAttendanceSuccess(
+          state.selectedDate, employeeAllAttendance));
+    });
+  }
+
+  // get Tracking Summary For employee
+  Future<void> supervisorGetTrackingSummaryForEmployee({
+    required String employeeId,
+  }) async {
+    emit(GetEmployeeTrackingSummaryLoading(state.selectedDate));
+    final result = await supervisorRepo.getTrackingSummaryForEmployee(
+        employeeId: employeeId,
+        data: state.selectedDate.toString().substring(0, 10));
+    result.fold((error) {
+      if (isClosed) return;
+      emit(
+          GetEmployeeTrackingSummaryFailure(state.selectedDate, error.message));
+    }, (employeeAllAttendance) {
+      if (isClosed) return;
+      emit(GetEmployeeTrackingSummarySuccess(
           state.selectedDate, employeeAllAttendance));
     });
   }

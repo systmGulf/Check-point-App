@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import 'add_employees_to_police_model_botttom_sheet.dart';
 
 class PoliceItem extends StatelessWidget {
   const PoliceItem({
@@ -13,7 +15,8 @@ class PoliceItem extends StatelessWidget {
     required this.month,
     required this.year,
     required this.timeIn,
-    required this.timeOut, required this.policeId,
+    required this.timeOut,
+    required this.policeId,
   });
   final String month, year, timeIn, timeOut;
   final int policeId;
@@ -38,16 +41,67 @@ class PoliceItem extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                
-                  Text('ADD EMPLOYEES', style: AppStylesManger.font13DarkBlueMedium.copyWith(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold
-                  ),),
+                // IconButton(onPressed: () {
+                //   showDialog(context: context, builder: (_) {
+                //     return Container(
+                //       padding: const EdgeInsets.all(10),
+                //       height: 100.h,
+                //       width: 100.w,
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         borderRadius: BorderRadius.circular(10),
+
+                //       )
+                //       ,child: Column(
+                //         children: [
+                //           Row(
+                //             children: [
+                //              IconButton(onPressed: () => Navigator.pop(context), icon:  Icon(Icons.arrow_back_ios),),
+                //               Text('Employees in this Police'.tr(context: context), style: AppStylesManger.font16BoldBlack,),
+                //             ],
+                            
+                //           )
+                //         ],
+                //       ),
+                //     );
+                //   });
+                // }, icon: Icon(
+                //   Icons.visibility,
+                //   size: 20,
+                //   color: Colors.grey,
+                // ),),
+             
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (_) {
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(
+                                value: context.read<EmployeeCubit>()
+                                  ..getAllEmployees(),
+                              ),
+                              BlocProvider.value(
+                            value: context.read<ShiftsAndPolicesCubit>(),
+                          ),
+                            ],
+                            child: AddEmployeesToPoliceyModelBottomSheet(
+                                policeId: policeId),
+                          );
+                        });
+                  },
+                  child: Text(
+                    'ADD EMPLOYEES'.tr(context: context),
+                    style: AppStylesManger.font13DarkBlueMedium.copyWith(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 IconButton(
                     onPressed: () {
                       context
                           .read<ShiftsAndPolicesCubit>()
-                          .deletePolice(id:policeId);
+                          .deletePolice(id: policeId);
                     },
                     icon: Icon(
                       Icons.delete,

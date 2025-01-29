@@ -47,7 +47,7 @@ class AssignShiftsButtonBlocConsumer extends StatelessWidget {
           onPressed: () {
             context
                 .read<ShiftsAndPolicesCubit>()
-                .assignShift(shiftId: widget.shiftId);
+                .assignBranchesToShift(shiftId: widget.shiftId);
           },
           textButton: 'Add'.tr(context: context),
           buttonColor: ColorsManger.primaryColor,

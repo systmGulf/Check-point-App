@@ -20,7 +20,7 @@ class ExcelExportService {
 
       // Add data rows
       for (var row in data) {
-        sheet.appendRow(row);
+        sheet.appendRow(row );
       }
 
       List<int>? bytesList = excel.save();

@@ -103,7 +103,7 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
 
   // assign Shift
   List<int> branchesIds = [];
-  Future<void> assignShift({required int shiftId}) async {
+  Future<void> assignBranchesToShift({required int shiftId}) async {
     emit(AssignShiftLoading());
    if (branchesIds.isNotEmpty) {
      final result = await shiftsAndPolicesRepo.assignShift(assignShiftsRequestBody: AssignShiftsRequestBody(shiftId: shiftId, branchesIds: branchesIds));
@@ -117,5 +117,22 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
    } else{
      emit(AssignShiftError(error: "Select Branches First"));
    }
+  }
+  List<String> employeesIds = [];
+  // assign Police
+  Future<void> assignEmployeesToPolice({required int policeId}) async {
+    emit(AssignPoliceLoading());
+    if (employeesIds.isNotEmpty) {
+      final result = await shiftsAndPolicesRepo.assignPolice(assignShiftsRequestBody: AssignPoliceRequestBody(policyId: policeId, employeeIds: employeesIds));
+      result.fold((l) {
+        emit(AssignPoliceError(error: l.message));
+      }, (r) {
+        getPoliceByShiftId(shiftId: shiftId, isLoading: false);
+        employeesIds = [];
+        emit(AssignPoliceSuccess());
+      });
+    } else{
+      emit(AssignPoliceError(error: "Select Employees First"));
+    }
   }
 }

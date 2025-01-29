@@ -28,7 +28,13 @@ class PlanItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Card(
+        
             color: Colors.white,
+            shape: RoundedRectangleBorder(
+              
+              borderRadius: BorderRadius.circular(12.r),
+              side: const BorderSide(color: Colors.grey),
+            ),
             child: ListTile(
                 leading:
                     Image.asset('assets/images/planning.png', height: 30.h),

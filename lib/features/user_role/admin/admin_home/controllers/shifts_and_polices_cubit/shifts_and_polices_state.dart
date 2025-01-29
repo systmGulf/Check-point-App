@@ -80,3 +80,12 @@ class AssignShiftError extends ShiftsAndPolicesState {
 
   AssignShiftError({required this.error});
 }
+class AssignPoliceLoading extends ShiftsAndPolicesState {}
+
+class AssignPoliceSuccess extends ShiftsAndPolicesState{}
+
+class AssignPoliceError extends ShiftsAndPolicesState {
+  final String error;
+
+  AssignPoliceError({required this.error});
+}

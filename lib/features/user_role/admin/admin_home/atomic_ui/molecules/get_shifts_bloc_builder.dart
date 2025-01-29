@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class GetShiftsBlocBuilder extends StatelessWidget {
         if (state is GetShiftsSuccess) {
           return state.shiftModel.value!.data!.isEmpty
               ? const Center(
-                  child: Text('No Shifts'),
+                  child: NoDataFound(),
                 )
               : RefreshIndicator(
                   color: ColorsManger.primaryColor,
@@ -38,35 +39,47 @@ class GetShiftsBlocBuilder extends StatelessWidget {
                         .read<ShiftsAndPolicesCubit>()
                         .getShifts(isLoading: true);
                   },
-                  child: ListView.builder(
-                    itemCount: state.shiftModel.value!.data!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: ShiftItem(
-                          onAdd: () {
-                              context.pushName(Routes.addBranchsToShiftScreen, arguments: state.shiftModel.value!.data![index].id );
+                  child: state.shiftModel.value!.data!.isEmpty
+                      ? const Center(
+                          child: NoDataFound(),
+                        )
+                      : ListView.builder(
+                          itemCount: state.shiftModel.value!.data!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: ShiftItem(
+                                onAdd: () {
+                                  context.pushName(
+                                      Routes.addBranchsToShiftScreen,
+                                      arguments: state
+                                          .shiftModel.value!.data![index].id);
+                                },
+                                onTap: () {
+                                  context.pushName(Routes.policeScreen,
+                                      arguments: state
+                                          .shiftModel.value!.data![index].id);
+                                },
+                                onDelete: () async {
+                                  buildAlertDialog(context,
+                                      title:
+                                          'Delete Shift'.tr(context: context),
+                                      message:
+                                          'Are you sure you want to delete this Shift?'
+                                              .tr(context: context), onYes: () {
+                                    context
+                                        .read<ShiftsAndPolicesCubit>()
+                                        .deleteShift(
+                                            id: state.shiftModel.value!
+                                                .data![index].id!);
+                                  });
+                                },
+                                shiftName:
+                                    state.shiftModel.value!.data![index].name!,
+                              ),
+                            );
                           },
-                          onTap: () {
-                            context.pushName(Routes.policeScreen,
-                                arguments:
-                                    state.shiftModel.value!.data![index].id);
-                          },
-                          onDelete: () async {
-                            buildAlertDialog(context,
-                                title: 'Delete Shift'.tr(context: context),
-                                message:
-                                    'Are you sure you want to delete this Shift?'
-                                        .tr(context: context), onYes: () {
-                              context.read<ShiftsAndPolicesCubit>().deleteShift(
-                                  id: state.shiftModel.value!.data![index].id!);
-                            });
-                          },
-                          shiftName: state.shiftModel.value!.data![index].name!,
                         ),
-                      );
-                    },
-                  ),
                 );
         } else if (state is GetShiftsError) {
           return state.error == 'Please check your internet connection'

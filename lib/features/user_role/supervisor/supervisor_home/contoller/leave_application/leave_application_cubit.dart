@@ -30,7 +30,7 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
       (r) {
         if (isClosed) return;
         _isRequesting = false;
-        numOfLeaveRequest = r.data!.where((e) => e.status == 'Pending').length;
+        numOfLeaveRequest = r.value!.data!.where((e) => e.status == 'Pending').length;
 
         emit(GetLeaveApplicationSuccess(getLeaveRequestModel: r));
       },

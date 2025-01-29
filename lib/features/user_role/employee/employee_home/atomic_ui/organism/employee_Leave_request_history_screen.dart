@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/leave_application/leave_application_cubit.dart';
 import 'employee_leave_request_item.dart';
@@ -75,9 +75,7 @@ class _EmployeeLeaveRequestsHistoryScreenState
                               Center(
                                   child: Column(
                                 children: [
-                                  Center(
-                                                          child: Lottie.asset(
-                              'assets/animated_images/no_data_found.json'))
+                                 NoDataFound()
                                 ],
                               )),
                             ],
@@ -120,7 +118,18 @@ class _EmployeeLeaveRequestsHistoryScreenState
                               );
                             });
                   }
-                  return const Center(child: CircularProgressIndicator());
+                  return Padding(
+                    padding:  EdgeInsets.only(
+                      top: MediaQuery.sizeOf(context).height * 0.45,
+                    ),
+                    child: Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorsManger.primaryColor,
+                                  strokeWidth: 2,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                  );;
                 },
               )
             ]),

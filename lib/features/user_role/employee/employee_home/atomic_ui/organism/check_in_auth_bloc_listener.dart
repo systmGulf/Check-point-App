@@ -45,7 +45,7 @@ class CheckInAuthBlocListener extends StatelessWidget {
             ),
          
           );
-             initializeServiceBackground();
+           
         } else if (state is AuthenticationFailed) {
           context.pop();
           showTopSnackBar(

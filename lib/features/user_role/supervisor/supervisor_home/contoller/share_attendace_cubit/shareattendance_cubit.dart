@@ -28,7 +28,7 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
         'Location',
         'In Time',
         'Out Time',
-        'Total Hours'
+        'Total Hours',
         'Data',
       ]);
 
@@ -36,13 +36,13 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
       for (var item in data) {
         sheet.appendRow([
 
-          item.employeeId ?? '',
-          item.customerId ?? '',
-          item.employeeName ?? '',
-          item.area ?? '',
-          item.clockInTime?.substring(0, 5) ?? '',
-          item.clockOutTime?.substring(0, 5) ?? '',
-          item.totalHours.toString() ?? '',
+          item.employeeId ,
+          item.customerId,
+          item.employeeName,
+          item.area,
+          item.clockInTime?.substring(0, 5),
+          item.clockOutTime?.substring(0, 5),
+          item.totalHours.toString(),
           item.attendanceDate
         ]);
       }

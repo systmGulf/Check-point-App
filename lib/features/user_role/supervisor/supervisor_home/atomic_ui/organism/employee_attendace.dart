@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -22,10 +23,10 @@ class EmployeeAttendance extends StatelessWidget {
     required this.id,
     required this.totalHours,
     this.employeeImage,
-    this.customerId,
+    this.customerId, required this.employeeId,
   });
 
-  final String employeeName, location, inTime, outTime, id;
+  final String employeeName, location, inTime, outTime, id, employeeId;
   final String totalHours;
   final String? employeeImage, customerId;
 
@@ -295,9 +296,130 @@ class EmployeeAttendance extends StatelessWidget {
               )
             ],
           ),
-          horizontalSpace(10),
+          horizontalSpace(15),
+          location == 'Customer'
+              ? GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                          enableDrag: false,
+
+                        context: context,
+                        builder: (_) => BlocProvider.value(
+                              value: context.read<SupervisorGetEmployeeAttendanceCubit>()..supervisorGetTrackingSummaryForEmployee(employeeId: employeeId),
+                              child: EmployeeTrackingDiagramMap(),
+                            ));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: ColorsManger.primaryColor,
+                      ),
+                      horizontalSpace(5),
+                      Text(
+                        'Location on Map'.tr(
+                          context: context,
+                        ),
+                        style: AppStylesManger.font15BoldrBlue
+                            .copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink()
         ]),
       ),
+    );
+  }
+}
+
+
+class EmployeeTrackingDiagramMap extends StatelessWidget {
+  const EmployeeTrackingDiagramMap({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SupervisorGetEmployeeAttendanceCubit,
+        SupervisorGetEmployeeAttendanceState>(
+      buildWhen: (previous, current) =>
+          current is GetEmployeeTrackingSummaryLoading ||
+          current is GetEmployeeTrackingSummaryFailure ||
+          current is GetEmployeeTrackingSummarySuccess,
+      builder: (context, state) {
+        if (state is GetEmployeeTrackingSummaryLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is GetEmployeeTrackingSummaryFailure) {
+          return Center(
+            child: Text(state.errorMessage),
+          );
+        } else if (state is GetEmployeeTrackingSummarySuccess) {
+          if( state.employeeTrackingSummary.value!.data!.isEmpty){
+            return  Center(child: Text('No tracking data available', style: AppStylesManger.font15BoldrBlue,));
+          }
+          List<LatLng> points = state.employeeTrackingSummary.value!.data!.first.coordinates!
+              .map((e) => LatLng(e.latitude!, e.longitude!))
+              .toList();
+
+          if (points.isEmpty ||state.employeeTrackingSummary.value!.data!.isEmpty ) {
+            return const Center(child: Text('No tracking data available'));
+          }
+
+          LatLngBounds bounds = LatLngBounds(
+            southwest: LatLng(
+              points.first.latitude - 0.001, // Adjust for bottom right
+              points.first.longitude + 0.001,
+            ),
+            northeast: LatLng(
+              points.last.latitude + 0.001, // Adjust for top left
+              points.last.longitude - 0.001,
+            ),
+          );
+
+          return state.employeeTrackingSummary.value!.data!.isNotEmpty? GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: CameraPosition(
+              target: points.first,
+              zoom: 15,
+            ),
+            markers: {
+              Marker(
+                markerId: const MarkerId('start'),
+                position: points.first,
+              ),
+              Marker(
+                markerId: const MarkerId('end'),
+                position: points.last,
+              ),
+            },
+            polylines: {
+              Polyline(
+                polylineId: const PolylineId('route'),
+                points: points,
+                color: ColorsManger.primaryColor,
+                width: 5,
+              ),
+            },
+            onMapCreated: (GoogleMapController controller) {
+              Future.delayed(const Duration(milliseconds: 300), () {
+                controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+              });
+            },
+          ): Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 50),
+            child: SizedBox(
+              child: Text('No tracking data available', style: AppStylesManger.font15BoldrBlue,),
+            )
+            );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

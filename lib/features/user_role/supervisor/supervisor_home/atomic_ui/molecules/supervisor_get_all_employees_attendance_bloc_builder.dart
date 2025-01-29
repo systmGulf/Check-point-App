@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
-import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -83,8 +83,9 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           child: EmployeeAttendance(
+                            employeeId: filteredList[index].employeeId ?? '',
                             customerId: filteredList[index].customerId.toString() ,
-                            employeeImage: filteredList[index].employeeImage,
+                            employeeImage: filteredList[index].employeeImage?? '',
                             totalHours:
                                 filteredList[index].totalHours.toString() ,
                             id: filteredList[index].employeeId ?? '',
@@ -101,8 +102,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                 )
               : SizedBox(
                   height: 300.h,
-                  child: Lottie.asset(
-                      'assets/animated_images/no_data_found.json'));
+                  child: NoDataFound());
         } else if (state is SupervisorGetEmployeeAttendanceLoading) {
           return Skeletonizer(
             enabled: true,
@@ -114,6 +114,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                 return  Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: EmployeeAttendance(
+                    employeeId: '',
                     totalHours: double.parse( '0.12').toStringAsFixed(2),
                     id: '',
                     employeeName: 'data loading',

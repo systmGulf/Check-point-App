@@ -354,8 +354,8 @@
      "Shifts & Policies": "المواعيد والسياسات",
      "Shifts": "المواعيد",
      "Shift Name Required": "اسم الموعد مطلوب",
-     "Shift Name": "اسم الموعد",
-     "Add Shift": "اضافة موعد",
+     "Shift Name": "اسم فتره",
+   
      "Shift Added Successfully": "تمت الاضافة بنجاح",
      "Police": "سياسة",
      "Time in": "وقت الدخول",
@@ -419,5 +419,8 @@
      "Add Police" : "اضافة سياسة",
      "Add Shift" : "اضافة فتره",
      "Add Site" : "اضافة موقع",
-     "Add Plan" : "اضافه خطه"
+     "Add Plan" : "اضافه خطه",
+     "No Data Found" : "لا توجد بيانات",
+     "ADD EMPLOYEES" : "اضافة موظفين",
+     "Police assigned successfully" : "تم تعيين السياسة بنجاح"
 }
