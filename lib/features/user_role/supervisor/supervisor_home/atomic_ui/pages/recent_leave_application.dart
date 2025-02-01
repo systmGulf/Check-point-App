@@ -32,6 +32,10 @@ class RecentLeaveApplication extends StatelessWidget {
         );
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -63,7 +67,9 @@ class RecentLeaveApplication extends StatelessWidget {
                     }
                     if (state is GetLeaveApplicationSuccess) {
                       return state.getLeaveRequestModel.value!.data!.isEmpty
-                          ? NoDataFound()
+                          ? Align(
+                              alignment: Alignment.topCenter,
+                            child: NoDataFound())
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

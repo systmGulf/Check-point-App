@@ -133,22 +133,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(context: context, builder: (context) =>
-                        Container(
-                          child: AlertDialog(
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              
-                              borderRadius: BorderRadius.all(Radius.circular(10))),
-                            title: Text('Reason'.tr(context: context)),
-                            content: Text(widget.reason),
-                          ),
-                        )
-                    );
-                  },
-                  child: SizedBox(
+              SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: Text(
                       '${"Reason".tr(context: context)}: ${widget.reason}',
@@ -158,7 +143,32 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       maxLines: 2,
                     ),
                   ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     showDialog(context: context, builder: (context) =>
+                //         Container(
+                //           child: AlertDialog(
+                //             backgroundColor: Colors.white,
+                //             shape: const RoundedRectangleBorder(
+                              
+                //               borderRadius: BorderRadius.all(Radius.circular(10))),
+                //             title: 
+                //             content: Text(widget.reason),
+                //           ),
+                //         )
+                //     );
+                //   },
+                //   child: SizedBox(
+                //     width: MediaQuery.of(context).size.width * 0.3,
+                //     child: Text(
+                //       '${"Reason".tr(context: context)}: ${widget.reason}',
+                //       style: AppStylesManger.font15regulerGrey
+                //         ..copyWith(height: 1.5, color: Colors.black),
+                //       overflow: TextOverflow.ellipsis,
+                //       maxLines: 2,
+                //     ),
+                //   ),
+                // ),
               ]),
             ),
             verticalSpace(9),

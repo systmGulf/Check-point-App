@@ -85,7 +85,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                           child: EmployeeAttendance(
                             employeeId: filteredList[index].employeeId ?? '',
                             customerId: filteredList[index].customerId.toString() ,
-                            employeeImage: filteredList[index].employeeImage?? '',
+                            employeeImage: filteredList[index].employeeImage,
                             totalHours:
                                 filteredList[index].totalHours.toString() ,
                             id: filteredList[index].employeeId ?? '',

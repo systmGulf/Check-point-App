@@ -69,7 +69,7 @@ class EmployeeAttendance extends StatelessWidget {
                 style: AppStylesManger.font15BoldrBlue
                     .copyWith(color: Colors.black),
               ),
-              employeeImage != null
+              employeeImage != null 
                   ? SizedBox(
                       child: IconButton(
                         onPressed: () {
@@ -335,8 +335,6 @@ class EmployeeAttendance extends StatelessWidget {
     );
   }
 }
-
-
 class EmployeeTrackingDiagramMap extends StatelessWidget {
   const EmployeeTrackingDiagramMap({super.key});
 
@@ -350,37 +348,44 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
           current is GetEmployeeTrackingSummarySuccess,
       builder: (context, state) {
         if (state is GetEmployeeTrackingSummaryLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         } else if (state is GetEmployeeTrackingSummaryFailure) {
-          return Center(
-            child: Text(state.errorMessage),
-          );
+          return Center(child: Text(state.errorMessage));
         } else if (state is GetEmployeeTrackingSummarySuccess) {
-          if( state.employeeTrackingSummary.value!.data!.isEmpty){
-            return  Center(child: Text('No tracking data available', style: AppStylesManger.font15BoldrBlue,));
+          if (state.employeeTrackingSummary.value!.data!.isEmpty) {
+            return Center(
+              child: Text(
+                'No tracking data available',
+                style: AppStylesManger.font15BoldrBlue,
+              ),
+            );
           }
+
           List<LatLng> points = state.employeeTrackingSummary.value!.data!.first.coordinates!
               .map((e) => LatLng(e.latitude!, e.longitude!))
               .toList();
 
-          if (points.isEmpty ||state.employeeTrackingSummary.value!.data!.isEmpty ) {
+          if (points.isEmpty) {
             return const Center(child: Text('No tracking data available'));
           }
 
+          /// Ensure at least 2 points exist for a polyline
+          if (points.length == 1) {
+            points.add(LatLng(points.first.latitude + 0.0001, points.first.longitude + 0.0001));
+          }
+
+          /// Compute proper `LatLngBounds`
+          double minLat = points.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
+          double maxLat = points.map((p) => p.latitude).reduce((a, b) => a > b ? a : b);
+          double minLng = points.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
+          double maxLng = points.map((p) => p.longitude).reduce((a, b) => a > b ? a : b);
+
           LatLngBounds bounds = LatLngBounds(
-            southwest: LatLng(
-              points.first.latitude - 0.001, // Adjust for bottom right
-              points.first.longitude + 0.001,
-            ),
-            northeast: LatLng(
-              points.last.latitude + 0.001, // Adjust for top left
-              points.last.longitude - 0.001,
-            ),
+            southwest: LatLng(minLat, minLng),
+            northeast: LatLng(maxLat, maxLng),
           );
 
-          return state.employeeTrackingSummary.value!.data!.isNotEmpty? GoogleMap(
+          return GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
               target: points.first,
@@ -390,10 +395,12 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
               Marker(
                 markerId: const MarkerId('start'),
                 position: points.first,
+                infoWindow: const InfoWindow(title: "Start"),
               ),
               Marker(
                 markerId: const MarkerId('end'),
                 position: points.last,
+                infoWindow: const InfoWindow(title: "End"),
               ),
             },
             polylines: {
@@ -409,13 +416,7 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
                 controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
               });
             },
-          ): Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 50),
-            child: SizedBox(
-              child: Text('No tracking data available', style: AppStylesManger.font15BoldrBlue,),
-            )
-            );
+          );
         } else {
           return const SizedBox.shrink();
         }

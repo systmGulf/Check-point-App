@@ -12,19 +12,21 @@ class NoDataFound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.w, ),
-      child: Opacity(
-        opacity: 0.7,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/empty_screen.png', height: 160.h),
-            verticalSpace(10),
-            Text('No Data Found'.tr(context: context),
-                style: AppStylesManger.font16BoldBlack.copyWith(color: Colors.grey)),
-          ],
+    return  Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 40.w, ),
+        child: Opacity(
+          opacity: 0.7,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/empty_screen.png', height: 160.h),
+              verticalSpace(10),
+              Text('No Data Found'.tr(context: context),
+                  style: AppStylesManger.font16BoldBlack.copyWith(color: Colors.grey)),
+            ],
+          ),
         ),
       ),
     );
