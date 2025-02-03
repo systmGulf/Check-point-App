@@ -5,6 +5,10 @@ import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_
 import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
@@ -39,7 +43,7 @@ void registerFactory() {
      getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
   getIt.registerFactory<TasksCubit>(
     () => TasksCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorTasksRepo>(),
     ),
   );
   getIt.registerFactory<ShiftsAndPolicesCubit>(
@@ -49,7 +53,7 @@ void registerFactory() {
   );
   getIt.registerFactory<LeaveApplicationCubitSupervisor>(
     () => LeaveApplicationCubitSupervisor(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorLeaveRequestsRepo>(),
     ),
   );
   getIt.registerFactory<EmployeeTasksCubit>(
@@ -100,17 +104,17 @@ void registerFactory() {
   );
   getIt.registerFactory<SupervisorGetEmployeeAttendanceCubit>(
     () => SupervisorGetEmployeeAttendanceCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<GetEmployeesDataCubit>(
     () => GetEmployeesDataCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<PlanCubit>(
     () => PlanCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorPlanRepo>(),
     ),
   );
 }

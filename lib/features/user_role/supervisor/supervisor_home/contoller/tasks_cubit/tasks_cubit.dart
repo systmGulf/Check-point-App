@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/supervisor/data/models/task_model/add_task_request_body.dart';
 import 'package:hr_management_system_package/supervisor/data/models/task_model/get_task_response.dart';
-import 'package:hr_management_system_package/supervisor/supervisor_data.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../model/drop_down_item.dart';
 
 part 'tasks_state.dart';
 
 class TasksCubit extends Cubit<TasksState> {
-  final SupervisorRepo supervisorRepo;
+  final SupervisorTasksRepo supervisorRepo;
   TasksCubit(this.supervisorRepo) : super(TasksInitial());
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();

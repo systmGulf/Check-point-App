@@ -4,12 +4,13 @@ import 'package:hr_management_system_package/employee/data/models/user_attendace
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
 
 part 'supervisor_get_employee_attendance_state.dart';
 
 class SupervisorGetEmployeeAttendanceCubit
     extends Cubit<SupervisorGetEmployeeAttendanceState> {
-  final SupervisorRepo supervisorRepo;
+  final SupervisorAttendanceRepo supervisorRepo;
 
   SupervisorGetEmployeeAttendanceCubit(this.supervisorRepo)
       : super(SupervisorGetEmployeeAttendanceInitial(DateTime.now()));
