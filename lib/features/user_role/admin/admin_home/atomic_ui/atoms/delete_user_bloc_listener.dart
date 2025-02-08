@@ -30,8 +30,7 @@ class DeleteUserBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.error(
-                message: state.error,
-                // backgroundColor: Colors.red,
+                message: 'Something went wrong'.tr(context: context),
               ),
             );
           } else {}

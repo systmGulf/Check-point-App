@@ -35,7 +35,7 @@ dependencies:
   fluttertoast: ^8.2.10
   from_to_time_picker: ^1.2.2
   geocoding: ^3.0.0
-  geolocator: ^13.0.2
+  
   get_it: ^8.0.3
   google_maps_flutter: ^2.1.0
   hr_management_system_package:

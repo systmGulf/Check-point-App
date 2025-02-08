@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/core.dart';
 import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 
-import '../../../../../../core/common/track_user_in_background.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -16,7 +15,10 @@ class CustomerMapScreen extends StatefulWidget {
   final AttendanceTypeEnum attendanceType;
   final ValueChanged oncustomerChanged;
 
-  const CustomerMapScreen({super.key, required this.attendanceType, required this.oncustomerChanged});
+  const CustomerMapScreen(
+      {super.key,
+      required this.attendanceType,
+      required this.oncustomerChanged});
 
   @override
   State<StatefulWidget> createState() => _CustomerMapScreenState();
@@ -47,12 +49,11 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
               child: Stack(
                 children: [
                   GoogleMap(
-                
                     myLocationButtonEnabled: true,
                     myLocationEnabled: true,
                     onMapCreated: (GoogleMapController controller) async {
                       googleMapController = controller;
-  
+
                       LocationService.getRealTimeLocation((locationData) {
                         if (!mounted) return;
                         LatLng currentLocation = LatLng(
@@ -68,8 +69,6 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                             ),
                           );
                         }).toSet());
-
-                       
 
                         context.read<AttendanceCubit>().customerId =
                             customers[currentCustomerIndex].customer!.id!;
@@ -110,28 +109,28 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                 250,
                                 widget.attendanceType);
                       });
-                       
                     },
                     markers: markers,
-                        polygons: {
-                          Polygon(
-                            polygonId: PolygonId("1"),
-                            points: customers
-                                .map((customer) => LatLng(
-                                      customer.customer!.coordinates![0]
-                                          .latitude!,
-                                      customer.customer!.coordinates![0]
-                                          .longitude!,
-                                    ))
-                                .toList(),
-                            strokeWidth: 1,
-                            fillColor: Colors.blue.withOpacity(0.5),
-                          )
-                        }.toSet(),
-                        
+                    polygons: {
+                      Polygon(
+                        polygonId: PolygonId("1"),
+                        points: customers
+                            .map((customer) => LatLng(
+                                  customer.customer!.coordinates![0].latitude!,
+                                  customer.customer!.coordinates![0].longitude!,
+                                ))
+                            .toList(),
+                        strokeWidth: 1,
+                        fillColor: Colors.blue.withValues(
+                          alpha: 0.5,
+                        ),
+                      )
+                    }.toSet(),
                     circles: customers.map((customer) {
                       return Circle(
-                        fillColor: Colors.blue.withOpacity(0.5),
+                        fillColor: Colors.blue.withValues(
+                          alpha: 0.5,
+                        ),
                         strokeWidth: 1,
                         circleId: CircleId(customer.id.toString()),
                         center: LatLng(
@@ -146,7 +145,6 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                       zoom: 5,
                     ),
                   ),
-               
                   Positioned(
                       top: 55.0.h,
                       child: SizedBox(
@@ -160,7 +158,8 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                                 setState(() {
                                   currentCustomerIndex =
                                       customers.indexOf(customer);
-                                      widget.oncustomerChanged(customers[currentCustomerIndex]);
+                                  widget.oncustomerChanged(
+                                      customers[currentCustomerIndex]);
                                 });
                                 googleMapController!.animateCamera(
                                   CameraUpdate.newCameraPosition(

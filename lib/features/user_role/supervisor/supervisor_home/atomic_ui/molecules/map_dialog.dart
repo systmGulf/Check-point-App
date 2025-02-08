@@ -27,7 +27,7 @@ class _MapDialogState extends State<MapDialog> {
   @override
   void initState() {
     super.initState();
-
+    context.read<BranchCubit>().locationFrame.clear();
     markers = {};
     points = [];
     polygons = {};
@@ -103,10 +103,14 @@ class _MapDialogState extends State<MapDialog> {
                                     WidgetStateProperty.all(Colors.red),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
-                                points.clear();
+                                points = [];
+                                context
+                                    .read<BranchCubit>()
+                                    .locationFrame
+                                    .clear();
                                 markers.clear();
                                 polygons.clear();
+                                Navigator.pop(context);
                               },
                               child: Text('cancel'.tr(context: context),
                                   style: AppStylesManger.font14regularWhite

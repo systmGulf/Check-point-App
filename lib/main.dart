@@ -11,13 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/fcm_notification_service.dart';
 import 'package:hr_management_system_package/core/common_methods/local_notifications_service.dart';
+import 'package:hr_management_system_package/core/common_methods/track_user_in_background.dart';
 import 'package:hr_management_system_package/core/dependecy_injection/employee_service_locator.dart';
 import 'package:hr_management_system_package/env/env.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/common/bloc_observer.dart';
-import 'core/common/track_user_in_background.dart';
 import 'employee_mangement_system.dart';
 
 Future<void> initializeServices() async {

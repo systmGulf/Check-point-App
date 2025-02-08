@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/atoms/delete_user_bloc_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
@@ -59,29 +60,16 @@ class _AllUsersListViewState extends State<AllUsersListView> {
     super.dispose();
   }
 
-  void _deleteTask(int index) {
-    final taskId = users[index].id;
+  void _deleteUser(int index) {
+    final UserId = users[index].id;
     buildAlertDialog(context,
-        title: 'Delete Task'.tr(context: context),
-        message: 'Are you sure you want to delete this Task?'
+        title: 'Delete User'.tr(context: context),
+        message: 'Are you sure you want to delete this User?'
             .tr(context: context), onYes: () {
       context.pop();
       BlocProvider.of<EmployeeCubit>(context)
-          .deleteUserAccount(userId: taskId ?? "")
-          .then((isSuccess) {
-        try {
-          setState(() {
-            users.removeAt(index);
-          });
-        } catch (e) {
-          buildSnackBar(
-            context,
-            customSnackBar: CustomSnackBar.error(
-              message: 'Failed to delete task.'.tr(context: context),
-            ),
-          );
-        }
-      });
+          .deleteUserAccount(userId: UserId ?? "")
+          .then((isSuccess) {});
     });
   }
 
@@ -101,7 +89,6 @@ class _AllUsersListViewState extends State<AllUsersListView> {
           child: BlocConsumer<EmployeeCubit, EmployeeState>(
             listener: (context, state) {
               if (state is GetAllEmployeesSuccess) {
-    
                 setState(() {
                   final newUsers = state.value.data!;
                   for (var newUser in newUsers) {
@@ -119,7 +106,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                   ),
                 );
               } else if (state is GetAllEmployeesLoading) {
-                          users.clear();
+                users.clear();
               }
             },
             buildWhen: (previous, current) =>
@@ -130,11 +117,11 @@ class _AllUsersListViewState extends State<AllUsersListView> {
             builder: (context, state) {
               if (state is GetAllEmployeesSuccess ||
                   state is GetAllEmployeesPaginationLoading) {
-                    
                 return ListView(
                   controller: _scrollController,
                   shrinkWrap: true,
                   children: [
+                    DeleteUserBlocListener(),
                     Row(
                       children: [
                         Text('Users List'.tr(context: context),
@@ -165,7 +152,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                       itemBuilder: (_, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 7),
                         child: UserItemListView(
-                          onDelete: () => _deleteTask(index),
+                          onDelete: () => _deleteUser(index),
                           branchId: users[index].branchId ?? 0,
                           branch: users[index].branchName ?? "",
                           departmentId: users[index].departmentId ?? 0,
