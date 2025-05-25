@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/add_employee_model/add_account_request_model.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';

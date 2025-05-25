@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/customers/get_customer_model.dart';
-import 'package:hr_management_system_package/admin/data/repo/customer_repo/customer_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+
 
 import '../../../../../../core/enums/customer_type.dart';
 

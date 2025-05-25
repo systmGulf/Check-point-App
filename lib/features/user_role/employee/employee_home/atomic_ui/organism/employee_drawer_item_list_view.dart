@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../atoms/drawer_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
-import 'package:hr_management_system_package/core/networking/shared_prefs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EmployeeDrawerListViewItems extends StatefulWidget {

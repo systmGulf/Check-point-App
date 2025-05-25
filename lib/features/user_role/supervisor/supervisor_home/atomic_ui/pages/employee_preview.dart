@@ -182,7 +182,6 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                             ),
                           ),
                           verticalSpace(20),
-                          // Add skeletons for other elements here
                           EmployeeAttendanceInformation(
                             text: 'Total Working Hours'.tr(context: context),
                             days: 'Loading...',

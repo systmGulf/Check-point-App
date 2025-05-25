@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/customers_model/get_customer_model.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../../core/enums/customer_type.dart';

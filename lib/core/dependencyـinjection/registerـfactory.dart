@@ -1,14 +1,15 @@
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
-import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
@@ -31,7 +32,7 @@ final getIt = GetIt.instance;
 void registerFactory() {
   getIt.registerFactory<LeaveApplicationCubit>(
     () => LeaveApplicationCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<DepartmentCubit>(
@@ -58,7 +59,7 @@ void registerFactory() {
   );
   getIt.registerFactory<EmployeeTasksCubit>(
     () => EmployeeTasksCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<EmployeeCubit>(
@@ -89,7 +90,7 @@ void registerFactory() {
   );
   getIt.registerFactory<EmployeeChangePasswordCubit>(
     () => EmployeeChangePasswordCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<AttendanceCubit>(

@@ -3,7 +3,7 @@ import 'package:employee_mangement/core/widgets/custom_floating_action_button.da
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/enums/customer_type.dart';

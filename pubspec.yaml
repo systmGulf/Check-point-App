@@ -6,7 +6,7 @@ environment:
   sdk: '>=3.4.0 <4.0.0'
 dependencies:
   analog_clock: ^0.1.0
-  animate_do: ^3.3.4
+  animate_do: ^4.2.0
   cached_network_image: ^3.4.1
   collection: ^1.18.0
   connectivity_plus: ^6.1.2
@@ -14,16 +14,16 @@ dependencies:
   dotted_line: ^3.2.2
   easy_date_timeline: ^2.0.6
   easy_localization: ^3.0.6
-  excel: ^2.0.4
+  excel: ^4.0.6
   expansion_tile_group: ^2.2.0
-  file_picker: ^8.0.6
+  file_picker: ^10.1.2
   firebase_core: ^3.1.0
   firebase_messaging: ^15.0.4
-  fl_chart: ^0.70.2
+  fl_chart: ^0.71.0
   flutter:
     sdk: flutter
   flutter_advanced_switch: ^3.1.0
-  flutter_background_service: ^5.1.0
+  # flutter_background_service: ^5.1.0
   flutter_bloc: ^9.0.0
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
@@ -56,7 +56,7 @@ dependencies:
   pie_chart: ^5.4.0
   search_app_bar_page: ^2.4.2
   sentry_flutter: ^8.9.0
-  share_plus: ^10.0.0
+  share_plus: ^11.0.0
   shared_preferences: ^2.3.5
   simple_progress_indicators: ^0.2.0
   skeletonizer: ^1.4.2

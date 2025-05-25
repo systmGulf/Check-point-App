@@ -52,7 +52,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
             Row(
               children: [
                 Align(
-                        alignment: AlignmentDirectional.centerStart,
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text('Date of plan'.tr(context: context),
                       style: AppStylesManger.font12RegularGrey),
                 ),
@@ -108,7 +108,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
             ),
             verticalSpace(10),
             Align(
-                alignment: AlignmentDirectional.centerStart,
+              alignment: AlignmentDirectional.centerStart,
               child: Text('Note'.tr(context: context),
                   style: AppStylesManger.font12RegularGrey),
             ),

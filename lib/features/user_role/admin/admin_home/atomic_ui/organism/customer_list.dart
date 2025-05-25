@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../atoms/client_item.dart';

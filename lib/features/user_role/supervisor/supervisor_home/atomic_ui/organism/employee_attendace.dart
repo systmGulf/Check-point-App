@@ -369,12 +369,10 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
             return const Center(child: Text('No tracking data available'));
           }
 
-          /// Ensure at least 2 points exist for a polyline
           if (points.length == 1) {
             points.add(LatLng(points.first.latitude + 0.0001, points.first.longitude + 0.0001));
           }
 
-          /// Compute proper `LatLngBounds`
           double minLat = points.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
           double maxLat = points.map((p) => p.latitude).reduce((a, b) => a > b ? a : b);
           double minLng = points.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);

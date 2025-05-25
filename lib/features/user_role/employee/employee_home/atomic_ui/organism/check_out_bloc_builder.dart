@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../controller/attendence/attendence_cubit.dart';

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
 
 part 'leave_application_state.dart';
 

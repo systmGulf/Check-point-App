@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
-import 'package:hr_management_system_package/supervisor/data/models/task_model/add_task_request_body.dart';
-import 'package:hr_management_system_package/supervisor/data/models/task_model/get_task_response.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/add_task_request_body.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../model/drop_down_item.dart';
 

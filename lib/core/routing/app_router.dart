@@ -2,8 +2,8 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
-import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/intro/presentation/views/screen/on_boarding_screen.dart';

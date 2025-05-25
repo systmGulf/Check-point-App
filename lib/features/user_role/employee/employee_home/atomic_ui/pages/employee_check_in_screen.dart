@@ -1,4 +1,4 @@
-import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../controller/attendence/attendence_cubit.dart';

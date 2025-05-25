@@ -26,7 +26,7 @@ class EmployeeHomeScreen extends StatelessWidget {
       drawer: Drawer(
         child: BlocProvider(
           create: (context) => LeaveApplicationCubit(
-            getIt<EmployeeRepo>(),
+            getIt<EmployeeActionRepo>(),
           ),
           child: const EmployeeMoreOptionDrawer(),
         ),

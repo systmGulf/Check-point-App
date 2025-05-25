@@ -35,7 +35,6 @@ class RecentLeaveApplication extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -69,7 +68,7 @@ class RecentLeaveApplication extends StatelessWidget {
                       return state.getLeaveRequestModel.value!.data!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
-                            child: NoDataFound())
+                              child: NoDataFound())
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -81,7 +80,8 @@ class RecentLeaveApplication extends StatelessWidget {
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.blue,
-                                      count: state.getLeaveRequestModel.value!.data!
+                                      count: state
+                                          .getLeaveRequestModel.value!.data!
                                           .where((e) => e.status == 'Pending')
                                           .length,
                                       child: Icon(Icons.notifications_on,
@@ -93,25 +93,44 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount:
-                                      state.getLeaveRequestModel.value!.data!.length,
+                                  itemCount: state
+                                      .getLeaveRequestModel.value!.data!.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: LeaveApplicationItem(
-                                        userToken:  state.getLeaveRequestModel.value!
-                                                .data![index].employee?.deviceTokens!.first ??
-                                            '' ,
-                                        employeeId: state.getLeaveRequestModel.value!
-                                                .data![index].employee?.id ??
+                                        userToken: state
+                                                .getLeaveRequestModel
+                                                .value!
+                                                .data![index]
+                                                .employee!
+                                                .deviceTokens!
+                                                .isNotEmpty
+                                            ? state
+                                                .getLeaveRequestModel
+                                                .value!
+                                                .data![index]
+                                                .employee!
+                                                .deviceTokens!
+                                                .first
+                                            : '',
+                                        employeeId: state
+                                                .getLeaveRequestModel
+                                                .value!
+                                                .data![index]
+                                                .employee
+                                                ?.id ??
                                             '',
                                         type: type,
-                                        createdBy: state.getLeaveRequestModel.value!
-                                                .data![index].createdBy ??
+                                        createdBy: state
+                                                .getLeaveRequestModel
+                                                .value!
+                                                .data![index]
+                                                .createdBy ??
                                             "",
-                                        status: state.getLeaveRequestModel.value!
-                                                .data![index].status ??
+                                        status: state.getLeaveRequestModel
+                                                .value!.data![index].status ??
                                             "",
                                         name: state.getLeaveRequestModel.value!
                                                 .data![index].employee?.name ??
@@ -122,8 +141,8 @@ class RecentLeaveApplication extends StatelessWidget {
                                         to: state.getLeaveRequestModel.value!
                                                 .data![index].endDate ??
                                             "",
-                                        reason: state.getLeaveRequestModel.value!
-                                                .data![index].reason ??
+                                        reason: state.getLeaveRequestModel
+                                                .value!.data![index].reason ??
                                             "",
                                         id: state.getLeaveRequestModel.value!
                                                 .data![index].id ??

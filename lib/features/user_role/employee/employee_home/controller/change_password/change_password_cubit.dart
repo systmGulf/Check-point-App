@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/core/networking/api_constant.dart';
-import 'package:hr_management_system_package/employee/data/repo/employee_data.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'change_password_state.dart';
 
 class EmployeeChangePasswordCubit extends Cubit<EmployeeChangePasswordState> {
-  final EmployeeRepo employeeRepo;
+  final EmployeeActionRepo employeeRepo;
   EmployeeChangePasswordCubit(this.employeeRepo)
       : super(ChangePasswordInitial());
   TextEditingController oldPasswordController = TextEditingController();

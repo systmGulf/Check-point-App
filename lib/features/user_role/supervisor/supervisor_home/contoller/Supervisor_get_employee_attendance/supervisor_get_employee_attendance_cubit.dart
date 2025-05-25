@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
-import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
-import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/user_tracking_summary_response_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/customers_model/get_customer_by_id_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
 
 part 'supervisor_get_employee_attendance_state.dart';
 

@@ -26,12 +26,12 @@ class AddPlanBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: state.error,
+              message: state.error.tr(),
             ),
           );
         } else if (state is AddPlanSuccess) {
           context.pop();
-
+          context.pop();
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(

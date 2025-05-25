@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:share_plus/share_plus.dart';
@@ -21,31 +21,31 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
       Sheet sheet = excel['Sheet1'];
 
       // Add headers
-      sheet.appendRow([
-        'Employee ID',
-        'Customer ID',
-        'Employee Name',
-        'Location',
-        'In Time',
-        'Out Time',
-        'Total Hours',
-        'Data',
-      ]);
+      // sheet.appendRow([
+      //   'Employee ID',
+      //   'Customer ID',
+      //   'Employee Name',
+      //   'Location',
+      //   'In Time',
+      //   'Out Time',
+      //   'Total Hours',
+      //   'Data',
+      // ]);
 
-      // Add data
-      for (var item in data) {
-        sheet.appendRow([
+      // // Add data
+      // for (var item in data) {
+      //   sheet.appendRow([
 
-          item.employeeId ,
-          item.customerId,
-          item.employeeName,
-          item.area,
-          item.clockInTime?.substring(0, 5),
-          item.clockOutTime?.substring(0, 5),
-          item.totalHours.toString(),
-          item.attendanceDate
-        ]);
-      }
+      //     item.employeeId ,
+      //     item.customerId,
+      //     item.employeeName,
+      //     item.area,
+      //     item.clockInTime?.substring(0, 5),
+      //     item.clockOutTime?.substring(0, 5),
+      //     item.totalHours.toString(),
+      //     item.attendanceDate
+      //   ]);
+      // }
 
       List<int>? bytesList = excel.save();
       if (bytesList == null) {

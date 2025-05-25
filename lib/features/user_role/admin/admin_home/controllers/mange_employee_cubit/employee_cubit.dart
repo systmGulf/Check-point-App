@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
 
 part 'employee_state.dart';
 
@@ -62,7 +62,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   Future<void> deleteUserAccount({required String userId}) async {
     emit(DeleteUserAccountLoading());
     try {
-      await adminManageEmployeeRepo.deleteUserAccount(userId: userId);
+      await adminManageEmployeeRepo.deleteEmployeeAccount(userId: userId);
       await getAllEmployees();
       emit(DeleteUserAccountSuccess());
     } catch (e) {
@@ -97,7 +97,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
 
   Future<void> getAddAccountRequests() async {
     emit(GetAddAccountRequestsLoading());
-    final result = await adminManageEmployeeRepo.getAddAccountsRequests();
+    final result = await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
     result.fold(
       (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
       (r) => emit(GetAddAccountRequestsSuccess(value: r)),
@@ -107,7 +107,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   Future<void> deleteAddAccountRequest({required int id}) async {
     emit(DeleteAddAccountRequestLoading());
     final result =
-        await adminManageEmployeeRepo.deleteAddAccountsRequest(id: id);
+        await adminManageEmployeeRepo.deleteAddAccountRequestsForAdmin(id: id);
     result.fold(
       (l) => emit(DeleteAddAccountRequestFailure(error: l.message)),
       (r) async {

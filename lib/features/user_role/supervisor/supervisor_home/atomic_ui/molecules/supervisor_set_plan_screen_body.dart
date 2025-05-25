@@ -12,7 +12,6 @@ import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../atoms/plan_item.dart';
 import '../pages/sub_plans_screen.dart';
-import 'add_plan_bloc_listener.dart';
 import 'add_plan_bottom_sheet.dart';
 
 class SetPlanScreen extends StatelessWidget {
@@ -30,23 +29,25 @@ class PlansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingActionButton(text: 'Add Plan'.tr(context: context), onTap: (){
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.white,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
+      floatingActionButton: CustomFloatingActionButton(
+          text: 'Add Plan'.tr(context: context),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.white,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
               ),
-            ),
-            builder: (_) {
-              return BlocProvider.value(
-                  value: context.read<PlanCubit>(),
-                  child: const AddPlanBottomSheet());
-            },
-          );
-      }),
+              builder: (_) {
+                return BlocProvider.value(
+                    value: context.read<PlanCubit>(),
+                    child: const AddPlanBottomSheet());
+              },
+            );
+          }),
       body: BlocBuilder<PlanCubit, PlanState>(
         buildWhen: (previous, current) =>
             current is GetPlanSuccess ||
@@ -77,7 +78,6 @@ class PlansScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
-                              const AddPlanBlocListener(),
                               PlanItem(
                                 planId: state.planModel.data![index].id!,
                                 planDate:

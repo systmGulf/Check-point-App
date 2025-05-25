@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../controllers/department_cubit/department_cubit.dart';

@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/add_police_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/shifts_model.dart';
-import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/add_police_request_body.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/shifts_model.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 
 part 'shifts_and_polices_state.dart';
 

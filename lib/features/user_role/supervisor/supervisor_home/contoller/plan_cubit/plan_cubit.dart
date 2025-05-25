@@ -2,10 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_model.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/set_customer_plan_request_body.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/set_customer_plan_request_body.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../model/drop_down_item.dart';

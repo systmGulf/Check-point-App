@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
-import 'package:hr_management_system_package/employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
-import 'package:hr_management_system_package/supervisor/data/models/employee_summary_model/employee_summary_model.dart';
-import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
-import 'package:hr_management_system_package/supervisor/supervisor_data.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_summary_model/employee_summary_model.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+
 
 part 'get_employees_data_state.dart';
 
