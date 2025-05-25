@@ -40,13 +40,15 @@ class OnboardingScreenBody extends StatelessWidget {
                             buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  Image(
-                    height: 240.h,
-                    image: AssetImage(
-                      'assets/images/app_logo.png',
-                    ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            AssetImage('assets/images/app_logo.png')),
                   ),
-                  verticalSpace(30),
+                  verticalSpace(40),
                   CustomAppButton(
                     onPressed: () async {
                       context.pushName(Routes.userRoleScreen);
@@ -78,7 +80,7 @@ class OnboardingScreenBody extends StatelessWidget {
                           });
                     },
                   ),
-                 
+
                   // Text(
                   //   'Create Eployee Account'.tr(),
                   //   style: AppStylesManger.font13regulerBlue.copyWith(

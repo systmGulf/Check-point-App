@@ -33,7 +33,7 @@ class CustomAppButton extends StatelessWidget {
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [ColorsManger.primaryColor, Color(0XFF25aae3)]),
+                colors: [ColorsManger.primaryColor, Color(0XFF3c3d3d)]),
             borderRadius: BorderRadius.circular(12)),
         child: Center(
           child: Text(

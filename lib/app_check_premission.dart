@@ -38,9 +38,7 @@ class PermissionCheckScreen extends StatelessWidget {
             description:
                 'Ensure the app is not restricted from running in the background.',
             buttonText: 'Open Background Restriction Settings',
-            onPressed: () {
-             
-            },
+            onPressed: () {},
           ),
         ],
       ),

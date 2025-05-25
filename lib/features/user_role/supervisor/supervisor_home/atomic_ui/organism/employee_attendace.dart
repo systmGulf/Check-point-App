@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -12,6 +11,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../molecules/build_show_employee_image_dialog.dart';
+import 'employee_tracking_diagram_map.dart';
 
 class EmployeeAttendance extends StatelessWidget {
   const EmployeeAttendance({
@@ -23,7 +23,8 @@ class EmployeeAttendance extends StatelessWidget {
     required this.id,
     required this.totalHours,
     this.employeeImage,
-    this.customerId, required this.employeeId,
+    this.customerId,
+    required this.employeeId,
   });
 
   final String employeeName, location, inTime, outTime, id, employeeId;
@@ -69,7 +70,7 @@ class EmployeeAttendance extends StatelessWidget {
                 style: AppStylesManger.font15BoldrBlue
                     .copyWith(color: Colors.black),
               ),
-              employeeImage != null 
+              employeeImage != null
                   ? SizedBox(
                       child: IconButton(
                         onPressed: () {
@@ -301,13 +302,15 @@ class EmployeeAttendance extends StatelessWidget {
               ? GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
-                      backgroundColor: Colors.white,
-                      isScrollControlled: true,
-                          enableDrag: false,
-
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        enableDrag: false,
                         context: context,
                         builder: (_) => BlocProvider.value(
-                              value: context.read<SupervisorGetEmployeeAttendanceCubit>()..supervisorGetTrackingSummaryForEmployee(employeeId: employeeId),
+                              value: context
+                                  .read<SupervisorGetEmployeeAttendanceCubit>()
+                                ..supervisorGetTrackingSummaryForEmployee(
+                                    employeeId: employeeId),
                               child: EmployeeTrackingDiagramMap(),
                             ));
                   },
@@ -332,93 +335,6 @@ class EmployeeAttendance extends StatelessWidget {
               : const SizedBox.shrink()
         ]),
       ),
-    );
-  }
-}
-class EmployeeTrackingDiagramMap extends StatelessWidget {
-  const EmployeeTrackingDiagramMap({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SupervisorGetEmployeeAttendanceCubit,
-        SupervisorGetEmployeeAttendanceState>(
-      buildWhen: (previous, current) =>
-          current is GetEmployeeTrackingSummaryLoading ||
-          current is GetEmployeeTrackingSummaryFailure ||
-          current is GetEmployeeTrackingSummarySuccess,
-      builder: (context, state) {
-        if (state is GetEmployeeTrackingSummaryLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is GetEmployeeTrackingSummaryFailure) {
-          return Center(child: Text(state.errorMessage));
-        } else if (state is GetEmployeeTrackingSummarySuccess) {
-          if (state.employeeTrackingSummary.value!.data!.isEmpty) {
-            return Center(
-              child: Text(
-                'No tracking data available',
-                style: AppStylesManger.font15BoldrBlue,
-              ),
-            );
-          }
-
-          List<LatLng> points = state.employeeTrackingSummary.value!.data!.first.coordinates!
-              .map((e) => LatLng(e.latitude!, e.longitude!))
-              .toList();
-
-          if (points.isEmpty) {
-            return const Center(child: Text('No tracking data available'));
-          }
-
-          if (points.length == 1) {
-            points.add(LatLng(points.first.latitude + 0.0001, points.first.longitude + 0.0001));
-          }
-
-          double minLat = points.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
-          double maxLat = points.map((p) => p.latitude).reduce((a, b) => a > b ? a : b);
-          double minLng = points.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
-          double maxLng = points.map((p) => p.longitude).reduce((a, b) => a > b ? a : b);
-
-          LatLngBounds bounds = LatLngBounds(
-            southwest: LatLng(minLat, minLng),
-            northeast: LatLng(maxLat, maxLng),
-          );
-
-          return GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(
-              target: points.first,
-              zoom: 15,
-            ),
-            markers: {
-              Marker(
-                markerId: const MarkerId('start'),
-                position: points.first,
-                infoWindow: const InfoWindow(title: "Start"),
-              ),
-              Marker(
-                markerId: const MarkerId('end'),
-                position: points.last,
-                infoWindow: const InfoWindow(title: "End"),
-              ),
-            },
-            polylines: {
-              Polyline(
-                polylineId: const PolylineId('route'),
-                points: points,
-                color: ColorsManger.primaryColor,
-                width: 5,
-              ),
-            },
-            onMapCreated: (GoogleMapController controller) {
-              Future.delayed(const Duration(milliseconds: 300), () {
-                controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
-              });
-            },
-          );
-        } else {
-          return const SizedBox.shrink();
-        }
-      },
     );
   }
 }

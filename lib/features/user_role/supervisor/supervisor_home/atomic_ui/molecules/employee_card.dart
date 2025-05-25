@@ -45,7 +45,7 @@ class EmployeeCard extends StatelessWidget {
             ),
             Text(
               date,
-              style: AppStylesManger.font15BoldBlack,
+              style: AppStylesManger.font21regulerWhite,
             ),
             verticalSpace(20),
           ],
