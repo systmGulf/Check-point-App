@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,9 @@ class _HrManagementSystemState extends State<HrManagementSystem>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _checkPermissions();
+    if (!Platform.isIOS) {
+      _checkPermissions();
+    }
   }
 
   @override
@@ -73,7 +77,7 @@ class _HrManagementSystemState extends State<HrManagementSystem>
 
   @override
   Widget build(BuildContext context) {
-    if (!_allPermissionsGranted) {
+    if (!_allPermissionsGranted && !Platform.isIOS) {
       // Show permission screen if permissions are not granted
       return ScreenUtilInit(
         designSize: const Size(375, 812),

@@ -1,7 +1,6 @@
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
-
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -45,19 +44,19 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
   }
 
   void navigateToLogin(BuildContext context) async {
-    commonMehtods.checkConnectivity(onFailure: (){
-       Future.delayed(const Duration(seconds: 1), () {
-          if (context.mounted) {
-            showTopSnackBar(
-              Overlay.of(context),
-              const CustomSnackBar.error(
-                message: "Please check your internet connection and try again",
-              ),
-            );
-          }
-        });
-    }, onSuccess:  (){
-Future.delayed(const Duration(seconds: 2), () {
+    commonMehtods.checkConnectivity(onFailure: () {
+      Future.delayed(const Duration(seconds: 1), () {
+        if (context.mounted) {
+          showTopSnackBar(
+            Overlay.of(context),
+            const CustomSnackBar.error(
+              message: "Please check your internet connection and try again",
+            ),
+          );
+        }
+      });
+    }, onSuccess: () {
+      Future.delayed(const Duration(seconds: 2), () {
         if (context.mounted) {
           context.pushReplacementName(Routes.onboardingscreen);
         }
