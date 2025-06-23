@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
@@ -14,9 +13,9 @@ class RegisterAccountCubit extends Cubit<RegisterAccountState> {
 
   Future<void> registerAccount() async {
     emit(RegisterAccountLoading());
-    final currentFCMToken = await FirebaseMessaging.instance.getToken();
+   
     var result = await registerAccountRepo.registerAccount(
-        name: nameController.text, deviceToken: currentFCMToken!);
+        name: nameController.text, deviceToken: '123');
     result.fold((l) {
       emit(RegisterAccountFailure(errorMessage: l.message));
     }, (r) {

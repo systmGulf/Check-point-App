@@ -317,7 +317,7 @@ class EmployeeAttendance extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      Icon(    
                         Icons.location_on,
                         color: ColorsManger.primaryColor,
                       ),
