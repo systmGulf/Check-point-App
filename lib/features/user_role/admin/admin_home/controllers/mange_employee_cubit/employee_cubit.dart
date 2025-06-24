@@ -23,14 +23,15 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
 
-  Future<void> getAllEmployees({int pageNumber = 0}) async {
+  Future<void> getAllEmployees(
+      {int pageNumber = 0, required int itemCount}) async {
     if (pageNumber == 0) {
       emit(GetAllEmployeesLoading());
     } else {
       emit(GetAllEmployeesPaginationLoading());
     }
-    final result =
-        await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber);
+    final result = await adminManageEmployeeRepo.getAllEmployees(
+        pageNumber: pageNumber, itemCount: itemCount);
     result.fold(
       (error) {
         if (pageNumber == 0) {
@@ -63,7 +64,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(DeleteUserAccountLoading());
     try {
       await adminManageEmployeeRepo.deleteEmployeeAccount(userId: userId);
-      await getAllEmployees();
+      await getAllEmployees(pageNumber: 0, itemCount: 10);
       emit(DeleteUserAccountSuccess());
     } catch (e) {
       emit(DeleteUserAccountFailure(error: e.toString()));
@@ -89,7 +90,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     result.fold(
       (l) => emit(AddEmployeeFailure(error: l.message)),
       (r) async {
-        await getAllEmployees();
+        await getAllEmployees(pageNumber: 0, itemCount: 10);
         emit(AddEmployeeSuccess());
       },
     );
@@ -97,7 +98,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
 
   Future<void> getAddAccountRequests() async {
     emit(GetAddAccountRequestsLoading());
-    final result = await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
+    final result =
+        await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
     result.fold(
       (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
       (r) => emit(GetAddAccountRequestsSuccess(value: r)),
@@ -142,7 +144,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       result.fold(
         (l) => emit(EditEmployeeFailure(error: l.message)),
         (r) async {
-          await getAllEmployees();
+          await getAllEmployees(pageNumber: 0, itemCount: 10);
           emit(EditEmployeeSuccess());
         },
       );

@@ -144,7 +144,7 @@ abstract class AppRouter {
       case Routes.adminHomeScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(),
+            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(   pageNumber: 0, itemCount: 10),
             child: const AdminHomeScreen(),
           ),
         );
@@ -320,7 +320,7 @@ abstract class AppRouter {
       case Routes.allUsersScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(),
+            create: (context) => getIt<EmployeeCubit>()..getAllEmployees( pageNumber: 0, itemCount: 10),
             child: AllUsersScreen(
               addAccountRequestValue:
                   settings.arguments as AddAccountRequestData?,

@@ -59,7 +59,7 @@ class PoliceItem extends StatelessWidget {
                 //              IconButton(onPressed: () => Navigator.pop(context), icon:  Icon(Icons.arrow_back_ios),),
                 //               Text('Employees in this Police'.tr(context: context), style: AppStylesManger.font16BoldBlack,),
                 //             ],
-                            
+
                 //           )
                 //         ],
                 //       ),
@@ -70,7 +70,7 @@ class PoliceItem extends StatelessWidget {
                 //   size: 20,
                 //   color: Colors.grey,
                 // ),),
-             
+
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
@@ -80,14 +80,21 @@ class PoliceItem extends StatelessWidget {
                             providers: [
                               BlocProvider.value(
                                 value: context.read<EmployeeCubit>()
-                                  ..getAllEmployees(),
+                                  ..getAllEmployees(
+                                      pageNumber: 0, itemCount: -1),
                               ),
                               BlocProvider.value(
-                            value: context.read<ShiftsAndPolicesCubit>(),
-                          ),
+                                value: context.read<ShiftsAndPolicesCubit>(),
+                              ),
                             ],
-                            child: AddEmployeesToPoliceyModelBottomSheet(
-                                policeId: policeId),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              child: AddEmployeesToPoliceyModelBottomSheet(
+                                  policeId: policeId),
+                            ),
                           );
                         });
                   },

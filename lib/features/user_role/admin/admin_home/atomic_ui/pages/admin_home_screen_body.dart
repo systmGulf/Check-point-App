@@ -27,7 +27,7 @@ class AdminHomeScreenBody extends StatelessWidget {
             onRefresh: () async {
               BlocProvider.of<EmployeeCubit>(
                 context,
-              ).getAllEmployees();
+              ).getAllEmployees(pageNumber: 0, itemCount: 10);
             },
             child: ListView(physics: const BouncingScrollPhysics(), children: [
               Column(

@@ -106,9 +106,9 @@ class UserItemListView extends StatelessWidget {
                   },
                 ),
               ).then((value) {
-            
-                context.read<EmployeeCubit>().getAllEmployees();
-
+                context
+                    .read<EmployeeCubit>()
+                    .getAllEmployees(pageNumber: 0, itemCount: 10);
               });
             },
             icon: SizedBox(

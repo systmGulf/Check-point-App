@@ -47,7 +47,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
       });
       await context
           .read<EmployeeCubit>()
-          .getAllEmployees(pageNumber: nextPageNumber++);
+          .getAllEmployees(pageNumber: nextPageNumber++ , itemCount: 10); ;
       setState(() {
         isLoading = false;
       });
@@ -84,7 +84,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
             users.clear();
             BlocProvider.of<EmployeeCubit>(
               context,
-            ).getAllEmployees();
+            ).getAllEmployees( pageNumber: 0, itemCount: 10);
           },
           child: BlocConsumer<EmployeeCubit, EmployeeState>(
             listener: (context, state) {
@@ -228,7 +228,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
               } else if (state is GetAllEmployeesFailure) {
                 return state.error == 'Please check your internet connection'
                     ? NoInternetConnectionWidget(onPressed: () {
-                        context.read<EmployeeCubit>().getAllEmployees();
+                        context.read<EmployeeCubit>().getAllEmployees( pageNumber: 0, itemCount: 10);
                       })
                     : Column(
                         children: [
