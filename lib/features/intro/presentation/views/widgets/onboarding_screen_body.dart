@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,13 +41,37 @@ class OnboardingScreenBody extends StatelessWidget {
                             buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  Align(
-                    alignment: Alignment.center,
-                    child: CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                            AssetImage('assets/images/app_logo.png')),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FadeInLeft(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                              radius: 25.r,
+                              backgroundColor: Colors.white,
+                              backgroundImage:
+                                  AssetImage('assets/images/app_logo.png')),
+                        ),
+                      ),
+                      horizontalSpace(10),
+                      FadeInRight(
+                        child: Text(
+                          'Art Attack'.tr(),
+                          style: AppStylesManger.font15BoldrBlue.copyWith(
+                            color: ColorsManger.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(10),
+                  FadeIn(
+                    duration: const Duration(milliseconds: 500),
+                    child: Text(
+                      "Stay organized with team".tr(),
+                      style: AppStylesManger.font12RegularGrey,
+                    ),
                   ),
                   verticalSpace(40),
                   CustomAppButton(

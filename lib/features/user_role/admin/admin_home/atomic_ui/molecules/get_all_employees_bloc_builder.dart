@@ -224,7 +224,9 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
           } else if (state is GetAllEmployeesFailure) {
             return state.error == 'Please check your internet connection'
                 ? NoInternetConnectionWidget(onPressed: () {
-                    context.read<EmployeeCubit>().getAllEmployees();
+                    context
+                        .read<EmployeeCubit>()
+                        .getAllEmployees(pageNumber: 0, itemCount: 10);
                   })
                 : Column(
                     children: [
