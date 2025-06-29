@@ -1,7 +1,9 @@
-import '../../../../../../core/styles/styles.dart';
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/admin/data/models/branches/get_branches_models.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+
+import '../../../../../../core/styles/styles.dart';
 
 class CompanyBranchDetailsScreen extends StatelessWidget {
   const CompanyBranchDetailsScreen({
@@ -38,7 +40,7 @@ class CompanyBranchDetailsScreen extends StatelessWidget {
                       .map((e) => LatLng(e.latitude!, e.longitude!))
                       .toList(),
                   strokeWidth: 2,
-                  fillColor: Colors.orange.withOpacity(0.5),
+                  fillColor: ColorsManger.primaryColor.withOpacity(0.5),
                 ),
               },
               initialCameraPosition: CameraPosition(
@@ -66,8 +68,8 @@ class CompanyBranchDetailsScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.location_on,
-                          color: Colors.orange, size: 24),
+                      Icon(Icons.location_on,
+                          color: ColorsManger.primaryColor, size: 24),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(

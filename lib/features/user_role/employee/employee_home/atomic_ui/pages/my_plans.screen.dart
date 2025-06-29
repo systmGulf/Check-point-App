@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 import 'my_plans_details_screen.dart';
 
@@ -153,14 +155,33 @@ class MyPlansScreen extends StatelessWidget {
                         }),
                       )
                     : SliverToBoxAdapter(
-                        child: Center(
-                            child: Lottie.asset(
-                                'assets/animated_images/no_data_found.json')));
+                        child:NoDataFound());
               } else if (state is GetCustomerAreaError) {
-                return SliverToBoxAdapter(child: NoDataFound());
+                return SliverToBoxAdapter(
+                    child: state.error ==
+                            'Please check your internet connection'
+                        ? NoInternetConnectionWidget(onPressed: () {
+                            context.read<AttendanceCubit>().getCustomerArea();
+                          })
+                        : Column(
+                            children: [
+                              const Icon(Icons.error, color: Colors.red),
+                              verticalSpace(20),
+                              Text(state.error)
+                            ],
+                          ));
               } else {
                 return SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()));
+                    child: Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.sizeOf(context).height * 0.3,
+                  ),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: ColorsManger.primaryColor,
+                    strokeWidth: 2,
+                  )),
+                ));
               }
             })
       ]),

@@ -7,7 +7,7 @@ import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
 part 'leave_application_state.dart';
 
 class LeaveApplicationCubit extends Cubit<LeaveApplicationState> {
-  final EmployeeRepo employeeRepo;
+  final EmployeeActionRepo employeeRepo;
   LeaveApplicationCubit(this.employeeRepo) : super(LeaveApplicationInitial());
   TextEditingController reasonController = TextEditingController();
   TextEditingController remarkController = TextEditingController();

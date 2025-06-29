@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/repo/department_repo/department_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/helpers/app_regex.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_app_button.dart';
@@ -12,6 +13,7 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import '../molecules/select_branch_drop_button.dart';
 import '../molecules/select_department.dart';
 import 'add_employee_bloc_listener.dart';
 
@@ -35,10 +37,10 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
   late TextEditingController mobileIdController;
 
   String role = 'Employee';
-  String? branch;
-  int? branchId;
+
   @override
   void initState() {
+    super.initState();
     nameController = BlocProvider.of<EmployeeCubit>(context).nameController
       ..text = widget.name ?? '';
 
@@ -48,12 +50,15 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
     BlocProvider.of<EmployeeCubit>(context).passwordController =
         TextEditingController();
 
+    BlocProvider.of<EmployeeCubit>(context)
+        .deviceToken
+        .add(widget.deviceToken ?? '');
+
     BlocProvider.of<EmployeeCubit>(context).positionController =
         TextEditingController();
     mobileIdController = BlocProvider.of<EmployeeCubit>(context)
         .mobileIdController
       ..text = widget.mobileId ?? '';
-    super.initState();
   }
 
   @override
@@ -68,7 +73,9 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
         BlocProvider(
             create: (context) => BranchCubit(
                   getIt<BranchesRepo>(),
-                )..getBranches()),
+                )..getBranches(
+                    isLoading: true,
+                  )),
       ],
       child: Padding(
         padding: EdgeInsets.only(
@@ -125,9 +132,9 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                       verticalSpace(7),
                       CustomAppTextFormField(
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Password can't be empty"
-                                .tr(context: context);
+                          if (value!.isEmpty ||
+                              !AppRegex.isPasswordValid(value)) {
+                            return 'Please a valid password'.tr();
                           }
                           return null;
                         },
@@ -224,49 +231,12 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                               current is GetBranchError,
                           builder: (context, state) {
                             if (state is GetBranchLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              return Skeletonizer(
+                                  child: SelectBranchDropButton(
+                                      branches: GetBranchesValue(data: [])));
                             } else if (state is GetBranchSuccess) {
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: ColorsManger.primaryColor),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: DropdownButton(
-                                  hint: Text(
-                                    'Select Branch'.tr(context: context),
-                                  ),
-                                  isExpanded: true,
-                                  icon: const Icon(Icons.keyboard_arrow_down),
-                                  dropdownColor: Colors.white,
-                                  iconSize: 24,
-                                  value: branch,
-                                  elevation: 16,
-                                  underline: const SizedBox(),
-                                  onChanged: (value) {
-                                    print(value);
-                                    setState(() {
-                                      branch = value.toString();
-                                      branchId = state.branches.data!
-                                          .firstWhere((element) =>
-                                              element.name == branch)
-                                          .id;
-                                      print(branchId);
-                                      BlocProvider.of<EmployeeCubit>(context)
-                                          .branchId = branchId!;
-                                    });
-                                  },
-                                  items: state.branches.data!
-                                      .map((e) => DropdownMenuItem(
-                                            value: e.name,
-                                            child: Text(e.name ?? ""),
-                                          ))
-                                      .toList(),
-                                ),
+                              return SelectBranchDropButton(
+                                branches: state.branches,
                               );
                             } else {
                               return Container();

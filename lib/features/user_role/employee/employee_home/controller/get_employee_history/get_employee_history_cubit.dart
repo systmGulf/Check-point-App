@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hr_management_system_package/employee/data/repo/attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'get_employee_history_state.dart';

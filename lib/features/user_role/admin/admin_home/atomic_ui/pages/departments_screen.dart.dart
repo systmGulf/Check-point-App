@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/custom_floating_action_button.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
-import '../molecules/custom_search_for_item_bar.dart';
+import '../molecules/custom_search_bar.dart';
 import '../organism/add_department_bottom_sheet.dart';
 import '../organism/edit_department_bloc_listener.dart';
 import '../organism/get_department_bloc_builder.dart';
@@ -18,10 +19,10 @@ class DepartmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
-        onPressed: () {
-          showModalBottomSheet(
+      floatingActionButton: CustomFloatingActionButton(
+        text: 'Add Department'.tr(context: context),
+        onTap: () {
+            showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
@@ -37,7 +38,6 @@ class DepartmentScreen extends StatelessWidget {
             },
           );
         },
-        child: const Icon(Icons.add),
       ),
       appBar: buildCustomAppBar(
         context,
@@ -56,7 +56,7 @@ class DepartmentScreen extends StatelessWidget {
                 ),
               ])),
           Positioned(
-              child: CustomSearchForItemBar(
+              child: CustomSearchBar(
                   onQueryChanged: (query) {
                     BlocProvider.of<DepartmentCubit>(context)
                         .searchDepartment(query);
@@ -109,3 +109,4 @@ class DepartmentScreen extends StatelessWidget {
     );
   }
 }
+

@@ -11,7 +11,7 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../molecules/select_department.dart';
-import '../pages/edit_user_data_bloc_listener.dart';
+import 'edit_user_data_bloc_listener.dart';
 
 class EditUserFelids extends StatefulWidget {
   const EditUserFelids({
@@ -42,6 +42,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
   late TextEditingController passwordController;
   String? branch;
   int? branchId;
+  String? role;
 
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
     BlocProvider.of<EmployeeCubit>(context).branchId = widget.branchId;
     branch = widget.branch;
     branchId = widget.branchId;
+    role = widget.role;
   }
 
   @override
@@ -70,6 +72,8 @@ class _EditUserFelidsState extends State<EditUserFelids> {
     editUsernameController.dispose();
     editPasswordController.dispose();
     editPositionController.dispose();
+    mobileIdController.dispose();
+  
     super.dispose();
   }
 
@@ -200,8 +204,11 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
                   child: DropdownButton(
+                    value: role ?? widget.role,
                     isExpanded: true,
-                    hint: Text(widget.role),
+                    hint: Text(
+                      'Select Role'.tr(context: context),
+                    ),
                     icon: SizedBox(
                       height: 24,
                       width: 24,
@@ -216,9 +223,9 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                     underline: const SizedBox(),
                     onChanged: (value) {
                       setState(() {
-                        BlocProvider.of<EmployeeCubit>(context).role = value!;
+                        role = value.toString();
                       });
-                      BlocProvider.of<EmployeeCubit>(context).role = value!;
+                      BlocProvider.of<EmployeeCubit>(context).role = role!;
                     },
                     items: [
                       DropdownMenuItem(

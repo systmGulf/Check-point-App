@@ -1,13 +1,15 @@
-import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
-import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hr_management_system_package/admin/data/repo/customer_repo/customer_repo.dart';
-import 'package:hr_management_system_package/admin/data/repo/department_repo/department_repo.dart';
-import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
-import 'package:hr_management_system_package/employee/data/repo/attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
@@ -18,17 +20,19 @@ import '../../features/user_role/employee/employee_home/controller/attendence/at
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
+import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/leave_application/leave_application_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/plan_cubit/plan_cubit.dart';
+import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
 import '../contoller/roles_login_cubit/login_cubit.dart';
 
 final getIt = GetIt.instance;
 void registerFactory() {
   getIt.registerFactory<LeaveApplicationCubit>(
     () => LeaveApplicationCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<DepartmentCubit>(
@@ -36,19 +40,26 @@ void registerFactory() {
       getIt<DepartmentRepo>(),
     ),
   );
+    final navigatorKey = GlobalKey<NavigatorState>();
+     getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
   getIt.registerFactory<TasksCubit>(
     () => TasksCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorTasksRepo>(),
+    ),
+  );
+  getIt.registerFactory<ShiftsAndPolicesCubit>(
+    () => ShiftsAndPolicesCubit(
+      getIt<ShiftsAndPolicesRepo>(),
     ),
   );
   getIt.registerFactory<LeaveApplicationCubitSupervisor>(
     () => LeaveApplicationCubitSupervisor(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorLeaveRequestsRepo>(),
     ),
   );
   getIt.registerFactory<EmployeeTasksCubit>(
     () => EmployeeTasksCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<EmployeeCubit>(
@@ -56,8 +67,7 @@ void registerFactory() {
       getIt<AdminManageEmployeeRepo>(),
     ),
   );
-  final navigatorKey = GlobalKey<NavigatorState>();
-  getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
+ 
   getIt.registerFactory<LoginCubit>(
     () => LoginCubit(
       getIt<LoginRepo>(),
@@ -80,7 +90,7 @@ void registerFactory() {
   );
   getIt.registerFactory<EmployeeChangePasswordCubit>(
     () => EmployeeChangePasswordCubit(
-      getIt<EmployeeRepo>(),
+      getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<AttendanceCubit>(
@@ -95,17 +105,17 @@ void registerFactory() {
   );
   getIt.registerFactory<SupervisorGetEmployeeAttendanceCubit>(
     () => SupervisorGetEmployeeAttendanceCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<GetEmployeesDataCubit>(
     () => GetEmployeesDataCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<PlanCubit>(
     () => PlanCubit(
-      getIt<SupervisorRepo>(),
+      getIt<SupervisorPlanRepo>(),
     ),
   );
 }

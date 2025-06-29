@@ -1,10 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/admin/data/models/add_employee_model/add_account_request_model.dart';
-import 'package:hr_management_system_package/admin/data/models/all_employees_model/edit_employee_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/department_model/get_employees_in_department.dart';
-import 'package:hr_management_system_package/admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
 
 part 'employee_state.dart';
 
@@ -19,7 +15,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController mobileIdController = TextEditingController();
   int departmentId = 00;
   int branchId = 00;
-
+  List<String> deviceToken = [];
   String role = 'Employee';
   TextEditingController editNameController = TextEditingController();
   TextEditingController editUsernameController = TextEditingController();
@@ -27,14 +23,15 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
 
-  Future<void> getAllEmployees({int pageNumber = 0}) async {
+  Future<void> getAllEmployees(
+      {int pageNumber = 0, required int itemCount}) async {
     if (pageNumber == 0) {
       emit(GetAllEmployeesLoading());
     } else {
       emit(GetAllEmployeesPaginationLoading());
     }
-    final result =
-        await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber);
+    final result = await adminManageEmployeeRepo.getAllEmployees(
+        pageNumber: pageNumber, itemCount: itemCount);
     result.fold(
       (error) {
         if (pageNumber == 0) {
@@ -66,8 +63,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   Future<void> deleteUserAccount({required String userId}) async {
     emit(DeleteUserAccountLoading());
     try {
-      await adminManageEmployeeRepo.deleteUserAccount(userId: userId);
-      await getAllEmployees();
+      await adminManageEmployeeRepo.deleteEmployeeAccount(userId: userId);
+      await getAllEmployees(pageNumber: 0, itemCount: 10);
       emit(DeleteUserAccountSuccess());
     } catch (e) {
       emit(DeleteUserAccountFailure(error: e.toString()));
@@ -78,6 +75,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(AddEmployeeLoading());
     final result = await adminManageEmployeeRepo.addEmployee(
       AddEmployeeRequestBody(
+        deviceToken,
         departmentId: departmentId,
         branchId: branchId,
         name: nameController.text,
@@ -92,6 +90,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     result.fold(
       (l) => emit(AddEmployeeFailure(error: l.message)),
       (r) async {
+        await getAllEmployees(pageNumber: 0, itemCount: 10);
         emit(AddEmployeeSuccess());
       },
     );
@@ -99,7 +98,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
 
   Future<void> getAddAccountRequests() async {
     emit(GetAddAccountRequestsLoading());
-    final result = await adminManageEmployeeRepo.getAddAccountsRequests();
+    final result =
+        await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
     result.fold(
       (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
       (r) => emit(GetAddAccountRequestsSuccess(value: r)),
@@ -109,7 +109,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   Future<void> deleteAddAccountRequest({required int id}) async {
     emit(DeleteAddAccountRequestLoading());
     final result =
-        await adminManageEmployeeRepo.deleteAddAccountsRequest(id: id);
+        await adminManageEmployeeRepo.deleteAddAccountRequestsForAdmin(id: id);
     result.fold(
       (l) => emit(DeleteAddAccountRequestFailure(error: l.message)),
       (r) async {
@@ -144,7 +144,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       result.fold(
         (l) => emit(EditEmployeeFailure(error: l.message)),
         (r) async {
-          await getAllEmployees();
+          await getAllEmployees(pageNumber: 0, itemCount: 10);
           emit(EditEmployeeSuccess());
         },
       );

@@ -1,69 +1,120 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../supervisor/supervisor_home/atomic_ui/molecules/todo_title_and_state.dart';
 
 class EmployeeHomeSectionItem extends StatelessWidget {
   const EmployeeHomeSectionItem({
     super.key,
     required this.title,
     required this.content,
+    required this.getTaskResponse,
   });
   final String title, content;
+  final List<GetTasData> getTaskResponse;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
-      decoration: BoxDecoration(
-        color: ColorsManger.primaryColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            height: 40.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: ColorsManger.lightblack,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Divider(
+          thickness: 1,
+        ),
+        Row(
+          children: [
+            Text(
+              title,
+              style: AppStylesManger.font15BoldBlack,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(title, style: AppStylesManger.font14regularWhite),
-                const Spacer(),
-                Icon(
-                  size: 15.sp,
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                      child:
-                          Text(content, style: AppStylesManger.font15BoldRed)),
+            horizontalSpace(10),
+            Container(
+                height: 20.h,
+                width: 20.w,
+                decoration: BoxDecoration(
+                  color: ColorsManger.primaryColor.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(99),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                child: Center(
+                    child: Text(getTaskResponse.length.toString(),
+                        style: TextStyle(color: Colors.white)))),
+          ],
+        ),
+        verticalSpace(10),
+        getTaskResponse.isEmpty
+            ? Center(
+                child: Column(children: [
+                  verticalSpace(10),
+                  Text(
+                    'no tasks'.tr(context: context),
+                    style: AppStylesManger.font15BoldBlack,
+                  ),
+                  verticalSpace(2),
+                  Text(
+                    'you have no tasks yet'.tr(context: context),
+                    style: AppStylesManger.font15BoldRed,
+                  ),
+                ]),
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(getTaskResponse.length, (index) {
+                    return Container(
+                      height: 110.h,
+                      width: 250.w,
+                      margin: const EdgeInsetsDirectional.only(end: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TodoTitleAndStateItem(
+                            visible: false,
+                            onSelected: (value) {
+                              context.read<EmployeeTasksCubit>().taskStatus =
+                                  value;
+                              BlocProvider.of<EmployeeTasksCubit>(context)
+                                  .updateTaskStatus(
+                                      taskId: getTaskResponse[index].id ?? 0);
+                            },
+                            onEdit: () {},
+                            onDelete: () {},
+                            toDoId: "",
+                            title: getTaskResponse[index].title ?? '',
+                            state: getTaskResponse[index]
+                                    .status!
+                                    .tr(context: context) ??
+                                '',
+                          ),
+                          SizedBox(
+                            width: 219.w,
+                            child: Text(
+                              getTaskResponse[index].description ?? '',
+                              style: AppStylesManger.font15BoldRed
+                                  .copyWith(color: Colors.grey),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              )
+      ],
     );
   }
 }

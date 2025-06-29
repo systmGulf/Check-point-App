@@ -1,16 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/delete_user_bloc_listener.dart';
-import '../atoms/user_irem_grid_view.dart';
+import '../atoms/user_item_grid_view.dart';
 import '../atoms/user_item_list_view.dart';
 
 class GetAllEmployeesBlocBuilder extends StatefulWidget {
@@ -164,15 +167,74 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
               ],
             );
           } else if (state is GetAllEmployeesLoading) {
-            return isPressed == false
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  );
+            return Skeletonizer(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text('Users List'.tr(context: context),
+                          style: AppStylesManger.font15BoldBlack),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          changeIcon();
+                          setState(() {});
+                        },
+                        child: AnimatedIcon(
+                          icon: AnimatedIcons.list_view,
+                          color: ColorsManger.primaryColor,
+                          size: 30,
+                          progress: progress,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: WidgetStateProperty.all(
+                                  ColorsManger.primaryColor)),
+                          onPressed: () {},
+                          child: Text('see all'.tr(context: context),
+                              style: AppStylesManger.font13regulerBlue)),
+                    ],
+                  ),
+                  ListView.builder(
+                    itemCount: 10,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 7),
+                      child: UserItemListView(
+                        onDelete: () {},
+                        branchId: 0,
+                        branch: "Data Load",
+                        departmentId: 0,
+                        role: "Data Load",
+                        mobileId: "Data Load",
+                        userName: "Data Load",
+                        department: "Data Load",
+                        userId: "Data Load",
+                        name: "Data Load",
+                        position: "Data Load",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
           } else if (state is GetAllEmployeesFailure) {
-            return Text(state.error);
+            return state.error == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context
+                        .read<EmployeeCubit>()
+                        .getAllEmployees(pageNumber: 0, itemCount: 10);
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.error)
+                    ],
+                  );
           } else {
             return Container();
           }

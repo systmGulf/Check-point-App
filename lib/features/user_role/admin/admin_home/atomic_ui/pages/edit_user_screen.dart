@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/admin_data.dart';
-import 'package:hr_management_system_package/admin/data/repo/department_repo/department_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../organism/edit_user_felids.dart';
@@ -25,13 +24,19 @@ class EditUser extends StatefulWidget {
       required this.branchId});
   final String name, userName, position, department, id, mobileId, role, branch;
   final int departmentId, branchId;
+ 
 
   @override
   State<EditUser> createState() => _EditUserState();
 }
 
 class _EditUserState extends State<EditUser> {
+  
   @override
+  initState() {
+    super.initState();
+    
+  }
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -43,7 +48,9 @@ class _EditUserState extends State<EditUser> {
         BlocProvider(
             create: (context) => BranchCubit(
                   getIt<BranchesRepo>(),
-                )..getBranches()),
+                )..getBranches(
+                    isLoading: true,
+                  )),
       ],
       child: Scaffold(
         appBar: buildCustomAppBar(

@@ -58,6 +58,24 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
             ),
             child: Column(
               children: [
+                Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.close),
+                    )),
+                SizedBox(
+                  child: Text(
+                    'Add New Company Branch'.tr(context: context),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ColorsManger.primaryColor,
+                        fontSize: 16),
+                  ),
+                ),
+                verticalSpace(7),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {

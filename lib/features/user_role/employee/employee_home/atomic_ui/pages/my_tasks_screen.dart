@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
-import '../../controller/tasks/tasks_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
+import '../../controller/tasks/tasks_cubit.dart';
 import '../atoms/my_tasks_item.dart';
 
 class MyTasksScreen extends StatelessWidget {
@@ -29,7 +31,17 @@ class MyTasksScreen extends StatelessWidget {
               current is GetMyTasksLoading,
           builder: (context, state) {
             if (state is GetMyTasksError) {
-              return Text(state.error);
+              return state.error == 'Please check your internet connection'
+                  ? NoInternetConnectionWidget(onPressed: () {
+                      context.read<EmployeeTasksCubit>().getMyTasks();
+                    })
+                  : Column(
+                      children: [
+                        const Icon(Icons.error, color: Colors.red),
+                        verticalSpace(20),
+                        Text(state.error)
+                      ],
+                    );
             }
             if (state is GetMyTasksSuccess) {
               return state.getTaskResponse.isEmpty
@@ -42,6 +54,15 @@ class MyTasksScreen extends StatelessWidget {
                             vertical: 10,
                           ),
                           child: MyTaskItem(
+                            onSelected: (value) {
+                              context.read<EmployeeTasksCubit>().taskStatus =
+                                  value;
+                              context
+                                  .read<EmployeeTasksCubit>()
+                                  .updateTaskStatus(
+                                      taskId:
+                                          state.getTaskResponse[index].id ?? 0);
+                            },
                             date: DateFormat('yyyy-MM-dd').format(
                                 DateTime.parse(
                                     state.getTaskResponse[index].dueDate ??
@@ -66,6 +87,7 @@ class MyTasksScreen extends StatelessWidget {
                               vertical: 10,
                             ),
                             child: MyTaskItem(
+                              onSelected: (value) {},
                               date: DateFormat('yyyy-MM-dd')
                                   .format(DateTime.parse('2023-01-01')),
                               des: 'Data load',

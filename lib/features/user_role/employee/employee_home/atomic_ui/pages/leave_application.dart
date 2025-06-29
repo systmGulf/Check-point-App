@@ -65,8 +65,8 @@ class _LeaveApplicationState extends State<LeaveApplication> {
             child: ListView(children: [
               verticalSpace(15),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('For a while',
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('For a while'.tr(context: context),
                     style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
@@ -85,8 +85,9 @@ class _LeaveApplicationState extends State<LeaveApplication> {
               ),
               verticalSpace(10),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Reason', style: AppStylesManger.font12RegularGrey),
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('Reason'.tr(context: context),
+                    style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
               CustomAppTextFormField(
@@ -101,8 +102,9 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                   hint: 'Reason * (200 Chaaracters Max)'.tr(context: context)),
               verticalSpace(10),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Remark', style: AppStylesManger.font12RegularGrey),
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('Remark'.tr(context: context),
+                    style: AppStylesManger.font12RegularGrey),
               ),
               verticalSpace(10),
               CustomAppTextFormField(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
@@ -28,9 +29,10 @@ class GetEmployeeDataInEmployeeHomeScreenBlocBuilder extends StatelessWidget {
           } else if (state is GetEmployeeFailure) {
             return Text(state.error);
           } else {
-            return  Center(
-              child: CircularProgressIndicator(),
-            );
+            return Skeletonizer(
+                child: const UserNameAndTimeAndCheckInAndOutItem(
+              name: "Data Loading",
+            ));
           }
         });
   }

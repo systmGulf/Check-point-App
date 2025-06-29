@@ -8,12 +8,14 @@ class RegisterAccountCubit extends Cubit<RegisterAccountState> {
   final RegisterAccountRepo registerAccountRepo;
   RegisterAccountCubit(this.registerAccountRepo)
       : super(RegisterAccountInitial());
-      TextEditingController nameController = TextEditingController();
-      GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future<void> registerAccount() async {
     emit(RegisterAccountLoading());
-    var result = await registerAccountRepo.registerAccount(name: nameController.text);
+   
+    var result = await registerAccountRepo.registerAccount(
+        name: nameController.text, deviceToken: '123');
     result.fold((l) {
       emit(RegisterAccountFailure(errorMessage: l.message));
     }, (r) {

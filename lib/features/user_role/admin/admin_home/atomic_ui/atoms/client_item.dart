@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../core/widgets/build_alart_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 
 class ClientItem extends StatelessWidget {
@@ -14,24 +15,29 @@ class ClientItem extends StatelessWidget {
     required this.name,
     required this.workedAs,
     required this.location,
-    required this.id,
+    required this.id, required this.color,
   });
   final String name, workedAs, location, id;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shadowColor: Colors.orange.shade100,
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
-      elevation: 0.5,
-      color: Colors.white,
+      elevation:0,
+      color:color ,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        side: BorderSide(color: Colors.grey),
+      ),
       child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           leading: CircleAvatar(
               radius: 30,
-              backgroundColor: Colors.orange.shade100,
-              child: Image.asset('assets/images/icon-default-user.png')),
+              backgroundColor: Colors.grey.shade100,
+              child: Icon(Icons.person)),
           title: Text(
             name,
             style: const TextStyle(
@@ -44,8 +50,8 @@ class ClientItem extends StatelessWidget {
             children: [
               Text(
                 workedAs,
-                style: const TextStyle(
-                  color: Colors.orange,
+                style: TextStyle(
+                  color: ColorsManger.primaryColor,
                   fontSize: 16.0,
                 ),
               ),
@@ -67,8 +73,7 @@ class ClientItem extends StatelessWidget {
                       .tr(context: context), onYes: () {
                 context.pop();
                 BlocProvider.of<CustomerCubit>(context).deleteCustomer(
-                    customerType: CustomerType.Customer,
-                  id: id);
+                    customerType: CustomerType.Customer, id: id);
               });
             },
             icon: SizedBox(

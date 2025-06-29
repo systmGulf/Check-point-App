@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/add_employee_model/add_account_request_model.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
-import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../organism/add_employee_bottom_sheet.dart';
 import '../organism/all_users_list_view.dart';
@@ -20,7 +20,6 @@ class AllUsersScreen extends StatefulWidget {
 
 class _AllUsersScreenState extends State<AllUsersScreen> {
   bool _isBottomSheetOpened = false;
-  
 
   @override
   void didChangeDependencies() {
@@ -57,10 +56,10 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsManger.primaryColor,
-        onPressed: () {
-          showModalBottomSheet(
+      floatingActionButton:CustomFloatingActionButton(
+        text: 'Add User'.tr(context: context),
+        onTap: () {
+           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
@@ -80,11 +79,6 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
             },
           );
         },
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: Center(child: Image.asset('assets/images/icon-dskh.png')),
-        ),
       ),
       appBar: buildCustomAppBar(
         context,

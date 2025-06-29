@@ -1,6 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/supervisor/data/models/task_model/get_task_response.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../molecules/todo_flag_and_data.dart';
@@ -18,14 +19,16 @@ class TaskItem extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.onEdit,
-    required this.employeeName,
+    // required this.employeeName,
+    required this.onSelected,
   });
   final String title, description, priority, date, state;
   final String id;
   final List<GetTasData> tasks;
   final VoidCallback onDelete, onEdit;
 
-  final List<GetEmployeesForTheTask> employeeName;
+  // final List<GetEmployeesForTheTask> employeeName;
+  final ValueChanged onSelected;
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -52,12 +55,13 @@ class _TaskItemState extends State<TaskItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TodoTitleAndStateItem(
+                        onSelected: widget.onSelected,
                         visible: true,
                         onEdit: widget.onEdit,
                         onDelete: widget.onDelete,
                         toDoId: widget.id,
                         title: widget.title,
-                        state: widget.state,
+                        state: widget.state.tr(context: context),
                       ),
                       SizedBox(
                         width: 219.w,
@@ -74,7 +78,7 @@ class _TaskItemState extends State<TaskItem> {
                       ),
                       verticalSpace(4),
                       TodoFlagAndDateItem(
-                        priority: widget.priority,
+                        priority: widget.priority.tr(context: context),
                         date: widget.date,
                       ),
                     ],
@@ -83,20 +87,21 @@ class _TaskItemState extends State<TaskItem> {
               ],
             ),
             verticalSpace(8),
-            Wrap(
-                alignment: WrapAlignment.start,
-                children: List.generate(widget.employeeName.length, (index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(widget.employeeName[index].name ?? ''),
-                  );
-                })),
+            // Wrap(
+            //     alignment: WrapAlignment.start,
+            //     runAlignment: WrapAlignment.start,
+            //     children: List.generate(widget.employeeName.length, (index) {
+            //       return Container(
+            //         margin:
+            //             const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            //         padding: const EdgeInsets.all(5),
+            //         decoration: BoxDecoration(
+            //           border: Border.all(color: Colors.grey),
+            //           borderRadius: BorderRadius.circular(10),
+            //         ),
+            //         child: Text(widget.employeeName[index].name ?? ''),
+            //       );
+            //     })),
             Divider(
               thickness: 1,
             )

@@ -1,15 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_snake_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/employee/data/repo/employee_data.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
-import '../../../../../../../core/styles/styles.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/build_snake_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/get_employee_history/get_employee_history_cubit.dart';
 import '../molecules/history_item.dart';
 
@@ -117,23 +117,19 @@ class _EmployeeAttendanceHistoryScreenState
                 ],
               );
             } else if (state is GetEmployeeHistoryFailure) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                    verticalSpace(10),
-                    Text(
-                      state.error,
-                      style: AppStylesManger.font14RedularRed,
-                    ),
-                  ],
-                ),
-              );
+              return state.error == 'Please check your internet connection'
+                  ? NoInternetConnectionWidget(onPressed: () {
+                      context
+                          .read<GetEmployeeHistoryCubit>()
+                          .getEmployeeHistory();
+                    })
+                  : Column(
+                      children: [
+                        const Icon(Icons.error, color: Colors.red),
+                        verticalSpace(20),
+                        Text(state.error)
+                      ],
+                    );
             } else if (state is GetEmployeeHistoryLoading) {
               return Skeletonizer(
                 child: ListView.builder(

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -33,21 +34,18 @@ class EmployeeCheckOutScreenBody extends StatefulWidget {
 class _EmployeeCheckOutScreenBodyState
     extends State<EmployeeCheckOutScreenBody> {
   GoogleMapController? _googleMapController;
-  bool _isMounted = false;
-
+ 
   @override
   void initState() {
     super.initState();
-    _isMounted = true;
   }
 
   @override
   void dispose() {
-    _isMounted = false;
     _googleMapController?.dispose();
     super.dispose();
   }
-
+  CustomerPlans? customerPlans;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -81,6 +79,11 @@ class _EmployeeCheckOutScreenBodyState
 
                       return widget.checkType == "Customer"
                           ? CustomerMapScreen(
+                            oncustomerChanged: ( customer) {
+                              setState(() {
+                                customerPlans = customer;
+                              });
+                            },
                               attendanceType: widget.attendanceType,
                             )
                           : SiteMapScreen(
@@ -104,6 +107,7 @@ class _EmployeeCheckOutScreenBodyState
                 },
               ),
         AttendanceMapBottomSheet(
+          customerPlans: customerPlans ?? CustomerPlans(),
             area: widget.checkType,
             attendanceType: widget.attendanceType,
             widget: widget.checkType),

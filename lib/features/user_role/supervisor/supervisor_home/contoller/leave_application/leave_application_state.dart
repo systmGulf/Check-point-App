@@ -12,7 +12,7 @@ class LeaveApplicationInitial extends LeaveApplicationState {}
 class GetLeaveApplicationLoading extends LeaveApplicationState {}
 
 class GetLeaveApplicationSuccess extends LeaveApplicationState {
-  final GetLeaveRequestValue getLeaveRequestModel;
+  final GetLeaveRequestModel getLeaveRequestModel;
 
   const GetLeaveApplicationSuccess({required this.getLeaveRequestModel});
 }

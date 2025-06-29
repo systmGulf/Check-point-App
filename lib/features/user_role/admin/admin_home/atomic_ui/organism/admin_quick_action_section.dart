@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../employee_mangement_system.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
 import 'admin_quick_actions_item.dart';
@@ -37,7 +36,7 @@ class AdminQuickActionsSection extends StatelessWidget {
                 context.pushName(Routes.allUsersScreen);
               },
             ),
-            verticalSpace(10),
+            verticalSpace(15),
             QuickActionsItem(
               icon: Icons.business_center_outlined,
               text: 'Add New Department'.tr(context: context),
@@ -45,7 +44,7 @@ class AdminQuickActionsSection extends StatelessWidget {
                 context.pushName(Routes.supervisorPermission);
               },
             ),
-            verticalSpace(10),
+            verticalSpace(15),
             QuickActionsItem(
               icon: CupertinoIcons.building_2_fill,
               text: 'Add New Branch'.tr(context: context),
@@ -53,7 +52,7 @@ class AdminQuickActionsSection extends StatelessWidget {
                 context.pushName(Routes.companyBranchesScreen);
               },
             ),
-            verticalSpace(10),
+            verticalSpace(15),
             QuickActionsItem(
               icon: CupertinoIcons.person_crop_square,
               text: 'Add New Customer'.tr(context: context),

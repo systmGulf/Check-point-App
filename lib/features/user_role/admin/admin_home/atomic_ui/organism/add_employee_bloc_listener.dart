@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:hr_management_system_package/core/common_methods/fcm_notification_service.dart';
-import '../../../../../../core/helpers/extention.dart';
-import '../../../../../../core/widgets/custom_loading_indicator.dart';
+import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/widgets/custom_loading_indicator.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 
 class AddEmployeeBlocListener extends StatelessWidget {
@@ -42,10 +43,12 @@ class AddEmployeeBlocListener extends StatelessWidget {
             context
                 .read<EmployeeCubit>()
                 .deleteAddAccountRequest(id: requestId);
-            FcmNotificationService.sendNotification(
-                deviceToken,
-                'Your account has been created'.tr(context: context),
-                '${"your userName is".tr(context: context)} : $userName , ${"your Password is".tr(context: context)} : $password ');
+            getIt<NotificationRepo>().sendSingleNotification(
+                token: deviceToken,
+                title: 'you account has been created by admin'
+                    .tr(context: context),
+                body: 'user name : $userName , password : $password'
+                    .tr(context: context));
           } else if (state is AddEmployeeFailure) {
             context.pop();
             showTopSnackBar(

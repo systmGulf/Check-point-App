@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -32,6 +34,10 @@ class _EditDepartmentDialogState extends State<EditDepartmentDialog> {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(20),
+       decoration: BoxDecoration(
+         color: Colors.white,
+         borderRadius: BorderRadius.circular(16.r)
+       ) ,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -40,14 +46,8 @@ class _EditDepartmentDialogState extends State<EditDepartmentDialog> {
               style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(20),
-            TextField(
-              controller:
-                  context.read<DepartmentCubit>().editDepartmentNameController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: 'Department Name'.tr(),
-              ),
-            ),
+            CustomAppTextFormField(hint: 'Department Name'.tr(),   controller:  context.read<DepartmentCubit>().editDepartmentNameController,)
+            ,
             verticalSpace(20),
             CustomAppButton(
               textButton: 'Edit'.tr(),

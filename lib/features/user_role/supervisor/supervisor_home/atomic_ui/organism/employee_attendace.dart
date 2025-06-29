@@ -1,14 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
+import '../molecules/build_show_employee_image_dialog.dart';
+import 'employee_tracking_diagram_map.dart';
 
 class EmployeeAttendance extends StatelessWidget {
   const EmployeeAttendance({
@@ -20,11 +23,13 @@ class EmployeeAttendance extends StatelessWidget {
     required this.id,
     required this.totalHours,
     this.employeeImage,
+    this.customerId,
+    required this.employeeId,
   });
 
-  final String employeeName, location, inTime, outTime, id;
+  final String employeeName, location, inTime, outTime, id, employeeId;
   final String totalHours;
-  final String? employeeImage;
+  final String? employeeImage, customerId;
 
   @override
   Widget build(BuildContext context) {
@@ -69,46 +74,8 @@ class EmployeeAttendance extends StatelessWidget {
                   ? SizedBox(
                       child: IconButton(
                         onPressed: () {
-                          showDialog(
-                              barrierDismissible: true,
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  content: SizedBox(
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 0.5,
-                                    width: 300.w,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Employee Image",
-                                          style: AppStylesManger.font15BoldrBlue
-                                              .copyWith(color: Colors.black),
-                                        ),
-                                        verticalSpace(5),
-                                        CachedNetworkImage(
-                                          height: MediaQuery.sizeOf(context)
-                                                  .height *
-                                              0.46,
-                                          fit: BoxFit.fill,
-                                          imageUrl:
-                                              "http://ems.runasp.net${employeeImage!}",
-                                          placeholder: (context, url) => Center(
-                                              child: CircularProgressIndicator(
-                                            color: ColorsManger.primaryColor,
-                                            valueColor: AlwaysStoppedAnimation(
-                                              ColorsManger.primaryColor,
-                                            ),
-                                          )),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              });
+                          buildShowEmployeeImageDialog(context,
+                              employeeImage: employeeImage);
                         },
                         icon: Icon(
                           Icons.camera,
@@ -123,11 +90,124 @@ class EmployeeAttendance extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                location,
-                style: AppStylesManger.font15BoldrBlue
-                    .copyWith(color: Colors.black),
-              ),
+              location == 'Customer'
+                  ? Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              context
+                                  .read<SupervisorGetEmployeeAttendanceCubit>()
+                                  .supervisorGetCustomerInAttendance(
+                                      CustomerId: customerId!);
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return BlocProvider.value(
+                                      value: context.read<
+                                          SupervisorGetEmployeeAttendanceCubit>(),
+                                      child: AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        content: Container(
+                                            child: BlocBuilder<
+                                                    SupervisorGetEmployeeAttendanceCubit,
+                                                    SupervisorGetEmployeeAttendanceState>(
+                                                buildWhen: (previous,
+                                                        current) =>
+                                                    current is GetCustomerCustomerInAttendanceFailure ||
+                                                    current
+                                                        is GetCustomerCustomerInAttendanceSuccess ||
+                                                    current
+                                                        is GetCustomerCustomerInAttendanceLoading,
+                                                builder: (context, state) {
+                                                  if (state
+                                                      is GetCustomerCustomerInAttendanceSuccess) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Align(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            child: IconButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              icon: const Icon(
+                                                                  Icons.close),
+                                                            )),
+                                                        CircleAvatar(
+                                                          radius: 25.r,
+                                                          child: Icon(
+                                                              Icons.person),
+                                                        ),
+                                                        Text(
+                                                          '${state.customerInAttenadceModel.value?.name ?? 'Data'}',
+                                                          style: AppStylesManger
+                                                              .font15BoldrBlue
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        verticalSpace(5),
+                                                        Text(
+                                                            '${state.customerInAttenadceModel.value?.workesAs ?? ''}'),
+                                                        verticalSpace(5),
+                                                        Text(
+                                                            '${state.customerInAttenadceModel.value?.location ?? ''}'),
+                                                      ],
+                                                    );
+                                                  } else if (state
+                                                      is GetCustomerCustomerInAttendanceLoading) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else if (state
+                                                      is GetCustomerCustomerInAttendanceFailure) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(state
+                                                              .errorMessage),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  }
+                                                })),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Icon(Icons.visibility)),
+                        horizontalSpace(5),
+                        Text(
+                          location.tr(
+                            context: context,
+                          ),
+                          style: AppStylesManger.font15BoldrBlue
+                              .copyWith(color: Colors.black),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      location.tr(
+                        context: context,
+                      ),
+                      style: AppStylesManger.font15BoldrBlue
+                          .copyWith(color: Colors.black),
+                    ),
               Text(
                 'Present'.tr(
                   context: context,
@@ -203,7 +283,7 @@ class EmployeeAttendance extends StatelessWidget {
                   inTime == '00:00:00' || outTime == '00:00:00'
                       ? const Icon(CupertinoIcons.clock, color: Colors.grey)
                       : Text(
-                          totalHours.substring(0, 3),
+                          double.parse(totalHours).toStringAsFixed(2),
                           style: TextStyle(
                             color: isEarly
                                 ? Colors.red
@@ -217,7 +297,42 @@ class EmployeeAttendance extends StatelessWidget {
               )
             ],
           ),
-          horizontalSpace(10),
+          horizontalSpace(15),
+          location == 'Customer'
+              ? GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        enableDrag: false,
+                        context: context,
+                        builder: (_) => BlocProvider.value(
+                              value: context
+                                  .read<SupervisorGetEmployeeAttendanceCubit>()
+                                ..supervisorGetTrackingSummaryForEmployee(
+                                    employeeId: employeeId),
+                              child: EmployeeTrackingDiagramMap(),
+                            ));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(    
+                        Icons.location_on,
+                        color: ColorsManger.primaryColor,
+                      ),
+                      horizontalSpace(5),
+                      Text(
+                        'Location on Map'.tr(
+                          context: context,
+                        ),
+                        style: AppStylesManger.font15BoldrBlue
+                            .copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink()
         ]),
       ),
     );

@@ -11,7 +11,6 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../atoms/selectable_customer_list_tile.dart';
-import 'add_sub_plan_bloc_listener.dart';
 import 'multi_select_drop_down.dart';
 import 'set_sub_plan_list_view.dart';
 
@@ -30,7 +29,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
   void initState() {
     super.initState();
     context.read<PlanCubit>().customerId = '';
-    context.read<PlanCubit>().employeeIds = [];
+    context.read<PlanCubit>().dropdownItems = [];
     context.read<PlanCubit>().noteController = TextEditingController();
   }
 
@@ -46,6 +45,14 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.close),
+                  )),
               Text(
                 'Set Sub Plan'.tr(context: context),
                 style: AppStylesManger.font16BoldBlack,
@@ -55,6 +62,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
               PlanTypeBar(
                 onChange: (index) {
                   context.read<CustomerCubit>().getCustomersByType(
+                      isLoading: false,
                       customerType: index == 0
                           ? CustomerType.Customer
                           : CustomerType.Site);
@@ -73,6 +81,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
                 thickness: 1,
                 color: ColorsManger.primaryColor,
               ),
+              verticalSpace(10),
               const IntrinsicHeight(child: MultiSelectEmployeesDropdown()),
               verticalSpace(10),
               CustomAppTextFormField(
@@ -87,7 +96,6 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
                 textButton: 'Add'.tr(context: context),
                 buttonColor: ColorsManger.primaryColor,
               ),
-              const AddPlanSubBlocListener()
             ],
           ),
         ),

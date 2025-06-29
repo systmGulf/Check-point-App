@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/department_model/department_model.dart';
-import 'package:hr_management_system_package/admin/data/repo/department_repo/department_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'department_state.dart';
 

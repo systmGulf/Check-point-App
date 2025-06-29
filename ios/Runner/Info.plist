@@ -7,17 +7,20 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Test</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
+	<string>Tawreda</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de</string>
+	</array>
 	<key>CFBundleName</key>
-	<string>test</string>
+	<string>Tawreda</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,31 +29,44 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to allow you to upload profile pictures."</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your Camera to allow you to take pictures for an employee."</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>sms</string>
+		<string>tel</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MKDirectionsApplicationSupportedModes</key>
-	<array/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-	</dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string> uses APIs that access the user’s location information at all times,</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to provide better services.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to provide better services.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UIBackgroundModes</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need access to your location</string>
+<key>UIBackgroundModes</key>
 <array>
-  <string>location</string>
+  <string>fetch</string>
+  <string>remote-notification</string>
 </array>
+<key>firebase_messaging_auto_init_enabled</key>
+<true/>
+<key>UILaunchStoryboardName</key>
+<string>LaunchScreen</string>
+
+	<key>UIStatusBarStyle</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -64,5 +80,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

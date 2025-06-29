@@ -36,7 +36,7 @@ class Routes {
       '/employeeChangePasswordScreen';
   static const String departmentPermission = '/departmentPermission';
   static const String holidaysScreen = '/holidaysScreen';
-  static const String eventsScreen = '/eventsScreen';
+  static const String shiftsScreen = '/shiftsScreen';
   static const String companyBranchesScreen = '/companyBranchesScreen';
   static const String clientsScreen = '/clientsScreen';
   static const String termsAndConditionsScreen = '/termsAndConditionsScreen';
@@ -53,4 +53,8 @@ class Routes {
   static const String subPlansScreen = '/SubPLansScreen';
   static const String supervisorAddTasksScreen = '/supervisorAddTasksScreen';
   static const String myTasksScreen = '/myTasksScreen';
+  static const String policeScreen = '/policeScreen';
+  static const String addBranchsToShiftScreen = '/addBranchsToShiftScreen';
+
+
 }

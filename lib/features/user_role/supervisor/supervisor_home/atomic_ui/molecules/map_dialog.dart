@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/admin/data/models/branches/add_branch_request_body.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -27,7 +27,7 @@ class _MapDialogState extends State<MapDialog> {
   @override
   void initState() {
     super.initState();
-
+    context.read<BranchCubit>().locationFrame.clear();
     markers = {};
     points = [];
     polygons = {};
@@ -103,10 +103,14 @@ class _MapDialogState extends State<MapDialog> {
                                     WidgetStateProperty.all(Colors.red),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
-                                points.clear();
+                                points = [];
+                                context
+                                    .read<BranchCubit>()
+                                    .locationFrame
+                                    .clear();
                                 markers.clear();
                                 polygons.clear();
+                                Navigator.pop(context);
                               },
                               child: Text('cancel'.tr(context: context),
                                   style: AppStylesManger.font14regularWhite

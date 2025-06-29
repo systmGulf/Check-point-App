@@ -41,8 +41,9 @@ class _SelectableCustomerListState extends State<SelectableCustomerList> {
             planType: '',
           ));
         } else if (state is GetAllCustomersSuccess) {
-          List<DropdownItem> dropdownItems = state.customers.data!
-              .map((customer) => DropdownItem(
+          List<DropdownItemModel> dropdownItems = state.customers.data!
+              .map((customer) => DropdownItemModel(
+                    [],
                     id: customer.id ?? '',
                     name: customer.name ?? '',
                     isSelected: false,
@@ -65,7 +66,7 @@ class _SelectableCustomerListState extends State<SelectableCustomerList> {
 class SelectCustomersForTheSubPLanDropButton extends StatefulWidget {
   const SelectCustomersForTheSubPLanDropButton(
       {super.key, required this.dropdownItems, required this.planType});
-  final List<DropdownItem> dropdownItems;
+  final List<DropdownItemModel> dropdownItems;
   final String planType;
   @override
   State<SelectCustomersForTheSubPLanDropButton> createState() =>
@@ -92,7 +93,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
               child: Center(
                 child: SvgPicture.asset(
                   'assets/images/arrow_down.svg',
-                  color: Colors.orange,
+                  color: ColorsManger.primaryColor,
                 ),
               )),
           iconEnabledColor: ColorsManger.primaryColor,
@@ -105,7 +106,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
           value: widget.dropdownItems.firstWhereOrNull(
               (item) => item.id == context.read<PlanCubit>().customerId),
           items: widget.dropdownItems.map((item) {
-            return DropdownMenuItem<DropdownItem>(
+            return DropdownMenuItem<DropdownItemModel>(
               value: item,
               child: Text(
                 item.name,
@@ -114,7 +115,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
               ),
             );
           }).toList(),
-          onChanged: (DropdownItem? selectedItem) {
+          onChanged: (DropdownItemModel? selectedItem) {
             setState(() {
               if (context.read<PlanCubit>().customerId != selectedItem!.id) {
                 context.read<PlanCubit>().customerId = selectedItem.id;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/customers/get_customer_model.dart';
-import 'package:hr_management_system_package/admin/data/repo/customer_repo/customer_repo.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+
 
 import '../../../../../../core/enums/customer_type.dart';
 
@@ -22,52 +21,47 @@ class CustomerCubit extends Cubit<CustomerState> {
   List<CustomerLocation> customersLocation = [];
   Future<void> addCustomer({required CustomerType customerType}) async {
     emit(AddCustomerLoading());
-    try {
-      await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
-          customerType: customerType.name,
-          coordinates: customersLocation,
-          name: nameController.text,
-          workesAs: workedAsController.text,
-          location: locationController.text));
+    final result = await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
+        customerType: customerType.name,
+        coordinates: customersLocation,
+        name: nameController.text,
+        workesAs: workedAsController.text,
+        location: locationController.text));
 
+    result.fold((l) {
+      emit(AddCustomerError(error: l.message));
+    }, (r) {
+      nameController.clear();
+      workedAsController.clear();
+      locationController.clear();
       emit(AddCustomerSuccess());
-      getCustomersByType(customerType: customerType);
-    } on Exception catch (e) {
-      emit(
-        AddCustomerError(
-          error: e.toString(),
-        ),
-      );
-    }
+      getCustomersByType(customerType: customerType, isLoading: false);
+    });
   }
 
   Future<void> editCustomer(
       {required String id, required CustomerType customerType}) async {
     emit(EditCustomerLoading());
-    try {
-      await customerRepo.editCustomer(
-        id: id,
-        AddOrEditCustomerRequestBody(
-          customerType: customerType.name,
-          coordinates: customersLocation,
-          name: editNameController.text,
-          workesAs: editWorkedAsController.text,
-          location: editLocationController.text,
-        ),
-      );
+    final result = await customerRepo.editCustomer(
+      id: id,
+      AddOrEditCustomerRequestBody(
+        customerType: customerType.name,
+        coordinates: customersLocation,
+        name: editNameController.text,
+        workesAs: editWorkedAsController.text,
+        location: editLocationController.text,
+      ),
+    );
+
+    result.fold((l) {
+      emit(EditCustomerError(error: l.message));
+    }, (r) {
       nameController.clear();
       workedAsController.clear();
       locationController.clear();
       emit(EditCustomerSuccess());
-
-      getCustomersByType(customerType: customerType);
-    } on Exception catch (e) {
-      emit(
-        EditCustomerError(
-          error: e.toString(),
-        ),
-      );
-    }
+      getCustomersByType(customerType: customerType, isLoading: false);
+    });
   }
 
   Future<void> deleteCustomer(
@@ -82,7 +76,7 @@ class CustomerCubit extends Cubit<CustomerState> {
           ),
         ),
         (r) {
-          getCustomersByType(customerType: customerType);
+          getCustomersByType(customerType: customerType,isLoading: false );
           emit(DeleteCustomerSuccess());
         },
       );
@@ -95,8 +89,8 @@ class CustomerCubit extends Cubit<CustomerState> {
     }
   }
 
-  Future<void> getCustomersByType({required CustomerType customerType}) async {
-    emit(GetAllCustomersLoading());
+  Future<void> getCustomersByType({required CustomerType customerType, required bool isLoading}) async {
+    if (isLoading) emit(GetAllCustomersLoading());
     final result =
         await customerRepo.getCustomersByType(type: customerType.name);
     result.fold(
@@ -104,7 +98,7 @@ class CustomerCubit extends Cubit<CustomerState> {
         if (isClosed) return;
         emit(
           GetAllCustomersError(
-            error: l.toString(),
+            error: l.message,
           ),
         );
       },

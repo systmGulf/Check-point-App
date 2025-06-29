@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
@@ -8,8 +9,9 @@ import '../../../../../../core/styles/colors.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 
 class CheckInBlocBuilder extends StatelessWidget {
-  const CheckInBlocBuilder({super.key, required this.area});
+  const CheckInBlocBuilder({super.key, required this.area, });
   final String area;
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceCubit, AttendanceState>(
@@ -30,8 +32,11 @@ class CheckInBlocBuilder extends StatelessWidget {
               ),
               activeThumbColor: ColorsManger.primaryColor,
               activeTrackColor: Colors.grey.shade300,
-              onSwipe: () {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
+              onSwipe: () { WidgetsBinding.instance.addPostFrameCallback((_) async {
+                if (area == "Customer") {
+                    FlutterBackgroundService().invoke("setAsForeground");
+                       FlutterBackgroundService().startService();
+                }
                   context
                       .read<AttendanceCubit>()
                       .attend(typeAttendance: 'check_in', area: area);

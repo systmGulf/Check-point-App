@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin/data/models/branches/add_branch_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/branches/get_branches_models.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'branch_state.dart';
@@ -14,12 +12,14 @@ class BranchCubit extends Cubit<BranchState> {
   TextEditingController descriptionController = TextEditingController();
   List<LocationFrameLatLng> locationFrame = [];
 
-  Future<void> getBranches() async {
-    emit(GetBranchLoading());
+  Future<void> getBranches({required bool isLoading}) async {
+    if (isLoading) emit(GetBranchLoading());
     final result = await branchesRepo.getAllBranches();
     result.fold((l) {
+      if (isClosed) return;
       emit(GetBranchError(error: l.message));
     }, (r) {
+      if (isClosed) return;
       emit(GetBranchSuccess(branches: r));
     });
   }
@@ -34,12 +34,14 @@ class BranchCubit extends Cubit<BranchState> {
             coordinates: locationFrame));
 
     result.fold((l) {
+      if (isClosed) return;
       emit(AddBranchError(
         error: l.message,
       ));
     }, (r) async {
+      if (isClosed) return;
       emit(AddBranchSuccess());
-      await getBranches();
+      await getBranches(isLoading: false);
     });
   }
 
@@ -47,11 +49,13 @@ class BranchCubit extends Cubit<BranchState> {
     emit(DeleteBranchLoading());
     final result = await branchesRepo.deleteBranch(id: id);
     result.fold((l) {
+      if (isClosed) return;
       emit(DeleteBranchError(
         error: l.message,
       ));
     }, (r) {
-      getBranches();
+      if (isClosed) return;
+      getBranches(isLoading: false);
       emit(DeleteBranchSuccess());
     });
   }

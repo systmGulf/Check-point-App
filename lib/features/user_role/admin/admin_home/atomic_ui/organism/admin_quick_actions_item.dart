@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 
 class QuickActionsItem extends StatelessWidget {
@@ -26,20 +29,12 @@ class QuickActionsItem extends StatelessWidget {
           style: AppStylesManger.font14RegularBlack,
         ),
         const Spacer(),
-        Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.white,
-            ),
-            child: TextButton(
-              style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
-              onPressed: action,
-              child: Text('Add'.tr(context: context),
-                  style: AppStylesManger.font13DarkBlueMedium),
-            )),
+        CustomAppButton(
+            width: 100.w,
+            height: 35.h,
+            textButton: 'Add'.tr(context: context),
+            buttonColor: ColorsManger.primaryColor,
+            onPressed: action),
         horizontalSpace(10),
       ],
     );

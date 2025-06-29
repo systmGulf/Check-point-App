@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "487423665856",
-    "project_id": "employee-mangement-syste-26e0d",
-    "storage_bucket": "employee-mangement-syste-26e0d.appspot.com"
+    "project_number": "561042257551",
+    "project_id": "employeemanagmentsystem-621ee",
+    "storage_bucket": "employeemanagmentsystem-621ee.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:487423665856:android:aee6fbf76b78105bf4ef25",
+        "mobilesdk_app_id": "1:561042257551:android:fa0dcf309f447c126e22fa",
         "android_client_info": {
           "package_name": "com.example.employee_mangement"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDqcTcO5Kdi83Wsj8kxQYudj6OocYes9cE"
+          "current_key": "AIzaSyCbToLN2SYGEvdX2Vrue5-Z-fOE0TSdhMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561042257551:android:f1dfd773f6b53fc56e22fa",
+        "android_client_info": {
+          "package_name": "com.example.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbToLN2SYGEvdX2Vrue5-Z-fOE0TSdhMM"
         }
       ],
       "services": {

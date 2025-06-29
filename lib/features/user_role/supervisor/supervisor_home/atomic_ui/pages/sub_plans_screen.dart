@@ -1,21 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/get_plan_by_id_model.dart';
-import 'package:lottie/lottie.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
+import '../molecules/add_sub_plan_bloc_listener.dart';
 import '../molecules/add_sub_plan_bottom_sheet.dart';
 import '../molecules/set_sub_plan_list_view.dart';
 
 class SubPlansScreen extends StatefulWidget {
-  const SubPlansScreen({super.key});
+  const SubPlansScreen({super.key, required this.planId});
+  final int planId;
 
   @override
   State<SubPlansScreen> createState() => _SubPlansScreenState();
@@ -26,11 +31,8 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          child: const Icon(Icons.add),
-          onPressed: () {
-            showModalBottomSheet(
+        floatingActionButton: CustomFloatingActionButton(text: 'Add Plan'.tr(context: context), onTap: (){
+          showModalBottomSheet(
               context: context,
               backgroundColor: Colors.white,
               isScrollControlled: true,
@@ -48,12 +50,12 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                   BlocProvider(
                       create: (_) => getIt<CustomerCubit>()
                         ..getCustomersByType(
+                            isLoading: false,
                             customerType: CustomerType.Customer))
                 ], child: const AddSubPlanBottomSheet());
               },
             );
-          },
-        ),
+        }),
         appBar: buildCustomAppBar(
           context,
           'Plans For this Day'.tr(context: context),
@@ -70,8 +72,8 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
             BlocBuilder<PlanCubit, PlanState>(
               buildWhen: (previous, current) =>
                   current is GetPlanByIdSuccess ||
-                  current is GetPlanError ||
-                  current is GetPlanLoading,
+                  current is GetPlanByIdError ||
+                  current is GetPlanByIdLoading,
               builder: (context, state) {
                 if (state is GetPlanByIdSuccess) {
                   return state.planModel.customerPlans!.isNotEmpty
@@ -85,42 +87,37 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                           ),
                         )
                       : Center(
-                          child: Lottie.asset(
-                              'assets/animated_images/no_data_found.json'),
+                          child: NoDataFound()
                         );
-                } else if (state is GetPlanError) {
-                  return Column(
-                    children: [
-                      const Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
-                      verticalSpace(20),
-                      Text(state.error),
-                    ],
-                  );
+                } else if (state is GetPlanByIdError) {
+                  return state.error == 'Please check your internet connection'
+                      ? NoInternetConnectionWidget(onPressed: () {
+                          context
+                              .read<PlanCubit>()
+                              .getPlanById(id: widget.planId);
+                        })
+                      : Column(
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            verticalSpace(20),
+                            Text(state.error)
+                          ],
+                        );
                 } else {
                   return Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.sizeOf(context).height * 0.4),
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: ColorsManger.primaryColor,
+                        strokeWidth: 2,
+                      ),
                     ),
                   );
-                  // return Skeletonizer(
-                  //   child: Expanded(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //       child: GetSubPlanListView(
-                  //         planType: planType,
-                  //         planModel: getDummyPlanByIdValue(),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // );
                 }
               },
-            )
+            ),
+            const AddPlanSubBlocListener()
           ],
         ));
   }

@@ -1,0 +1,77 @@
+
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../../../core/styles/colors.dart';
+import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
+import '../molecules/police_item.dart';
+import 'add_police_bloc_listener.dart';
+
+class PoliceScreenBody extends StatelessWidget {
+  const PoliceScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: ListView(
+            children: [
+              BlocBuilder<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
+                buildWhen: (previous, current) =>
+                    current is GetPoliceByShiftIDLoading ||
+                    current is GetPoliceByShiftIDSuccess ||
+                    current is GetPoliceByShiftIDError,
+                builder: (context, state) {
+                  if (state is GetPoliceByShiftIDLoading) {
+                    return  Padding(
+                      padding:  EdgeInsets.only(
+                        top: MediaQuery.sizeOf(context).height * 0.5,
+                      ),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: ColorsManger.primaryColor,
+                          strokeWidth: 2,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else if (state is GetPoliceByShiftIDSuccess) {
+                    return  state.policeResponse.value!.data!.isEmpty ? NoDataFound() : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.policeResponse.value!.data!.length,
+                        itemBuilder: (context, index) {
+                          return  Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PoliceItem(
+                              policeId: state.policeResponse.value!.data![index].id ?? 00,
+                              year: state
+                                  .policeResponse.value!.data![index].year
+                                  .toString(),
+                              month: state
+                                  .policeResponse.value!.data![index].month
+                                  .toString(),
+                              timeIn: state.policeResponse.value!.data![index]
+                                  .clockInTime
+                                  .toString()
+                                  .substring(0, 5),
+                              timeOut: state.policeResponse.value!.data![index]
+                                  .clockOutTime
+                                  .toString()
+                                  .substring(0, 5),
+                            ),
+                          );
+                        });
+                  } else {
+                    return NoDataFound();
+                  }
+                },
+              ),
+              AddPoliceBlocListener(),
+            ],
+          ),
+        );
+  }
+}

@@ -29,6 +29,9 @@ class SupervisorGetLateComersBlocBuilder extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: EmployeeAttendance(
+                  employeeId: state
+                      .employeeAllAttendance.data![index].employeeId
+                      .toString(),
                   totalHours:
                       state.employeeAllAttendance.data![index].totalHours.toString(),
                   id: state.employeeAllAttendance.data![index].id.toString(),
@@ -60,6 +63,7 @@ class SupervisorGetLateComersBlocBuilder extends StatelessWidget {
               return const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: EmployeeAttendance(
+                  employeeId: '',
                   totalHours: '10:00',
                   id: '',
                   employeeName: 'data loading',

@@ -1,18 +1,19 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/styles/styles.dart';
+import '../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 import '../../../../../core/widgets/custom_app_button.dart';
 import '../../cubit/register_account/register_account_cubit.dart';
 import 'register_account_bloc_listener.dart';
 import 'register_account_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 
 class OnboardingScreenBody extends StatelessWidget {
   const OnboardingScreenBody({super.key});
@@ -33,22 +34,49 @@ class OnboardingScreenBody extends StatelessWidget {
                         onPressed: () {
                           buildChangeLanguageBottomSheet(context);
                         },
-                        child: const SizedBox(
-                          width: 30,
-                          child: Image(
-                              image: AssetImage(
-                                  'assets/images/icon-language.png')),
-                        )),
+                        child: CustomAppButton(
+                            height: 40.h,
+                            width: 80.w,
+                            textButton: 'language'.tr(),
+                            buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  const Image(
-                    image: AssetImage('assets/images/app_logo.png'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FadeInLeft(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                              radius: 25.r,
+                              backgroundColor: Colors.white,
+                              backgroundImage:
+                                  AssetImage('assets/images/app_logo.png')),
+                        ),
+                      ),
+                      horizontalSpace(10),
+                      FadeInRight(
+                        child: Text(
+                          'Art Attack'.tr(),
+                          style: AppStylesManger.font15BoldrBlue.copyWith(
+                            color: ColorsManger.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  verticalSpace(30),
+                  verticalSpace(10),
+                  FadeIn(
+                    duration: const Duration(milliseconds: 500),
+                    child: Text(
+                      "Stay organized with team".tr(),
+                      style: AppStylesManger.font12RegularGrey,
+                    ),
+                  ),
+                  verticalSpace(40),
                   CustomAppButton(
-                    onPressed: () {
+                    onPressed: () async {
                       context.pushName(Routes.userRoleScreen);
-                    
                     },
                     textButton: 'get_started'.tr(),
                     buttonColor: ColorsManger.primaryColor,
@@ -57,6 +85,7 @@ class OnboardingScreenBody extends StatelessWidget {
                   TextButton(
                     child: Text.rich(TextSpan(
                       text: 'Ask Admin to Create Account  '.tr(),
+                      style: AppStylesManger.font14RegularBlack,
                       children: [
                         TextSpan(
                             text: 'register'.tr(),
@@ -76,9 +105,15 @@ class OnboardingScreenBody extends StatelessWidget {
                           });
                     },
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+
+                  // Text(
+                  //   'Create Eployee Account'.tr(),
+                  //   style: AppStylesManger.font13regulerBlue.copyWith(
+                  //     color: Colors.grey,
+                  //     fontWeight: FontWeight.bold
+                  //   ),
+                  // ),
+                  verticalSpace(10),
                   const RegisterAccountBlocListener()
                 ],
               ),

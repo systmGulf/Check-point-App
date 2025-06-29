@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +28,7 @@ class _priorityWidgetState extends State<priorityWidget> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
+      dropdownColor: Colors.white,
       isExpanded: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -36,28 +38,48 @@ class _priorityWidgetState extends State<priorityWidget> {
             width: 1,
           ),
         ),
-        fillColor: context.read<TasksCubit>().priorityStatus == 'medium'
+        fillColor: context
+                    .read<TasksCubit>()
+                    .priorityStatus
+                    .tr(context: context) ==
+                'medium'.tr(context: context)
             ? const Color(0xFFF0ECFF)
-            : context.read<TasksCubit>().priorityStatus == 'low'
+            : context.read<TasksCubit>().priorityStatus.tr(context: context) ==
+                    'low'.tr(context: context)
                 ? const Color(0xFFE3F2FF)
                 : Color(0XFFFFE4F2),
         filled: true,
         prefixIcon: Icon(
           Icons.flag_outlined,
-          color: context.read<TasksCubit>().priorityStatus == 'medium'
-              ? const Color(0xFF5F33E1)
-              : context.read<TasksCubit>().priorityStatus == 'low'
-                  ? const Color(0xFF0087FF)
-                  : Colors.red,
+          color:
+              context.read<TasksCubit>().priorityStatus.tr(context: context) ==
+                      'medium'.tr(context: context)
+                  ? const Color(0xFF5F33E1)
+                  : context
+                              .read<TasksCubit>()
+                              .priorityStatus
+                              .tr(context: context)
+                              .tr(context: context) ==
+                          'low'.tr(context: context)
+                      ? const Color(0xFF0087FF)
+                      : Colors.red,
         ),
         suffixIcon: SizedBox(
           width: 24,
           child: Center(
             child: SvgPicture.asset(
               'assets/images/arrow_down.svg',
-              color: context.read<TasksCubit>().priorityStatus == 'medium'
+              color: context
+                          .read<TasksCubit>()
+                          .priorityStatus
+                          .tr(context: context) ==
+                      'medium'.tr(context: context)
                   ? const Color(0xFF5F33E1)
-                  : context.read<TasksCubit>().priorityStatus == 'low'
+                  : context
+                              .read<TasksCubit>()
+                              .priorityStatus
+                              .tr(context: context) ==
+                          'low'.tr(context: context)
                       ? const Color(0xFF0087FF)
                       : Colors.red,
             ),
@@ -81,23 +103,29 @@ class _priorityWidgetState extends State<priorityWidget> {
       style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
-          color: context.read<TasksCubit>().priorityStatus == 'medium'
-              ? const Color(0xFF5F33E1)
-              : context.read<TasksCubit>().priorityStatus == 'low'
-                  ? const Color(0xFF0087FF)
-                  : Colors.red),
-      items: const [
+          color:
+              context.read<TasksCubit>().priorityStatus.tr(context: context) ==
+                      'medium'.tr(context: context)
+                  ? const Color(0xFF5F33E1)
+                  : context
+                              .read<TasksCubit>()
+                              .priorityStatus
+                              .tr(context: context) ==
+                          'low'.tr(context: context)
+                      ? const Color(0xFF0087FF)
+                      : Colors.red),
+      items: [
         DropdownMenuItem(
           value: 'low',
-          child: Text('low'),
+          child: Text('low'.tr(context: context)),
         ),
         DropdownMenuItem(
           value: 'medium',
-          child: Text('medium'),
+          child: Text('medium'.tr(context: context)),
         ),
         DropdownMenuItem(
           value: 'high',
-          child: Text('high'),
+          child: Text('high'.tr(context: context)),
         ),
       ],
       onChanged: widget.onChanged,

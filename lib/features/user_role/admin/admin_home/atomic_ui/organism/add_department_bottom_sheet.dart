@@ -1,6 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/custom_app_text_form_field.dart';
-import '../../controllers/department_cubit/department_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_app_button.dart';
+import '../../../../../../core/widgets/custom_app_text_form_field.dart';
+import '../../controllers/department_cubit/department_cubit.dart';
 import 'add_department_bloc_listener.dart';
 
 class AddDepartmentBottomSheet extends StatefulWidget {
@@ -48,6 +48,24 @@ class _AddDepartmentBottomSheetState extends State<AddDepartmentBottomSheet> {
             ),
             child: Column(
               children: [
+                Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.close),
+                    )),
+                SizedBox(
+                  child: Text(
+                    'Add New Department'.tr(context: context),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ColorsManger.primaryColor,
+                        fontSize: 16),
+                  ),
+                ),
+                verticalSpace(5),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {

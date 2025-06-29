@@ -1,14 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/widgets/custom_app_text_form_field.dart';
+import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/admin/data/models/customers/add_customer_request_body.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../molecules/client_image_and_name.dart';
 import '../organism/edit_customer_bloc_listener.dart';
@@ -183,37 +185,33 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                 ),
                 verticalSpace(20),
                 if (_isEditEnabled)
-                  SizedBox(
-                    width: 120.w,
+                  CustomAppButton(
                     height: 50.h,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ),
-                      onPressed: () async {
-                        if (_isEditEnabled) {
-                          if (BlocProvider.of<CustomerCubit>(context)
-                              .formKey
-                              .currentState!
-                              .validate()) {
-                            context.read<CustomerCubit>().customersLocation.add(
-                                CustomerLocation(
-                                    latitude: widget.mapLoaction.latitude,
-                                    longitude: widget.mapLoaction.longitude));
-                            await BlocProvider.of<CustomerCubit>(context)
-                                .editCustomer(
-                              customerType: CustomerType.Customer,
-                              id: widget.id,
-                            );
-                          }
+                    width: MediaQuery.of(context).size.width,
+                    textButton: 'Save'.tr(context: context),
+                    buttonColor: ColorsManger.primaryColor,
+                    onPressed: () async {
+                      if (_isEditEnabled) {
+                        if (BlocProvider.of<CustomerCubit>(context)
+                            .formKey
+                            .currentState!
+                            .validate()) {
+                          context.read<CustomerCubit>().customersLocation.add(
+                              CustomerLocation(
+                                  latitude: widget.mapLoaction.latitude,
+                                  longitude: widget.mapLoaction.longitude));
+                          await BlocProvider.of<CustomerCubit>(context)
+                              .editCustomer(
+                            customerType: CustomerType.Customer,
+                            id: widget.id,
+                          );
                         }
+                      }
 
-                        setState(() {
-                          _isEditEnabled = !_isEditEnabled;
-                        });
-                      },
-                      child: Text('Save'.tr(context: context)),
-                    ),
+                      setState(() {
+                        _isEditEnabled = !_isEditEnabled;
+                      });
+                    },
                   ),
                 const SizedBox(height: 16),
                 const EditCustomerBlocListener(),

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/core.dart';
@@ -6,6 +7,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 
 class AdminCustomDrawer extends StatelessWidget {
   const AdminCustomDrawer({super.key});
@@ -39,35 +41,7 @@ class AdminCustomDrawer extends StatelessWidget {
           trailingIcon: Icons.arrow_forward_ios,
           title: 'Change Language'.tr(context: context),
           onTap: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (cnx) {
-                  return IntrinsicHeight(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            onTap: () {
-                              EasyLocalization.of(context)!
-                                  .setLocale(const Locale('en', 'US'));
-                              Navigator.pop(context);
-                            },
-                            title: const Text('English'),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              EasyLocalization.of(context)!
-                                  .setLocale(const Locale('ar', 'AE'));
-                              Navigator.pop(context);
-                            },
-                            title: const Text('العربية'),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                });
+            buildChangeLanguageBottomSheet(context);
           }),
       AdminDrawerItem(
           onTap: () async {
@@ -120,16 +94,19 @@ class AdminDrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ListTile(
-        leading: Icon(icon, color: Colors.grey, size: 23),
-        title: Text(title,
-            style: AppStylesManger.font14RegularBlack.copyWith(
-                color: const Color.fromARGB(255, 93, 93, 93),
-                fontWeight: FontWeight.bold,
-                fontSize: 13.5)),
-        trailing: Icon(trailingIcon, color: Colors.grey, size: 15),
+    return FadeInRight(
+      duration: const Duration(milliseconds: 500),
+      child: GestureDetector(
+        onTap: onTap,
+        child: ListTile(
+          leading: Icon(icon, color: Colors.grey, size: 23),
+          title: Text(title,
+              style: AppStylesManger.font14RegularBlack.copyWith(
+                  color: const Color.fromARGB(255, 93, 93, 93),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.5)),
+          trailing: Icon(trailingIcon, color: Colors.grey, size: 15),
+        ),
       ),
     );
   }

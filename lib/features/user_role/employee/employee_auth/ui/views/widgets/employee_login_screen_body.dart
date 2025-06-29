@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../../core/helpers/app_spaces.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../../core/enums/role_enum.dart';
+import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/custom_app_button.dart';
 import 'email_and_password_text_feild.dart';
@@ -34,6 +35,7 @@ class EmployeeLoginScreenBody extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CustomAppButton(
                     onPressed: () {
+                      TextInput.finishAutofillContext(shouldSave: true);
                       validateAndLogin(context);
                     },
                     textButton: 'Sign In'.tr(),

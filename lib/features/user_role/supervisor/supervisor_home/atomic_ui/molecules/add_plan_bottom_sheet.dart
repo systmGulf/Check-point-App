@@ -36,6 +36,14 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.close),
+                )),
             Text(
               'Set Plan'.tr(context: context),
               style: AppStylesManger.font16BoldBlack,
@@ -44,7 +52,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
             Row(
               children: [
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text('Date of plan'.tr(context: context),
                       style: AppStylesManger.font12RegularGrey),
                 ),
@@ -90,7 +98,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
                 letterSpacing: 0.20,
               ),
               hint: context.read<PlanCubit>().planDate == '0'
-                  ? 'choose due date...'
+                  ? 'choose due date...'.tr(context: context)
                   : context.read<PlanCubit>().planDate,
               suffixIcon: SizedBox(
                   height: 24,
@@ -100,7 +108,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
             ),
             verticalSpace(10),
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text('Note'.tr(context: context),
                   style: AppStylesManger.font12RegularGrey),
             ),

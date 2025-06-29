@@ -18,7 +18,7 @@ class AddTaskError extends TasksState {
 class GetTasksLoading extends TasksState {}
 
 class GetTasksSuccess extends TasksState {
-  final GetTaskResponse tasks;
+  final  List<GetTasData> tasks;
 
   GetTasksSuccess({required this.tasks});
 }
@@ -50,3 +50,9 @@ class AssignTaskError extends TasksState {
   AssignTaskError({required this.errorMessage});  
 }
 
+class ChangeTaskStatusLoading extends TasksState {}
+class ChangeTaskStatusSuccess extends TasksState {}
+class ChangeTaskStatusError extends TasksState {
+  final String errorMessage;
+  ChangeTaskStatusError({required this.errorMessage});
+}

@@ -1,5 +1,8 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
+import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -26,27 +29,25 @@ class PlansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.white,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
+      floatingActionButton: CustomFloatingActionButton(
+          text: 'Add Plan'.tr(context: context),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.white,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
               ),
-            ),
-            builder: (_) {
-              return BlocProvider.value(
-                  value: context.read<PlanCubit>(),
-                  child: const AddPlanBottomSheet());
-            },
-          );
-        },
-      ),
+              builder: (_) {
+                return BlocProvider.value(
+                    value: context.read<PlanCubit>(),
+                    child: const AddPlanBottomSheet());
+              },
+            );
+          }),
       body: BlocBuilder<PlanCubit, PlanState>(
         buildWhen: (previous, current) =>
             current is GetPlanSuccess ||
@@ -54,39 +55,58 @@ class PlansScreen extends StatelessWidget {
             current is GetPlanLoading,
         builder: (context, state) {
           if (state is GetPlanError) {
-            return Column(
-              children: [
-                const Icon(Icons.error, color: Colors.red),
-                verticalSpace(20),
-                Text(state.error)
-              ],
-            );
+            return state.error == 'Please check your internet connection'
+                ? NoInternetConnectionWidget(onPressed: () {
+                    context.read<PlanCubit>().getPlan();
+                  })
+                : Column(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      verticalSpace(20),
+                      Text(state.error)
+                    ],
+                  );
           }
           if (state is GetPlanSuccess) {
             return state.planModel.data!.isNotEmpty
-                ? ListView.builder(
-                    itemCount: state.planModel.data!.length,
-                    itemBuilder: (context, index) {
-                      return PlanItem(
-                        planId: state.planModel.data![index].id!,
-                        planDate: state.planModel.data![index].planDate ?? '',
-                        note: state.planModel.data![index].note ?? '',
-                        onTap: () {
-                          context.read<PlanCubit>().planId =
-                              state.planModel.data![index].id!;
-                          log(state.planModel.data![index].id!.toString());
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return BlocProvider.value(
-                              value: context.read<PlanCubit>()
-                                ..getPlanById(
-                                    id: state.planModel.data![index].id!),
-                              child: const SubPlansScreen(),
-                            );
-                          }));
-                        },
-                      );
-                    })
+                ? RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<PlanCubit>().getPlan();
+                    },
+                    child: ListView.builder(
+                        itemCount: state.planModel.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              PlanItem(
+                                planId: state.planModel.data![index].id!,
+                                planDate:
+                                    state.planModel.data![index].planDate ?? '',
+                                note: state.planModel.data![index].note ?? '',
+                                onTap: () {
+                                  context.read<PlanCubit>().planId =
+                                      state.planModel.data![index].id!;
+                                  log(state.planModel.data![index].id!
+                                      .toString());
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) {
+                                    return BlocProvider.value(
+                                      value: context.read<PlanCubit>()
+                                        ..getPlanById(
+                                            id: state
+                                                .planModel.data![index].id!),
+                                      child: SubPlansScreen(
+                                        planId:
+                                            state.planModel.data![index].id!,
+                                      ),
+                                    );
+                                  }));
+                                },
+                              ),
+                            ],
+                          );
+                        }),
+                  )
                 : NoDataFound();
           }
           return ListView.builder(

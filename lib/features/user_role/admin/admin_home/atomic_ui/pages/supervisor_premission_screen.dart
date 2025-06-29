@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/supervisor_premission_item.dart';
 
@@ -11,7 +11,7 @@ class SupervisorPermission extends StatefulWidget {
       {super.key,
       required this.supervisorId,
       required this.attendancePermission,
-      required this.planPermission});
+      required this.planPermission, });
   final String supervisorId;
   final bool attendancePermission;
   final bool planPermission;

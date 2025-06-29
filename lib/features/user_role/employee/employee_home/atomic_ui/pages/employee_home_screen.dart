@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
@@ -25,7 +26,7 @@ class EmployeeHomeScreen extends StatelessWidget {
       drawer: Drawer(
         child: BlocProvider(
           create: (context) => LeaveApplicationCubit(
-            getIt<EmployeeRepo>(),
+            getIt<EmployeeActionRepo>(),
           ),
           child: const EmployeeMoreOptionDrawer(),
         ),

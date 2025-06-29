@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/supervisor/data/models/employees_attendance_model/get_employee_attendance.dart';
-import 'package:lottie/lottie.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/share_attendace_cubit/shareattendance_cubit.dart';
 import '../organism/employee_attendace.dart';
@@ -24,13 +26,19 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
           current is SupervisorGetEmployeeAttendanceSuccess,
       builder: (context, state) {
         if (state is SupervisorGetEmployeeAttendanceFailure) {
-          return Column(
-            children: [
-              const Icon(Icons.error, color: Colors.red),
-              const SizedBox(height: 10),
-              Text(state.errorMsg),
-            ],
-          );
+          return state.errorMsg == 'Please check your internet connection'
+              ? NoInternetConnectionWidget(onPressed: () {
+                  context
+                      .read<SupervisorGetEmployeeAttendanceCubit>()
+                      .supervisorGetEmployeesAttendanceByDepartmentId();
+                })
+              : Column(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    verticalSpace(20),
+                    Text(state.errorMsg)
+                  ],
+                );
         } else if (state is SupervisorGetEmployeeAttendanceSuccess) {
           final List<SupervisorGetAllEmployeesAttendanceData> filteredList =
               state.employeeAllAttendance.data!
@@ -55,8 +63,9 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                             onPressed: () async {
                               await Permission.storage.request();
                               context
-                                  .read<ShareattendanceCubit>()
-                                  .exportAndShareExcel(filteredList);
+                                  .read<ShareattendanceCubit>().exportAndShareExcel(
+                                      filteredList);
+                                
                             },
                             icon: Icon(
                               Icons.share,
@@ -74,9 +83,11 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           child: EmployeeAttendance(
+                            employeeId: filteredList[index].employeeId ?? '',
+                            customerId: filteredList[index].customerId.toString() ,
                             employeeImage: filteredList[index].employeeImage,
                             totalHours:
-                                filteredList[index].totalHours.toString() ?? '',
+                                filteredList[index].totalHours.toString() ,
                             id: filteredList[index].employeeId ?? '',
                             employeeName:
                                 filteredList[index].employeeName ?? '',
@@ -91,8 +102,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                 )
               : SizedBox(
                   height: 300.h,
-                  child: Lottie.asset(
-                      'assets/animated_images/no_data_found.json'));
+                  child: NoDataFound());
         } else if (state is SupervisorGetEmployeeAttendanceLoading) {
           return Skeletonizer(
             enabled: true,
@@ -101,10 +111,11 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (context, index) {
-                return const Padding(
+                return  Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: EmployeeAttendance(
-                    totalHours: '10:00',
+                    employeeId: '',
+                    totalHours: double.parse( '0.12').toStringAsFixed(2),
                     id: '',
                     employeeName: 'data loading',
                     location: 'data loading',

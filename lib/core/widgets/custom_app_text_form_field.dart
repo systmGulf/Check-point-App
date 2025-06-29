@@ -15,7 +15,7 @@ class CustomAppTextFormField extends StatelessWidget {
     this.maxLines,
     this.readOnly,
     this.onTap,
-    this.onChanged, this.prefixIcon, this.hintStyle,
+    this.onChanged, this.prefixIcon, this.hintStyle, this.autofillHints, this.keyboardType,
   });
   final String hint;
   final IconData? icon;
@@ -28,12 +28,18 @@ class CustomAppTextFormField extends StatelessWidget {
   final TextStyle? hintStyle;
   final bool? readOnly;
   final Function(String)? onChanged;
+  final Iterable<String>? autofillHints;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofillHints:autofillHints ,
+      cursorColor: ColorsManger.primaryColor,
       onTap: onTap,
       readOnly: readOnly ?? false,
       onChanged: onChanged,
+      keyboardType:  keyboardType,
+      
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,

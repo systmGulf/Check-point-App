@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 
 class DepartmentPosition extends StatelessWidget {
@@ -20,7 +21,7 @@ class DepartmentPosition extends StatelessWidget {
         child: Container(
           height: 50,
           decoration: BoxDecoration(
-            color: index == true ? Colors.blue : Colors.white,
+            color: index == true ? ColorsManger.primaryColor : Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           width: 100,

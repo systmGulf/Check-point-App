@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
 import 'role_option.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserRoleScreenBody extends StatelessWidget {
   const UserRoleScreenBody({super.key});
@@ -58,10 +58,13 @@ class UserRoleScreenBody extends StatelessWidget {
                 ),
               ),
               verticalSpace(40),
-              SizedBox(
-                  height: 100.h,
-                  child: const Image(
-                      image: AssetImage('assets/images/app_logo.png')))
+              Align(
+                alignment: Alignment.center,
+                child: CircleAvatar(
+                    radius: 40.r,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage('assets/images/app_logo.png')),
+              ),
             ],
           ),
         ),

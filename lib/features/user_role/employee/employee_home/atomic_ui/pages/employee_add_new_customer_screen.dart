@@ -55,7 +55,7 @@ class _EmployeeAddNewCustomerScreenState
                   children: [
                     verticalSpace(7),
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text('Customer name'.tr(context: context),
                           style: AppStylesManger.font12RegularGrey),
                     ),
@@ -72,8 +72,8 @@ class _EmployeeAddNewCustomerScreenState
                     ),
                     verticalSpace(7),
                     Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('The Customer\'s job'.tr(context: context),
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text('The Customer job'.tr(context: context),
                           style: AppStylesManger.font12RegularGrey),
                     ),
                     verticalSpace(10),
@@ -90,7 +90,7 @@ class _EmployeeAddNewCustomerScreenState
                     ),
                     verticalSpace(7),
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text('Location'.tr(context: context),
                           style: AppStylesManger.font12RegularGrey),
                     ),
@@ -129,7 +129,7 @@ class _EmployeeAddNewCustomerScreenState
                     ),
                     verticalSpace(7),
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text('Address'.tr(context: context),
                           style: AppStylesManger.font12RegularGrey),
                     ),
@@ -166,7 +166,6 @@ class _EmployeeAddNewCustomerScreenState
                                 CustomSnackBar.error(
                                   message: 'Please Select Location'
                                       .tr(context: context),
-                                  // backgroundColor: Colors.red,
                                 ),
                               );
                             }
