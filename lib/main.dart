@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +20,7 @@ import 'core/common/bloc_observer.dart';
 import 'employee_mangement_system.dart';
 
 Future<void> initializeServices() async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   // await FcmNotificationService.init();
   await LocalNotificationService.init();
   await Permission.storage.request();
