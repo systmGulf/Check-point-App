@@ -41,30 +41,11 @@ class OnboardingScreenBody extends StatelessWidget {
                             buttonColor: ColorsManger.primaryColor)),
                   ),
                   const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FadeInLeft(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                              radius: 25.r,
-                              backgroundColor: Colors.white,
-                              backgroundImage:
-                                  AssetImage('assets/images/app_logo.png')),
-                        ),
-                      ),
-                      horizontalSpace(10),
-                      FadeInRight(
-                        child: Text(
-                          'Art Attack'.tr(),
-                          style: AppStylesManger.font15BoldrBlue.copyWith(
-                            color: ColorsManger.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  CircleAvatar(
+                      radius: 30.r,
+                      backgroundColor: Colors.white,
+                      backgroundImage:
+                          AssetImage('assets/images/vodaphone.png')),
                   verticalSpace(10),
                   FadeIn(
                     duration: const Duration(milliseconds: 500),

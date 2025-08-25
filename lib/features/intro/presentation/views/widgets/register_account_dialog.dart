@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
+import '../../../../../core/styles/colors.dart';
 import '../../../../../core/styles/styles.dart';
 import '../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../cubit/register_account/register_account_cubit.dart';
@@ -30,7 +31,8 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
     return AlertDialog(
       backgroundColor: Colors.white,
       title: Text('Registere Account'.tr(),
-          style: AppStylesManger.font15BoldBlack),
+          style: AppStylesManger.font15BoldBlack
+              .copyWith(color: ColorsManger.primaryColor)),
       content: Form(
         key: context.read<RegisterAccountCubit>().formKey,
         child: Column(
@@ -67,11 +69,11 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
             child: Text('Cancel'.tr(), style: AppStylesManger.font15BoldBlack)),
         TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: Colors.black,
+              backgroundColor: ColorsManger.primaryColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
-                  side: const BorderSide(color: Colors.black)),
+                  side: BorderSide(color: ColorsManger.primaryColor)),
             ),
             onPressed: () {
               validateAndRegister(context);

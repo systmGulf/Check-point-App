@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../organism/employee_more_option_list_view.dart';
@@ -15,8 +16,10 @@ class EmployeeMoreOptionDrawer extends StatelessWidget {
           SliverToBoxAdapter(
               child: Column(
             children: [
-              Image.asset('assets/images/app_logo.png'),
-              verticalSpace(20),
+              verticalSpace(50),
+              SizedBox(
+                  height: 100.h,
+                  child: Image.asset('assets/images/vodaphone.png')),
               const MoreOptionDrawerListView(),
             ],
           )),
