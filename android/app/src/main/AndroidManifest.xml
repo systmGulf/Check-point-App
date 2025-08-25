@@ -21,7 +21,7 @@
         android:label="Check Point"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
        
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyAqeyQr2W8H-kp5Jo1c04Iszon12mtBL30"/>

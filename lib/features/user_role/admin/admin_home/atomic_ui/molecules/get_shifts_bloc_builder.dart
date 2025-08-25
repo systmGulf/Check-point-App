@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
-import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,18 +59,11 @@ class GetShiftsBlocBuilder extends StatelessWidget {
                                           .shiftModel.value!.data![index].id);
                                 },
                                 onDelete: () async {
-                                  buildAlertDialog(context,
-                                      title:
-                                          'Delete Shift'.tr(context: context),
-                                      message:
-                                          'Are you sure you want to delete this Shift?'
-                                              .tr(context: context), onYes: () {
-                                    context
-                                        .read<ShiftsAndPolicesCubit>()
-                                        .deleteShift(
-                                            id: state.shiftModel.value!
-                                                .data![index].id!);
-                                  });
+                                  context
+                                      .read<ShiftsAndPolicesCubit>()
+                                      .deleteShift(
+                                          id: state.shiftModel.value!
+                                              .data![index].id!);
                                 },
                                 shiftName:
                                     state.shiftModel.value!.data![index].name!,

@@ -30,7 +30,7 @@ class PermissionScreen extends StatelessWidget {
             CircleAvatar(
                 radius: 50.r,
                 child: Image.asset(
-                  'assets/images/app_logo.png',
+                  'assets/images/vodaphone.png',
                   fit: BoxFit.fill,
                 )),
             verticalSpace(20),

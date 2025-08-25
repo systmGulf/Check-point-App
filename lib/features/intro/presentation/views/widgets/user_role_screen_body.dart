@@ -61,9 +61,9 @@ class UserRoleScreenBody extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: CircleAvatar(
-                    radius: 40.r,
+                    radius: 30.r,
                     backgroundColor: Colors.white,
-                    backgroundImage: AssetImage('assets/images/app_logo.png')),
+                    backgroundImage: AssetImage('assets/images/vodaphone.png')),
               ),
             ],
           ),

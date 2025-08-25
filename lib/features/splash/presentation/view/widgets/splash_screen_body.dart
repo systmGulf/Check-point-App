@@ -1,5 +1,6 @@
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -29,12 +30,12 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(),
-        const Align(
+        Align(
           alignment: Alignment.center,
           child: CircleAvatar(
-              radius: 100,
+              radius: 70.r,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage('assets/images/app_logo.png')),
+              backgroundImage: AssetImage('assets/images/vodaphone.png')),
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),
