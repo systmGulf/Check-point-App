@@ -7,7 +7,6 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 
-
 class EmployeeTrackingDiagramMap extends StatelessWidget {
   const EmployeeTrackingDiagramMap({super.key});
 
@@ -63,42 +62,53 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
             northeast: LatLng(maxLat, maxLng),
           );
 
-          return Stack(
-            children: [
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: points.first,
-                  zoom: 15,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId('start'),
-                    position: points.first,
-                    infoWindow: const InfoWindow(title: "Start"),
-                  ),
-                  Marker(
-                    markerId: const MarkerId('end'),
-                    position: points.last,
-                    infoWindow: const InfoWindow(title: "End"),
-                  ),
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: ColorsManger.primaryColor,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId('route'),
-                    points: points,
-                    color: ColorsManger.primaryColor,
-                    width: 5,
-                  ),
-                },
-                onMapCreated: (GoogleMapController controller) {
-                  Future.delayed(const Duration(milliseconds: 300), () {
-                    controller.animateCamera(
-                        CameraUpdate.newLatLngBounds(bounds, 50));
-                  });
-                },
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               ),
-            ],
+            ),
+            body: Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: CameraPosition(
+                    target: points.first,
+                    zoom: 15,
+                  ),
+                  markers: {
+                    Marker(
+                      markerId: const MarkerId('start'),
+                      position: points.first,
+                      infoWindow: const InfoWindow(title: "Start"),
+                    ),
+                    Marker(
+                      markerId: const MarkerId('end'),
+                      position: points.last,
+                      infoWindow: const InfoWindow(title: "End"),
+                    ),
+                  },
+                  polylines: {
+                    Polyline(
+                      polylineId: const PolylineId('route'),
+                      points: points,
+                      color: ColorsManger.primaryColor,
+                      width: 5,
+                    ),
+                  },
+                  onMapCreated: (GoogleMapController controller) {
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      controller.animateCamera(
+                          CameraUpdate.newLatLngBounds(bounds, 50));
+                    });
+                  },
+                ),
+              ],
+            ),
           );
         } else {
           return const SizedBox.shrink();
