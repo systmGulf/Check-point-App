@@ -14,7 +14,6 @@ import 'package:hr_management_system_package/core/common_methods/track_user_in_b
 import 'package:hr_management_system_package/core/dependecy_injection/service_locator.dart';
 import 'package:hr_management_system_package/env/env.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/common/bloc_observer.dart';
 import 'employee_mangement_system.dart';
@@ -57,14 +56,9 @@ Future<void> main() async {
   }
 
   if (kReleaseMode) {
-    await SentryFlutter.init((options) {
-      options.dsn =
-          'https://35650b60ff2552d1818c538099a8a880@o4507923563544576.ingest.us.sentry.io/4507923566690304';
-    }, appRunner: () async {
-      currentEnvironment = EnvironmentType.prod;
+     currentEnvironment = EnvironmentType.prod;
       await initializeServices();
       await runMainApp();
-    });
   } else {
     currentEnvironment = EnvironmentType.dev;
     await initializeServices();
