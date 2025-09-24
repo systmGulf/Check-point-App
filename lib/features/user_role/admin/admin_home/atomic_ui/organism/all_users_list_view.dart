@@ -47,7 +47,8 @@ class _AllUsersListViewState extends State<AllUsersListView> {
       });
       await context
           .read<EmployeeCubit>()
-          .getAllEmployees(pageNumber: nextPageNumber++ , itemCount: 10); ;
+          .getAllEmployees(pageNumber: nextPageNumber++, itemCount: 10);
+      ;
       setState(() {
         isLoading = false;
       });
@@ -81,10 +82,9 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         child: RefreshIndicator(
           color: ColorsManger.primaryColor,
           onRefresh: () async {
-            users.clear();
             BlocProvider.of<EmployeeCubit>(
               context,
-            ).getAllEmployees( pageNumber: 0, itemCount: 10);
+            ).getAllEmployees(pageNumber: 0, itemCount: 10);
           },
           child: BlocConsumer<EmployeeCubit, EmployeeState>(
             listener: (context, state) {
@@ -228,7 +228,9 @@ class _AllUsersListViewState extends State<AllUsersListView> {
               } else if (state is GetAllEmployeesFailure) {
                 return state.error == 'Please check your internet connection'
                     ? NoInternetConnectionWidget(onPressed: () {
-                        context.read<EmployeeCubit>().getAllEmployees( pageNumber: 0, itemCount: 10);
+                        context
+                            .read<EmployeeCubit>()
+                            .getAllEmployees(pageNumber: 0, itemCount: 10);
                       })
                     : Column(
                         children: [

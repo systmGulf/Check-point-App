@@ -24,8 +24,7 @@ class SupervisorHomeScreenBody extends StatefulWidget {
       _SupervisorHomeScreenBodyState();
 }
 
-class _SupervisorHomeScreenBodyState
-    extends State<SupervisorHomeScreenBody> {
+class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
   int selectedIndex = 0;
 
   List<Widget> checkingSites = [

@@ -55,6 +55,7 @@ class Routes {
   static const String myTasksScreen = '/myTasksScreen';
   static const String policeScreen = '/policeScreen';
   static const String addBranchsToShiftScreen = '/addBranchsToShiftScreen';
+  static const String gamficationRoute = '/gamficationRoute';
 
 
 }

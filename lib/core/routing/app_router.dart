@@ -55,6 +55,8 @@ import '../../features/user_role/employee/employee_home/controller/tasks/tasks_c
 import '../../features/user_role/supervisor/supervisor_auth/ui/views/widgets/screen/supervisor_login_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supervisor_add_tasks_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
+import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/gamfication_screen.dart'
+    show LeaderboardPage;
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_attend_some_employee_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_layout_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
@@ -144,7 +146,8 @@ abstract class AppRouter {
       case Routes.adminHomeScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(   pageNumber: 0, itemCount: 10),
+            create: (context) => getIt<EmployeeCubit>()
+              ..getAllEmployees(pageNumber: 0, itemCount: 10),
             child: const AdminHomeScreen(),
           ),
         );
@@ -207,6 +210,10 @@ abstract class AppRouter {
           page: EmployeeCheckOutScreen(
             checkType: settings.arguments! as String,
           ),
+        );
+      case Routes.gamficationRoute:
+        return BaseRoute(
+          page: LeaderboardPage(),
         );
 
       case Routes.employeePreview:
@@ -320,7 +327,8 @@ abstract class AppRouter {
       case Routes.allUsersScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()..getAllEmployees( pageNumber: 0, itemCount: 10),
+            create: (context) => getIt<EmployeeCubit>()
+              ..getAllEmployees(pageNumber: 0, itemCount: 10),
             child: AllUsersScreen(
               addAccountRequestValue:
                   settings.arguments as AddAccountRequestData?,
@@ -374,9 +382,7 @@ abstract class AppRouter {
               BlocProvider(
                 create: (context) => getIt<ShiftsAndPolicesCubit>(),
               ),
-              BlocProvider(
-                create: (context) =>getIt<EmployeeCubit>()
-              ),
+              BlocProvider(create: (context) => getIt<EmployeeCubit>()),
             ],
             child: PoliceScreen(
               ShiftId: settings.arguments! as int,

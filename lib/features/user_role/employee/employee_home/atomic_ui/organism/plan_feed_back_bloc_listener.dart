@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,6 +101,33 @@ class PlanFeedBackBottomSheet extends StatelessWidget {
                   }
                 },
               ),
+              DropdownButton(
+                  isExpanded: true,
+                  underline: const SizedBox(),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  style: AppStylesManger.font16BoldBlack,
+                  borderRadius: BorderRadius.circular(10.r),
+                  dropdownColor: Colors.white,
+                  elevation: 0,
+                  iconSize: 30.sp,
+                  focusColor: ColorsManger.primaryColor,
+                  hint: Text('Select Feedback Type'.tr(context: context)),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'deal',
+                      child: Text('Deal'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'follow_up',
+                      child: Text('Follow Up'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'no_deal',
+                      child: Text('No Deal'),
+                    )
+                  ],
+                  value: 'follow_up',
+                  onChanged: (value) {}),
               verticalSpace(20),
               CustomAppTextFormField(
                 controller:

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,13 +70,17 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 1),
             child: GestureDetector(
               onTap: () {
-                context.pushName(Routes.supervisorNotificationsScreen);
+                Navigator.pushNamed(context, Routes.gamficationRoute);
               },
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.black,
-                size: 30,
-              ),
+              child: Row(children: [
+                horizontalSpace(5),
+                Image.asset(
+                  'assets/images/cup.png',
+                  width: 30.w,
+                  height: 30.h,
+                ),
+                Text('13', style: AppStylesManger.font18BoldBlack),
+              ]),
             ),
           ),
           title: Text(texts[selectedIndex],
