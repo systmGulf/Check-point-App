@@ -5,7 +5,7 @@ import 'package:employee_mangement/core/enums/customer_type.dart';
 import 'package:employee_mangement/core/widgets/build_snake_bar.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import 'package:excel/excel.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -30,17 +30,17 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
   Future<void> pickAndParseExcel() async {
     setLoadingState(true);
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['xlsx'],
-      );
+      // final result = await FilePicker.platform.pickFiles(
+      //   type: FileType.custom,
+      //   allowedExtensions: ['xlsx'],
+      // );
 
-      if (result != null) {
-        final file = File(result.files.single.path!);
-        await parseExcelFile(file);
-      } else {
-        showErrorSnackbar("No file selected".tr());
-      }
+      // if (result != null) {
+      //   final file = File(result.files.single.path!);
+      //   await parseExcelFile(file);
+      // } else {
+      //   showErrorSnackbar("No file selected".tr());
+      // }
     } catch (e) {
       showErrorSnackbar(e.toString());
     } finally {
