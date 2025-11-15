@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,68 +120,68 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         onPressed: () async {
-                          setState(() {
-                            loading = true;
-                          });
-                          try {
-                            if (_checked == true) {
-                              FilePickerResult? result = await FilePicker
-                                  .platform
-                                  .pickFiles(allowMultiple: true);
-                              if (result != null) {
-                                setState(() {
-                                  files = result.paths
-                                      .map((path) => File(path!))
-                                      .toList();
+                          // setState(() {
+                          //   loading = true;
+                          // });
+                          // try {
+                          //   if (_checked == true) {
+                          //     // FilePickerResult? result = await FilePicker
+                          //     //     .platform
+                          //     //     .pickFiles(allowMultiple: true);
+                          //     if (result != null) {
+                          //       setState(() {
+                          //         files = result.paths
+                          //             .map((path) => File(path!))
+                          //             .toList();
 
-                                  loading = false;
-                                });
-                              } else {
-                                showTopSnackBar(
-                                  Overlay.of(context),
-                                   CustomSnackBar.error(
-                                    message: 'No file selected'.tr(context: context),
-                                    // backgroundColor: Colors.red,
-                                  ),
-                                );
-                                setState(() {
-                                  loading = false;
-                                });
-                              }
-                            } else {
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles();
+                          //         loading = false;
+                          //       });
+                          //     } else {
+                          //       showTopSnackBar(
+                          //         Overlay.of(context),
+                          //          CustomSnackBar.error(
+                          //           message: 'No file selected'.tr(context: context),
+                          //           // backgroundColor: Colors.red,
+                          //         ),
+                          //       );
+                          //       setState(() {
+                          //         loading = false;
+                          //       });
+                          //     }
+                          //   } else {
+                          //     FilePickerResult? result =
+                          //         await FilePicker.platform.pickFiles();
 
-                              if (result != null) {
-                                setState(() {
-                                  file = File(result.files.single.path!);
+                          //     if (result != null) {
+                          //       setState(() {
+                          //         file = File(result.files.single.path!);
 
-                                  loading = false;
-                                });
-                              } else {
-                                showTopSnackBar(
-                                  Overlay.of(context),
-                                   CustomSnackBar.error(
-                                    message: 'No file selected'.tr(context: context),
-                                    // backgroundColor: Colors.red,
-                                  ),
-                                );
-                                setState(() {
-                                  loading = false;
-                                });
-                              }
-                            }
-                          } on Exception catch (e) {
-                            showTopSnackBar(
-                              Overlay.of(context),
-                              CustomSnackBar.error(message: e.toString()
-                                  // backgroundColor: Colors.red,
-                                  ),
-                            );
-                            setState(() {
-                              loading = false;
-                            });
-                          }
+                          //         loading = false;
+                          //       });
+                          //     } else {
+                          //       showTopSnackBar(
+                          //         Overlay.of(context),
+                          //          CustomSnackBar.error(
+                          //           message: 'No file selected'.tr(context: context),
+                          //           // backgroundColor: Colors.red,
+                          //         ),
+                          //       );
+                          //       setState(() {
+                          //         loading = false;
+                          //       });
+                          //     }
+                          //   }
+                          // } on Exception catch (e) {
+                          //   showTopSnackBar(
+                          //     Overlay.of(context),
+                          //     CustomSnackBar.error(message: e.toString()
+                          //         // backgroundColor: Colors.red,
+                          //         ),
+                          //   );
+                          //   setState(() {
+                          //     loading = false;
+                          //   });
+                          // }
                         },
                         child: IntrinsicWidth(
                           child: Row(
