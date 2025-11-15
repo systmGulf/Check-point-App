@@ -47,7 +47,7 @@ workflows:
         token: $GITHUB_TOKEN
         # These fields match the inputs from your svenstaro/upload-release-action
         tag: v1.0
-        release: Flutter IPA Export
+        name: Flutter IPA Export # FIX: Renamed 'release' to 'name' to satisfy Codemagic validation
         body: "This is first release"
 
         # The artifact is automatically picked up from the 'artifacts' section above.
