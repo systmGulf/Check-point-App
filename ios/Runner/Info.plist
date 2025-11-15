@@ -20,7 +20,7 @@
 		<string>de</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Tawreda</string>
+	<string>check point</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -60,8 +60,7 @@
   <string>fetch</string>
   <string>remote-notification</string>
 </array>
-<key>firebase_messaging_auto_init_enabled</key>
-<true/>
+
 <key>UILaunchStoryboardName</key>
 <string>LaunchScreen</string>
 
