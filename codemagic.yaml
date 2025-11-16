@@ -5,13 +5,13 @@ workflows:
     name: iOS IPA Build and Publish
     
     # Use a modern macOS runner for fast, stable iOS builds
-    instance_type: mac_mini_m1
+    instance_type: mac_mini_m2
     
     environment:
       # Specify the Flutter version you want to use (e.g., stable, 3.16.x)
-      flutter: stable
+      flutter: 3.32.0
       # Specify the Xcode version
-      xcode: latest
+      xcode: 16.1
       cocoapods: default
       
     scripts:
