@@ -31,7 +31,7 @@ class _HrManagementSystemState extends State<HrManagementSystem>
     if (!Platform.isIOS) {
       _checkPermissions();
     }
-  }
+  }  
 
   @override
   void dispose() {
