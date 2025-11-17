@@ -5,7 +5,7 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/con
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 import '../../../../../../core/styles/styles.dart';
 import '../../../../supervisor/supervisor_home/atomic_ui/molecules/todo_title_and_state.dart';
@@ -18,7 +18,7 @@ class EmployeeHomeSectionItem extends StatelessWidget {
     required this.getTaskResponse,
   });
   final String title, content;
-  final List<GetTasData> getTaskResponse;
+  final List<EmployeeTasks> getTaskResponse;
 
   @override
   Widget build(BuildContext context) {

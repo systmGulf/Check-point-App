@@ -167,6 +167,7 @@
      "Plan added successfully": "تمت الاضافة بنجاح",
      "Share as Excel : ": "مشاركة كملف اكسل : ",
      "Late Comers": "المتأخرين",
+     "pending task" : "مهمة معلقة",
      "Early Leaver": "المتأخرين",
      "Employees": "الموظفين",
      "Total Working Days": "اجمالي عدد الايام العمل",
@@ -433,5 +434,22 @@
      "Add Plan": "اضافه خطه",
      "No Data Found": "لا توجد بيانات",
      "ADD EMPLOYEES": "اضافة موظفين",
-     "Police assigned successfully": "تم تعيين السياسة بنجاح"
+     "Police assigned successfully": "تم تعيين السياسة بنجاح",
+   
+   "Tasks": "المهام",
+  "Today's Tasks": "مهام اليوم",
+  "tasks": "مهام",
+  "All Tasks": "كل المهام",
+  "Pending": "قيد الانتظار",
+  "Active": "نشطة",
+  "Done": "منتهية",
+  "No tasks yet": "لا توجد مهام بعد",
+  "Add your first task to get started": "أضف أول مهمة للبدء",
+  "Untitled Task": "مهمة بدون عنوان",
+  "No description": "لا يوجد وصف",
+  "Low": "منخفض",
+  "Medium": "متوسط",
+  "High": "مرتفع",
+  "In Progress": "قيد التنفيذ",
+  "Completed": "مكتملة"
 }

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/my_tasks_screen.dart' show TasksScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,9 +13,9 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
-import '../../../../employee/employee_home/atomic_ui/molecules/employee_home_section_item.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/office_checking_in.dart';
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
+import '../molecules/task_section_widget.dart';
 
 class SupervisorHomeScreenBody extends StatefulWidget {
   const SupervisorHomeScreenBody({super.key});
@@ -126,30 +127,27 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                           );
                   }
                   if (state is GetMyTasksSuccess) {
-                    return EmployeeHomeSectionItem(
-                      getTaskResponse: state.getTaskResponse,
-                      title: 'New tasks today'.tr(
-                        context: context,
-                      ),
-                      content:
-                          'No Alert available for today. Please check back again tomorrow.'
-                              .tr(
-                        context: context,
-                      ),
+                    return TasksSection(taskCount: state.getTaskResponse.length,
+                        onTap: () {
+                      // Navigate to tasks page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  TasksScreen(
+                            tasks: state.getTaskResponse,
+                            userImageUrl: ''
+                          ),
+                        ),
+                      );
+                    }
                     );
                   }
                   return Skeletonizer(
-                      child: EmployeeHomeSectionItem(
-                    getTaskResponse: [],
-                    title: 'Data Loading'.tr(
-                      context: context,
-                    ),
-                    content:
-                        'No Alert available for today. Please check back again tomorrow.'
-                            .tr(
-                      context: context,
-                    ),
-                  ));
+                      child:  TasksSection(taskCount: 1,
+                        onTap: () {
+                          // Navigate to tasks page
+                                                },
+                      ));
                 },
               ),
             ],

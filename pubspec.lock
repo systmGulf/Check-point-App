@@ -854,13 +854,11 @@ packages:
     source: hosted
     version: "1.6.0"
   hr_management_system_package:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
-      path: "."
-      ref: dev
-      resolved-ref: a942139b7f5b601d0649ce44d7e5dbad983c0750
-      url: "https://github.com/systmGulf/Check-point-package.git"
-    source: git
+      path: "C:\\Users\\osama\\Desktop\\Check-point-package"
+      relative: false
+    source: path
     version: "1.0.0+1"
   html:
     dependency: transitive

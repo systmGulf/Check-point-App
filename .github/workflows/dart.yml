@@ -1,4 +1,3 @@
-
 name: iOS-ipa-build
 
 on:
@@ -7,16 +6,24 @@ on:
 jobs:
   build-ios:
     name: 🎉 iOS Build
-    runs-on: macos-latest
+    runs-on: macos-15   # macOS with Xcode 16.1
+
     steps:
       - uses: actions/checkout@v3
 
+      # Install Flutter 3.32.0
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.32.0'
           channel: 'stable'
           architecture: x64
+
+      - run: flutter --version
       - run: flutter pub get
-      
+
+      # Ensure Xcode version (macos-15 uses Xcode 16.1)
+      - name: Print Xcode version
+        run: xcodebuild -version
 
       - run: pod repo update
         working-directory: ios
@@ -40,5 +47,4 @@ jobs:
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is first release"
- 
+          body: "First release using Flutter 3.32.0 & Xcode 16.1"

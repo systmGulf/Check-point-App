@@ -6,7 +6,7 @@ abstract class EmployeeTasksState {}
 class TasksInitial extends EmployeeTasksState {}
 
 class GetMyTasksSuccess extends EmployeeTasksState {
-  final List<GetTasData> getTaskResponse;
+  final List<EmployeeTasks> getTaskResponse;
   GetMyTasksSuccess(this.getTaskResponse);
 }
 

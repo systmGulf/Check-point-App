@@ -5,13 +5,13 @@ workflows:
     name: iOS IPA Build and Publish
     
     # Use a modern macOS runner for fast, stable iOS builds
-    instance_type: mac_mini_m1
+    instance_type: mac_mini_m2
     
     environment:
       # Specify the Flutter version you want to use (e.g., stable, 3.16.x)
-      flutter: stable
+      flutter: 3.32.0
       # Specify the Xcode version
-      xcode: latest
+      xcode: 16.1
       cocoapods: default
       
     scripts:
@@ -38,16 +38,3 @@ workflows:
     artifacts:
       # Automatically find the generated IPA file for distribution
       - $CM_BUILD_DIR/build/ios/iphoneos/*.ipa
-
-    # Define the publishing/distribution steps
-    publishing:
-      # Configuration for uploading to GitHub Releases
-      github:
-        # Codemagic will use this token from your environment variables
-        token: $GITHUB_TOKEN
-        # These fields match the inputs from your svenstaro/upload-release-action
-        tag: v1.0
-        name: Flutter IPA Export # FIX: Renamed 'release' to 'name' to satisfy Codemagic validation
-        body: "This is first release"
-
-        # The artifact is automatically picked up from the 'artifacts' section above.

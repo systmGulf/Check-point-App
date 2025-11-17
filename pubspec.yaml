@@ -37,8 +37,8 @@ dependencies:
 
   get_it: ^8.0.3
   google_maps_flutter: ^2.1.0
-  # hr_management_system_package:
-  #   path: C:\Users\osama\Desktop\Check-point-package
+  hr_management_system_package:
+    path: C:\Users\osama\Desktop\Check-point-package
   http: ^1.2.2
   image: ^4.3.0
   image_picker: ^1.1.2
@@ -76,11 +76,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 dependency_overrides:
-  hr_management_system_package:
-    git:
-      url: https://github.com/systmGulf/Check-point-package.git
-      # path: packages/hr_management_system_package
-      ref: dev
+  # hr_management_system_package:
+  #   git:
+  #     url: https://github.com/systmGulf/Check-point-package.git
+  #     # path: packages/hr_management_system_package
+  #     ref: dev
 flutter:
   uses-material-design: true
 
@@ -108,9 +108,9 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/vodaphone.png" # Updated path to my actual icon
+  image_path: "assets/images/icon.png" # Updated path to my actual icon
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/vodaphone.png"
+  adaptive_icon_foreground: "assets/images/icon.png"
 
 flutter_native_splash:
   color: "#ffffff"
