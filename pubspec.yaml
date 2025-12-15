@@ -43,7 +43,7 @@ dependencies:
     git:
       url: https://github.com/systmGulf/Check-point-package.git
       # path: packages/hr_management_system_package
-      ref: dev
+      ref: TOT
   http: ^1.2.2
   image: ^4.3.0
   image_picker: ^1.1.2

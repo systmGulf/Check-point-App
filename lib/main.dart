@@ -55,13 +55,13 @@ Future<void> main() async {
     openAppSettings();
   }
 
-  if (kReleaseMode) {
-     currentEnvironment = EnvironmentType.prod;
-      await initializeServices();
-      await runMainApp();
-  } else {
+  // if (kReleaseMode) {
+  //    currentEnvironment = EnvironmentType.prod;
+  //     await initializeServices();
+  //     await runMainApp();
+  // } else {
     currentEnvironment = EnvironmentType.dev;
     await initializeServices();
     await runMainApp();
-  }
+  // }
 }
