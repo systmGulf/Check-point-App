@@ -1,4 +1,5 @@
 
+import 'package:employee_mangement/core/widgets/error_widget.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +47,9 @@ class PoliceScreenBody extends StatelessWidget {
                           return  Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: PoliceItem(
+                              employees: state.policeResponse.value!.data![index]
+                                      .employees ??
+                                  [],
                               policeId: state.policeResponse.value!.data![index].id ?? 00,
                               year: state
                                   .policeResponse.value!.data![index].year
@@ -64,6 +68,13 @@ class PoliceScreenBody extends StatelessWidget {
                             ),
                           );
                         });
+                  } else  if (state is GetPoliceByShiftIDError) {
+                    return SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.5,
+                      child: CustomErrorWidget(
+                        onRetry: () => context.read<ShiftsAndPolicesCubit>().getPoliceByShiftId(shiftId: 1, isLoading: true),
+                        error: state.error,),
+                    );
                   } else {
                     return NoDataFound();
                   }

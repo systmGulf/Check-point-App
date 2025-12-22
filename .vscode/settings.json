@@ -1,13 +1,14 @@
 {
-    "cSpell.words": [
-        "Apiservice",
-        "userattendance"
-    ],
-    "notebook.codeActionsOnSave": {
-        "source.fixAll": true
-    },
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit"
-    },
-    "java.configuration.updateBuildConfiguration": "interactive"
+  "cSpell.words": [
+    "Apiservice",
+    "userattendance"
+  ],
+  "notebook.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "dart.flutterSdkPath": ".fvm/versions/3.7.12"
 }

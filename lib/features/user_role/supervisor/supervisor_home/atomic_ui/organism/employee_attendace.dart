@@ -24,12 +24,14 @@ class EmployeeAttendance extends StatelessWidget {
     required this.totalHours,
     this.employeeImage,
     this.customerId,
-    required this.employeeId,
+    required this.employeeId,required this.isLate,required this.isEarly,
   });
 
   final String employeeName, location, inTime, outTime, id, employeeId;
   final String totalHours;
   final String? employeeImage, customerId;
+  final bool isLate;
+  final bool isEarly;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,7 @@ class EmployeeAttendance extends StatelessWidget {
     DateTime lateCheckInThreshold = DateTime.parse('2000-01-01 10:00:00');
     DateTime earlyCheckOutThreshold = DateTime.parse('2000-01-01 17:00:00');
 
-    bool isLate = inDateTime.isAfter(lateCheckInThreshold);
-    bool isEarly = outDateTime.isBefore(earlyCheckOutThreshold);
+  
 
     return Container(
       padding: const EdgeInsets.all(1),

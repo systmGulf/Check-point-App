@@ -62,13 +62,19 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
 
   Future<void> getPoliceByShiftId({required int shiftId, required bool isLoading}) async {
     if (isLoading) emit(GetPoliceByShiftIDLoading());
-    final result =
-        await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
-    result.fold((l) {
+    try {
+  final result =
+      await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
+        result.fold((l) {
       emit(GetPoliceByShiftIDError(error: l.message));
     }, (response) {
       emit(GetPoliceByShiftIDSuccess(policeResponse: response));
     });
+} on Exception catch (e) {
+  print(e);
+  emit(GetPoliceByShiftIDError(error: e.toString()));
+}
+  
   }
 
   // add police

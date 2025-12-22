@@ -26,6 +26,9 @@ class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
             itemCount: state.employeeAllAttendance.data!.length,
             itemBuilder: (context, index) {
               return EmployeeAttendance(
+                isEarly: state.employeeAllAttendance.data![index].isEarly ?? false
+                ,
+                isLate: state.employeeAllAttendance.data![index].isLate ?? false,
                 employeeId: state.employeeAllAttendance.data![index].employeeId.toString(),
                 customerId: state.employeeAllAttendance.data![index].customerId.toString(), 
                 totalHours:
@@ -65,6 +68,8 @@ class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
               return const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: EmployeeAttendance(
+                  isEarly: false,
+                  isLate: false,
                   employeeId: '',
                   totalHours: '10:00',
                   id: '',

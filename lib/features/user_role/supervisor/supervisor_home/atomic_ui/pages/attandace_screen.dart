@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/common/excel_export_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,13 +58,17 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
                           },
                           child: Column(
                             children: [
-                              Text(texts[e.key],
-                                  style: selectedIndex == e.key
-                                      ? AppStylesManger.font14RegularBlack
-                                          .copyWith(
-                                              color: ColorsManger.primaryColor)
-                                      : AppStylesManger.font14RegularBlack
-                                          .copyWith(color: ColorsManger.grey)),
+                              FadeTransition(
+                                opacity: AlwaysStoppedAnimation(
+                                    selectedIndex == e.key ? 1.0 : 0.5),
+                                child: Text(texts[e.key],
+                                    style: selectedIndex == e.key
+                                        ? AppStylesManger.font14RegularBlack
+                                            .copyWith(
+                                                color: ColorsManger.primaryColor)
+                                        : AppStylesManger.font14RegularBlack
+                                            .copyWith(color: ColorsManger.grey)),
+                              ),
                               SizedBox(height: 8.h),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.5,

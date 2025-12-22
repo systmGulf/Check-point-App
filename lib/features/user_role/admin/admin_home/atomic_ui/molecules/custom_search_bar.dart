@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+
+import '../../../../../../core/packages/src/floating_search_bar.dart';
+import '../../../../../../core/packages/src/floating_search_bar_actions.dart';
+import '../../../../../../core/packages/src/floating_search_bar_transition.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key, required this.searchText, required this.child, this.onQueryChanged});
@@ -10,6 +13,33 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+//   return Container(
+//     decoration: BoxDecoration(
+//       color: Colors.white,
+//       borderRadius: BorderRadius.circular(10),
+//       boxShadow: [
+//         BoxShadow(
+//           color: Colors.grey.withOpacity(0.5),
+//           spreadRadius: 2,
+//           blurRadius: 5,
+//           offset: const Offset(0, 3),
+//         ),
+//       ],
+//     ),
+//     child: TextField(
+//       onChanged: onQueryChanged,
+//       decoration: InputDecoration(
+//         hintText: searchText,
+//         prefixIcon: const Icon(Icons.search, color: Colors.grey),
+//         border: InputBorder.none,
+//         contentPadding: EdgeInsets.symmetric(
+//           vertical: isPortrait ? 15 : 10,
+//           horizontal: 20,
+//         ),
+//       ),
+//       )
+//   )
+// ;
 
   return FloatingSearchBar(
       showCursor: false,
