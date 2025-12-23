@@ -156,11 +156,13 @@ class TimeLineTile extends StatelessWidget {
                         verticalSpace(10),
                         Row(
                           children: [
-                            Text(
-                              "Notes:  $notes",
-                              style: const TextStyle(color: Colors.grey),
+                            Expanded(
+                              child: Text(
+                                "Notes:  $notes",
+                                style: const TextStyle(color: Colors.grey),
+                              ),
                             ),
-                            const Spacer(),
+                              horizontalSpace(10),
                             Text(
                              'Visited: ${visited ? "Yes" : "No"}',
                               style:  TextStyle(

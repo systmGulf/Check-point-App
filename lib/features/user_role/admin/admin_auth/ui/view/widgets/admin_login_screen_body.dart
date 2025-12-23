@@ -1,9 +1,9 @@
-import 'email_and_password_text_field.dart';
-import 'header_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
+import 'email_and_password_text_field.dart';
+import 'header_text.dart';
 
 class AdminLoginScreenBody extends StatelessWidget {
   const AdminLoginScreenBody({super.key});
@@ -15,7 +15,8 @@ class AdminLoginScreenBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 27),
         child: ListView(
           children: [
-            verticalSpace(38),
+            
+            verticalSpace(18),
             const HeaderText(),
             verticalSpace(22),
             const AdminEmailAndPasswordTextFeild(),

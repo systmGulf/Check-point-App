@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/styles/colors.dart';
@@ -25,10 +29,20 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
           return Center(child: Text(state.errorMessage));
         } else if (state is GetEmployeeTrackingSummarySuccess) {
           if (state.employeeTrackingSummary.value!.data!.isEmpty) {
-            return Center(
-              child: Text(
-                'No tracking data available'.tr(context: context),
-                style: AppStylesManger.font15BoldrBlue,
+            return SafeArea(
+              child: Column(
+                children: [
+                  verticalSpace(20),
+                  buildCustomAppBar(context, ''),
+                             verticalSpace(MediaQuery.sizeOf(context).height * 0.4),
+
+                  Center(
+                    child: Text(
+                      'No tracking data available'.tr(context: context),
+                      style: AppStylesManger.font15BoldrBlue,
+                    ),
+                  ),
+                ],
               ),
             );
           }
@@ -39,8 +53,22 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
               .toList();
 
           if (points.isEmpty) {
-            return Center(
-                child: Text('No tracking data available'.tr(context: context)));
+            return SafeArea(
+              child: Column(
+                children: [
+                  verticalSpace(20),
+                  buildCustomAppBar(context, ''),
+                             verticalSpace(MediaQuery.sizeOf(context).height * 0.4),
+
+                  Center(
+                    child: Text(
+                      'No tracking data available'.tr(context: context),
+                      style: AppStylesManger.font15BoldrBlue,
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
 
           if (points.length == 1) {
@@ -62,52 +90,54 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
             northeast: LatLng(maxLat, maxLng),
           );
 
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorsManger.primaryColor,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              ),
-            ),
-            body: Stack(
-              children: [
-                GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                    target: points.first,
-                    zoom: 15,
-                  ),
-                  markers: {
-                    Marker(
-                      markerId: const MarkerId('start'),
-                      position: points.first,
-                      infoWindow: const InfoWindow(title: "Start"),
+          return SafeArea(
+            child: Scaffold(
+
+              body: SafeArea(
+                child: Stack(
+                  children: [
+                  
+                    GoogleMap(
+                      mapType: MapType.normal,
+                      initialCameraPosition: CameraPosition(
+                        target: points.first,
+                        zoom: 15,
+                      ),
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId('start'),
+                          position: points.first,
+                          infoWindow: const InfoWindow(title: "Start"),
+                        ),
+                        Marker(
+                          markerId: const MarkerId('end'),
+                          position: points.last,
+                          infoWindow: const InfoWindow(title: "End"),
+                        ),
+                      },
+                      polylines: {
+                        Polyline(
+                          polylineId: const PolylineId('route'),
+                          points: points,
+                          color: ColorsManger.primaryColor,
+                          width: 5,
+                        ),
+                      },
+                      onMapCreated: (GoogleMapController controller) {
+                        Future.delayed(const Duration(milliseconds: 300), () {
+                          controller.animateCamera(
+                              CameraUpdate.newLatLngBounds(bounds, 50));
+                        });
+                      },
                     ),
-                    Marker(
-                      markerId: const MarkerId('end'),
-                      position: points.last,
-                      infoWindow: const InfoWindow(title: "End"),
-                    ),
-                  },
-                  polylines: {
-                    Polyline(
-                      polylineId: const PolylineId('route'),
-                      points: points,
-                      color: ColorsManger.primaryColor,
-                      width: 5,
-                    ),
-                  },
-                  onMapCreated: (GoogleMapController controller) {
-                    Future.delayed(const Duration(milliseconds: 300), () {
-                      controller.animateCamera(
-                          CameraUpdate.newLatLngBounds(bounds, 50));
-                    });
-                  },
+                    Padding(
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 35.h),
+                      child: IconButton(onPressed: ()=> context.pop(), icon: const Icon(Icons.arrow_back_ios_new_outlined)),
+                    )
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         } else {

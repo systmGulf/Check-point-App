@@ -22,6 +22,7 @@ class OnboardingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        
         Image.asset('assets/images/banner-my-course.png'),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35),

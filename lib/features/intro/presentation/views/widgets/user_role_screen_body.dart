@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../core/widgets/build_custom_app_bar.dart';
 import 'role_option.dart';
 
 class UserRoleScreenBody extends StatelessWidget {
@@ -18,7 +19,8 @@ class UserRoleScreenBody extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              verticalSpace(MediaQuery.sizeOf(context).height * 0.1),
+              buildCustomAppBar(context, ""),
+              verticalSpace(MediaQuery.sizeOf(context).height * 0.05),
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.3,
                 child: const Image(

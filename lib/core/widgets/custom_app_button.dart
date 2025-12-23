@@ -14,7 +14,7 @@ class CustomAppButton extends StatelessWidget {
       this.height,
       this.width});
   final String textButton;
-  final Color buttonColor;
+  final Color? buttonColor;
   final double? border;
   final void Function()? onPressed;
   final double? height;
@@ -29,7 +29,7 @@ class CustomAppButton extends StatelessWidget {
         width: width ?? double.infinity,
         height: height ?? 51.h,
         decoration: BoxDecoration(
-            color: ColorsManger.lighorage,
+            color: buttonColor ?? ColorsManger.lighorage,
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,

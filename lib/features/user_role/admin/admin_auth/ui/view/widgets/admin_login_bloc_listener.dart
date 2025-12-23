@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../../../core/common/ask_admin_to_change_device_id_dialog.dart';
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../../core/helpers/extention.dart';
 import '../../../../../../../core/routing/routes.dart';
@@ -26,6 +27,10 @@ class AdminLoginBlocListener extends StatelessWidget {
             context.pushAndRemoveUntilName(Routes.adminHomeScreen);
           } else if (state is LoginFailure) {
             context.pop();
+            if(state.error == "This devise doesn't have access to login"){
+              AskAdminToChnageDeviceIdDialog(context);
+              
+            }
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.error(

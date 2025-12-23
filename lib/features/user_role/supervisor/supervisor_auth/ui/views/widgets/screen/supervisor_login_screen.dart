@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../../core/styles/styles.dart';
+import '../../../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
 import '../email_and_password_text_field.dart';
 
@@ -12,6 +13,7 @@ class SupervisorLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: buildCustomAppBar(context, ""),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 27),

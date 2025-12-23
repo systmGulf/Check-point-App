@@ -49,11 +49,18 @@ class AdminNotificationItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4.0),
-                Text(
-                  "${"Mobile Id".tr(context: context)} : $mobileId",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.grey[700],
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Text(
+                    "${"Mobile ".tr(context: context)} : $mobileId",
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                   
+                    ),
+                       maxLines: 1,
                   ),
                 ),
                 verticalSpace(10),

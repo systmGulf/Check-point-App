@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
-import '../../../../../../core/styles/styles.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 
 class CompanyBranchDetailsScreen extends StatefulWidget {
@@ -44,16 +44,11 @@ class _CompanyBranchDetailsScreenState
     return BlocProvider.value(
       value: widget.contextt.read<BranchCubit>(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.name, style: AppStylesManger.font18BoldBlack),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: buildCustomAppBar(context, widget.name),
         body: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.65,
+            Expanded(
+              
               child: GoogleMap(
                 onMapCreated: (controller) {
                   _mapController = controller;
@@ -74,7 +69,7 @@ class _CompanyBranchDetailsScreenState
                 },
               ),
             ),
-            Expanded(
+            IntrinsicHeight(
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -121,7 +116,7 @@ class _CompanyBranchDetailsScreenState
                         height: 1.5,
                       ),
                     ),
-                    Spacer(),
+                    verticalSpace(  20),
                     CustomAppButton(
                       textButton: "Delete this branch".tr(context: context),
                       buttonColor: ColorsManger.primaryColor,
@@ -135,7 +130,7 @@ class _CompanyBranchDetailsScreenState
                             });
                       },
                     ),
-                    verticalSpace(20),
+                    verticalSpace(  20),
                   ],
                 ),
               ),
