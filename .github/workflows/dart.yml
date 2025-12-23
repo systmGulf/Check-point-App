@@ -1,3 +1,4 @@
+
 name: iOS-ipa-build
 
 on:
@@ -6,55 +7,45 @@ on:
 jobs:
   build-ios:
     name: 🎉 iOS Build
-    runs-on: macos-15
+    runs-on: macos-15   # macOS with Xcode 16.1
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      # Install Flutter 3.32.0
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.0'
           channel: 'stable'
           architecture: x64
 
-      - name: Flutter doctor
-        run: flutter doctor -v
+      - run: flutter --version
+      - run: flutter pub get
 
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Show Xcode version
+      # Ensure Xcode version (macos-15 uses Xcode 16.1)
+      - name: Print Xcode version
         run: xcodebuild -version
 
-      - name: Install CocoaPods
-        run: sudo gem install cocoapods
-
-      - name: Pod install
-        run: pod install --repo-update
+      - run: pod repo update
         working-directory: ios
 
-      - name: Build iOS (no codesign)
-        run: flutter build ios --release --no-codesign
+      - run: flutter build ios --release --no-codesign
 
-      - name: Create Payload
-        run: mkdir Payload
+      - run: mkdir Payload
         working-directory: build/ios/iphoneos
 
-      - name: Move app
-        run: mv Runner.app Payload/
+      - run: mv Runner.app/ Payload
         working-directory: build/ios/iphoneos
 
-      - name: Create IPA
-        run: zip -r FlutterIpaExport.ipa Payload
+      - name: Zip output
+        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
-      - name: Upload IPA to Release
+      - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "iOS IPA build via GitHub Actions"
+          body: "First release using Flutter 3.32.0 & Xcode 16.1"
