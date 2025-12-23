@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,13 +79,15 @@ class SiteScreenBody extends StatelessWidget {
                     final List sites = state.customers.data!
                         .where((c) => c.customerType == CustomerType.Site.name)
                         .toList();
-                    return GestureDetector(
-                      onTap: () {},
-                      child: SitesItem(
-                        id: sites[index].id as String,
-                        name: sites[index].name as String,
-                        descritption: sites[index].workesAs as String,
-                        location: sites[index].location as String,
+                    return FadeInUp(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: SitesItem(
+                          id: sites[index].id as String,
+                          name: sites[index].name as String,
+                          descritption: sites[index].workesAs as String,
+                          location: sites[index].location as String,
+                        ),
                       ),
                     );
                   }),

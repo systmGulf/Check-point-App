@@ -74,7 +74,7 @@ class AdminNotificationScreen extends StatelessWidget {
                     ),
                   );
           } else if (state is GetAddAccountRequestsFailure) {
-            return state.error == 'Please check your internet connection'
+            return state.error == 'Please check your internet connection'.tr(context: context)
                 ? NoInternetConnectionWidget(onPressed: () {
                     context.read<EmployeeCubit>().getAddAccountRequests();
                   })

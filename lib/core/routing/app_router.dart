@@ -295,6 +295,8 @@ abstract class AppRouter {
             location: arr[1] as String,
             description: arr[2] as String,
             points: arr[3] as List<GetBranchesCoordinates>,
+            branchId: arr[4] as int,
+            contextt: arr[5] as BuildContext,
           ),
         );
       case Routes.employeeChangePasswordScreen:

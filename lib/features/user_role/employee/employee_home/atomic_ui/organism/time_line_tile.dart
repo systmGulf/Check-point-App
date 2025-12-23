@@ -15,9 +15,10 @@ class TimeLineTile extends StatelessWidget {
       required this.notes,
       required this.visited,
       required this.visitType,
-      required this.date});
+      required this.date, required this.color});
   final bool isFirst, isLast, visited;
   final String name, workesAs, location, notes, visitType, date;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class TimeLineTile extends StatelessWidget {
           color: Colors.grey,
         ),
         endChild: Card(
-            color: Colors.white,
+            color:  Colors.white,
             borderOnForeground: true,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -153,15 +154,40 @@ class TimeLineTile extends StatelessWidget {
                           ),
                         ),
                         verticalSpace(10),
-                        Text(
-                          "Notes:  $notes",
-                          style: const TextStyle(color: Colors.grey),
+                        Row(
+                          children: [
+                            Text(
+                              "Notes:  $notes",
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                            const Spacer(),
+                            Text(
+                             'Visited: ${visited ? "Yes" : "No"}',
+                              style:  TextStyle(
+                                color: visited ? Colors.green : Colors.red,
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.bold,
+                                height: 0.12,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ),
                 verticalSpace(10),
+                Container(
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8.r),
+                      bottomRight: Radius.circular(8.r),
+                    ),
+                  ),
+                ),
               ],
             )));
   }

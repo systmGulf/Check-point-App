@@ -486,6 +486,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  flutter_ar_json_extractor:
+    dependency: "direct main"
+    description:
+      name: flutter_ar_json_extractor
+      sha256: "58b6d8a1f5c8d175567bca2844aff220ff7b03a937ed3286f34811de057409b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   flutter_background_service:
     dependency: transitive
     description:
@@ -534,6 +542,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_en_json_extractor:
+    dependency: "direct main"
+    description:
+      name: flutter_en_json_extractor
+      sha256: ac1fb12e527dae45f4e6fb7a1926b608b0c656977e6fbc3a1ffe08aad9d4dbc5
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   flutter_launcher_icons:
     dependency: "direct main"
     description:

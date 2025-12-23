@@ -1,3 +1,4 @@
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,8 +33,10 @@ class CompanyBranchItem extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Image.asset('assets/images/Branch Office.png',
-                height: 30, width: 30),
+           Icon(
+              Icons.location_on,
+              color: ColorsManger.primaryColor,
+            ),
             horizontalSpace(10),
             Expanded(
               child: Column(

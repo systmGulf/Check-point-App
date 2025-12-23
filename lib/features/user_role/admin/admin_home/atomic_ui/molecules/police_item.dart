@@ -11,8 +11,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import 'add_employees_to_police_model_botttom_sheet.dart';
-
-class PoliceItem extends StatelessWidget {
+ class PoliceItem extends StatelessWidget {
   const PoliceItem({
     super.key,
     required this.month,
@@ -200,7 +199,7 @@ class PoliceItem extends StatelessWidget {
                               style: AppStylesManger.font12RegularGrey,
                             ),
                             Text(
-                              "Department: ${employee.departmentName ?? ''}",
+                              "${"Department".tr(context: context)}: ${employee.departmentName ?? ''}",
                               style: AppStylesManger.font12RegularGrey,
                             ),
                           ],

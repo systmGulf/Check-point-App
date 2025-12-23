@@ -40,7 +40,7 @@ Future<dynamic> buildAddPoliceTimeDialog(BuildContext context) {
                     border: Border.all(color: Colors.black, width: 1.5),
                     borderRadius: BorderRadius.circular(5)
                   ),
-                  child: Center(child: Text('From  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), )))),
+                  child: Center(child: Text('From'.tr(context: context), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), )))),
                ),
                 SizedBox(width: 20,),
                 Expanded(
@@ -65,13 +65,13 @@ Future<dynamic> buildAddPoliceTimeDialog(BuildContext context) {
                     border: Border.all(color: Colors.black, width: 1.5),
                     borderRadius: BorderRadius.circular(5)
                   ),
-                    child: Center(child: Text('To  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)))),
+                    child: Center(child: Text('To'.tr(context: context), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)))),
                 )
               ],
             ),
             verticalSpace(10),
-            Text('Please make sure that the time range does not overlap with existing shift time ranges.'
-                .tr(context: context), style: TextStyle(fontSize: 12.sp, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+            Text('Please make sure that the time range does not overlap with existing shift time ranges.'.tr(context: context),
+                style: TextStyle(fontSize: 12.sp, color: Colors.grey, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
              
               
           ],
