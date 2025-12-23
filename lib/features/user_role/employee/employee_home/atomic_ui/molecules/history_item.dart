@@ -14,9 +14,10 @@ class HistoryItem extends StatelessWidget {
     required this.area,
     required this.clockInTime,
     required this.clockOutTime,
-    required this.totalhours,
+    required this.totalhours, required this.isEarly, required this.isLate,
   });
   final String date, area, clockInTime, clockOutTime, totalhours;
+  final bool isEarly, isLate ;
   @override
   Widget build(BuildContext context) {
     DateTime clockIn =
@@ -24,11 +25,7 @@ class HistoryItem extends StatelessWidget {
     DateTime clockOut =
         DateTime.parse('2000-01-01 ${clockOutTime.substring(0, 5)}:00');
 
-    DateTime lateCheckInThreshold = DateTime.parse('2000-01-01 10:00:00');
-    DateTime earlyCheckOutThreshold = DateTime.parse('2000-01-01 17:00:00');
-
-    bool isLate = clockIn.isAfter(lateCheckInThreshold);
-    bool isEarly = clockOut.isBefore(earlyCheckOutThreshold);
+ 
 
     return Container(
         padding: const EdgeInsets.all(1),

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
@@ -41,36 +42,38 @@ class GetShiftsBlocBuilder extends StatelessWidget {
                       ? const Center(
                           child: NoDataFound(),
                         )
-                      : ListView.builder(
-                          itemCount: state.shiftModel.value!.data!.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 10.h),
-                              child: ShiftItem(
-                                onAdd: () {
-                                  context.pushName(
-                                      Routes.addBranchsToShiftScreen,
-                                      arguments: state
-                                          .shiftModel.value!.data![index].id);
-                                },
-                                onTap: () {
-                                  context.pushName(Routes.policeScreen,
-                                      arguments: state
-                                          .shiftModel.value!.data![index].id);
-                                },
-                                onDelete: () async {
-                                  context
-                                      .read<ShiftsAndPolicesCubit>()
-                                      .deleteShift(
-                                          id: state.shiftModel.value!
-                                              .data![index].id!);
-                                },
-                                shiftName:
-                                    state.shiftModel.value!.data![index].name!,
-                              ),
-                            );
-                          },
-                        ),
+                      : FadeInUp(
+                        child: ListView.builder(
+                            itemCount: state.shiftModel.value!.data!.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(top: 10.h),
+                                child: ShiftItem(
+                                  onAdd: () {
+                                    context.pushName(
+                                        Routes.addBranchsToShiftScreen,
+                                        arguments: state
+                                            .shiftModel.value!.data![index].id);
+                                  },
+                                  onTap: () {
+                                    context.pushName(Routes.policeScreen,
+                                        arguments: state
+                                            .shiftModel.value!.data![index].id);
+                                  },
+                                  onDelete: () async {
+                                    context
+                                        .read<ShiftsAndPolicesCubit>()
+                                        .deleteShift(
+                                            id: state.shiftModel.value!
+                                                .data![index].id!);
+                                  },
+                                  shiftName:
+                                      state.shiftModel.value!.data![index].name!,
+                                ),
+                              );
+                            },
+                          ),
+                      ),
                 );
         } else if (state is GetShiftsError) {
           return state.error == 'Please check your internet connection'

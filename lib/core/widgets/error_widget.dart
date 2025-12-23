@@ -1,6 +1,7 @@
 
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../helpers/app_spaces.dart';
 
@@ -20,9 +21,9 @@ class CustomErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error, color: Colors.red),
+          Image.asset('assets/images/error-icon-25243.png', height: 100.h, width: 100.w,),
             verticalSpace(20),
-            Text(error),
+            Text(error, style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w500)),
           ],
         ),
       );

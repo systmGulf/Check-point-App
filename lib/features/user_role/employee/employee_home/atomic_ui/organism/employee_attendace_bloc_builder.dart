@@ -27,6 +27,8 @@ class EmployeeAttendanceBlocBuilder extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: HistoryItem(
+                      isLate: state.attendanceHistory.data![index].isLate ?? false,
+                      isEarly: state.attendanceHistory.data![index].isEarly ?? false,
                       totalhours: state
                           .attendanceHistory.data![index].totalHours
                           .toString(),

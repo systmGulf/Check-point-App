@@ -45,6 +45,20 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       },
     );
   }
+  // Search employee
+
+  Future<void> searchEmployee({required String name}) async {
+    emit(SearchEmployeeLoading());
+    final result = await adminManageEmployeeRepo.searchEmployees(searchKey: name);
+    result.fold(
+      (error) {
+        emit(SearchEmployeeFailure(error: error.message));
+      },
+      (employeeList) {
+        emit(SearchEmployeeSuccess(employeeList: employeeList));
+      },
+    );
+  }
 
   Future<void> getEmployeeByDepartment({required int departmentId}) async {
     emit(GetEmployeeByDepartmentLoading());

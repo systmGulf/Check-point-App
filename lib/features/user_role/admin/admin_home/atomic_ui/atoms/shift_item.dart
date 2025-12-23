@@ -38,14 +38,14 @@ class ShiftItem extends StatelessWidget {
                 Text(shiftName, style: AppStylesManger.font15BoldBlack)
               ]),
           Spacer(),
-          InkWell(
-            onTap: onAdd,
-            child: CircleAvatar(
-              radius: 16.r,
-              backgroundColor: ColorsManger.primaryColor,
-              child: Icon(Icons.add, color: Colors.white,),
-              ),
-          ),
+          // InkWell(
+          //   onTap: onAdd,
+          //   child: CircleAvatar(
+          //     radius: 16.r,
+          //     backgroundColor: ColorsManger.primaryColor,
+          //     child: Icon(Icons.add, color: Colors.white,),
+          //     ),
+          // ),
      
           IconButton(onPressed: onDelete , icon:    Icon(Icons.delete_outlined))
         ]),

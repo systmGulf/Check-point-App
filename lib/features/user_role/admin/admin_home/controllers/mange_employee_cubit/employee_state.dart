@@ -21,7 +21,16 @@ class GetAllEmployeesSuccess extends EmployeeState {
   GetAllEmployeesSuccess({required this.value});
 }
 class GetAllEmployeesPaginationLoading extends EmployeeState {}
+class SearchEmployeeLoading extends EmployeeState {}
+class SearchEmployeeSuccess extends EmployeeState {
+  final GetAllEmployeesValue employeeList;
+  SearchEmployeeSuccess({required this.employeeList});
 
+}
+class SearchEmployeeFailure extends EmployeeState {
+  final String error;
+  SearchEmployeeFailure({required this.error});
+}
 class GetAllEmployeesPaginationFailure extends EmployeeState {
   final String error;
   GetAllEmployeesPaginationFailure({required this.error});

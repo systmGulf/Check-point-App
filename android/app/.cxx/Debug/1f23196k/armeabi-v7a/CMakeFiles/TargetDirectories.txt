@@ -1,2 +1,0 @@
-D:/systmGulf Projects/Check-point-App/android/app/.cxx/Debug/1f23196k/armeabi-v7a/CMakeFiles/edit_cache.dir
-D:/systmGulf Projects/Check-point-App/android/app/.cxx/Debug/1f23196k/armeabi-v7a/CMakeFiles/rebuild_cache.dir

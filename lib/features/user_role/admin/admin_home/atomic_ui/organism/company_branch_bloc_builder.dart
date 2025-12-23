@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
@@ -119,32 +120,37 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                   BuildContext context,
                   int index,
                 ) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(Routes.companyBranchDetails, arguments: [
-                        state.branches.data![index].name,
-                        state.branches.data![index].location,
-                        state.branches.data![index].description,
-                        state.branches.data![index].coordinates
-                      ]);
-                    },
-                    child: CompanyBranchItem(
-                      onDelete: () {
-                        buildAlertDialog(context,
-                            title: 'Delete Branch'.tr(context: context),
-                            message:
-                                'Are you sure you want to delete this branch?'
-                                    .tr(context: context), onYes: () {
-                          context.pop();
-                          BlocProvider.of<BranchCubit>(context).deleteBranch(
-                            state.branches.data![index].id ?? 0,
-                          );
-                        });
+                  return FadeInUp(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(Routes.companyBranchDetails, arguments: [
+                          state.branches.data![index].name,
+                          state.branches.data![index].location,
+                          state.branches.data![index].description,
+                          state.branches.data![index].coordinates,
+
+                          state.branches.data![index].id,
+                          context,
+                        ]);
                       },
-                      name: state.branches.data![index].name ?? '',
-                      location: state.branches.data![index].location ?? '',
-                      decoration: state.branches.data![index].description ?? '',
+                      child: CompanyBranchItem(
+                        onDelete: () {
+                          buildAlertDialog(context,
+                              title: 'Delete Branch'.tr(context: context),
+                              message:
+                                  'Are you sure you want to delete this branch?'
+                                      .tr(context: context), onYes: () {
+                            context.pop();
+                            BlocProvider.of<BranchCubit>(context).deleteBranch(
+                              state.branches.data![index].id ?? 0,
+                            );
+                          });
+                        },
+                        name: state.branches.data![index].name ?? '',
+                        location: state.branches.data![index].location ?? '',
+                        decoration: state.branches.data![index].description ?? '',
+                      ),
                     ),
                   );
                 }))

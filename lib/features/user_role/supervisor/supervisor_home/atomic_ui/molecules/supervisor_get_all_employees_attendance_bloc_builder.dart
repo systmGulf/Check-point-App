@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
@@ -74,29 +75,33 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                             )),
                       ]),
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: EmployeeAttendance(
-                            employeeId: filteredList[index].employeeId ?? '',
-                            customerId: filteredList[index].customerId.toString() ,
-                            employeeImage: filteredList[index].employeeImage,
-                            totalHours:
-                                filteredList[index].totalHours.toString() ,
-                            id: filteredList[index].employeeId ?? '',
-                            employeeName:
-                                filteredList[index].employeeName ?? '',
-                            location: filteredList[index].area ?? '',
-                            inTime: filteredList[index].clockInTime ?? '',
-                            outTime: filteredList[index].clockOutTime ?? '',
-                          ),
-                        );
-                      },
+                    FadeInUp(
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            child: EmployeeAttendance(
+                              isEarly: filteredList[index].isEarly ?? false,
+                              isLate: filteredList[index].isLate ?? false,
+                              employeeId: filteredList[index].employeeId ?? '',
+                              customerId: filteredList[index].customerId.toString() ,
+                              employeeImage: filteredList[index].employeeImage,
+                              totalHours:
+                                  filteredList[index].totalHours.toString() ,
+                              id: filteredList[index].employeeId ?? '',
+                              employeeName:
+                                  filteredList[index].employeeName ?? '',
+                              location: filteredList[index].area ?? '',
+                              inTime: filteredList[index].clockInTime ?? '',
+                              outTime: filteredList[index].clockOutTime ?? '',
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 )
@@ -114,6 +119,8 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                 return  Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: EmployeeAttendance(
+                    isEarly: false,
+                    isLate: false,
                     employeeId: '',
                     totalHours: double.parse( '0.12').toStringAsFixed(2),
                     id: '',

@@ -93,7 +93,8 @@ class _SelectCustomersForTheSubPLanDropButtonState
               child: Center(
                 child: SvgPicture.asset(
                   'assets/images/arrow_down.svg',
-                  color: ColorsManger.primaryColor,
+                  colorFilter: ColorFilter.mode(
+                      ColorsManger.primaryColor, BlendMode.srcIn),
                 ),
               )),
           iconEnabledColor: ColorsManger.primaryColor,
@@ -164,9 +165,11 @@ class _SelectCustomersForTheSubPLanDropButtonState
                     ),
                   ),
                   title: Text(widget.dropdownItems
-                      .firstWhere((element) =>
-                          element.id == context.read<PlanCubit>().customerId)
-                      .name),
+                          .firstWhereOrNull((element) =>
+                              element.id ==
+                              context.read<PlanCubit>().customerId)
+                          ?.name ??
+                      ""),
                 ),
               ),
       ],

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
 
@@ -39,14 +40,16 @@ class ClientList extends StatelessWidget {
                 }
               }
             },
-            child: ClientItem(
-              color: selectedClients.contains(client.id)
-                  ? Colors.grey.shade300
-                  : Colors.white,
-              id: client.id!,
-              name: client.name!,
-              workedAs: client.workesAs!,
-              location: client.location!,
+            child: FadeInUp(
+              child: ClientItem(
+                color: selectedClients.contains(client.id)
+                    ? Colors.grey.shade300
+                    : Colors.white,
+                id: client.id!,
+                name: client.name!,
+                workedAs: client.workesAs!,
+                location: client.location!,
+              ),
             ),
           );
         },

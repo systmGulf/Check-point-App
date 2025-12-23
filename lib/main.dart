@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
 // import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,13 +54,13 @@ Future<void> main() async {
     openAppSettings();
   }
 
-  if (kReleaseMode) {
-     currentEnvironment = EnvironmentType.prod;
-      await initializeServices();
-      await runMainApp();
-  } else {
+  // if (kReleaseMode) {
+  //    currentEnvironment = EnvironmentType.prod;
+  //     await initializeServices();
+  //     await runMainApp();
+  // } else {
     currentEnvironment = EnvironmentType.dev;
     await initializeServices();
     await runMainApp();
-  }
+  // }
 }

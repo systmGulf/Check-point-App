@@ -80,10 +80,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
                   if (value != null) {
                     if (!context.mounted) return;
                     context.read<PlanCubit>().planDate =
-                        DateFormat('yyyy-MM-dd')
-                            .format(value)
-                            .toString()
-                            .substring(0, 10);
+                        value.toIso8601String();
                     setState(() {});
                   }
                 });

@@ -96,6 +96,8 @@ class _EmployeeAttendanceHistoryScreenState
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10, top: 10),
                           child: HistoryItem(
+                            isLate: attendance[index].isLate ?? false,
+                            isEarly: attendance[index].isEarly ?? false,
                             totalhours: attendance[index].totalHours.toString(),
                             area: attendance[index].area ?? '',
                             clockInTime: attendance[index].clockInTime ?? '',
@@ -136,6 +138,8 @@ class _EmployeeAttendanceHistoryScreenState
                   itemBuilder: (context, index) => const Padding(
                     padding: EdgeInsets.only(bottom: 10, top: 10),
                     child: HistoryItem(
+                      isLate: false,
+                      isEarly: false,
                       totalhours: 'Load Data',
                       area: 'Load Data',
                       clockInTime: '22:42:21.5101114',
