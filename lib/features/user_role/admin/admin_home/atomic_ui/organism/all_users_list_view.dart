@@ -192,7 +192,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                       BlocProvider.of<EmployeeCubit>(context)
                           .searchEmployee(name: query);
                     },
-                    searchText: 'Search User',
+                    searchText: 'Please enter user name'.tr(context: context),
                     child: BlocBuilder<EmployeeCubit, EmployeeState>(
                         builder: (context, state) {
                       if (state is SearchEmployeeSuccess) {

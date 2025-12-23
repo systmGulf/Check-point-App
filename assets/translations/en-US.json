@@ -14,7 +14,8 @@
   "Please a valid password": "Please a valid password",
   
   "Password": "Password",
-  
+  "Search User" : "Search User",
+
   "Forgot Password?": "Forgot Password?",
   "ign In": "Sign In",
   "Must have at least 1 lowercase": "Must have at least 1 lowercase!",
@@ -163,21 +164,20 @@
   "Share as Excel : ": "Share as Excel : ",
   "Late Comers": "Late Comers",
   "Early Leaver": "Early Leaver",
-    "Tasks": "Tasks",
+    "Hello, " : "Hello, ",
+    "Enter User Name" : "Enter User Name",
   "Today's Tasks": "Today's Tasks",
   "tasks": "tasks",
   "All Tasks": "All Tasks",
-  "Pending": "Pending",
+
   "Active": "Active",
   "pending task" : "pending task",
-  "Done": "Done",
+
   "No tasks yet": "No tasks yet",
   "Add your first task to get started": "Add your first task to get started",
   "Untitled Task": "Untitled Task",
   "No description": "No description",
-  "Low": "Low",
-  "Medium": "Medium",
-  "High": "High",
+
   "In Progress": "In Progress",
   "Completed": "Completed",
   "Employees": "Employees",
@@ -209,9 +209,7 @@
   "Please grant the following permissions for the app to work correctly:": "Please grant the following permissions for the app to work correctly:",
   "Cancel": "Cancel",
   "1. Location (Always)\n2. Ignore Battery Optimizations": "1. Location (Always)\n2. Ignore Battery Optimizations",
-  "Grant Permissions": "Grant Permissions",
-  "User Deleted Successfully": "User Deleted Successfully",
-  "Grant Permissions": "Grant Permissions",
+
   "Open App Settings": "Open App Settings",
   "Are you sure you want to delete this user?": "Are you sure you want to delete this user?",
   "MobileId": "MobileId",
@@ -391,7 +389,6 @@
   "Shifts": "Shifts",
   "Shift Name Required": "Shift Name Required",
   "Shift Name": "Shift Name",
-  "Add Shift": "Add Shift",
   "Shift Added Successfully": "Shift Added Successfully",
   "Police": "Police",
   "Time in": "Time in",
