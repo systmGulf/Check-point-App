@@ -99,15 +99,24 @@ class _HrManagementSystemState extends State<HrManagementSystem>
       splitScreenMode: true,
       child: BlocProvider(
         create: (context) => getIt<LeaveApplicationCubit>(),
-        child: MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          theme: ThemeData(
-              fontFamily: 'Cairo', scaffoldBackgroundColor: Colors.white),
-          debugShowCheckedModeBanner: false,
-          initialRoute: Routes.splash,
-          onGenerateRoute: AppRouter.onGenerateRoute,
+        child: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          child: MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: ThemeData(
+                fontFamily: 'Cairo', scaffoldBackgroundColor: Colors.white),
+            debugShowCheckedModeBanner: false,
+            initialRoute: Routes.splash,
+            onGenerateRoute: AppRouter.onGenerateRoute,
+          ),
         ),
       ),
     );
