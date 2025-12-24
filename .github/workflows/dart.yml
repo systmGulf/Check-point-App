@@ -46,6 +46,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.1
+          tag: v1.2
           overwrite: true
           body: "First release using Flutter 3.32.0 & Xcode 16.1"
