@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/core/common_methods/local_notifications_service.dart';
 import 'package:hr_management_system_package/core/common_methods/track_user_in_background.dart';
 import 'package:hr_management_system_package/core/dependecy_injection/service_locator.dart';
 import 'package:hr_management_system_package/env/env.dart';
@@ -22,7 +21,7 @@ Future<void> initializeServices() async {
     
   // );
   // await FcmNotificationService.init();
-  await LocalNotificationService.init();
+  // await LocalNotificationService.init();
   await Permission.storage.request();
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
