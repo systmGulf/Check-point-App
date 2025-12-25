@@ -38,11 +38,11 @@ dependencies:
 
   hr_management_system_package:
   # Local Path ✅
-    path: C:\Users\osama\Desktop\Check-point-package
+    # path: C:\Users\osama\Desktop\Check-point-package
   # Remote path ✅  
-    # git:
-    #   url: https://github.com/systmGulf/Check-point-package.git
-    #   ref: TOT
+    git:
+      url: https://github.com/systmGulf/Check-point-package.git
+      ref: TOT
 
 
   # 🎨 UI / UX / Animation
