@@ -136,7 +136,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                       },
                       child: CompanyBranchItem(
                         onDelete: () {
-                          buildAlertDialog(context,
+                          buildDeleteAlertDialog(context,
                               title: 'Delete Branch'.tr(context: context),
                               message:
                                   'Are you sure you want to delete this branch?'

@@ -43,7 +43,7 @@ class DepartmentItem extends StatelessWidget {
             const Spacer(),
             IconButton(
               onPressed: () {
-                buildAlertDialog(context,
+                buildDeleteAlertDialog(context,
                     title: 'Delete Department'.tr(context: context),
                     message: 'Are you sure you want to delete this department?'
                         .tr(context: context), onYes: () {

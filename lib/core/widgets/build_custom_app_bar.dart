@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppBar buildCustomAppBar(BuildContext context, String title,
     [List<Widget>? action]) {
   final currentLocale = EasyLocalization.of(context)!.locale;
   final currentLanguageCode = currentLocale.languageCode;
+  DateTime? _lastBackPressTime;
   return AppBar(
     elevation: 0,
     backgroundColor: Colors.white,
@@ -19,7 +22,7 @@ AppBar buildCustomAppBar(BuildContext context, String title,
       ),
     ),
     foregroundColor: const Color(0xFF24252C),
-    title: SizedBox(
+  title: SizedBox(
       width: 299,
       child: Text(
         title,
@@ -34,7 +37,25 @@ AppBar buildCustomAppBar(BuildContext context, String title,
     ),
     leading: GestureDetector(
       onTap: () {
-        Navigator.pop(context);
+      if(Navigator.canPop(context)){context.pop();} else{
+       final now = DateTime.now();
+
+      if (_lastBackPressTime == null ||
+          now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+        _lastBackPressTime = now;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+           SnackBar(
+            content: Text('Press again to exit'.tr(context: context)),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+          SystemNavigator.pop();
+      }
+    
+      }
+
       },
       child: SizedBox(
         height: 24,

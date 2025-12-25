@@ -137,7 +137,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                             child: UserItemListView(
                               imageUrl: state.value.data![index].imageUrl ?? '',
                               onDelete: () {
-                                buildAlertDialog(context,
+                                buildDeleteAlertDialog(context,
                                     title: 'Delete Task'.tr(context: context),
                                     message:
                                         'Are you sure you want to delete this Task?'

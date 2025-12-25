@@ -17,5 +17,5 @@ extension NavigatorExt on BuildContext {
         arguments: arguments);
   }
 
-  void pop() => Navigator.of(this).pop();
+  void pop() => Navigator.of(this, ).pop();
 }

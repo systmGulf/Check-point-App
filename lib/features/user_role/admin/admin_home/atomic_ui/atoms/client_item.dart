@@ -67,7 +67,7 @@ class ClientItem extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: () {
-              buildAlertDialog(context,
+              buildDeleteAlertDialog(context,
                   title: 'Delete Client'.tr(context: context),
                   message: 'Are you sure you want to delete this client?'
                       .tr(context: context), onYes: () {

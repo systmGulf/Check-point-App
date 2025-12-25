@@ -56,7 +56,8 @@ class GetSubPlanListView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: InkWell(
                               onTap: () {
-                                buildAlertDialog(context,
+                                
+                                buildDeleteAlertDialog(context,
                                     title:
                                         'Delete Sub Plan'.tr(context: context),
                                     message:

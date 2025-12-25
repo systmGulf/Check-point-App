@@ -67,7 +67,7 @@ class SitesItem extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: () {
-              buildAlertDialog(context,
+              buildDeleteAlertDialog(context,
                   title: 'Delete Site'.tr(context: context),
                   message: 'Are you sure you want to delete this Site?'
                       .tr(context: context), onYes: () {

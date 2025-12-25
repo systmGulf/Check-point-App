@@ -33,7 +33,7 @@ Future<dynamic> buildShowEmployeeImageDialog(BuildContext context,
                                             0.46,
                                         fit: BoxFit.fill,
                                         imageUrl:
-                                            "http://ems.runasp.net${employeeImage!}",
+                                            "http://emsdemo.runasp.net${employeeImage}",
                                         placeholder: (context, url) => Center(
                                             child: CircularProgressIndicator(
                                           color: ColorsManger.primaryColor,

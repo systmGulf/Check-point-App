@@ -63,7 +63,7 @@ class AddBranchesToShiftScreen extends StatelessWidget {
               location: 'location',
               decoration: ' sd',
               onDelete: () {
-                buildAlertDialog(
+                buildDeleteAlertDialog(
                   context,
                   title: 'Delete Branch from this Shift'.tr(context: context),
                   message:

@@ -20,9 +20,10 @@ class TaskItem extends StatefulWidget {
     required this.onDelete,
     required this.onEdit,
     // required this.employeeName,
-    required this.onSelected,
+    required this.onSelected, required this.employeeName
   });
-  final String title, description, priority, date, state;
+  final String title, description, priority, date, state ;
+  final List<GetEmployeesForTheTask> employeeName ;
   final String id;
   final List<GetTasData> tasks;
   final VoidCallback onDelete, onEdit;
@@ -87,21 +88,21 @@ class _TaskItemState extends State<TaskItem> {
               ],
             ),
             verticalSpace(8),
-            // Wrap(
-            //     alignment: WrapAlignment.start,
-            //     runAlignment: WrapAlignment.start,
-            //     children: List.generate(widget.employeeName.length, (index) {
-            //       return Container(
-            //         margin:
-            //             const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-            //         padding: const EdgeInsets.all(5),
-            //         decoration: BoxDecoration(
-            //           border: Border.all(color: Colors.grey),
-            //           borderRadius: BorderRadius.circular(10),
-            //         ),
-            //         child: Text(widget.employeeName[index].name ?? ''),
-            //       );
-            //     })),
+            Wrap(
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                children: List.generate(widget.employeeName.length, (index) {
+                  return Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(widget.employeeName[index].name ?? ''),
+                  );
+                })),
             Divider(
               thickness: 1,
             )

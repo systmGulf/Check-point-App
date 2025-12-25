@@ -67,7 +67,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
 
   void _deleteUser(int index) {
     final UserId = users[index].id;
-    buildAlertDialog(context,
+    buildDeleteAlertDialog(context,
         title: 'Delete User'.tr(context: context),
         message: 'Are you sure you want to delete this User?'
             .tr(context: context), onYes: () {

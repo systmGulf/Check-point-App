@@ -32,6 +32,21 @@ class AppStylesManger {
     fontFamily: 'DM Sans',
     fontWeight: FontWeight.w400,
   );
+    static TextStyle     font18SemiBold = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    );
+  static TextStyle font20Medium = TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+  static TextStyle font14Medium = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
   static TextStyle font18BoldBlack = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.bold,

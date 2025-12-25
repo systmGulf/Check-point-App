@@ -25,7 +25,9 @@ class EmployeeAttendance extends StatelessWidget {
     required this.totalHours,
     this.employeeImage,
     this.customerId,
-    required this.employeeId,required this.isLate,required this.isEarly,
+    required this.employeeId,
+    required this.isLate,
+    required this.isEarly,
   });
 
   final String employeeName, location, inTime, outTime, id, employeeId;
@@ -36,16 +38,6 @@ class EmployeeAttendance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime inDateTime =
-        DateTime.parse('2000-01-01 ${inTime.substring(0, 5)}:00');
-    DateTime outDateTime =
-        DateTime.parse('2000-01-01 ${outTime.substring(0, 5)}:00');
-
-    DateTime lateCheckInThreshold = DateTime.parse('2000-01-01 10:00:00');
-    DateTime earlyCheckOutThreshold = DateTime.parse('2000-01-01 17:00:00');
-
-  
-
     return Container(
       padding: const EdgeInsets.all(1),
       decoration: BoxDecoration(
@@ -62,7 +54,11 @@ class EmployeeAttendance extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-             SizedBox(child: UserImage(imageUrl: employeeImage,height: 40,)),
+              SizedBox(
+                  child: UserImage(
+                imageUrl: employeeImage,
+                height: 40,
+              )),
               horizontalSpace(10),
               Text(
                 employeeName,
@@ -298,9 +294,17 @@ class EmployeeAttendance extends StatelessWidget {
           ),
           horizontalSpace(15),
           location == 'Customer'
-              ? GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
+              ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: ColorsManger.primaryColor,
+                  ),
+                  horizontalSpace(5),
+                  InkWell(
+                    onTap: () {
+                         showModalBottomSheet(
                         backgroundColor: Colors.white,
                         isScrollControlled: true,
                         enableDrag: false,
@@ -312,25 +316,72 @@ class EmployeeAttendance extends StatelessWidget {
                                     employeeId: employeeId),
                               child: EmployeeTrackingDiagramMap(),
                             ));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(    
-                        Icons.location_on,
-                        color: ColorsManger.primaryColor,
+                    },
+                    child: Text(
+                      'Location on Map'.tr(
+                        context: context,
                       ),
-                      horizontalSpace(5),
-                      Text(
-                        'Location on Map'.tr(
-                          context: context,
-                        ),
-                        style: AppStylesManger.font15BoldrBlue
-                            .copyWith(color: Colors.black),
-                      ),
-                    ],
+                      style: AppStylesManger.font15BoldrBlue
+                          .copyWith(color: Colors.black),
+                    ),
                   ),
-                )
+                 Spacer(),
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        enableDrag: false,
+                  
+                        context: context,
+                        builder: (_) => Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Align(
+                                  alignment: Alignment.topRight,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Icon(Icons.close),
+                                  )),
+                              verticalSpace(20),
+                               Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text("Image".tr(context: context), style: AppStylesManger.font16BoldBlack,)),
+                              verticalSpace(20),
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/pngwing.com.png', height: 100.h, width: 100.w,),
+                                  horizontalSpace(10),
+                                  Text("Visit status : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),),
+                                  Text("Follow up".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.green),),
+
+                              ]),
+                              Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text("Comments : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),)),
+                              Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),)),
+                              
+                            ],
+                          ),
+                        )
+                        );
+                    },
+                    child: Text("Visit Feedback".tr(context: context),style: AppStylesManger.font15BoldrBlue.copyWith(color: ColorsManger.primaryColor),)),
+                ],
+              )
               : const SizedBox.shrink()
         ]),
       ),

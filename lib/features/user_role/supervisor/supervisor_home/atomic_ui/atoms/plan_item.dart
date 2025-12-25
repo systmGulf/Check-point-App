@@ -49,7 +49,7 @@ class PlanItem extends StatelessWidget {
                 ),
                 trailing: InkWell(
                   onTap: () {
-                    buildAlertDialog(context,
+                    buildDeleteAlertDialog(context,
                         title: 'Delete Plan'.tr(context: context),
                         message: 'Are you sure you want to delete this Plan?'.tr(context: context)
                             .tr(context: context), onYes: () {

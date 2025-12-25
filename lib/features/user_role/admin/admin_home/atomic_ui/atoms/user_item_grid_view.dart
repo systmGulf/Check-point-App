@@ -125,7 +125,7 @@ class UserItemGridView extends StatelessWidget {
                 horizontalSpace(0),
                 IconButton(
                   onPressed: () {
-                    buildAlertDialog(context,
+                    buildDeleteAlertDialog(context,
                         title: 'Delete User'.tr(context: context),
                         message: 'Are you sure you want to delete this user?'
                             .tr(context: context), onYes: () {
