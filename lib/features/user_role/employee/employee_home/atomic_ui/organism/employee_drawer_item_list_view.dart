@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 import '../atoms/drawer_items.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EmployeeDrawerListViewItems extends StatefulWidget {
   const EmployeeDrawerListViewItems({super.key});
@@ -63,36 +65,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
       ),
       GestureDetector(
         onTap: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (cnx) {
-              return IntrinsicHeight(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          EasyLocalization.of(context)!
-                              .setLocale(const Locale('en', 'US'));
-                          Navigator.pop(context);
-                        },
-                        title: const Text('English'),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          EasyLocalization.of(context)!
-                              .setLocale(const Locale('ar', 'AE'));
-                          Navigator.pop(context);
-                        },
-                        title: const Text('العربية'),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
+        buildChangeLanguageBottomSheet(context);
         },
         child: ActiveDrawerItem(
           text: 'Change Language'.tr(context: context),

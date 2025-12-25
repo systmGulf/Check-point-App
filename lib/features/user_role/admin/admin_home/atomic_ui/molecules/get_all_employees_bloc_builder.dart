@@ -110,6 +110,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemGridView(
+                              userImage: state.value.data![index].imageUrl ?? '',
                               branchId: state.value.data![index].branchId ?? 0,
                               branch: state.value.data![index].branchName ?? "",
                               departmentId:
@@ -138,9 +139,9 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                               imageUrl: state.value.data![index].imageUrl ?? '',
                               onDelete: () {
                                 buildDeleteAlertDialog(context,
-                                    title: 'Delete Task'.tr(context: context),
+                                    title: 'Delete User'.tr(context: context),
                                     message:
-                                        'Are you sure you want to delete this Task?'
+                                        'Are you sure you want to delete this User?'
                                             .tr(context: context), onYes: () {
                                   context.pop();
 

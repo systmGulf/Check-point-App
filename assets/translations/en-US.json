@@ -287,6 +287,9 @@
   "Send to admin" : "Send to admin",
   "Visit Feedback" : "Visit Feedback",
   "Press again to exit" : "Press again to exit",
+  "Select Language"  : "Select Language",
+"What language do you Prefer?" : "What language do you Prefer?",
+
   "body": "body",
   "Send": "Send",
   "Permission": "Permission",

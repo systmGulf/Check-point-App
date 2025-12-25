@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,7 @@ class UserItemGridView extends StatelessWidget {
       required this.role,
       required this.branch,
       required this.departmentId,
-      required this.branchId});
+      required this.branchId, required this.userImage});
   final String name,
       position,
       userId,
@@ -35,6 +36,7 @@ class UserItemGridView extends StatelessWidget {
       role,
       branch;
   final int departmentId, branchId;
+  final String userImage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,11 +50,7 @@ class UserItemGridView extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const CircleAvatar(
-            backgroundColor: Colors.orange,
-            radius: 22,
-            backgroundImage: AssetImage('assets/images/icon-default-user.png'),
-          ),
+          UserImage(height: 50, imageUrl: userImage),
           verticalSpace(20),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
