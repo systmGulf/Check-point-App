@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,10 +62,7 @@ class EmployeeAttendance extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(
-                  image:
-                      const AssetImage('assets/images/icon-default-user.png'),
-                  height: 30.h),
+             SizedBox(child: UserImage(imageUrl: employeeImage,height: 40,)),
               horizontalSpace(10),
               Text(
                 employeeName,

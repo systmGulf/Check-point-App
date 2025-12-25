@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
@@ -19,10 +20,10 @@ class LeaveApplicationItem extends StatefulWidget {
     required this.status,
     required this.createdBy,
     required this.type,
-    required this.employeeId, required this.userToken,
+    required this.employeeId, required this.userToken, required this.userImage
   });
 
-  final String name, from, to, reason, status, createdBy, type, employeeId, userToken;
+  final String name, from, to, reason, status, createdBy, type, employeeId, userToken, userImage;
   final int id;
 
   @override
@@ -69,11 +70,9 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.orange[100],
-                    backgroundImage:
-                        const AssetImage('assets/images/icon-default-user.png'),
+                  UserImage(
+                    imageUrl: widget.userImage,
+                    height: 50,
                   ),
                   horizontalSpace(10),
                   Column(
@@ -84,7 +83,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                         style: AppStylesManger.font15BoldBlack,
                       ),
                       Text(
-                        'Flutter Developer',
+                        widget.type,
                         style: AppStylesManger.font15BoldBlack
                             .copyWith(color: Colors.grey, fontSize: 12),
                       ),

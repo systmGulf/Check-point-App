@@ -1,9 +1,9 @@
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/department_model/get_employees_in_department.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../pages/supervisor_premission_screen.dart';
@@ -19,6 +19,7 @@ class MembersInDepartmentListView extends StatelessWidget {
   final List<GetEmployeesInDepartmentData> manger;
   final String role;
   final int departmentId;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +54,7 @@ class MembersInDepartmentListView extends StatelessWidget {
                 }
               },
               contentPadding: const EdgeInsets.all(0),
-              leading: CircleAvatar(
-                backgroundColor: ColorsManger.primaryColor,
-                radius: 25,
-                backgroundImage: const AssetImage(
-                  'assets/images/icon-default-user.png',
-                ),
-              ),
+              leading: UserImage(imageUrl: manger[index].imageUrl ?? '', height: 50),
               title: Text(
                 manger[index].name ?? '',
                 style: AppStylesManger.font16BoldBlack.copyWith(

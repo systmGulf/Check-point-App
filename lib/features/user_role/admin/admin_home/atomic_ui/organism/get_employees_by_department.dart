@@ -24,6 +24,7 @@ class GetMembersByDepartment extends StatelessWidget {
                 .where((element) => element.role == role)
                 .toList();
             return MembersInDepartmentListView(
+              
                 manger: manger, role: role, departmentId: departmentId);
           } else if (state is GetEmployeeByDepartmentLoading) {
             return Skeletonizer(

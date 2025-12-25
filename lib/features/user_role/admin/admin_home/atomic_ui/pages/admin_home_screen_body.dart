@@ -35,6 +35,7 @@ class AdminHomeScreenBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: UserNameAndTimeAndCheckInAndOutItem(
+                      image: "",
                       name: ApiConstant.username,
                     ),
                   ),

@@ -100,6 +100,13 @@ class RecentLeaveApplication extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: LeaveApplicationItem(
+                                        userImage: state
+                                                .getLeaveRequestModel
+                                                .value!
+                                                .data![index]
+                                                .employee
+                                                ?.imageUrl ??
+                                            '',
                                         userToken: state
                                                 .getLeaveRequestModel
                                                 .value!
@@ -160,6 +167,7 @@ class RecentLeaveApplication extends StatelessWidget {
                         return const Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: LeaveApplicationItem(
+                            userImage: '',
                             userToken: 'Data Load',
                             employeeId: 'Data load',
                             type: 'Data Load',

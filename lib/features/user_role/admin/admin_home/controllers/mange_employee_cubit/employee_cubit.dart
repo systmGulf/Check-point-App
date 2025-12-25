@@ -23,28 +23,26 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
 
-  Future<void> getAllEmployees(
-      {int pageNumber = 0, required int itemCount}) async {
-    if (pageNumber == 0) {
-      emit(GetAllEmployeesLoading());
-    } else {
-      emit(GetAllEmployeesPaginationLoading());
-    }
-    final result = await adminManageEmployeeRepo.getAllEmployees(
-        pageNumber: pageNumber, itemCount: itemCount);
-    result.fold(
-      (error) {
-        if (pageNumber == 0) {
-          emit(GetAllEmployeesFailure(error: error.message));
-        } else {
-          emit(GetAllEmployeesPaginationFailure(error: error.message));
-        }
-      },
-      (allEmployeesList) {
-        emit(GetAllEmployeesSuccess(value: allEmployeesList));
-      },
-    );
+Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, bool keepOldData = false}) async {
+  if (pageNumber == 0 && !keepOldData) {
+    emit(GetAllEmployeesLoading());
+  } else {
+    emit(GetAllEmployeesPaginationLoading());
   }
+  final result = await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber, itemCount: itemCount);
+  result.fold(
+    (error) {
+      if (pageNumber == 0 && !keepOldData) {
+        emit(GetAllEmployeesFailure(error: error.message));
+      } else {
+        emit(GetAllEmployeesPaginationFailure(error: error.message));
+      }
+    },
+    (allEmployeesList) {
+      emit(GetAllEmployeesSuccess(value: allEmployeesList));
+    },
+  );
+}
   // Search employee
 
   Future<void> searchEmployee({required String name}) async {

@@ -135,6 +135,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemListView(
+                              imageUrl: state.value.data![index].imageUrl ?? '',
                               onDelete: () {
                                 buildAlertDialog(context,
                                     title: 'Delete Task'.tr(context: context),
@@ -204,6 +205,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                     itemBuilder: (_, index) => Padding(
                       padding: const EdgeInsets.only(bottom: 7),
                       child: UserItemListView(
+                          imageUrl: "",
                         onDelete: () {},
                         branchId: 0,
                         branch: "Data Load",

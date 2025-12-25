@@ -87,6 +87,8 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EmployeeCard(
+                      // TODO: replace with actual image url
+                        imageUrl:  '',
                         date:
                             state.getEmployeeSummaryValue.date!.substring(0, 7),
                         employeeName:
@@ -163,6 +165,7 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const EmployeeCard(
+                        imageUrl: '',
                         date: 'Loading...', employeeName: 'Loading...'),
                     verticalSpace(20),
                     Padding(

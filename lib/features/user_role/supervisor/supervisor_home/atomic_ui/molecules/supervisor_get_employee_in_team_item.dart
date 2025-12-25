@@ -1,3 +1,4 @@
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
@@ -26,10 +27,14 @@ class SupervisorGetEmployeesInTeamItem extends StatelessWidget {
           Row(
             children: [
               horizontalSpace(MediaQuery.of(context).size.width * 0.05),
-              Text(name,
-                  style: AppStylesManger.font16regulerBlack
-                      .copyWith(fontWeight: FontWeight.bold)),
-              const Spacer(),
+              UserImage(imageUrl: getAllEmployeesValue.imageUrl,height: 30,),
+              horizontalSpace(MediaQuery.of(context).size.width * 0.05),
+              Expanded(
+                child: Text("$name",
+                    style: AppStylesManger.font16regulerBlack
+                        .copyWith(fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis)),
+              ),
+             
               GestureDetector(
                   onTap: () {
                     context.pushName(

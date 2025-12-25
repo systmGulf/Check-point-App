@@ -22,6 +22,7 @@ class GetEmployeeDataInEmployeeHomeScreenBlocBuilder extends StatelessWidget {
             return Column(
               children: [
                 UserNameAndTimeAndCheckInAndOutItem(
+                  image: state.employeeLoginModel.imageUrl ?? '',
                   name: "${state.employeeLoginModel.name}",
                 ),
               ],
@@ -31,6 +32,7 @@ class GetEmployeeDataInEmployeeHomeScreenBlocBuilder extends StatelessWidget {
           } else {
             return Skeletonizer(
                 child: const UserNameAndTimeAndCheckInAndOutItem(
+              image: '',
               name: "Data Loading",
             ));
           }

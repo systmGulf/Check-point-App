@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
@@ -40,10 +41,7 @@ class EmployeeCustomDrawer extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 40,
                         backgroundColor: ColorsManger.primaryColor,
-                        child: const Image(
-                            image: AssetImage(
-                          'assets/images/employee_image.png',
-                        )),
+                        child:UserImage(height: 60,)
                       ),
                     ),
                     verticalSpace(10),

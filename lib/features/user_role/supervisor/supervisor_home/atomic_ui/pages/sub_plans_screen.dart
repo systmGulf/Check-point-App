@@ -3,7 +3,6 @@ import 'package:employee_mangement/core/widgets/custom_floating_action_button.da
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/enums/customer_type.dart';
@@ -123,99 +122,3 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
   }
 }
 
-GetPlanByIdValue getDummyPlanByIdValue() {
-  return GetPlanByIdValue(
-    id: 1,
-    planDate: "2024-12-05",
-    note: "Sample plan note",
-    customerPlans: [
-      CustomerPlans(
-        id: 101,
-        note: "Visit for feedback",
-        visited: false,
-        employees: [
-          Employees(
-            position: "Manager",
-            departmentName: "Sales",
-            departmentId: 201,
-            branchName: "Main Branch",
-            branchId: 301,
-            role: "Supervisor",
-            canAddAttendance: true,
-            canAddPlan: false,
-            id: "E001",
-            userName: "john_doe",
-            name: "John Doe",
-            mobileId: "M001",
-          ),
-        ],
-        customer: Customer(
-          id: "C001",
-          name: "ABC Corp",
-          workesAs: "Retailer",
-          location: "Downtown",
-          customerType: "Customer",
-          coordinates: [],
-        ),
-      ),
-      CustomerPlans(
-        id: 102,
-        note: "Inspect construction progress",
-        visited: true,
-        employees: [
-          Employees(
-            position: "Engineer",
-            departmentName: "Construction",
-            departmentId: 202,
-            branchName: "North Branch",
-            branchId: 302,
-            role: "Field Engineer",
-            canAddAttendance: false,
-            canAddPlan: true,
-            id: "E002",
-            userName: "jane_smith",
-            name: "Jane Smith",
-            mobileId: "M002",
-          ),
-        ],
-        customer: Customer(
-          id: "C002",
-          name: "XYZ Construction Site",
-          workesAs: "Construction Site",
-          location: "Uptown",
-          customerType: "Site",
-          coordinates: [],
-        ),
-      ),
-      CustomerPlans(
-        id: 103,
-        note: "Annual client review",
-        visited: false,
-        employees: [
-          Employees(
-            position: "Account Manager",
-            departmentName: "Client Relations",
-            departmentId: 203,
-            branchName: "East Branch",
-            branchId: 303,
-            role: "Account Manager",
-            canAddAttendance: true,
-            canAddPlan: true,
-            id: "E003",
-            userName: "alice_doe",
-            name: "Alice Doe",
-            mobileId: "M003",
-          ),
-        ],
-        customer: Customer(
-          id: "C003",
-          name: "DEF Corporation",
-          workesAs: "Wholesaler",
-          location: "Midtown",
-          customerType: "",
-          coordinates: [],
-        ),
-      ),
-    ],
-  );
-}

@@ -86,7 +86,9 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         onRefresh: () async {
           BlocProvider.of<EmployeeCubit>(
             context,
-          ).getAllEmployees(pageNumber: 0, itemCount: 10);
+          ).getAllEmployees(pageNumber: 0, itemCount: 10, keepOldData: false);
+          users.clear();
+          print("Refreshed =============================>${users.length}");
         },
         child: BlocConsumer<EmployeeCubit, EmployeeState>(
           listener: (context, state) {
@@ -161,6 +163,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                           itemBuilder: (_, index) => Padding(
                             padding: const EdgeInsets.only(bottom: 7),
                             child: UserItemListView(
+                              imageUrl: users[index].imageUrl ?? '',
                               onDelete: () => _deleteUser(index),
                               branchId: users[index].branchId ?? 0,
                               branch: users[index].branchName ?? "",
@@ -298,6 +301,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                       itemBuilder: (_, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 7),
                         child: UserItemListView(
+                          imageUrl: "",
                           onDelete: () {},
                           branchId: 0,
                           branch: "Data Load",

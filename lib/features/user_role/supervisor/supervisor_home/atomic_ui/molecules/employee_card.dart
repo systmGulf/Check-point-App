@@ -1,3 +1,4 @@
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -8,9 +9,10 @@ class EmployeeCard extends StatelessWidget {
   const EmployeeCard({
     super.key,
     required this.employeeName,
-    required this.date,
+    required this.date, required this.imageUrl,
   });
   final String employeeName, date;
+  final String imageUrl ;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,7 @@ class EmployeeCard extends StatelessWidget {
         child: Column(
           children: [
             verticalSpace(14),
-            GestureDetector(
-              onTap: () {},
-              child: const Image(
-                  height: 50,
-                  image: AssetImage(
-                    'assets/images/icon-default-user.png',
-                  )),
-            ),
+            UserImage(height: 80, imageUrl: imageUrl,),
             verticalSpace(10),
             Text(
               employeeName,

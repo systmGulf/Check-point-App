@@ -65,6 +65,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                     print(state);
                     if (state is GetEmployeeSuccess) {
                       return UserNameAndTimeAndCheckInAndOutItem(
+                        image: state.employeeLoginModel.imageUrl ?? '',
                         name: "${state.employeeLoginModel.name}",
                       );
                     } else if (state is GetEmployeeFailure) {
@@ -72,6 +73,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                     } else {
                       return Skeletonizer(
                           child: const UserNameAndTimeAndCheckInAndOutItem(
+                        image: '',
                         name: "Data Loading",
                       ));
                     }

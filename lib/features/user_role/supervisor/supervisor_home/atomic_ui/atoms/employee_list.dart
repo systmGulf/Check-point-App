@@ -19,6 +19,7 @@ class EmployeeList extends StatelessWidget {
           ),
           child: Row(
             children: [
+              
               horizontalSpace(MediaQuery.of(context).size.width * 0.05),
               Text('Name'.tr(context: context),
                   style: AppStylesManger.font18RegulerBlack),

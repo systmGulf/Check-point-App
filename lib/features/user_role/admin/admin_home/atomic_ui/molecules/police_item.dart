@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:hr_management_system_package/admin_infrastructure/data/models/sh
 
 import '../../../../../../core/common/formate_hours.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import 'add_employees_to_police_model_botttom_sheet.dart';
@@ -180,11 +180,7 @@ import 'add_employees_to_police_model_botttom_sheet.dart';
                     ),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          radius: 20.r,
-                          backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                        child: Image.asset('assets/images/employee_image.png', height: 15.h, width: 15.w,),
-                        ),
+                        UserImage(imageUrl: employee.imageUrl ?? '', height: 50,),
                         horizontalSpace(10.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

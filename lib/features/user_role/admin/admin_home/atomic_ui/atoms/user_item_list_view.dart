@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,7 +24,7 @@ class UserItemListView extends StatelessWidget {
     required this.departmentId,
     required this.branch,
     required this.branchId,
-    required this.onDelete,
+    required this.onDelete, required this.imageUrl,
   });
   final String name,
       position,
@@ -35,6 +36,7 @@ class UserItemListView extends StatelessWidget {
       branch;
   final int departmentId, branchId;
   final VoidCallback onDelete;
+  final String imageUrl ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +49,7 @@ class UserItemListView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: 22,
-            backgroundImage: AssetImage('assets/images/icon-default-user.png'),
-          ),
+        UserImage(height: 50, imageUrl: imageUrl),
           horizontalSpace(20),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,

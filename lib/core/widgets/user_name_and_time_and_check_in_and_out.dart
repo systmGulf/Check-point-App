@@ -1,5 +1,6 @@
 import 'package:analog_clock/analog_clock.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,10 +13,11 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
     super.key,
     required this.name,
     this.checkInTap,
-    this.checkOutTap,
+    this.checkOutTap, required this.image,
   });
   final String name;
   final void Function()? checkInTap, checkOutTap;
+  final String image;
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat(
@@ -25,16 +27,23 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           child: Column(
             children: [
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: 'Hello, '.tr(),
-                    style: AppStylesManger.font18RegulerBlack
-                        .copyWith(color: ColorsManger.primaryColor)),
-                TextSpan(
-                  text: name,
-                  style: AppStylesManger.font18BoldBlack,
-                ),
-              ])),
+              Row(
+                  mainAxisSize: MainAxisSize.min,
+                children: [
+                  UserImage(height: 30),
+                  horizontalSpace(10),
+                  Text.rich(TextSpan(children: [
+                    TextSpan(
+                        text: 'Hello, '.tr(),
+                        style: AppStylesManger.font18RegulerBlack
+                            .copyWith(color: ColorsManger.primaryColor)),
+                    TextSpan(
+                      text: name,
+                      style: AppStylesManger.font18BoldBlack,
+                    ),
+                  ])),
+                ],
+              ),
               Text('Good Morning'.tr(), style: AppStylesManger.font15BoldBlack),
             ],
           )),

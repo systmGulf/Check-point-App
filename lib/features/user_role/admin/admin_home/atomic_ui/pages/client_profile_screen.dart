@@ -106,7 +106,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       CustomAppTextFormField(
                         hint: 'Name'.tr(context: context),
                         controller: BlocProvider.of<CustomerCubit>(context)
-                            .editNameController
+                            .nameController
                           ..text = _name,
                         onChanged: (value) => setState(() => _name = value),
                       ),
@@ -114,7 +114,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       CustomAppTextFormField(
                         hint: 'Worked As'.tr(context: context),
                         controller: BlocProvider.of<CustomerCubit>(context)
-                            .editWorkedAsController
+                            .workedAsController
                           ..text = _workedAs,
                         onChanged: (value) => setState(() => _workedAs = value),
                       ),
@@ -155,7 +155,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   CustomAppTextFormField(
                     hint: 'Location'.tr(context: context),
                     controller: BlocProvider.of<CustomerCubit>(context)
-                        .editLocationController
+                        .locationController
                       ..text = _location,
                     onChanged: (value) => setState(() => _location = value),
                   ),
