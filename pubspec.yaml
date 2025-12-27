@@ -5,7 +5,10 @@ version: 1.0.1+2
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
-
+# dependency_overrides: 
+#     hr_management_system_package:
+#   # Local Path ✅
+#     path: C:\Users\osama\Desktop\Check-point-package
 dependencies:
   flutter:
     sdk: flutter
@@ -39,13 +42,13 @@ dependencies:
   hr_management_system_package:
   # Local Path ✅
     # path: C:\Users\osama\Desktop\Check-point-package
-  # # Remote path ✅  
+  # Remote path ✅  
     git:
       url: https://github.com/systmGulf/Check-point-package.git
       ref: TOT
 
 
-  # 🎨 UI / UX / Animation
+  # 🎨 UI / Animation
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.16
   lottie: ^3.3.0
