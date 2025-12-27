@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_leave_requests_repo/employee_action_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../employee/employee_home/atomic_ui/molecules/employee_more_option_drawer.dart';
 import '../../../../employee/employee_home/atomic_ui/organism/employee_custom_drawer.dart';
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
@@ -44,44 +47,52 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
     ];
     return Scaffold(
         key: scaffoldkey,
+      
         endDrawer: const Drawer(
           child: EmployeeCustomDrawer(),
         ),
+        drawer:     Drawer(
+        child: BlocProvider(
+          create: (context) => LeaveApplicationCubit(
+            getIt<EmployeeActionRepo>(),
+          ),
+          child: const EmployeeMoreOptionDrawer(),
+        ),
+      ),
         appBar: AppBar(
           backgroundColor: Colors.white,
           actions: [
             Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  onPressed: () {
-                    scaffoldkey.currentState?.openEndDrawer();
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.black,
-                    size: 30.h,
+              padding: const EdgeInsets.symmetric(horizontal: 1),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.gamficationRoute);
+                },
+                child: Row(children: [
+                  horizontalSpace(5),
+                  Image.asset(
+                    'assets/images/cup.png',
+                    width: 30.w,
+                    height: 30.h,
                   ),
-                )),
+                  Text('13', style: AppStylesManger.font18BoldBlack),
+                ]),
+              ),
+          ), 
+            IconButton(
+              onPressed: () {
+                scaffoldkey.currentState?.openEndDrawer();
+              },
+              icon: CircleAvatar(
+              backgroundColor: ColorsManger.primaryColor,
+              radius: 20,
+              child: const Icon(Icons.person, color: Colors.white)))
+          
           ],
           centerTitle: true,
           leadingWidth: 80.w,
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 1),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.gamficationRoute);
-              },
-              child: Row(children: [
-                horizontalSpace(5),
-                Image.asset(
-                  'assets/images/cup.png',
-                  width: 30.w,
-                  height: 30.h,
-                ),
-                Text('13', style: AppStylesManger.font18BoldBlack),
-              ]),
-            ),
-          ),
+          
+          // leading: 
           title: Text(texts[selectedIndex],
               style: AppStylesManger.font18BoldBlack),
         ),

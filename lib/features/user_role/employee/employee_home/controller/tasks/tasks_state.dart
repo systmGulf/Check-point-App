@@ -25,3 +25,11 @@ class UpdateTaskStatusError extends EmployeeTasksState {
 }
 
 class UpdateTaskStatusSuccess extends EmployeeTasksState {}
+class DeleteEmployeeTaskSuccess extends EmployeeTasksState {}
+
+class DeleteEmployeeTaskError extends EmployeeTasksState {
+  final String error;
+  DeleteEmployeeTaskError(this.error);
+}
+
+class DeleteEmployeeTaskLoading extends EmployeeTasksState {}

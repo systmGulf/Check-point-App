@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/my_tasks_screen.dart' show TasksScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +8,8 @@ import 'package:slide_switcher/slide_switcher.dart';
 
 import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
+import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
@@ -129,27 +130,20 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                           );
                   }
                   if (state is GetMyTasksSuccess) {
-                    return TasksSection(taskCount: state.getTaskResponse.length,
-                        onTap: () {
-                      // Navigate to tasks page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>  TasksScreen(
-                            tasks: state.getTaskResponse,
-                            userImageUrl: ''
-                          ),
-                        ),
-                      );
-                    }
-                    );
-                  }
-                  return Skeletonizer(
-                      child:  TasksSection(taskCount: 1,
+                    return TasksSection(
+                        taskCount: state.getTaskResponse.length,
                         onTap: () {
                           // Navigate to tasks page
-                                                },
-                      ));
+                          context.pushName(Routes.myTasksScreen);
+                        });
+                  }
+                  return Skeletonizer(
+                      child: TasksSection(
+                    taskCount: 1,
+                    onTap: () {
+                      // Navigate to tasks page
+                    },
+                  ));
                 },
               ),
             ],

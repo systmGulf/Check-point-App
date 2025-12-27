@@ -52,6 +52,11 @@ class TimeLineTile extends StatelessWidget {
         endChild: Card(
             color:  Colors.white,
             borderOnForeground: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              side: const BorderSide(color: Colors.grey, ),
+              
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

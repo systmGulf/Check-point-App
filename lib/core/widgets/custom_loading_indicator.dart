@@ -9,7 +9,7 @@ Future<dynamic> customLoadingIndicator(BuildContext context) {
       builder: (context) => OverlayLoaderWithAppIcon(
             isLoading: true,
             appIcon: Image.asset(
-              'assets/images/logo_without_bg.png',
+              'assets/images/vodaphone.png',
               height: 50,
               color: ColorsManger.primaryColor,
             ),

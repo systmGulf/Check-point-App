@@ -83,10 +83,10 @@ class EmployeeHomeSectionItem extends StatelessWidget {
                           TodoTitleAndStateItem(
                             visible: false,
                             onSelected: (value) {
-                              context.read<EmployeeTasksCubit>().taskStatus =
-                                  value;
+                           
                               BlocProvider.of<EmployeeTasksCubit>(context)
                                   .updateTaskStatus(
+                                      taskStatus: value,
                                       taskId: getTaskResponse[index].id ?? 0);
                             },
                             onEdit: () {},

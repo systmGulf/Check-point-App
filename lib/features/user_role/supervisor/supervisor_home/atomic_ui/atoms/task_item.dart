@@ -19,7 +19,7 @@ class TaskItem extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.onEdit,
-    // required this.employeeName,
+
     required this.onSelected, required this.employeeName
   });
   final String title, description, priority, date, state ;

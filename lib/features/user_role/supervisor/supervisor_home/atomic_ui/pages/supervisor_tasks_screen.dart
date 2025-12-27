@@ -63,7 +63,9 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   void _deleteTask(int index) {
     final taskId =
         int.parse(context.read<TasksCubit>().tasks[index].id.toString());
-    buildDeleteAlertDialog(context,
+    buildDeleteAlertDialog
+    (
+      context,
         title: 'Delete Task'.tr(context: context),
         message: 'Are you sure you want to delete this Task?'
             .tr(context: context), onYes: () {
@@ -87,8 +89,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   }
 
   @override
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  80c95ac5-06e5-4dc9-a9c2-f726b20a90e2  *******/
+
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: CustomFloatingActionButton(

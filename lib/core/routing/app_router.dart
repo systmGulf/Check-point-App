@@ -44,7 +44,6 @@ import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_ap
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_planner.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_schedule.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/my_plans.screen.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/my_tasks_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/request_claim_application_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/workflow_submission.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
@@ -57,6 +56,7 @@ import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supe
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/gamfication_screen.dart'
     show LeaderboardPage;
+import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/my_tasks_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_attend_some_employee_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_layout_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
@@ -80,7 +80,7 @@ abstract class AppRouter {
         return BaseRoute(
           page: BlocProvider(
             create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
-            child: const MyTasksScreen(),
+            child: const TasksScreen(),
           ),
         );
       case Routes.supervisorAddTasksScreen:
