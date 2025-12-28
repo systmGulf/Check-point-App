@@ -86,9 +86,11 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         onRefresh: () async {
           BlocProvider.of<EmployeeCubit>(
             context,
-          ).getAllEmployees(pageNumber: 0, itemCount: 10, );
-          users.clear();
-          print("Refreshed =============================>${users.length}");
+          ).getAllEmployees(
+            pageNumber: 0,
+            itemCount: 10,
+          );
+          // users.clear();
         },
         child: BlocConsumer<EmployeeCubit, EmployeeState>(
           listener: (context, state) {
@@ -110,7 +112,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                 ),
               );
             } else if (state is GetAllEmployeesLoading) {
-              users.clear();
+              // users.clear();
             }
           },
           buildWhen: (previous, current) =>
@@ -226,24 +228,48 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                                               create: (context) =>
                                                   getIt<EmployeeCubit>(),
                                               child: EditUser(
-                                                branchId:
-                                                    state.employeeList.data![index].branchId ?? 0,
-                                                branch:
-                                                    state.employeeList.data![index].branchName ??
-                                                        "",
-                                                departmentId:
-                                                    state.employeeList.data![index].departmentId ??
-                                                        0,
-                                                mobileId:
-                                                    state.employeeList.data![index].mobileId ?? "",
-                                                role: state.employeeList.data![index].role ?? "",
-                                                id: state.employeeList.data![index].id ?? "",
-                                                name: state.employeeList.data![index].name ?? "",
-                                                userName:
-                                                    state.employeeList.data![index].userName ?? "",
-                                                position:
-                                                    state.employeeList.data![index].position ?? "",
-                                                department: state.employeeList.data![index]
+                                                branchId: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .branchId ??
+                                                    0,
+                                                branch: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .branchName ??
+                                                    "",
+                                                departmentId: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .departmentId ??
+                                                    0,
+                                                mobileId: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .mobileId ??
+                                                    "",
+                                                role: state.employeeList
+                                                        .data![index].role ??
+                                                    "",
+                                                id: state.employeeList
+                                                        .data![index].id ??
+                                                    "",
+                                                name: state.employeeList
+                                                        .data![index].name ??
+                                                    "",
+                                                userName: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .userName ??
+                                                    "",
+                                                position: state
+                                                        .employeeList
+                                                        .data![index]
+                                                        .position ??
+                                                    "",
+                                                department: state
+                                                        .employeeList
+                                                        .data![index]
                                                         .departmentName ??
                                                     "",
                                               ),

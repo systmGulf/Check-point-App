@@ -73,7 +73,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
     editPasswordController.dispose();
     editPositionController.dispose();
     mobileIdController.dispose();
-  
+
     super.dispose();
   }
 
@@ -88,6 +88,13 @@ class _EditUserFelidsState extends State<EditUserFelids> {
         verticalSpace(10),
         CustomAppTextFormField(
             controller: editNameController..text = widget.name,
+            hint: 'Edit Name'.tr(context: context)),
+        Text(' User name'.tr(context: context),
+            style: AppStylesManger.font15BoldBlack),
+        verticalSpace(10),
+        CustomAppTextFormField(
+            readOnly: true,
+            controller: editUsernameController..text = widget.userName,
             hint: 'Edit User Name'.tr(context: context)),
         verticalSpace(10),
         Text('Edit Position'.tr(context: context),
