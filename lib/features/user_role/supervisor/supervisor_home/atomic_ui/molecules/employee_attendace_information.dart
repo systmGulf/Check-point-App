@@ -16,8 +16,14 @@ class EmployeeAttendanceInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(text, style: AppStylesManger.font18RegulerBlack),
-        const Spacer(),
+        Expanded(
+          child: Text(
+            text,
+            style: AppStylesManger.font18RegulerBlack,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         Container(
           padding: const EdgeInsets.all(1),
           decoration: BoxDecoration(
@@ -32,7 +38,13 @@ class EmployeeAttendanceInformation extends StatelessWidget {
               child: Center(
                 child: Text(
                   days,
-                  style: AppStylesManger.font14RegularBlack,
+                  style: AppStylesManger.font14RegularBlack.copyWith(
+                    color: ColorsManger.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               )),
         )

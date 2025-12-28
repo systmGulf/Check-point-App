@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../helpers/app_spaces.dart';
 import '../styles/colors.dart';
@@ -13,7 +14,8 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
     super.key,
     required this.name,
     this.checkInTap,
-    this.checkOutTap, required this.image,
+    this.checkOutTap,
+    required this.image,
   });
   final String name;
   final void Function()? checkInTap, checkOutTap;
@@ -28,9 +30,9 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                  mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  UserImage(height: 30),
+                  UserImage(imageUrl: image, height: 30),
                   horizontalSpace(10),
                   Text.rich(TextSpan(children: [
                     TextSpan(
@@ -112,7 +114,48 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
                   Text(
                     dateFormat.format(DateTime.now()),
                     style: AppStylesManger.font15BoldBlack,
-                  )
+                  ),
+                  verticalSpace(10),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.timer_outlined,
+                        color: Colors.grey,
+                      ),
+                      horizontalSpace(5),
+                      Row(
+                        children: [
+                          Text(
+                              'Shift'.tr(
+                                context: context,
+                              ),
+                              style: AppStylesManger.font15BoldrBlue),
+                          horizontalSpace(10),
+                          ApiConstant.shiftName == '' ||
+                                  ApiConstant.shiftName == "null"
+                              ? SizedBox(
+                                  width: 150.w,
+                                  child: Text(
+                                    'you are not assigned to any shift'
+                                        .tr(context: context),
+                                    style: AppStylesManger.font15BoldBlack
+                                        .copyWith(
+                                      color: ColorsManger.primaryColor,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                )
+                              : Text(
+                                  '${ApiConstant.shiftName}'.tr(
+                                    context: context,
+                                  ),
+                                  style: AppStylesManger.font15BoldBlack,
+                                )
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const Spacer(),

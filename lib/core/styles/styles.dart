@@ -26,17 +26,23 @@ class AppStylesManger {
     fontWeight: FontWeight.normal,
     color: Colors.green,
   );
+  static TextStyle font12RegularBlack = TextStyle(
+    color: Colors.black,
+    fontSize: 12,
+    fontFamily: 'DM Sans',
+    fontWeight: FontWeight.w400,
+  );
   static TextStyle font12RegularGrey = TextStyle(
     color: Color(0xFF6E6A7C),
     fontSize: 12,
     fontFamily: 'DM Sans',
     fontWeight: FontWeight.w400,
   );
-    static TextStyle     font18SemiBold = TextStyle(
-      fontSize: 18.sp,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    );
+  static TextStyle font18SemiBold = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
   static TextStyle font20Medium = TextStyle(
     fontSize: 20.sp,
     fontWeight: FontWeight.w500,

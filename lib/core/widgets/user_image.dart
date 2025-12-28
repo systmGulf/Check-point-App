@@ -24,29 +24,45 @@ class UserImage extends StatelessWidget {
                   loadingIndicatorColor: ColorsManger.primaryColor,
                   fullscreenOnEnlarge: false,
                   enableZoom: true,
-                isCircular: true ,
-                        overlayBackgroundColor: ColorsManger.primaryColor ,
-               badgeColor: ColorsManger.lightGreen ,
+                  isCircular: true,
+                  height: height ?? 80,
+                  width: height ?? 80,
+                  overlayBackgroundColor: ColorsManger.primaryColor,
+                  badgeColor: ColorsManger.lightGreen,
                   badgeBorderColor: ColorsManger.lightGreen,
                   placeholder: CircleAvatar(
-                          radius: 20.r,
-                          backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                        child: Image.asset('assets/images/employee_image.png', height: 15.h, width: 15.w,),
-                        ),
-                 
+                    radius: 20.r,
+                    backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
+                    child: Image.asset(
+                      'assets/images/employee_image.png',
+                      height: 15.h,
+                      width: 15.w,
+                    ),
+                  ),
                   borderColor: ColorsManger.lightGreen,
-                  errorWidget:CircleAvatar(
-                          radius: 20.r,
-                          backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                        child: Image.asset('assets/images/employee_image.png', height: 15.h, width: 15.w,),
-                        ),
-                  image: NetworkImage("http://emsdemo.runasp.net$imageUrl"),
+                  errorWidget: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
+                    child: Image.asset(
+                      'assets/images/employee_image.png',
+                      height: 15.h,
+                      width: 15.w,
+                    ),
+                  ),
+                  image: NetworkImage(
+                    "http://emsdemo.runasp.net$imageUrl",
+                    scale: 1.0,
+                  ),
                 )
               : CircleAvatar(
-                          radius: 20.r,
-                          backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                        child: Image.asset('assets/images/employee_image.png', height: 15.h, width: 15.w,),
-                        ),
+                  radius: 20.r,
+                  backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
+                  child: Image.asset(
+                    'assets/images/employee_image.png',
+                    height: 15.h,
+                    width: 15.w,
+                  ),
+                ),
         ),
       ),
     );

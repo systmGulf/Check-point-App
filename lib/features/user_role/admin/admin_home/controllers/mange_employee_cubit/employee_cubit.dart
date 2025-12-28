@@ -23,8 +23,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
 
-Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, bool keepOldData = false}) async {
-  if (pageNumber == 0 && !keepOldData) {
+Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, }) async {
+  if (pageNumber == 0 ) {
     emit(GetAllEmployeesLoading());
   } else {
     emit(GetAllEmployeesPaginationLoading());
@@ -32,7 +32,7 @@ Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, bool k
   final result = await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber, itemCount: itemCount);
   result.fold(
     (error) {
-      if (pageNumber == 0 && !keepOldData) {
+      if (pageNumber == 0 ) {
         emit(GetAllEmployeesFailure(error: error.message));
       } else {
         emit(GetAllEmployeesPaginationFailure(error: error.message));

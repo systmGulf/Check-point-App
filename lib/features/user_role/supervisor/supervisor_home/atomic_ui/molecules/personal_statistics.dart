@@ -34,7 +34,7 @@ class _PersonalStatisticsState extends State<PersonalStatistics> {
         chartRadius: MediaQuery.of(context).size.width / 2,
         colorList: [
           ColorsManger.primaryColor,
-          ColorsManger.grey,
+          Colors.blueAccent,
           ColorsManger.lighorage
         ],
         initialAngleInDegree: 0,

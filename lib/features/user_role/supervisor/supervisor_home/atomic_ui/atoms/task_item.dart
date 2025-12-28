@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/employee_assigned_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
@@ -8,22 +9,21 @@ import '../molecules/todo_flag_and_data.dart';
 import '../molecules/todo_title_and_state.dart';
 
 class TaskItem extends StatefulWidget {
-  const TaskItem({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.priority,
-    required this.date,
-    required this.state,
-    required this.id,
-    required this.tasks,
-    required this.onDelete,
-    required this.onEdit,
-
-    required this.onSelected, required this.employeeName
-  });
-  final String title, description, priority, date, state ;
-  final List<GetEmployeesForTheTask> employeeName ;
+  const TaskItem(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.priority,
+      required this.date,
+      required this.state,
+      required this.id,
+      required this.tasks,
+      required this.onDelete,
+      required this.onEdit,
+      required this.onSelected,
+      required this.employeeName});
+  final String title, description, priority, date, state;
+  final List<GetEmployeesForTheTask> employeeName;
   final String id;
   final List<GetTasData> tasks;
   final VoidCallback onDelete, onEdit;
@@ -88,21 +88,20 @@ class _TaskItemState extends State<TaskItem> {
               ],
             ),
             verticalSpace(8),
-            Wrap(
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                children: List.generate(widget.employeeName.length, (index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(widget.employeeName[index].name ?? ''),
-                  );
-                })),
+            ExpansionTile(
+              
+              leading: const Icon(Icons.person, size: 20 ,),
+              iconColor: Colors.red,
+              collapsedIconColor: Colors.black,
+              tilePadding: const EdgeInsets.all(0),
+              childrenPadding: const EdgeInsets.all(0),
+              title: Text('Assigned to'.tr(context: context) + ' (${widget.employeeName.length})', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),),
+              children: List.generate(widget.employeeName.length,
+                  (index) => EmployeeAssignedWidget(
+                    departmentName: widget.employeeName[index].departmentName ?? '',
+                    name: widget.employeeName[index].name ?? '' , imageUrl: widget.employeeName[index].branchName ?? '',  position: widget.employeeName[index].position ?? '' ,)),
+            ),
+        
             Divider(
               thickness: 1,
             )

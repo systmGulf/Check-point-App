@@ -1,9 +1,10 @@
+import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
+import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
@@ -40,8 +41,8 @@ void registerFactory() {
       getIt<DepartmentRepo>(),
     ),
   );
-    final navigatorKey = GlobalKey<NavigatorState>();
-     getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
+  final navigatorKey = GlobalKey<NavigatorState>();
+  getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
   getIt.registerFactory<TasksCubit>(
     () => TasksCubit(
       getIt<SupervisorTasksRepo>(),
@@ -57,6 +58,9 @@ void registerFactory() {
       getIt<SupervisorLeaveRequestsRepo>(),
     ),
   );
+  getIt.registerFactory<UploadUserImageCubit>(() => UploadUserImageCubit(
+        getIt<SharedRepo>(),
+      ));
   getIt.registerFactory<EmployeeTasksCubit>(
     () => EmployeeTasksCubit(
       getIt<EmployeeActionRepo>(),
@@ -67,7 +71,7 @@ void registerFactory() {
       getIt<AdminManageEmployeeRepo>(),
     ),
   );
- 
+
   getIt.registerFactory<LoginCubit>(
     () => LoginCubit(
       getIt<LoginRepo>(),

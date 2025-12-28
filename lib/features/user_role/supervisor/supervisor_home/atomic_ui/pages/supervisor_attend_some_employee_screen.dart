@@ -6,7 +6,7 @@ import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
-import '../../../../../../core/common/image_picker.dart';
+import '../../../../../../core/common/image_picker_base_64.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -79,7 +79,9 @@ class _SupervisorAttendSomeEmployeeScreenState
                     setState(() {
                       isloading = true;
                     });
-                    final image = await pickImage();
+                    final image = await ImagePickerHelper.pickImageBase64(
+                      source: ImagePickSource.camera,
+                    );
                     setState(() {
                       isloading = false;
                     });
@@ -106,7 +108,9 @@ class _SupervisorAttendSomeEmployeeScreenState
                 horizontalSpace(10),
                 GestureDetector(
                   onTap: () {
-                    pickImage().then(
+                    ImagePickerHelper.pickImageBase64(
+                      source: ImagePickSource.camera,
+                    ).then(
                       (value) {
                         context
                             .read<GetEmployeesDataCubit>()

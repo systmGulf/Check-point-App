@@ -73,7 +73,7 @@ class _MultiSelectEmployeesDropdownState
           } else if (state is GetAllEmployeesFailure) {
             return Text(state.errorMsg);
           } else if (state is GetAllEmployeesLoading) {
-            return Center(
+            return Center( 
               child: CircularProgressIndicator(),
             );
           } else {

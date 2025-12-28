@@ -87,8 +87,8 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EmployeeCard(
-                      // TODO: replace with actual image url
-                        imageUrl:  '',
+                        imageUrl:
+                            state.getEmployeeSummaryValue.employeeImage ?? '',
                         date:
                             state.getEmployeeSummaryValue.date!.substring(0, 7),
                         employeeName:
@@ -119,10 +119,11 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                             ),
                             verticalSpace(20),
                             EmployeeAttendanceInformation(
-                              text: 'Total Working Hours'.tr(context: context),
-                              days:
-                                  '${state.getEmployeeSummaryValue.totalHoursWorked.toString().substring(0, 3)} ${"Hours".tr(context: context)}',
-                            ),
+                                text:
+                                    'Total Working Hours'.tr(context: context),
+                                days: formatTotalHoursWorked(state
+                                    .getEmployeeSummaryValue.totalHoursWorked!
+                                    .toDouble())),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
                               text: 'Leaves'.tr(context: context),
@@ -166,7 +167,8 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                   children: [
                     const EmployeeCard(
                         imageUrl: '',
-                        date: 'Loading...', employeeName: 'Loading...'),
+                        date: 'Loading...',
+                        employeeName: 'Loading...'),
                     verticalSpace(20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -226,4 +228,29 @@ class _EmployeePreviewState extends State<EmployeePreview> {
           },
         ));
   }
+}
+
+String formatTotalHoursWorked(double totalHoursWorked) {
+  // نحول الساعات لدقايق
+  final totalMinutes = (totalHoursWorked * 60).round();
+
+  // أقل من دقيقة
+  if (totalMinutes < 1) {
+    return "less_than_minute".tr();
+  }
+
+  final hours = totalMinutes ~/ 60;
+  final minutes = totalMinutes % 60;
+
+  if (hours == 0) {
+    return "$minutes ${minutes == 1 ? "minute".tr() : "minutes".tr()}";
+  }
+
+  if (minutes == 0) {
+    return "$hours ${hours == 1 ? "hour".tr() : "hours".tr()}";
+  }
+
+  return "$hours ${hours == 1 ? "hour".tr() : "hours".tr()} "
+      "${"and".tr()} "
+      "$minutes ${minutes == 1 ? "minute".tr() : "minutes".tr()}";
 }

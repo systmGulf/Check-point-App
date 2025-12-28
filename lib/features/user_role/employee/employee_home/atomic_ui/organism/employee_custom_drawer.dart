@@ -1,15 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
+import '../../../../../../core/common/image_picker_base_64.dart';
+import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/pick_image_from_gallary_or_camera_widget.dart';
 import 'employee_drawer_item_list_view.dart';
+import 'pick_image_bloc_listener.dart';
 
 class EmployeeCustomDrawer extends StatelessWidget {
   const EmployeeCustomDrawer({super.key});
@@ -33,16 +39,56 @@ class EmployeeCustomDrawer extends StatelessWidget {
               child: SafeArea(
                 child: Column(
                   children: [
+                    PickImageBlocListener(),
                     verticalSpace(14),
-                    GestureDetector(
-                      onTap: () {
-                        context.pushName(Routes.employeeUpdateProfile);
-                      },
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: ColorsManger.primaryColor,
-                        child:UserImage(height: 60,)
-                      ),
+                    Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        UserImage(
+                          imageUrl: ApiConstant.imageUrl,
+                          height: 80.h,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          child: GestureDetector(
+                            onTap: () async {
+                              selectImageDialog(
+                                  context: context,
+                                  SelectedGalleryAction: () async {
+                                    await context
+                                        .read<UploadUserImageCubit>()
+                                        .uploadUserImage(
+                                            source: ImagePickSource.gallery)
+                                        .then((value) async {
+                                      await context
+                                          .read<LoginCubit>()
+                                          .getEmployeeById();
+                                    }).then((value) {
+                                      context.pop();
+                                    });
+                                  },
+                                  SelectedCameraAction: () async {
+                                    await context
+                                        .read<UploadUserImageCubit>()
+                                        .uploadUserImage(
+                                            source: ImagePickSource.camera)
+                                        .then((value) async {
+                                      await context
+                                          .read<LoginCubit>()
+                                          .getEmployeeById();
+                                    }).then((value) {
+                                      context.pop();
+                                    });
+                                  });
+                            },
+                            child: const Icon(
+                              Icons.edit_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     verticalSpace(10),
                     Text(
@@ -104,10 +150,6 @@ class EmployeeCustomDrawer extends StatelessWidget {
                     ),
                   ),
                   verticalSpace(20),
-                  //   MaterialButton(onPressed: () { 
-                  //      FlutterBackgroundService().invoke("setAsForeground");
-                  //      FlutterBackgroundService().startService();}, child: Text('About'.tr(context: context))),
-                  // MaterialButton(onPressed: () {   FlutterBackgroundService().invoke('stop');}, child: Text('stop'.tr(context: context))),
                   Row(
                     children: [
                       const Spacer(),

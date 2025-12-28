@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/build_snake_bar.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 import 'plan_feed_back_bloc_listener.dart';
 
@@ -43,23 +45,31 @@ class CheckOutBlocBuilder extends StatelessWidget {
                         );
                   });
                 } else {
-                  print('Customer id For this plan is ${customerPlans.id}');
-                  showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (_) {
-                        return BlocProvider.value(
-                          value: context.read<AttendanceCubit>(),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: PlanFeedBackBottomSheet(
-                              customerplanId: customerPlans.id ?? 00,
-                            ),
-                          ),
-                        );
-                      });
+                  print(
+                      'Customer id For this plan is===================>${customerPlans.id}');
+                  customerPlans.id != null
+                      ? showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (_) {
+                            return BlocProvider.value(
+                              value: context.read<AttendanceCubit>(),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: PlanFeedBackBottomSheet(
+                                  customerplanId: customerPlans.id ?? 00,
+                                ),
+                              ),
+                            );
+                          })
+                      : buildSnackBar(context,
+                          customSnackBar: CustomSnackBar.success(
+                              message:
+                                  "Tap on Customer to give feedback Please!👆"
+                                      .tr(context: context)));
                 }
               },
               child: Text(

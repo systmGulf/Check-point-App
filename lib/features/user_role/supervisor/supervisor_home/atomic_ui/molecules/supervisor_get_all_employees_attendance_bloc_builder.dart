@@ -47,6 +47,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                       attendance.attendanceDate ==
                       state.selectedDate.toString().substring(0, 10))
                   .toList();
+
           return filteredList.isNotEmpty
               ? Column(
                   children: [
@@ -64,9 +65,8 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                             onPressed: () async {
                               await Permission.storage.request();
                               context
-                                  .read<ShareattendanceCubit>().exportAndShareExcel(
-                                      filteredList);
-                                
+                                  .read<ShareattendanceCubit>()
+                                  .exportAndShareExcel(filteredList);
                             },
                             icon: Icon(
                               Icons.share,
@@ -85,13 +85,19 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             child: EmployeeAttendance(
+                              feedbacks: filteredList[index]
+                                  .customerPlans!
+                                  .expand((plan) => plan.feedbacks ?? [])
+                                  .cast<FeedbackModel>()
+                                  .toList(),
                               isEarly: filteredList[index].isEarly ?? false,
                               isLate: filteredList[index].isLate ?? false,
                               employeeId: filteredList[index].employeeId ?? '',
-                              customerId: filteredList[index].customerId.toString() ,
+                              customerId:
+                                  filteredList[index].customerId.toString(),
                               employeeImage: filteredList[index].employeeImage,
                               totalHours:
-                                  filteredList[index].totalHours.toString() ,
+                                  filteredList[index].totalHours.toString(),
                               id: filteredList[index].employeeId ?? '',
                               employeeName:
                                   filteredList[index].employeeName ?? '',
@@ -105,9 +111,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                     ),
                   ],
                 )
-              : SizedBox(
-                  height: 300.h,
-                  child: NoDataFound());
+              : SizedBox(height: 300.h, child: NoDataFound());
         } else if (state is SupervisorGetEmployeeAttendanceLoading) {
           return Skeletonizer(
             enabled: true,
@@ -116,13 +120,14 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (context, index) {
-                return  Padding(
+                return Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: EmployeeAttendance(
+                    feedbacks: [],
                     isEarly: false,
                     isLate: false,
                     employeeId: '',
-                    totalHours: double.parse( '0.12').toStringAsFixed(2),
+                    totalHours: double.parse('0.12').toStringAsFixed(2),
                     id: '',
                     employeeName: 'data loading',
                     location: 'data loading',

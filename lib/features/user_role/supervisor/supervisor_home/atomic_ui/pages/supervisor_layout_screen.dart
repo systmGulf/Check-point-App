@@ -47,18 +47,17 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
     ];
     return Scaffold(
         key: scaffoldkey,
-      
         endDrawer: const Drawer(
           child: EmployeeCustomDrawer(),
         ),
-        drawer:     Drawer(
-        child: BlocProvider(
-          create: (context) => LeaveApplicationCubit(
-            getIt<EmployeeActionRepo>(),
+        drawer: Drawer(
+          child: BlocProvider(
+            create: (context) => LeaveApplicationCubit(
+              getIt<EmployeeActionRepo>(),
+            ),
+            child: const EmployeeMoreOptionDrawer(),
           ),
-          child: const EmployeeMoreOptionDrawer(),
         ),
-      ),
         appBar: AppBar(
           backgroundColor: Colors.white,
           actions: [
@@ -78,21 +77,20 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                   Text('13', style: AppStylesManger.font18BoldBlack),
                 ]),
               ),
-          ), 
+            ),
             IconButton(
-              onPressed: () {
-                scaffoldkey.currentState?.openEndDrawer();
-              },
-              icon: CircleAvatar(
-              backgroundColor: ColorsManger.primaryColor,
-              radius: 20,
-              child: const Icon(Icons.person, color: Colors.white)))
-          
+                onPressed: () {
+                  scaffoldkey.currentState?.openEndDrawer();
+                },
+                icon: CircleAvatar(
+                    backgroundColor: ColorsManger.primaryColor,
+                    radius: 20,
+                    child: const Icon(Icons.person, color: Colors.white)))
           ],
           centerTitle: true,
           leadingWidth: 80.w,
-          
-          // leading: 
+
+          // leading:
           title: Text(texts[selectedIndex],
               style: AppStylesManger.font18BoldBlack),
         ),

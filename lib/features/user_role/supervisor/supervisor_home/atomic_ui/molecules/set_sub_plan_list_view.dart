@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +10,7 @@ import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
+import '../../../../../../core/widgets/employee_assigned_widget.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 
 class GetSubPlanListView extends StatelessWidget {
@@ -56,7 +56,6 @@ class GetSubPlanListView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: InkWell(
                               onTap: () {
-                                
                                 buildDeleteAlertDialog(context,
                                     title:
                                         'Delete Sub Plan'.tr(context: context),
@@ -81,9 +80,13 @@ class GetSubPlanListView extends StatelessWidget {
                           "${"Note".tr(context: context)}: ${planModel.customerPlans![index].note}"),
                       verticalSpace(8),
                       Text(
-                          "${"Visited".tr(context: context)}: ${planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ", style:  AppStylesManger.font15BoldBlue.copyWith(
-                              color:  planModel.customerPlans![index].visited == true ? Colors.green : Colors.red
-                          ) ,),
+                        "${"Visited".tr(context: context)}: ${planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
+                        style: AppStylesManger.font15BoldBlue.copyWith(
+                            color:
+                                planModel.customerPlans![index].visited == true
+                                    ? Colors.green
+                                    : Colors.red),
+                      ),
                       const SizedBox(height: 8),
                       if (planModel.customerPlans!.isNotEmpty) ...[
                         Text(
@@ -96,30 +99,29 @@ class GetSubPlanListView extends StatelessWidget {
                             "${"Location".tr(context: context)}: ${planModel.customerPlans![index].customer!.location}"),
                       ],
                       const Divider(),
-                      Text(
-                        "Employees who will visit:".tr(context: context),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      SizedBox(height: 8.h),
-                      ...planModel.customerPlans![index].employees!
-                          .map((employee) {
-                        return ListTile(
-                            minVerticalPadding: 0,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 12.0),
-                            leading: UserImage(
-                              imageUrl: employee.imageUrl ?? '',
-                              height: 40,
-                          
-                            ),
-                            title: Text(employee.name ?? "Unknown",
-                                style: TextStyle(fontSize: 14.sp)),
-                            subtitle: Text(
-                              "${"Position".tr(context: context)}: ${employee.position ?? "Unknown"}",
-                              style: TextStyle(fontSize: 12.sp),
-                            ));
-                      }),
+                      ExpansionTile(
+                        iconColor: Colors.red,
+                        collapsedIconColor: Colors.black,
+                        tilePadding: const EdgeInsets.all(0),
+                        leading: const Icon(Icons.person),
+                        visualDensity: VisualDensity.comfortable,
+                        title: Text(
+                          "Employees who will visit (${planModel.customerPlans![index].employees!.length}):"
+                              .tr(context: context),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14.sp),
+                        ),
+                        children: planModel.customerPlans![index].employees!
+                            .map((employee) {
+                          return EmployeeAssignedWidget(
+                            departmentName:
+                                employee.departmentName ?? "Unknown",
+                            name: employee.name ?? "Unknown",
+                            position: employee.position ?? "Unknown",
+                            imageUrl: employee.imageUrl ?? '',
+                          );
+                        }).toList(),
+                      )
                     ],
                   ),
                 ),

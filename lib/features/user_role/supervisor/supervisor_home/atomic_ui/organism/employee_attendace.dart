@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
+import '../../../../../../core/common/formate_worked_time_function.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
@@ -26,6 +29,7 @@ class EmployeeAttendance extends StatelessWidget {
     this.employeeImage,
     this.customerId,
     required this.employeeId,
+    this.feedbacks,
     required this.isLate,
     required this.isEarly,
   });
@@ -35,6 +39,7 @@ class EmployeeAttendance extends StatelessWidget {
   final String? employeeImage, customerId;
   final bool isLate;
   final bool isEarly;
+  final List<FeedbackModel>? feedbacks;
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +283,7 @@ class EmployeeAttendance extends StatelessWidget {
                   inTime == '00:00:00' || outTime == '00:00:00'
                       ? const Icon(CupertinoIcons.clock, color: Colors.grey)
                       : Text(
-                          double.parse(totalHours).toStringAsFixed(2),
+                          '${formatWorkedTime(clockInTime: inTime, clockOutTime: outTime)}',
                           style: TextStyle(
                             color: isEarly
                                 ? Colors.red
@@ -295,95 +300,208 @@ class EmployeeAttendance extends StatelessWidget {
           horizontalSpace(15),
           location == 'Customer'
               ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: ColorsManger.primaryColor,
-                  ),
-                  horizontalSpace(5),
-                  InkWell(
-                    onTap: () {
-                         showModalBottomSheet(
-                        backgroundColor: Colors.white,
-                        isScrollControlled: true,
-                        enableDrag: false,
-                        context: context,
-                        builder: (_) => BlocProvider.value(
-                              value: context
-                                  .read<SupervisorGetEmployeeAttendanceCubit>()
-                                ..supervisorGetTrackingSummaryForEmployee(
-                                    employeeId: employeeId),
-                              child: EmployeeTrackingDiagramMap(),
-                            ));
-                    },
-                    child: Text(
-                      'Location on Map'.tr(
-                        context: context,
-                      ),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.black),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: ColorsManger.primaryColor,
                     ),
-                  ),
-                 Spacer(),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.white,
-                        isScrollControlled: true,
-                        enableDrag: false,
-                  
-                        context: context,
-                        builder: (_) => Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Align(
-                                  alignment: Alignment.topRight,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Icon(Icons.close),
-                                  )),
-                              verticalSpace(20),
-                               Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Text("Image".tr(context: context), style: AppStylesManger.font16BoldBlack,)),
-                              verticalSpace(20),
-                              Row(
-                                children: [
-                                  Image.asset('assets/images/pngwing.com.png', height: 100.h, width: 100.w,),
-                                  horizontalSpace(10),
-                                  Text("Visit status : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),),
-                                  Text("Follow up".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.green),),
-
-                              ]),
-                              Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Text("Comments : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),)),
-                              Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). : ".tr(context: context), style: AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey, fontWeight: FontWeight.bold ),)),
-                              
-                            ],
-                          ),
-                        )
-                        );
-                    },
-                    child: Text("Visit Feedback".tr(context: context),style: AppStylesManger.font15BoldrBlue.copyWith(color: ColorsManger.primaryColor),)),
-                ],
-              )
+                    horizontalSpace(5),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            enableDrag: false,
+                            context: context,
+                            builder: (_) => BlocProvider.value(
+                                  value: context.read<
+                                      SupervisorGetEmployeeAttendanceCubit>()
+                                    ..supervisorGetTrackingSummaryForEmployee(
+                                        employeeId: employeeId),
+                                  child: EmployeeTrackingDiagramMap(),
+                                ));
+                      },
+                      child: Text(
+                        'Location on Map'.tr(
+                          context: context,
+                        ),
+                        style: AppStylesManger.font15BoldrBlue
+                            .copyWith(color: Colors.black),
+                      ),
+                    ),
+                    Spacer(),
+                    InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              context: context,
+                              builder: (_) => feedbacks != null &&
+                                      feedbacks!.isNotEmpty
+                                  ? Column(
+                                      children: [
+                                        verticalSpace(10),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Align(
+                                              alignment:
+                                                  AlignmentDirectional.topEnd,
+                                              child: IconButton(
+                                                onPressed: () => context.pop(),
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color:
+                                                      ColorsManger.primaryColor,
+                                                ),
+                                              )),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: feedbacks?.length ?? 0,
+                                              itemBuilder: (context, index) {
+                                                return IntrinsicHeight(
+                                                  child: FeedBackInPlanWidget(
+                                                    feedBack: feedbacks?[index]
+                                                            .notes ??
+                                                        '',
+                                                    status: feedbacks?[index]
+                                                            .status ??
+                                                        '',
+                                                    imageUrl: feedbacks?[index]
+                                                            .imageUrl ??
+                                                        '',
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(
+                                      height: 100,
+                                      child: Center(
+                                        child: Text(
+                                          'No Feedback'.tr(
+                                            context: context,
+                                          ),
+                                          style: AppStylesManger.font15BoldrBlue
+                                              .copyWith(color: Colors.black),
+                                        ),
+                                      ),
+                                    ));
+                        },
+                        child: Text(
+                          "Visit Feedback".tr(context: context),
+                          style: AppStylesManger.font15BoldrBlue
+                              .copyWith(color: ColorsManger.primaryColor),
+                        )),
+                  ],
+                )
               : const SizedBox.shrink()
         ]),
+      ),
+    );
+  }
+}
+
+class FeedBackInPlanWidget extends StatelessWidget {
+  const FeedBackInPlanWidget(
+      {super.key,
+      required this.feedBack,
+      required this.status,
+      required this.imageUrl});
+  final String feedBack, status, imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Avatar
+              // CircleAvatar(
+              //   radius: 25,
+              //   backgroundImage: NetworkImage(
+              //     imageUrl,
+              //   ),
+              // ),
+
+              // horizontalSpace(12),
+              Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: UserImage(
+                    height: 50,
+                    imageUrl: imageUrl,
+                  )),
+              horizontalSpace(12),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Visit status".tr(context: context),
+                            style: AppStylesManger.font14RegularBlack.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            status.tr(context: context),
+                            style: AppStylesManger.font14RegularBlack.copyWith(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      verticalSpace(8),
+                      Text(
+                        feedBack.tr(context: context),
+                        style: AppStylesManger.font14RegularBlack.copyWith(
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      verticalSpace(8),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          "Just now".tr(context: context),
+                          style: AppStylesManger.font12RegularBlack.copyWith(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

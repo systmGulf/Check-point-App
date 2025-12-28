@@ -8,15 +8,13 @@ import 'package:hr_management_system_package/core/common_methods/biometric_servi
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
-
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../../../core/common/image_picker.dart';
+import '../../../../../../core/common/image_picker_base_64.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 
 part 'attendence_state.dart';
@@ -24,12 +22,13 @@ part 'attendence_state.dart';
 class AttendanceCubit extends Cubit<AttendanceState> {
   final EmployeeAttendanceRepo employeeAttendanceRepo;
   AttendanceCubit(this.employeeAttendanceRepo) : super(AuthenticationInitial());
-    String selectedImage = '';
+  String selectedImage = '';
 
   LatLng initialCameraPosition =
       const LatLng(30.057065302568596, 31.34529175914667);
   String checkIn = '--/--';
   String checkOut = '--/--';
+  String planStatus = 'FollowUp';
   String? customerId;
   TextEditingController planFeedbackController = TextEditingController();
 
@@ -64,17 +63,20 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       emit(GetCustomerAreaDone(customerArea));
     });
   }
+
   // pick image
-    Future<void> doPickImage() async {
-     emit(PickImageLoading());
-      String ? result = await pickImage();
-        if (result != null) {
-          selectedImage = result;
-          emit(PickImageSuccess());
-        } else {
-          emit(PickImageFailed()); 
-        }
+  Future<void> doPickImage({required ImagePickSource source}) async {
+    emit(PickImageLoading());
+    String? result = await ImagePickerHelper.pickImageBase64(
+      source: source,
+    );
+    if (result != null) {
+      selectedImage = result;
+      emit(PickImageSuccess());
+    } else {
+      emit(PickImageFailed());
     }
+  }
 
   Future<void> getPlanById({required int id}) async {
     emit(GetPlanByIdLoading());
@@ -91,11 +93,15 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   // customer or site plan feedback
-  Future<void> addPlanFeedback(
-      {required int CustomerId,}) async {
+  Future<void> addPlanFeedback({
+    required int CustomerId,
+  }) async {
     emit(AddPlanFeedbackLoading());
+    if (customerId == 00)
+      return emit(AddPlanFeedbackError('Tap on customer or site please '));
     final result = await employeeAttendanceRepo.addPlanFeedBack(
       planFeedBackRequestBody: PlanFeedBackRequestBody(
+          status: planStatus,
           imageUrl: selectedImage,
           notes: planFeedbackController.text,
           customerPlanId: CustomerId),
@@ -146,6 +152,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void attend({required String typeAttendance, required String area}) async {
     var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
+    print("==================================> $hasBiometrics");
     if (hasBiometrics) {
       if (isClosed) return;
       emit(AuthenticationSuccess());
@@ -166,6 +173,8 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void checkAssessableArea(
       LatLng pointLatNong, List<LatLng> area, Enum attendanceType) async {
+    print(
+        'pointLatNong: $pointLatNong, area: $area, attendanceType: $attendanceType');
     bool inRightArea = await employeeAttendanceRepo
         .checkAccessibleAreaForPolygon(pointLatNong, area);
 
@@ -192,11 +201,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void checkAssessableAreaForCircle(LatLng pointLatNong, LatLng center,
       double radius, Enum attendanceType) async {
-    
     bool isWithinCircle = employeeAttendanceRepo.checkAccessibleAreaForCircle(
             pointLatNong, center) <=
         radius;
-   
+
     switch (attendanceType) {
       case AttendanceTypeEnum.checkIn:
         if (isWithinCircle == true) {

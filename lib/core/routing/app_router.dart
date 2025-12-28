@@ -1,3 +1,4 @@
+import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/add_branches_to_shift_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:flutter/material.dart';
@@ -201,6 +202,7 @@ abstract class AppRouter {
                 create: (context) => getIt<GetEmployeesDataCubit>()
                   ..getEmployeesByDepartmentId(),
               ),
+              BlocProvider(create: (context) => getIt<UploadUserImageCubit>())
             ],
             child: const SupervisorLayoutScreen(),
           ),

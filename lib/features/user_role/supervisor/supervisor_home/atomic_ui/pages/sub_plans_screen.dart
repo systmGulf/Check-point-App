@@ -30,31 +30,33 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: CustomFloatingActionButton(text: 'Add Plan'.tr(context: context), onTap: (){
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.white,
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
+        floatingActionButton: CustomFloatingActionButton(
+            text: 'Add Plan'.tr(context: context),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.white,
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
                 ),
-              ),
-              builder: (_) {
-                return MultiBlocProvider(providers: [
-                  BlocProvider.value(value: context.read<PlanCubit>()),
-                  BlocProvider(
-                      create: (_) => getIt<GetEmployeesDataCubit>()
-                        ..getEmployeesByDepartmentId()),
-                  BlocProvider(
-                      create: (_) => getIt<CustomerCubit>()
-                        ..getCustomersByType(
-                            isLoading: false,
-                            customerType: CustomerType.Customer))
-                ], child: const AddSubPlanBottomSheet());
-              },
-            );
-        }),
+                builder: (_) {
+                  return MultiBlocProvider(providers: [
+                    BlocProvider.value(value: context.read<PlanCubit>()),
+                    BlocProvider(
+                        create: (_) => getIt<GetEmployeesDataCubit>()
+                          ..getEmployeesByDepartmentId()),
+                    BlocProvider(
+                        create: (_) => getIt<CustomerCubit>()
+                          ..getCustomersByType(
+                              isLoading: false,
+                              customerType: CustomerType.Customer))
+                  ], child: const AddSubPlanBottomSheet());
+                },
+              );
+            }),
         appBar: buildCustomAppBar(
           context,
           'Plans For this Day'.tr(context: context),
@@ -85,9 +87,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                             ),
                           ),
                         )
-                      : Center(
-                          child: NoDataFound()
-                        );
+                      : Center(child: NoDataFound());
                 } else if (state is GetPlanByIdError) {
                   return state.error == 'Please check your internet connection'
                       ? NoInternetConnectionWidget(onPressed: () {
@@ -121,4 +121,3 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
         ));
   }
 }
-

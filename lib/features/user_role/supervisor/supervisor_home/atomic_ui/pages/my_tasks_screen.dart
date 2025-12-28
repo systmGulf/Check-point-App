@@ -14,7 +14,7 @@ class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TODO: change color
+   
      
       appBar: buildCustomAppBar(context, 'Tasks'.tr()),
       body: SafeArea(

@@ -10,20 +10,30 @@ import '../../../../../../core/styles/styles.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 
 class LeaveApplicationItem extends StatefulWidget {
-  const LeaveApplicationItem({
-    super.key,
-    required this.name,
-    required this.from,
-    required this.to,
-    required this.reason,
-    required this.id,
-    required this.status,
-    required this.createdBy,
-    required this.type,
-    required this.employeeId, required this.userToken, required this.userImage
-  });
+  const LeaveApplicationItem(
+      {super.key,
+      required this.name,
+      required this.from,
+      required this.to,
+      required this.reason,
+      required this.id,
+      required this.status,
+      required this.createdBy,
+      required this.type,
+      required this.employeeId,
+      required this.userToken,
+      required this.userImage});
 
-  final String name, from, to, reason, status, createdBy, type, employeeId, userToken, userImage;
+  final String name,
+      from,
+      to,
+      reason,
+      status,
+      createdBy,
+      type,
+      employeeId,
+      userToken,
+      userImage;
   final int id;
 
   @override
@@ -75,21 +85,22 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     height: 50,
                   ),
                   horizontalSpace(10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.name,
-                        style: AppStylesManger.font15BoldBlack,
-                      ),
-                      Text(
-                        widget.type,
-                        style: AppStylesManger.font15BoldBlack
-                            .copyWith(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: AppStylesManger.font15BoldBlack,
+                        ),
+                        Text(
+                          widget.type,
+                          style: AppStylesManger.font15BoldBlack
+                              .copyWith(color: Colors.grey, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
                   if (widget.status == 'Cancelled' || isCancelled)
                     Row(
                       children: [
@@ -132,16 +143,16 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
-              SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: Text(
-                      '${"Reason".tr(context: context)}: ${widget.reason}',
-                      style: AppStylesManger.font15regulerGrey
-                        ..copyWith(height: 1.5, color: Colors.black),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: Text(
+                    '${"Reason".tr(context: context)}: ${widget.reason}',
+                    style: AppStylesManger.font15regulerGrey
+                      ..copyWith(height: 1.5, color: Colors.black),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
+                ),
                 // GestureDetector(
                 //   onTap: () {
                 //     showDialog(context: context, builder: (context) =>
@@ -149,9 +160,9 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                 //           child: AlertDialog(
                 //             backgroundColor: Colors.white,
                 //             shape: const RoundedRectangleBorder(
-                              
+
                 //               borderRadius: BorderRadius.all(Radius.circular(10))),
-                //             title: 
+                //             title:
                 //             content: Text(widget.reason),
                 //           ),
                 //         )
@@ -193,7 +204,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ),
                       color: Colors.green[200]!,
                       onPressed: () {
-                        approveOrCancelLeaveRequest('Approved', context, widget.userToken, widget.name);
+                        approveOrCancelLeaveRequest(
+                            'Approved', context, widget.userToken, widget.name);
                       },
                     ),
                   ),
@@ -206,7 +218,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ),
                       color: Colors.red[200]!,
                       onPressed: () {
-                        approveOrCancelLeaveRequest('Cancelled', context,widget.userToken, widget.name);
+                        approveOrCancelLeaveRequest('Cancelled', context,
+                            widget.userToken, widget.name);
                       },
                     ),
                   ),
@@ -218,7 +231,12 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
     );
   }
 
-  void approveOrCancelLeaveRequest(String action, BuildContext context, String userToken, String userName,) {
+  void approveOrCancelLeaveRequest(
+    String action,
+    BuildContext context,
+    String userToken,
+    String userName,
+  ) {
     if (action == 'Approved') {
       setState(() {
         isApproved = true;
@@ -233,13 +251,11 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
 
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
         .approveOrRejectLeaveRequest(status: action, id: widget.id);
-         getIt<NotificationRepo>().sendSingleNotification(
-                token: userToken,
-                title: 'Hi, $userName'
-                    .tr(context: context),
-                body: 'your leave request has been $action'
-                    .tr(context: context));
-}
+    getIt<NotificationRepo>().sendSingleNotification(
+        token: userToken,
+        title: 'Hi, $userName'.tr(context: context),
+        body: 'your leave request has been $action'.tr(context: context));
+  }
 }
 
 class RequestButton extends StatelessWidget {

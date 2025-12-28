@@ -86,7 +86,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         onRefresh: () async {
           BlocProvider.of<EmployeeCubit>(
             context,
-          ).getAllEmployees(pageNumber: 0, itemCount: 10, keepOldData: false);
+          ).getAllEmployees(pageNumber: 0, itemCount: 10, );
           users.clear();
           print("Refreshed =============================>${users.length}");
         },
