@@ -30,8 +30,6 @@ jobs:
       - name: Print Xcode version
         run: xcodebuild -version
 
-      - name: Build Android APK
-        run: flutter build apk --release
 
 
       - name: Update CocoaPods repo
@@ -52,14 +50,7 @@ jobs:
         working-directory: build/ios/iphoneos
 
    
-      - name: Upload Android APK to Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: app-release.apk
-          tag: v1.7
-          overwrite: true
+    
 
       - name: Upload iOS IPA to Release
         uses: svenstaro/upload-release-action@v2
@@ -75,9 +66,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: success()
         with:
-          tag_name: v1.7
+          tag_name: v1.8
           body: |
             Release built with:
             - Flutter 3.32.0
             - Xcode 16.1 (macOS 15)
-            - Android APK + iOS IPA attached
+            - iOS IPA attached ✅
