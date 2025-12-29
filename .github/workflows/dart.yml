@@ -1,51 +1,83 @@
-
-name: iOS-ipa-build
+name: Build iOS IPA & Android APK
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-ios:
-    name: 🎉 iOS Build
-    runs-on: macos-15   # macOS with Xcode 16.1
+  build:
+    name: Build iOS & Android
+    runs-on: macos-15  
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4  
 
-      # Install Flutter 3.32.0
-      - uses: subosito/flutter-action@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.0'
           channel: 'stable'
           architecture: x64
 
-      - run: flutter --version
-      - run: flutter pub get
+      - name: Verify Flutter version
+        run: flutter --version
 
-      # Ensure Xcode version (macos-15 uses Xcode 16.1)
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+
       - name: Print Xcode version
         run: xcodebuild -version
 
-      - run: pod repo update
+      - name: Build Android APK
+        run: flutter build apk --release
+
+
+      - name: Update CocoaPods repo
+        run: pod repo update
         working-directory: ios
 
-      - run: flutter build ios --release --no-codesign
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign
 
-      - run: mkdir Payload
+      - name: Create Payload folder and move Runner.app
+        run: |
+          mkdir Payload
+          mv Runner.app Payload/
         working-directory: build/ios/iphoneos
 
-      - run: mv Runner.app/ Payload
+      - name: Create IPA
+        run: zip -qq -r -9 FlutterIpaExport.ipa Payload/
         working-directory: build/ios/iphoneos
 
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
+   
+      - name: Upload Android APK to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          tag: v1.7
+          overwrite: true
 
-      - name: Upload binaries to release
+      - name: Upload iOS IPA to Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.6
+          asset_name: FlutterIpaExport.ipa
+          tag: v1.7
           overwrite: true
-          body: "release using Flutter 3.32.0 & Xcode 16.1"
+
+
+      - name: Update release description
+        uses: softprops/action-gh-release@v2
+        if: success()
+        with:
+          tag_name: v1.7
+          body: |
+            Release built with:
+            - Flutter 3.32.0
+            - Xcode 16.1 (macOS 15)
+            - Android APK + iOS IPA attached

@@ -69,8 +69,10 @@ class PoliceItem extends StatelessWidget {
                             padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
-                            child: AddEmployeesToPoliceyModelBottomSheet(
-                                policeId: policeId),
+                            child: SingleChildScrollView(
+                              child: AddEmployeesToPoliceyModelBottomSheet(
+                                  policeId: policeId),
+                            ),
                           ),
                         );
                       });
@@ -84,9 +86,10 @@ class PoliceItem extends StatelessWidget {
               IconButton(
                   onPressed: () {
                     buildDeleteAlertDialog(
-                        message: 'Are you sure you want to delete this Police?',
+                        message: 'Are you sure you want to delete this Police?'
+                            .tr(context: context),
                         context,
-                        title: 'Delete Police', onYes: () {
+                        title: 'Delete Police'.tr(context: context), onYes: () {
                       context
                           .read<ShiftsAndPolicesCubit>()
                           .deletePolice(id: policeId);
@@ -165,7 +168,7 @@ class PoliceItem extends StatelessWidget {
               expandedAlignment: Alignment.topLeft,
               childrenPadding: const EdgeInsets.all(0),
               title: Text(
-                'Employees assigned to this police (${employees.length})'
+                '${"Employees assigned to this police".tr(context: context)} (${employees.length})'
                     .tr(context: context),
                 style: AppStylesManger.font12RegularGrey.copyWith(
                   fontWeight: FontWeight.bold,

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -15,7 +14,6 @@ enum ImagePickSource {
 class ImagePickerHelper {
   static final ImagePicker _picker = ImagePicker();
 
-  /// Main method
   static Future<String?> pickImageBase64({
     required ImagePickSource source,
   }) async {
@@ -27,13 +25,18 @@ class ImagePickerHelper {
         source: source == ImagePickSource.camera
             ? ImageSource.camera
             : ImageSource.gallery,
-        imageQuality: 100, // نسيب الجودة كاملة ونضغط بإيدنا
+        imageQuality: 100,
       );
 
       if (pickedImage == null) return null;
 
-      final file = File(pickedImage.path);
-      return await _encodeAndCompress(file);
+      final bytes = await pickedImage.readAsBytes();
+
+      if (Platform.isIOS) {
+        return _processImage(bytes);
+      }
+
+      return await compute(_processImage, bytes);
     } catch (e, s) {
       debugPrint('pickImageBase64 error => $e\n$s');
       return null;
@@ -41,13 +44,13 @@ class ImagePickerHelper {
   }
 
   static Future<bool> _checkPermission(ImagePickSource source) async {
-    Permission permission;
-
-    if (source == ImagePickSource.camera) {
-      permission = Permission.camera;
-    } else {
-      permission = Platform.isIOS ? Permission.photos : Permission.storage;
+    if (Platform.isIOS && source == ImagePickSource.gallery) {
+      return true;
     }
+
+    Permission permission = source == ImagePickSource.camera
+        ? Permission.camera
+        : Permission.storage;
 
     final status = await permission.request();
 
@@ -58,11 +61,6 @@ class ImagePickerHelper {
     }
 
     return false;
-  }
-
-  static Future<String> _encodeAndCompress(File file) async {
-    final bytes = await file.readAsBytes();
-    return compute(_processImage, bytes);
   }
 }
 

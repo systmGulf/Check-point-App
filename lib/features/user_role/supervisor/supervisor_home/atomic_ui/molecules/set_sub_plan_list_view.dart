@@ -106,7 +106,7 @@ class GetSubPlanListView extends StatelessWidget {
                         leading: const Icon(Icons.person),
                         visualDensity: VisualDensity.comfortable,
                         title: Text(
-                          "Employees who will visit (${planModel.customerPlans![index].employees!.length}):"
+                          "${"Employees who will visit".tr(context: context)} (${planModel.customerPlans![index].employees!.length}):"
                               .tr(context: context),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14.sp),

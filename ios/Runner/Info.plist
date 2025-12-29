@@ -33,6 +33,8 @@
 	<string>This app needs access to your photo library to allow you to upload profile pictures."</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to your Camera to allow you to take pictures for an employee."</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>we want to get User images from gallery"</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
