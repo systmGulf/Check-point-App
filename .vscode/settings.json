@@ -9,6 +9,6 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "dart.flutterSdkPath": ".fvm/versions/3.7.12"
 }
