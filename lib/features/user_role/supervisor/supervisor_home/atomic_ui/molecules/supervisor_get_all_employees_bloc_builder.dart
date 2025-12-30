@@ -1,18 +1,16 @@
+import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
+import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/molecules/supervisor_get_employee_in_team_item.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
-import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
-import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
-import 'supervisor_get_employee_in_team_item.dart';
-
 class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
-  const SupervisorGetAllEmployeesBlocBuilder({
-    super.key,
-  });
+  final String? query;
+  const SupervisorGetAllEmployeesBlocBuilder({super.key, this.query});
 
   @override
   Widget build(BuildContext context) {
@@ -24,49 +22,59 @@ class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
       builder: (context, state) {
         if (state is GetAllEmployeesFailure) {
           return state.errorMsg == 'Please check your internet connection'
-              ? NoInternetConnectionWidget(onPressed: () {
-                  context
-                      .read<GetEmployeesDataCubit>()
-                      .getEmployeesByDepartmentId();
-                })
+              ? NoInternetConnectionWidget(
+                  onPressed: () {
+                    context
+                        .read<GetEmployeesDataCubit>()
+                        .getEmployeesByDepartmentId();
+                  },
+                )
               : Column(
                   children: [
                     const Icon(Icons.error, color: Colors.red),
                     verticalSpace(20),
-                    Text(state.errorMsg)
+                    Text(state.errorMsg),
                   ],
                 );
         } else if (state is GetAllEmployeesSuccess) {
+          final filterList = state.allEmployeesValue.data!
+              .where(
+                (element) => element.name!.toLowerCase().contains(
+                      query?.toLowerCase() ?? "",
+                    ),
+              )
+              .toList();
+          final employeeList =
+              filterList.isEmpty ? state.allEmployeesValue.data! : filterList;
           return state.allEmployeesValue.data!.isEmpty
               ? NoDataFound()
               : ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: state.allEmployeesValue.data!.length,
+                  itemCount: employeeList.length,
                   itemBuilder: (context, index) {
-                    return ApiConstant.employeeId !=
-                            state.allEmployeesValue.data![index].id
+                    return ApiConstant.employeeId != employeeList[index].id
                         ? SupervisorGetEmployeesInTeamItem(
-                            name:
-                                state.allEmployeesValue.data![index].name ?? '',
-                            getAllEmployeesValue:
-                                state.allEmployeesValue.data![index],
-                            id: state.allEmployeesValue.data![index].id ?? '',
+                            name: employeeList[index].name ?? '',
+                            getAllEmployeesValue: employeeList[index],
+                            id: employeeList[index].id ?? '',
                           )
                         : const SizedBox.shrink();
                   },
                 );
         } else {
           return Skeletonizer(
-              child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) => SupervisorGetEmployeesInTeamItem(
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index) => SupervisorGetEmployeesInTeamItem(
                 name: 'load Data',
                 id: 'load Data',
-                getAllEmployeesValue: EmployeeData()),
-          ));
+                getAllEmployeesValue: EmployeeData(),
+              ),
+            ),
+          );
         }
       },
     );
