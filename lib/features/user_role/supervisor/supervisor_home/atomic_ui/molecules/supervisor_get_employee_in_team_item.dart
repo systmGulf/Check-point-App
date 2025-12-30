@@ -22,19 +22,22 @@ class SupervisorGetEmployeesInTeamItem extends StatelessWidget {
       height: 50,
       color: Colors.white,
       child: Column(
-        children:[
+        children: [
           verticalSpace(10),
           Row(
             children: [
               horizontalSpace(MediaQuery.of(context).size.width * 0.05),
-              UserImage(imageUrl: getAllEmployeesValue.imageUrl,height: 30,),
+              UserImage(
+                imageUrl: getAllEmployeesValue.imageUrl,
+                height: 30,
+              ),
               horizontalSpace(MediaQuery.of(context).size.width * 0.05),
               Expanded(
                 child: Text("$name",
-                    style: AppStylesManger.font16regulerBlack
-                        .copyWith(fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis)),
+                    style: AppStylesManger.font16regulerBlack.copyWith(
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis)),
               ),
-             
               GestureDetector(
                   onTap: () {
                     context.pushName(
@@ -46,7 +49,7 @@ class SupervisorGetEmployeesInTeamItem extends StatelessWidget {
                     Icons.phone_android,
                     color: Colors.black,
                   )),
-              horizontalSpace(10),
+              horizontalSpace(MediaQuery.sizeOf(context).width * 0.09),
               GestureDetector(
                 onTap: () {
                   context.pushName(Routes.employeePreview, arguments: [

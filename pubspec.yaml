@@ -155,3 +155,9 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#ffffff"
   image: assets/images/vodaphone.png
+
+
+flutter_assets:
+  assets_path: assets/images
+  output_path: lib/core/utils
+  filename: assets_manager.dart
