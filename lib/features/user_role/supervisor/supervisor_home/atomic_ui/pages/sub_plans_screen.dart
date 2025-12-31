@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/custom_filter_floating_action_button.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/custom_filter_container.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
@@ -25,38 +27,85 @@ class SubPlansScreen extends StatefulWidget {
   State<SubPlansScreen> createState() => _SubPlansScreenState();
 }
 
+bool? selectedStatus;
+
 class _SubPlansScreenState extends State<SubPlansScreen> {
   String planType = 'Customer';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: CustomFloatingActionButton(
-            text: 'Add Plan'.tr(context: context),
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.white,
-                isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [
+            CustomFilterFloatingActionButton(
+              onPressed: () async {
+                final filterData =
+                    await showModalBottomSheet<Map<String, dynamic>>(
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
                   ),
-                ),
-                builder: (_) {
-                  return MultiBlocProvider(providers: [
-                    BlocProvider.value(value: context.read<PlanCubit>()),
-                    BlocProvider(
-                        create: (_) => getIt<GetEmployeesDataCubit>()
-                          ..getEmployeesByDepartmentId()),
-                    BlocProvider(
-                        create: (_) => getIt<CustomerCubit>()
-                          ..getCustomersByType(
-                              isLoading: false,
-                              customerType: CustomerType.Customer))
-                  ], child: const AddSubPlanBottomSheet());
-                },
-              );
-            }),
+                  context: context,
+                  builder: (ctx) {
+                    return CustomFilterContainer(
+                        statusOne: "Visted".tr(
+                          context: context,
+                        ),
+                        statusTwo: "NotVisited".tr(
+                          context: context,
+                        ),
+                        statusThree: "Expired".tr(
+                          context: context,
+                        ));
+                  },
+                );
+
+                if (filterData != null) {
+                  setState(() {
+                    if (filterData['statusOne'] == true) {
+                      selectedStatus = true;
+                    } else if (filterData['statusTwo'] == true) {
+                      selectedStatus = false;
+                    } else {
+                      selectedStatus = null;
+                    }
+                  });
+                }
+              },
+            ),
+            CustomFloatingActionButton(
+                text: 'Add Plan'.tr(context: context),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (_) {
+                      return MultiBlocProvider(providers: [
+                        BlocProvider.value(value: context.read<PlanCubit>()),
+                        BlocProvider(
+                            create: (_) => getIt<GetEmployeesDataCubit>()
+                              ..getEmployeesByDepartmentId()),
+                        BlocProvider(
+                            create: (_) => getIt<CustomerCubit>()
+                              ..getCustomersByType(
+                                  isLoading: false,
+                                  customerType: CustomerType.Customer))
+                      ], child: const AddSubPlanBottomSheet());
+                    },
+                  );
+                }),
+          ],
+        ),
         appBar: buildCustomAppBar(
           context,
           'Plans For this Day'.tr(context: context),
@@ -84,6 +133,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                             child: GetSubPlanListView(
                               planType: planType,
                               planModel: state.planModel,
+                              selectedStatus: selectedStatus,
                             ),
                           ),
                         )

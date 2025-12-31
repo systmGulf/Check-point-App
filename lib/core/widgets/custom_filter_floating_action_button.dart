@@ -12,6 +12,7 @@ class CustomFilterFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -23,23 +24,20 @@ class CustomFilterFloatingActionButton extends StatelessWidget {
           color: Colors.white,
           border:
               Border.all(color: ColorsManger.lightblack.withValues(alpha: 0.3)),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: GestureDetector(
-            onTap: onPressed,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 8,
-              children: [
-                SvgPicture.asset(Assets.assetsImagesFilterButton),
-                Text(
-                  "Filter".tr(context: context),
-                  style: AppStylesManger.font14Medium,
-                )
-              ],
-            ),
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              SvgPicture.asset(Assets.assetsImagesFilterButton),
+              Text(
+                "Filter".tr(context: context),
+                style: AppStylesManger.font14Medium,
+              )
+            ],
           ),
         ));
   }

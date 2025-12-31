@@ -13,23 +13,40 @@ import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/employee_assigned_widget.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 
-class GetSubPlanListView extends StatelessWidget {
+class GetSubPlanListView extends StatefulWidget {
   const GetSubPlanListView({
     super.key,
     required this.planModel,
     required this.planType,
+    this.selectedStatus,
   });
   final GetPlanByIdValue planModel;
   final String planType;
+  final bool? selectedStatus;
+
+  @override
+  State<GetSubPlanListView> createState() => _GetSubPlanListViewState();
+}
+
+class _GetSubPlanListViewState extends State<GetSubPlanListView> {
+  List<CustomerPlans> _filterSubPlans(List<CustomerPlans> subPlans) {
+    if (widget.selectedStatus == null) return subPlans;
+    return subPlans.where((subPlan) {
+      final matchesStatus = widget.selectedStatus == null ||
+          subPlan.visited == widget.selectedStatus;
+
+      return matchesStatus;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: planModel.customerPlans!.length,
+      itemCount: _filterSubPlans(widget.planModel.customerPlans!).length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return planModel.customerPlans![index].customer!.customerType ==
-                planType
+        return widget.planModel.customerPlans![index].customer!.customerType ==
+                widget.planType
             ? Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -48,7 +65,7 @@ class GetSubPlanListView extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "${"Plan Date".tr(context: context)}: ${planModel.planDate!.substring(0, 10)}",
+                            "${"Plan Date".tr(context: context)}: ${widget.planModel.planDate!.substring(0, 10)}",
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const Spacer(),
@@ -64,8 +81,10 @@ class GetSubPlanListView extends StatelessWidget {
                                             .tr(context: context), onYes: () {
                                   context.pop();
                                   context.read<PlanCubit>().deleteSubPlan(
-                                      planId: planModel.id!,
-                                      id: planModel.customerPlans![index].id!);
+                                      planId: widget.planModel.id!,
+                                      id: _filterSubPlans(widget
+                                              .planModel.customerPlans!)[index]
+                                          .id!);
                                 });
                               },
                               child: SvgPicture.asset(
@@ -77,26 +96,27 @@ class GetSubPlanListView extends StatelessWidget {
                       ),
                       verticalSpace(8),
                       Text(
-                          "${"Note".tr(context: context)}: ${planModel.customerPlans![index].note}"),
+                          "${"Note".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].note}"),
                       verticalSpace(8),
                       Text(
-                        "${"Visited".tr(context: context)}: ${planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
+                        "${"Visited".tr(context: context)}: ${widget.planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
                         style: AppStylesManger.font15BoldBlue.copyWith(
-                            color:
-                                planModel.customerPlans![index].visited == true
-                                    ? Colors.green
-                                    : Colors.red),
+                            color: widget.planModel.customerPlans![index]
+                                        .visited ==
+                                    true
+                                ? Colors.green
+                                : Colors.red),
                       ),
                       const SizedBox(height: 8),
-                      if (planModel.customerPlans!.isNotEmpty) ...[
+                      if (widget.planModel.customerPlans!.isNotEmpty) ...[
                         Text(
-                          "${planType.tr(context: context)}: ${planModel.customerPlans![index].customer!.name}",
+                          "${widget.planType.tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.name}",
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            "${"Work As".tr(context: context)}: ${planModel.customerPlans![index].customer!.workesAs}"),
+                            "${"Work As".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.workesAs}"),
                         Text(
-                            "${"Location".tr(context: context)}: ${planModel.customerPlans![index].customer!.location}"),
+                            "${"Location".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.location}"),
                       ],
                       const Divider(),
                       ExpansionTile(
@@ -106,12 +126,13 @@ class GetSubPlanListView extends StatelessWidget {
                         leading: const Icon(Icons.person),
                         visualDensity: VisualDensity.comfortable,
                         title: Text(
-                          "${"Employees who will visit".tr(context: context)} (${planModel.customerPlans![index].employees!.length}):"
+                          "${"Employees who will visit".tr(context: context)} (${widget.planModel.customerPlans![index].employees!.length}):"
                               .tr(context: context),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14.sp),
                         ),
-                        children: planModel.customerPlans![index].employees!
+                        children: widget
+                            .planModel.customerPlans![index].employees!
                             .map((employee) {
                           return EmployeeAssignedWidget(
                             departmentName:
