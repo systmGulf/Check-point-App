@@ -101,7 +101,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ],
                     ),
                   ),
-                  if (widget.status == 'Cancelled' || isCancelled)
+                  if (widget.status == 'Cancelled')
                     Row(
                       children: [
                         const Icon(Icons.close, color: Colors.red),
@@ -111,7 +111,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Approved' || isApproved)
+                  if (widget.status == 'Approved')
                     Row(
                       children: [
                         const Icon(Icons.check, color: Colors.green),
@@ -121,7 +121,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Pending' && !isCancelled && !isApproved)
+                  if (widget.status == 'Pending')
                     Row(
                       children: [
                         const Icon(Icons.watch_later, color: Colors.orange),
@@ -153,32 +153,6 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     maxLines: 2,
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     showDialog(context: context, builder: (context) =>
-                //         Container(
-                //           child: AlertDialog(
-                //             backgroundColor: Colors.white,
-                //             shape: const RoundedRectangleBorder(
-
-                //               borderRadius: BorderRadius.all(Radius.circular(10))),
-                //             title:
-                //             content: Text(widget.reason),
-                //           ),
-                //         )
-                //     );
-                //   },
-                //   child: SizedBox(
-                //     width: MediaQuery.of(context).size.width * 0.3,
-                //     child: Text(
-                //       '${"Reason".tr(context: context)}: ${widget.reason}',
-                //       style: AppStylesManger.font15regulerGrey
-                //         ..copyWith(height: 1.5, color: Colors.black),
-                //       overflow: TextOverflow.ellipsis,
-                //       maxLines: 2,
-                //     ),
-                //   ),
-                // ),
               ]),
             ),
             verticalSpace(9),
@@ -190,7 +164,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       'Request Created By Anther Employee'.tr(context: context),
                       style: AppStylesManger.font15regulerGrey),
             verticalSpace(5),
-            if (widget.status == 'Pending' && !isCancelled && !isApproved)
+            if (widget.status == 'Pending')
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

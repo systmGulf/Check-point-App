@@ -3,6 +3,7 @@ import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_request_model.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -11,24 +12,46 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
 
-class RecentLeaveApplication extends StatelessWidget {
+class RecentLeaveApplication extends StatefulWidget {
   const RecentLeaveApplication({
     super.key,
     required this.type,
+    this.selectedStatus,
   });
   final String type;
+  final String? selectedStatus;
+
+  @override
+  State<RecentLeaveApplication> createState() => _RecentLeaveApplicationState();
+}
+
+class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
+  List<Data> _filterRequests(List<Data> requests) {
+      if (widget.selectedStatus == null) return requests;
+    return requests.where((task) {
+      final matchesStatus = widget.selectedStatus == null ||
+          task.status!.toLowerCase() == widget.selectedStatus!.toLowerCase();
+
+      return matchesStatus;
+    }).toList();
+  }
+  @override
+  void initState() {
+    BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
+        .getLeaveApplication(
+      type: widget.type,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
-        .getLeaveApplication(
-      type: type,
-    );
+   
     return RefreshIndicator(
       onRefresh: () async {
         BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
             .getLeaveApplication(
-          type: type,
+          type: widget.type,
         );
       },
       child: Column(
@@ -54,7 +77,7 @@ class RecentLeaveApplication extends StatelessWidget {
                           ? NoInternetConnectionWidget(onPressed: () {
                               context
                                   .read<LeaveApplicationCubitSupervisor>()
-                                  .getLeaveApplication(type: type);
+                                  .getLeaveApplication(type: widget.type);
                             })
                           : Column(
                               children: [
@@ -65,6 +88,8 @@ class RecentLeaveApplication extends StatelessWidget {
                             );
                     }
                     if (state is GetLeaveApplicationSuccess) {
+                      final request = _filterRequests(
+                          state.getLeaveRequestModel.value!.data!);
                       return state.getLeaveRequestModel.value!.data!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
@@ -93,67 +118,36 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: state
-                                      .getLeaveRequestModel.value!.data!.length,
+                                  itemCount: request.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: LeaveApplicationItem(
-                                        userImage: state
-                                                .getLeaveRequestModel
-                                                .value!
-                                                .data![index]
-                                                .employee
-                                                ?.imageUrl ??
-                                            '',
-                                        userToken: state
-                                                .getLeaveRequestModel
-                                                .value!
-                                                .data![index]
+                                        userImage:
+                                            request[index].employee?.imageUrl ??
+                                                '',
+                                        userToken: request[index]
                                                 .employee!
                                                 .deviceTokens!
                                                 .isNotEmpty
-                                            ? state
-                                                .getLeaveRequestModel
-                                                .value!
-                                                .data![index]
+                                            ? request[index]
                                                 .employee!
                                                 .deviceTokens!
                                                 .first
                                             : '',
-                                        employeeId: state
-                                                .getLeaveRequestModel
-                                                .value!
-                                                .data![index]
-                                                .employee
-                                                ?.id ??
-                                            '',
-                                        type: type,
-                                        createdBy: state
-                                                .getLeaveRequestModel
-                                                .value!
-                                                .data![index]
-                                                .createdBy ??
-                                            "",
-                                        status: state.getLeaveRequestModel
-                                                .value!.data![index].status ??
-                                            "",
-                                        name: state.getLeaveRequestModel.value!
-                                                .data![index].employee?.name ??
-                                            "",
-                                        from: state.getLeaveRequestModel.value!
-                                                .data![index].startDate ??
-                                            "",
-                                        to: state.getLeaveRequestModel.value!
-                                                .data![index].endDate ??
-                                            "",
-                                        reason: state.getLeaveRequestModel
-                                                .value!.data![index].reason ??
-                                            "",
-                                        id: state.getLeaveRequestModel.value!
-                                                .data![index].id ??
-                                            0,
+                                        employeeId:
+                                            request[index].employee?.id ?? '',
+                                        type: widget.type,
+                                        createdBy:
+                                            request[index].createdBy ?? "",
+                                        status: request[index].status ?? "",
+                                        name:
+                                            request[index].employee?.name ?? "",
+                                        from: request[index].startDate ?? "",
+                                        to: request[index].endDate ?? "",
+                                        reason: request[index].reason ?? "",
+                                        id: request[index].id ?? 0,
                                       ),
                                     );
                                   },

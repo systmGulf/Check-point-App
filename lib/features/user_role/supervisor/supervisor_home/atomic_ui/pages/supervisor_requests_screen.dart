@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/enums/request_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/custom_filter_container.dart';
 import '../../../../../../core/widgets/custom_filter_floating_action_button.dart';
 import 'recent_leave_application.dart';
 
@@ -16,10 +18,33 @@ class SupervisorRequestsScreen extends StatefulWidget {
 }
 
 int selectedIndex = 0;
+String? selectedStatus;
 
 class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
   @override
   Widget build(BuildContext context) {
+     List<Widget> employeeAttendanceItems = [
+    RecentLeaveApplication(
+      type: 'LeaveRequest',
+      selectedStatus: selectedStatus,
+    ),
+    RecentLeaveApplication(
+      type: 'RequestClaim',
+      selectedStatus: selectedStatus,
+    ),
+    RecentLeaveApplication(
+      type: 'LeaveSchedule',
+      selectedStatus: selectedStatus,
+    ),
+    RecentLeaveApplication(
+      type: 'LeavePlanner',
+      selectedStatus: selectedStatus,
+    ),
+    RecentLeaveApplication(
+      type: 'Icident',
+      selectedStatus: selectedStatus,
+    ),
+  ];
     final texts = <String>[
       'Leave Requests'.tr(context: context),
       'Claim Requests'.tr(context: context),
@@ -29,7 +54,47 @@ class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
     ];
     return Scaffold(
       floatingActionButton: CustomFilterFloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          final filterData = await showModalBottomSheet<Map<String, dynamic>>(
+            backgroundColor: Colors.white,
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+            ),
+            context: context,
+            builder: (ctx) {
+              return CustomFilterContainer(
+                statusOne: "Cancelled".tr(
+                  context: context,
+                ),
+                statusTwo: "Approved".tr(
+                  context: context,
+                ),
+                statusThree: "Pending".tr(
+                  context: context,
+                ),
+              );
+            },
+          );
+
+          if (filterData != null) {
+            setState(() {
+              if (filterData['statusOne'] == true) {
+                selectedStatus = RequestStatus.Cancelled.name;
+              } else if (filterData['statusTwo'] == true) {
+                selectedStatus = RequestStatus.Approved.name;
+                ;
+              } else if (filterData['statusThree'] == true) {
+                selectedStatus = RequestStatus.Pending.name;
+                ;
+              } else {
+                selectedStatus = null;
+              }
+            });
+          }
+        },
       ),
       body: ListView(
         children: [
@@ -81,21 +146,5 @@ class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
     );
   }
 
-  List<Widget> employeeAttendanceItems = [
-    const RecentLeaveApplication(
-      type: 'LeaveRequest',
-    ),
-    const RecentLeaveApplication(
-      type: 'RequestClaim',
-    ),
-    const RecentLeaveApplication(
-      type: 'LeaveSchedule',
-    ),
-    const RecentLeaveApplication(
-      type: 'LeavePlanner',
-    ),
-    const RecentLeaveApplication(
-      type: 'Icident',
-    ),
-  ];
+ 
 }
