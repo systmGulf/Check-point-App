@@ -98,6 +98,10 @@ class Assets {
   /// assets/images/eyes.svg
   static const String assetsImagesEyes = "assets/images/eyes.svg";
 
+  /// Assets for assetsImagesFilterButton
+  /// assets/images/filter_button.svg
+  static const String assetsImagesFilterButton = "assets/images/filter_button.svg";
+
   /// Assets for assetsImagesFingerprint
   /// assets/images/fingerprint.png
   static const String assetsImagesFingerprint = "assets/images/fingerprint.png";

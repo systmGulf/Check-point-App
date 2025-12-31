@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/custom_filter_floating_action_button.dart';
 import 'recent_leave_application.dart';
 
 class SupervisorRequestsScreen extends StatefulWidget {
@@ -26,52 +27,57 @@ class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
       'Leave Planner'.tr(context: context),
       'accident'.tr(context: context),
     ];
-    return ListView(
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: employeeAttendanceItems
-                .asMap()
-                .entries
-                .map(
-                  (e) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = e.key;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Text(
-                          texts[e.key],
-                          style: selectedIndex == e.key
-                              ? AppStylesManger.font14RegularBlack.copyWith(
-                                  color: ColorsManger.primaryColor,
-                                )
-                              : AppStylesManger.font14RegularBlack
-                                  .copyWith(color: ColorsManger.grey),
-                        ),
-                        SizedBox(height: 8.h),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Divider(
-                            color: selectedIndex == e.key
-                                ? ColorsManger.primaryColor
-                                : ColorsManger.grey,
-                            thickness: 1.9,
+    return Scaffold(
+      floatingActionButton: CustomFilterFloatingActionButton(
+        onPressed: () {},
+      ),
+      body: ListView(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: employeeAttendanceItems
+                  .asMap()
+                  .entries
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = e.key;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            texts[e.key],
+                            style: selectedIndex == e.key
+                                ? AppStylesManger.font14RegularBlack.copyWith(
+                                    color: ColorsManger.primaryColor,
+                                  )
+                                : AppStylesManger.font14RegularBlack
+                                    .copyWith(color: ColorsManger.grey),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 8.h),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Divider(
+                              color: selectedIndex == e.key
+                                  ? ColorsManger.primaryColor
+                                  : ColorsManger.grey,
+                              thickness: 1.9,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
+                  )
+                  .toList(),
+            ),
           ),
-        ),
-        employeeAttendanceItems[selectedIndex],
-      ],
+          employeeAttendanceItems[selectedIndex],
+        ],
+      ),
     );
   }
 
