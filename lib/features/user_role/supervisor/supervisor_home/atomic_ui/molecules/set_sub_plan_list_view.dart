@@ -41,6 +41,7 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
 
   @override
   Widget build(BuildContext context) {
+    final subPlan = _filterSubPlans(widget.planModel.customerPlans!);
     return ListView.builder(
       itemCount: _filterSubPlans(widget.planModel.customerPlans!).length,
       shrinkWrap: true,
@@ -82,9 +83,7 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                                   context.pop();
                                   context.read<PlanCubit>().deleteSubPlan(
                                       planId: widget.planModel.id!,
-                                      id: _filterSubPlans(widget
-                                              .planModel.customerPlans!)[index]
-                                          .id!);
+                                      id: subPlan[index].id!);
                                 });
                               },
                               child: SvgPicture.asset(
@@ -96,27 +95,25 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                       ),
                       verticalSpace(8),
                       Text(
-                          "${"Note".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].note}"),
+                          "${"Note".tr(context: context)}: ${subPlan[index].note}"),
                       verticalSpace(8),
                       Text(
-                        "${"Visited".tr(context: context)}: ${widget.planModel.customerPlans![index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
+                        "${"Visited".tr(context: context)}: ${subPlan[index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
                         style: AppStylesManger.font15BoldBlue.copyWith(
-                            color: widget.planModel.customerPlans![index]
-                                        .visited ==
-                                    true
+                            color: subPlan[index].visited == true
                                 ? Colors.green
                                 : Colors.red),
                       ),
                       const SizedBox(height: 8),
-                      if (widget.planModel.customerPlans!.isNotEmpty) ...[
+                      if (subPlan.isNotEmpty) ...[
                         Text(
-                          "${widget.planType.tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.name}",
+                          "${widget.planType.tr(context: context)}: ${subPlan[index].customer!.name}",
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            "${"Work As".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.workesAs}"),
+                            "${"Work As".tr(context: context)}: ${subPlan[index].customer!.workesAs}"),
                         Text(
-                            "${"Location".tr(context: context)}: ${_filterSubPlans(widget.planModel.customerPlans!)[index].customer!.location}"),
+                            "${"Location".tr(context: context)}: ${subPlan[index].customer!.location}"),
                       ],
                       const Divider(),
                       ExpansionTile(
