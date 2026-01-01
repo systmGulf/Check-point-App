@@ -55,7 +55,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                         statusOne: "Visted".tr(
                           context: context,
                         ),
-                        statusTwo: "NotVisited".tr(
+                        statusTwo: "Not Visited".tr(
                           context: context,
                         ),
                         statusThree: "Expired".tr(
