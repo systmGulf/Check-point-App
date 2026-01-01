@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/enums/task_status.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
@@ -12,6 +14,8 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/build_snake_bar.dart';
+import '../../../../../../core/widgets/custom_filter_container.dart';
+import '../../../../../../core/widgets/custom_filter_floating_action_button.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
@@ -31,6 +35,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   int nextPageNumber = 1;
   bool isLoading = false;
   bool maxScrollExtent = false;
+  String? selectedStatus;
 
   @override
   void initState() {
@@ -63,9 +68,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   void _deleteTask(int index) {
     final taskId =
         int.parse(context.read<TasksCubit>().tasks[index].id.toString());
-    buildDeleteAlertDialog
-    (
-      context,
+    buildDeleteAlertDialog(context,
         title: 'Delete Task'.tr(context: context),
         message: 'Are you sure you want to delete this Task?'
             .tr(context: context), onYes: () {
@@ -88,24 +91,82 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
     });
   }
 
-  @override
+  List<GetTasData> _filterTasks(List<GetTasData> tasks) {
+    return tasks.where((task) {
+      final matchesStatus = selectedStatus == null ||
+          (task.status?.toLowerCase() == selectedStatus!.toLowerCase());
 
+      return matchesStatus;
+    }).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingActionButton(
-        text: 'Add Task'.tr(context: context),
-        onTap: () {
-        context.pushName(Routes.supervisorAddTasksScreen).then((value) {
-            context.read<TasksCubit>().getTasks();
-          });
-        },
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 8,
+        children: [
+          CustomFilterFloatingActionButton(
+            onPressed: () async {
+              final filterData =
+                  await showModalBottomSheet<Map<String, dynamic>>(
+                backgroundColor: Colors.white,
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                context: context,
+                builder: (ctx) {
+                  return CustomFilterContainer(
+                    statusOne: "InProgress".tr(
+                      context: context,
+                    ),
+                    statusTwo: "Done".tr(
+                      context: context,
+                    ),
+                    statusThree: "Pending".tr(
+                      context: context,
+                    ),
+                  );
+                },
+              );
+
+              if (filterData != null) {
+                setState(() {
+                  if (filterData['statusOne'] == true) {
+                    selectedStatus = TaskStatus.InProgress.name;
+                  } else if (filterData['statusTwo'] == true) {
+                    selectedStatus = TaskStatus.Done.name;
+                    ;
+                  } else if (filterData['statusThree'] == true) {
+                    selectedStatus = TaskStatus.Pending.name;
+                    ;
+                  } else {
+                    selectedStatus = null;
+                  }
+                });
+              }
+            },
+          ),
+          CustomFloatingActionButton(
+            text: 'Add Task'.tr(context: context),
+            onTap: () {
+              context.pushName(Routes.supervisorAddTasksScreen).then((value) {
+                context.read<TasksCubit>().getTasks();
+              });
+            },
+          ),
+        ],
       ),
       body: BlocConsumer<TasksCubit, TasksState>(
         listener: (context, state) {
           if (state is GetTasksSuccess) {
             setState(() {
               context.read<TasksCubit>().tasks.clear();
-              final newTasks =state.tasks;
+              final newTasks = state.tasks;
               for (var newTask in newTasks) {
                 if (!context
                     .read<TasksCubit>()
@@ -114,7 +175,6 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                   context.read<TasksCubit>().tasks.add(newTask);
                 }
               }
-           
             });
           } else if (state is GetTaskPaginationFailure) {
             buildSnackBar(
@@ -136,7 +196,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (_, __) => TaskItem(
-                  employeeName: [ ],
+                  employeeName: [],
                   onSelected: (value) {},
                   // employeeName: [],
                   onEdit: () {},
@@ -166,6 +226,8 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                   );
           }
           if (state is GetTasksSuccess || state is GetTaskPaginationLoading) {
+            final allTasks = context.read<TasksCubit>().tasks;
+            final tasks = _filterTasks(allTasks);
             return context.read<TasksCubit>().tasks.isEmpty
                 ? const NoDataFound()
                 : RefreshIndicator(
@@ -177,7 +239,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                           controller: _scrollController,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: context.read<TasksCubit>().tasks.length,
+                          itemCount: tasks.length,
                           itemBuilder: (_, index) {
                             return TaskItem(
                               onSelected: (status) {
@@ -188,10 +250,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                                         .tasks[index]
                                         .id!);
                               },
-                              employeeName: context
-                                  .read<TasksCubit>()
-                                  .tasks[index]
-                                  .employees!,
+                              employeeName: tasks[index].employees!,
                               onEdit: () {
                                 Navigator.push(
                                     context,
@@ -208,10 +267,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                                           ),
                                         ],
                                         child: AssignTaskScreen(
-                                          taskId: context
-                                              .read<TasksCubit>()
-                                              .tasks[index]
-                                              .id!,
+                                          taskId: tasks[index].id!,
                                         ),
                                       ),
                                     )).then((value) {
@@ -220,38 +276,14 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                               },
                               onDelete: () => _deleteTask(index),
                               tasks: [],
-                              id: context
-                                  .read<TasksCubit>()
-                                  .tasks[index]
-                                  .id
-                                  .toString(),
-                              priority: context
-                                      .read<TasksCubit>()
-                                      .tasks[index]
-                                      .priorityStatus ??
-                                  '',
-                              state: context
-                                      .read<TasksCubit>()
-                                      .tasks[index]
-                                      .status ??
-                                  '',
-                              title: context
-                                      .read<TasksCubit>()
-                                      .tasks[index]
-                                      .title ??
-                                  '',
-                              description: context
-                                      .read<TasksCubit>()
-                                      .tasks[index]
-                                      .description ??
-                                  '',
+                              id: tasks[index].id.toString(),
+                              priority: tasks[index].priorityStatus ?? '',
+                              state: tasks[index].status ?? '',
+                              title: tasks[index].title ?? '',
+                              description: tasks[index].description ?? '',
                               date: DateFormat('yyyy-MM-dd')
                                   .format(DateTime.parse(
-                                context
-                                        .read<TasksCubit>()
-                                        .tasks[index]
-                                        .dueDate ??
-                                    '',
+                                tasks[index].dueDate ?? '',
                               )),
                             );
                           },
