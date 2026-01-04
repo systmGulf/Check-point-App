@@ -42,6 +42,7 @@ class AdminNotificationScreen extends StatelessWidget {
                         },
                         name: state.value.data![index].name ?? "",
                         mobileId: state.value.data![index].mobileId ?? "",
+                        date: state.value.data![index].createdDate  ?? DateTime.now(),
                       );
                     })
                 : Padding(
@@ -74,7 +75,8 @@ class AdminNotificationScreen extends StatelessWidget {
                     ),
                   );
           } else if (state is GetAddAccountRequestsFailure) {
-            return state.error == 'Please check your internet connection'.tr(context: context)
+            return state.error ==
+                    'Please check your internet connection'.tr(context: context)
                 ? NoInternetConnectionWidget(onPressed: () {
                     context.read<EmployeeCubit>().getAddAccountRequests();
                   })

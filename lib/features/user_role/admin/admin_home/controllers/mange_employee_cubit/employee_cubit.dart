@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart' ;
 
 part 'employee_state.dart';
 
