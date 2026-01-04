@@ -475,5 +475,8 @@
   "High": "عالية",
   "In Progress": "قيد التنفيذ",
   "Completed": "مكتملة",
-  "Filter": "تصفية"
+  "Filter": "تصفية" , 
+  "clockInTime" :"وقت التسجيل",
+  "clockOutTime" :"وقت الخروج"
+
 }

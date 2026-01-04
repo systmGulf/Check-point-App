@@ -12,20 +12,23 @@ import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../pages/edit_user_screen.dart';
 
 class UserItemListView extends StatelessWidget {
-  const UserItemListView({
-    super.key,
-    required this.name,
-    required this.position,
-    required this.userId,
-    required this.department,
-    required this.userName,
-    required this.mobileId,
-    required this.role,
-    required this.departmentId,
-    required this.branch,
-    required this.branchId,
-    required this.onDelete, required this.imageUrl,
-  });
+  const UserItemListView(
+      {super.key,
+      required this.name,
+      required this.position,
+      required this.userId,
+      required this.department,
+      required this.userName,
+      required this.mobileId,
+      required this.role,
+      required this.departmentId,
+      required this.branch,
+      required this.branchId,
+      required this.onDelete,
+      required this.imageUrl,
+      required this.shiftName,
+      required this.shiftStartTime,
+      required this.shiftEndTime});
   final String name,
       position,
       userId,
@@ -33,10 +36,13 @@ class UserItemListView extends StatelessWidget {
       userName,
       mobileId,
       role,
-      branch;
+      branch,
+      shiftName,
+      shiftStartTime,
+      shiftEndTime;
   final int departmentId, branchId;
   final VoidCallback onDelete;
-  final String imageUrl ;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +55,12 @@ class UserItemListView extends StatelessWidget {
       ),
       child: Row(
         children: [
-        UserImage(height: 50, imageUrl: imageUrl),
+          UserImage(height: 50, imageUrl: imageUrl),
           horizontalSpace(20),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.35,
+          Expanded(
+            flex: 4,
             child: Column(
+              spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(userName,
@@ -74,6 +81,42 @@ class UserItemListView extends StatelessWidget {
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
                       text: department,
+                      style: AppStylesManger.font14RegularBlack
+                          .copyWith(color: Colors.grey))
+                ])),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "${"Shift".tr(context: context)} : ",
+                      style: AppStylesManger.font14RegularBlack.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 122, 121, 121))),
+                  TextSpan(
+                      text: shiftName,
+                      style: AppStylesManger.font14RegularBlack
+                          .copyWith(color: Colors.grey))
+                ])),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "${"clockInTime".tr(context: context)} : ",
+                      style: AppStylesManger.font14RegularBlack.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 122, 121, 121))),
+                  TextSpan(
+                      text: shiftStartTime,
+                      style: AppStylesManger.font14RegularBlack
+                          .copyWith(color: Colors.grey))
+                ])),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "${"clockOutTime".tr(context: context)} : ",
+                      style: AppStylesManger.font14RegularBlack.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 122, 121, 121))),
+                  TextSpan(
+                      text: shiftEndTime,
                       style: AppStylesManger.font14RegularBlack
                           .copyWith(color: Colors.grey))
                 ]))

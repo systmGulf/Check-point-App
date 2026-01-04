@@ -110,7 +110,8 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemGridView(
-                              userImage: state.value.data![index].imageUrl ?? '',
+                              userImage:
+                                  state.value.data![index].imageUrl ?? '',
                               branchId: state.value.data![index].branchId ?? 0,
                               branch: state.value.data![index].branchName ?? "",
                               departmentId:
@@ -136,6 +137,12 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemListView(
+                              shiftEndTime:
+                                  state.value.data![index].clockOutTime ?? "",
+                              shiftName:
+                                  state.value.data![index].shiftName ?? "",
+                              shiftStartTime:
+                                  state.value.data![index].clockInTime ?? "",
                               imageUrl: state.value.data![index].imageUrl ?? '',
                               onDelete: () {
                                 buildDeleteAlertDialog(context,
@@ -206,7 +213,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                     itemBuilder: (_, index) => Padding(
                       padding: const EdgeInsets.only(bottom: 7),
                       child: UserItemListView(
-                          imageUrl: "",
+                        imageUrl: "",
                         onDelete: () {},
                         branchId: 0,
                         branch: "Data Load",
@@ -218,6 +225,9 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                         userId: "Data Load",
                         name: "Data Load",
                         position: "Data Load",
+                        shiftEndTime: "Data Load",
+                        shiftName: "Data Load",
+                        shiftStartTime: "Data Load",
                       ),
                     ),
                   ),
