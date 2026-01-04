@@ -476,5 +476,7 @@
   "No Data Found": "No Data Found",
   "ADD EMPLOYEES": "ADD EMPLOYEES",
   "Filter": "Filter",
-  "Police assigned successfully": "Police assigned successfully"
+  "Police assigned successfully": "Police assigned successfully",
+  "clockInTime": "Clock In Time",
+  "clockOutTime": "Clock Out Time"
 }
