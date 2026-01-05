@@ -8,17 +8,23 @@ import '../helpers/app_spaces.dart';
 
 class EmployeeAssignedWidget extends StatelessWidget {
   const EmployeeAssignedWidget({
-    super.key, required this.name, required this.imageUrl, required this.position, required this.departmentName,
+    super.key,
+    required this.name,
+    required this.imageUrl,
+    required this.position,
+    required this.departmentName,
+    this.onDelete,
   });
   final String name;
   final String imageUrl;
   final String position;
   final String departmentName;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(bottom: 5.h),
+      padding: EdgeInsets.only(bottom: 5.h),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -27,28 +33,38 @@ class EmployeeAssignedWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            UserImage(imageUrl: imageUrl ?? '', height: 50,),
+            UserImage(
+              imageUrl: imageUrl,
+              height: 50,
+            ),
             horizontalSpace(10.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                 name ?? '',
+                  name,
                   style: AppStylesManger.font12RegularGrey
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 13.sp),
                 ),
                 Text(
-                  position ?? '',
+                  position,
                   style: AppStylesManger.font12RegularGrey,
                 ),
                 Text(
-                  "${"Department".tr(context: context)}: ${departmentName ?? ''}",
+                  "${"Department".tr(context: context)}: ${departmentName}",
                   style: AppStylesManger.font12RegularGrey,
                 ),
               ],
             ),
             const Spacer(),
-            Icon(Icons.delete, color: Colors.red, size: 20.sp,)
+            GestureDetector(
+              onTap: onDelete,
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+                size: 20.sp,
+              ),
+            )
           ],
         ),
       ),

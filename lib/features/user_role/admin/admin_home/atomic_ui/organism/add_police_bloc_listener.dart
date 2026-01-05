@@ -13,11 +13,12 @@ class AddPoliceBlocListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener <ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
+    return BlocListener<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
       listenWhen: (previous, current) =>
           current is AddPoliceSuccess ||
           current is AddPoliceFailure ||
-          current is AddPoliceLoading,
+          current is AddPoliceLoading ||
+          current is RemoveAssignPolicySuccessState,
       listener: (context, state) {
         if (state is AddPoliceSuccess) {
           context.pop();
@@ -26,6 +27,14 @@ class AddPoliceBlocListener extends StatelessWidget {
             Overlay.of(context),
             CustomSnackBar.success(
               message: 'Police Added Successfully'.tr(context: context),
+            ),
+          );
+        }
+        if (state is RemoveAssignPolicySuccessState) {
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.success(
+              message: state.message,
             ),
           );
         } else if (state is AddPoliceFailure) {
@@ -38,8 +47,8 @@ class AddPoliceBlocListener extends StatelessWidget {
           );
         } else {
           customLoadingIndicator(context);
-        
-      }},
+        }
+      },
       child: const SizedBox.shrink(),
     );
   }

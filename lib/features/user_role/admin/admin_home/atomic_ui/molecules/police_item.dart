@@ -22,10 +22,12 @@ class PoliceItem extends StatelessWidget {
     required this.timeOut,
     required this.policeId,
     required this.employees,
+    this.onDeleteEmployee,
   });
   final String month, year, timeIn, timeOut;
   final int policeId;
   final List<Employee> employees;
+  final void Function(String employeeId)? onDeleteEmployee;
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +183,8 @@ class PoliceItem extends StatelessWidget {
                             imageUrl: employee.imageUrl ?? '',
                             position: employee.position ?? '',
                             departmentName: employee.departmentName ?? '',
+                            onDelete: () =>
+                                onDeleteEmployee!(employee.id ?? ""),
                           ))
                       .toList()
                   : [

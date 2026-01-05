@@ -55,7 +55,8 @@ class GetPoliceByShiftIDError extends ShiftsAndPolicesState {
 
 class AddPoliceLoading extends ShiftsAndPolicesState {}
 
-class AddPoliceSuccess extends ShiftsAndPolicesState{}
+class AddPoliceSuccess extends ShiftsAndPolicesState {}
+
 class AddPoliceFailure extends ShiftsAndPolicesState {
   final String error;
 
@@ -64,28 +65,42 @@ class AddPoliceFailure extends ShiftsAndPolicesState {
 
 class DeletePoliceLoading extends ShiftsAndPolicesState {}
 
-class DeletePoliceSuccess extends ShiftsAndPolicesState{}
+class DeletePoliceSuccess extends ShiftsAndPolicesState {}
 
 class DeletePoliceError extends ShiftsAndPolicesState {
   final String error;
 
   DeletePoliceError({required this.error});
 }
+
 class AssignShiftLoading extends ShiftsAndPolicesState {}
 
-class AssignShiftSuccess extends ShiftsAndPolicesState{}
+class AssignShiftSuccess extends ShiftsAndPolicesState {}
 
 class AssignShiftError extends ShiftsAndPolicesState {
   final String error;
 
   AssignShiftError({required this.error});
 }
+
 class AssignPoliceLoading extends ShiftsAndPolicesState {}
 
-class AssignPoliceSuccess extends ShiftsAndPolicesState{}
+class AssignPoliceSuccess extends ShiftsAndPolicesState {}
 
 class AssignPoliceError extends ShiftsAndPolicesState {
   final String error;
 
   AssignPoliceError({required this.error});
+}
+
+class RemoveAssignPolicyLoadingState extends ShiftsAndPolicesState {}
+
+class RemoveAssignPolicySuccessState extends ShiftsAndPolicesState {
+  final String message;
+  RemoveAssignPolicySuccessState({required this.message});
+}
+
+class RemoveAssignPolicyFailureState extends ShiftsAndPolicesState {
+  final String error;
+  RemoveAssignPolicyFailureState({required this.error});
 }
