@@ -15,11 +15,9 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   final TextEditingController shiftNameController = TextEditingController();
   String mounth = '';
   String year = '';
-    String clockInTime = '';
+  String clockInTime = '';
   String clockOutTime = '';
   int shiftId = 00;
-  
-
 
   // add shift
   Future<void> addShift() async {
@@ -60,21 +58,21 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   }
   // get police by shift id
 
-  Future<void> getPoliceByShiftId({required int shiftId, required bool isLoading}) async {
+  Future<void> getPoliceByShiftId(
+      {required int shiftId, required bool isLoading}) async {
     if (isLoading) emit(GetPoliceByShiftIDLoading());
     try {
-  final result =
-      await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
-        result.fold((l) {
-      emit(GetPoliceByShiftIDError(error: l.message));
-    }, (response) {
-      emit(GetPoliceByShiftIDSuccess(policeResponse: response));
-    });
-} on Exception catch (e) {
-  print(e);
-  emit(GetPoliceByShiftIDError(error: e.toString()));
-}
-  
+      final result =
+          await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
+      result.fold((l) {
+        emit(GetPoliceByShiftIDError(error: l.message));
+      }, (response) {
+        emit(GetPoliceByShiftIDSuccess(policeResponse: response));
+      });
+    } on Exception catch (e) {
+      print(e);
+      emit(GetPoliceByShiftIDError(error: e.toString()));
+    }
   }
 
   // add police
@@ -88,13 +86,14 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
             clockOutTime: clockOutTime,
             shiftId: shiftId.toString(),
             area: "Office"));
-    result.fold(    (errorMassage) {
+    result.fold((errorMassage) {
       AddPoliceFailure(error: errorMassage.message);
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
       AddPoliceSuccess();
     });
   }
+
   // delete police
   Future<void> deletePolice({required int id}) async {
     emit(DeletePoliceLoading());
@@ -111,25 +110,30 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   List<int> branchesIds = [];
   Future<void> assignBranchesToShift({required int shiftId}) async {
     emit(AssignShiftLoading());
-   if (branchesIds.isNotEmpty) {
-     final result = await shiftsAndPolicesRepo.assignShift(assignShiftsRequestBody: AssignShiftsRequestBody(shiftId: shiftId, branchesIds: branchesIds));
-    result.fold((l) {
-      emit(AssignShiftError(error: l.message));
-    }, (r) {
-      getShifts(isLoading: false);
-      branchesIds = [];
-      emit(AssignShiftSuccess());
-    });
-   } else{
-     emit(AssignShiftError(error: "Select Branches First"));
-   }
+    if (branchesIds.isNotEmpty) {
+      final result = await shiftsAndPolicesRepo.assignShift(
+          assignShiftsRequestBody: AssignShiftsRequestBody(
+              shiftId: shiftId, branchesIds: branchesIds));
+      result.fold((l) {
+        emit(AssignShiftError(error: l.message));
+      }, (r) {
+        getShifts(isLoading: false);
+        branchesIds = [];
+        emit(AssignShiftSuccess());
+      });
+    } else {
+      emit(AssignShiftError(error: "Select Branches First"));
+    }
   }
+
   List<String> employeesIds = [];
   // assign Police
   Future<void> assignEmployeesToPolice({required int policeId}) async {
     emit(AssignPoliceLoading());
     if (employeesIds.isNotEmpty) {
-      final result = await shiftsAndPolicesRepo.assignPolice(assignShiftsRequestBody: AssignPoliceRequestBody(policyId: policeId, employeeIds: employeesIds));
+      final result = await shiftsAndPolicesRepo.assignPolice(
+          assignShiftsRequestBody: AssignPoliceRequestBody(
+              policyId: policeId, employeeIds: employeesIds));
       result.fold((l) {
         emit(AssignPoliceError(error: l.message));
       }, (r) {
@@ -137,8 +141,32 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
         employeesIds = [];
         emit(AssignPoliceSuccess());
       });
-    } else{
+    } else {
       emit(AssignPoliceError(error: "Select Employees First"));
     }
+  }
+
+  // remove assign policy
+  Future<void> removeAssignPolicy(
+    {
+      required int policeId,
+      required String employeeId
+    }
+  ) async {
+    emit(RemoveAssignPolicyLoadingState());
+    final result = await shiftsAndPolicesRepo.removeAssignPolice(
+      remove: RemoveAssignPolicyRequestBody (
+        policyId: policeId,
+        employeeId: employeeId
+      )
+    );
+    result.fold((l) {
+      emit(RemoveAssignPolicyFailureState(error: l.message));
+    }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
+      emit(RemoveAssignPolicySuccessState(
+        message: r
+      ));
+    });
   }
 }
