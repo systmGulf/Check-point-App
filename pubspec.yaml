@@ -10,40 +10,34 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   #Localization & Internationalization
   easy_localization: ^3.0.6
   intl: 0.20.2
   flutter_en_json_extractor: ^0.0.5
   flutter_ar_json_extractor: ^0.0.7
 
-
   # State Management & DI
   flutter_bloc: ^9.0.0
   get_it: ^8.0.3
 
- 
   #Networking & Connectivity
   http: ^1.2.2
   connectivity_plus: ^6.1.2
-
 
   #Location & Maps
   location: ^8.0.0
   geocoding: ^3.0.0
   google_maps_flutter: ^2.1.0
 
-
   #HR Management Core Package
 
   hr_management_system_package:
-  # Local Path ✅
+    # Local Path ✅
     # path: C:\Users\osama\Desktop\Check-point-package
-  # Remote path ✅  
+    # Remote path ✅
     git:
-      url: https://github.com/systmGulf/Check-point-package.git
+      url: https://github.com/kareemTot/vodafone_package
       ref: TOT
-
 
   #UI / Animation
   flutter_screenutil: ^5.9.3
@@ -67,38 +61,31 @@ dependencies:
   percent_indicator: ^4.2.4
   timeline_tile: ^2.0.0
 
-
   #Charts & Data Visualization
   fl_chart: ^0.71.0
   pie_chart: ^5.4.0
-
 
   #Images & Media
   cached_network_image: ^3.4.1
   image: ^4.3.0
   image_picker: ^1.1.2
 
-
   #Files / Excel / Sheets
   excel: ^4.0.6
   spreadsheet_decoder: ^2.3.0
-
 
   #Notifications & Feedback
   fluttertoast: ^8.2.10
   top_snackbar_flutter: ^3.1.0
 
-
   # Permissions & Device Info
   permission_handler: ^11.3.1
   device_info_plus: ^11.2.0
-
 
   #Search & Utilities
   search_app_bar_page: ^2.4.2
   multi_dropdown: ^3.0.1
   collection: ^1.18.0
-
 
   # Web & External Content
   url_launcher: ^6.0.20
@@ -106,11 +93,9 @@ dependencies:
   webview_flutter_android: ^4.3.1
   webview_flutter_wkwebview: ^3.15.0
 
- 
   #Skeletons & Loaders
   skeletonizer: ^2.1.0+1
 
-  
   #Local Storage & Sharing
   shared_preferences: ^2.3.5
   share_plus: ^11.0.0
@@ -155,7 +140,6 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#ffffff"
   image: assets/images/vodaphone.png
-
 
 flutter_assets:
   assets_path: assets/images

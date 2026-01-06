@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:hr_management_system_package/core/networking/api_constant.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_data.dart';
 import 'package:meta/meta.dart';
@@ -22,10 +23,11 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
   }
 
   // update task Status
-  Future<void> updateTaskStatus({required int taskId, required String taskStatus}) async {
+  Future<void> updateTaskStatus(
+      {required int taskId, required String taskStatus}) async {
     emit(UpdateTaskStatusLoading());
-    final result =
-        await employeeRepo.changeEmployeeTaskStatus(taskId: taskId, status: taskStatus);
+    final result = await employeeRepo.changeEmployeeTaskStatus(
+        taskId: taskId, status: taskStatus);
     result.fold((l) {
       emit(UpdateTaskStatusError(l.message));
     }, (r) {
@@ -33,10 +35,12 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
       emit(UpdateTaskStatusSuccess());
     });
   }
+
   // delete task
   Future<void> deleteTask({required int taskId}) async {
     emit(DeleteEmployeeTaskLoading());
-    final result = await employeeRepo.deleteTask(id: taskId);
+    final result = await employeeRepo.deleteTask(
+        taskId: taskId, employeeId: '${ApiConstant.employeeId}');
     result.fold((l) {
       emit(DeleteEmployeeTaskError(l.message));
     }, (r) {
