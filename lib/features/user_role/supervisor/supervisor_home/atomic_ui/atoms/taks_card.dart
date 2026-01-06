@@ -46,9 +46,8 @@ class TaskCard extends StatelessWidget {
                               context
                                   .read<EmployeeTasksCubit>()
                                   .deleteTask(taskId: task.id ?? 0);
-                                  context.pop();
+                              context.pop();
                             });
-                         
                           },
                           child: SvgPicture.asset(
                               'assets/images/delete_icon.svg',
@@ -69,7 +68,6 @@ class TaskCard extends StatelessWidget {
     );
   }
 }
-
 
 class TaskAvatar extends StatelessWidget {
   final EmployeeTasks task;

@@ -922,7 +922,9 @@ packages:
     description:
       path: "."
       ref: TOT
+
       resolved-ref: "5603dedbeb5230b83627b52a9c48b0d596439b53"
+
       url: "https://github.com/kareemTot/vodafone_package"
     source: git
     version: "1.0.0+1"
