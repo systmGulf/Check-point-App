@@ -1,4 +1,5 @@
 import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
@@ -35,7 +36,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           child: CircleAvatar(
               radius: 70.r,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage('assets/images/vodaphone.png')),
+              backgroundImage: AssetImage(Assets.assetsImagesVodaphone)),
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),

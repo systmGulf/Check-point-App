@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +32,7 @@ class EmployeeCheckOutScreenBody extends StatefulWidget {
 class _EmployeeCheckOutScreenBodyState
     extends State<EmployeeCheckOutScreenBody> {
   GoogleMapController? _googleMapController;
- 
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +43,7 @@ class _EmployeeCheckOutScreenBodyState
     _googleMapController?.dispose();
     super.dispose();
   }
+
   CustomerPlans? customerPlans;
   @override
   Widget build(BuildContext context) {
@@ -65,25 +64,25 @@ class _EmployeeCheckOutScreenBodyState
                         DateFormat('yyyy-MM-dd').format(DateTime.now());
 
                     final matchingAreas =
-                        state.customerArea.data!.where((area) {
+                        state.customerArea.value!.data!.where((area) {
                       final planDate = DateFormat('yyyy-MM-dd').format(
-                        DateTime.parse(area.planDate!),
+                        DateTime.parse(area.plan!.planDate!),
                       );
                       return planDate == today;
                     }).toList();
 
                     if (matchingAreas.isNotEmpty) {
-                      log(matchingAreas[0].planDate.toString());
-                      BlocProvider.of<AttendanceCubit>(context)
-                          .getPlanById(id: matchingAreas[0].id!);
+                      // log(matchingAreas[0].planDate.toString());
+                      // BlocProvider.of<AttendanceCubit>(context)
+                      //     .getPlanById(id: matchingAreas[0].id!);
 
                       return widget.checkType == "Customer"
                           ? CustomerMapScreen(
-                            oncustomerChanged: ( customer) {
-                              setState(() {
-                                customerPlans = customer;
-                              });
-                            },
+                              oncustomerChanged: (customer) {
+                                setState(() {
+                                  customerPlans = customer;
+                                });
+                              },
                               attendanceType: widget.attendanceType,
                             )
                           : SiteMapScreen(
@@ -107,7 +106,7 @@ class _EmployeeCheckOutScreenBodyState
                 },
               ),
         AttendanceMapBottomSheet(
-          customerPlans: customerPlans ?? CustomerPlans(),
+            customerPlans: customerPlans ?? CustomerPlans(),
             area: widget.checkType,
             attendanceType: widget.attendanceType,
             widget: widget.checkType),

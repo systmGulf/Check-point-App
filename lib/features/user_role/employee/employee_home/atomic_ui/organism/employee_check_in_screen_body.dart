@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controller/attendence/attendence_cubit.dart';
@@ -43,26 +40,27 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                     current is GetCustomerAreaError ||
                     current is GetCustomerAreaLoading,
                 builder: (context, state) {
+                  print("stat state");
                   if (state is GetCustomerAreaDone) {
                     final today =
                         DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-                    final matchingAreas = state.customerArea.data!.where((area) {
+                    final matchingAreas =
+                        state.customerArea.value!.data!.where((area) {
                       final planDate = DateFormat('yyyy-MM-dd').format(
-                        DateTime.parse(area.planDate!),
+                        DateTime.parse(area.plan!.planDate!),
                       );
                       return planDate == today;
                     }).toList();
 
                     if (matchingAreas.isNotEmpty) {
-                      log(matchingAreas[0].planDate.toString());
-                      BlocProvider.of<AttendanceCubit>(context)
-                          .getPlanById(id: matchingAreas[0].id!);
+                      // log(matchingAreas[0].planDate.toString());
+                      // BlocProvider.of<AttendanceCubit>(context)
+                      //     .getPlanById(id: matchingAreas[0].id!);
 
                       return widget.checkType == "Customer"
-                          ? CustomerMapScreen(oncustomerChanged: (value) {
-                            
-                          },
+                          ? CustomerMapScreen(
+                              oncustomerChanged: (value) {},
                               attendanceType: widget.attendanceType,
                             )
                           : SiteMapScreen(
@@ -70,21 +68,16 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                             );
                     }
                   } else if (state is GetCustomerAreaError) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.error,
-                            color: Colors.red,
+                    return Container(
+                      color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          'You Do Not Have ${widget.checkType} Plans'
+                              .tr(context: context),
+                          style: AppStylesManger.font15BoldRed.copyWith(
+                            color: ColorsManger.primaryColor,
                           ),
-                          verticalSpace(10),
-                          Text(
-                            state.error,
-                            style: AppStylesManger.font14RedularRed,
-                          ),
-                        ],
+                        ),
                       ),
                     );
                   }
@@ -104,7 +97,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                 },
               ),
         AttendanceMapBottomSheet(
-          customerPlans: CustomerPlans() ,
+          customerPlans: CustomerPlans(),
           area: widget.checkType,
           attendanceType: widget.attendanceType,
           widget: widget.checkType,

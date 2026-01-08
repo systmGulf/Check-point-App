@@ -8,7 +8,7 @@ import 'package:hr_management_system_package/core/common_methods/biometric_servi
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart' hide Value;
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import 'package:intl/intl.dart';
@@ -53,6 +53,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   Future<void> getCustomerArea() async {
     emit(GetCustomerAreaLoading());
     final result = await employeeAttendanceRepo.getCustomerPlanForEmployee();
+    print("state is =====================> ${result}");
     result.fold((l) {
       if (isClosed) return;
 
@@ -61,6 +62,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       if (isClosed) return;
 
       emit(GetCustomerAreaDone(customerArea));
+      print("customerArea is =====================> ${customerArea}");
     });
   }
 
@@ -78,19 +80,19 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     }
   }
 
-  Future<void> getPlanById({required int id}) async {
-    emit(GetPlanByIdLoading());
-    final result = await employeeAttendanceRepo.getPlanById(id: id);
-    result.fold((l) {
-      if (isClosed) return;
+  // Future<void> getPlanById({required int id}) async {
+  //   emit(GetPlanByIdLoading());
+  //   final result = await employeeAttendanceRepo.getPlanById(id: id);
+  //   result.fold((l) {
+  //     if (isClosed) return;
 
-      emit(GetPlanByIdError(l.message));
-    }, (planByEmployeeId) {
-      if (isClosed) return;
+  //     emit(GetPlanByIdError(l.message));
+  //   }, (planByEmployeeId) {
+  //     if (isClosed) return;
 
-      emit(GetPlanByIdIdDone(planByEmployeeId));
-    });
-  }
+  //     emit(GetPlanByIdIdDone(planByEmployeeId));
+  //   });
+  // }
 
   // customer or site plan feedback
   Future<void> addPlanFeedback({

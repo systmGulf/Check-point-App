@@ -9,7 +9,6 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controller/attendence/attendence_cubit.dart';
-import 'my_plans_details_screen.dart';
 
 class MyPlansScreen extends StatelessWidget {
   const MyPlansScreen({super.key});
@@ -32,11 +31,12 @@ class MyPlansScreen extends StatelessWidget {
               width: 24,
               child: Center(
                 child: Transform(
-                    alignment: Alignment.center,
-                    transform: currentLanguageCode == 'ar'
-                        ? Matrix4.rotationY(3.14)
-                        : Matrix4.rotationY(0),
-                    child: SvgPicture.asset('assets/images/arrow_back.svg')),
+                  alignment: Alignment.center,
+                  transform: currentLanguageCode == 'ar'
+                      ? Matrix4.rotationY(3.14)
+                      : Matrix4.rotationY(0),
+                  child: SvgPicture.asset('assets/images/arrow_back.svg'),
+                ),
               ),
             ),
           ),
@@ -57,27 +57,29 @@ class MyPlansScreen extends StatelessWidget {
                 current is GetCustomerAreaLoading,
             builder: (context, state) {
               if (state is GetCustomerAreaDone) {
-                return state.customerArea.data!.isNotEmpty
+                return state.customerArea.value!.data!.isNotEmpty
                     ? SliverList(
                         delegate: SliverChildBuilderDelegate(
-                            childCount: state.customerArea.data!.length, (
+                            childCount: state.customerArea.value!.data!.length,
+                            (
                           BuildContext context,
                           int index,
                         ) {
-                          return state.customerArea.data![index].planDate !=
+                          return state.customerArea.value!.data![index].plan!
+                                      .planDate !=
                                   null
                               ? GestureDetector(
                                   onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (_) {
-                                      return BlocProvider.value(
-                                        value: context.read<AttendanceCubit>()
-                                          ..getPlanById(
-                                              id: state.customerArea
-                                                  .data![index].id!),
-                                        child: const MyPlansDetailsScreen(),
-                                      );
-                                    }));
+                                    // Navigator.push(context,
+                                    //     MaterialPageRoute(builder: (_) {
+                                    //   return BlocProvider.value(
+                                    //     value: context.read<AttendanceCubit>()
+                                    //       ..getPlanById(
+                                    //           id: state.customerArea.value!
+                                    //               .data![index].id!),
+                                    //     child: const MyPlansDetailsScreen(),
+                                    //   );
+                                    // }));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
@@ -105,7 +107,9 @@ class MyPlansScreen extends StatelessWidget {
                                                 dateFormat.format(
                                                     DateTime.parse(state
                                                         .customerArea
+                                                        .value!
                                                         .data![index]
+                                                        .plan!
                                                         .planDate!)),
                                                 style: AppStylesManger
                                                     .font14RegularBlack),
@@ -114,7 +118,7 @@ class MyPlansScreen extends StatelessWidget {
                                                       .width *
                                                   0.7,
                                               child: Text(
-                                                '${"Notes".tr(context: context)}: ${state.customerArea.data![index].note ?? 'No Notes'.tr(context: context)}',
+                                                '${"Notes".tr(context: context)}: ${state.customerArea.value!.data![index].note ?? 'No Notes'.tr(context: context)}',
                                                 style: AppStylesManger
                                                     .font14RegularBlack,
                                                 maxLines: 2,
@@ -122,25 +126,35 @@ class MyPlansScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                                dateFormat.format(DateTime.parse(state.customerArea.data![index].planDate!)) ==
+                                                dateFormat.format(DateTime.parse(state.customerArea.value!.data![index].plan!.planDate!)) ==
                                                         DateFormat('dd MMMM yyyy').format(
                                                             DateTime.now())
                                                     ? 'The plan is Today'
                                                         .tr(context: context)
-                                                    : int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].planDate!))) <
+                                                    : int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.value!.data![index].plan!.planDate!))) <
                                                             int.parse(DateFormat('dd').format(
                                                                 DateTime.now()))
                                                         ? "The plan is Over".tr(
                                                             context: context)
-                                                        : ' ${int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].planDate!))) - int.parse(DateFormat('dd').format(DateTime.now()))} ${"Days Left".tr(context: context)}',
-                                                style: dateFormat.format(
-                                                            DateTime.parse(state
-                                                                .customerArea
-                                                                .data![index]
-                                                                .planDate!)) ==
+                                                        : ' ${int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.value!.data![index].plan!.planDate!))) - int.parse(DateFormat('dd').format(DateTime.now()))} ${"Days Left".tr(context: context)}',
+                                                style: dateFormat.format(DateTime.parse(state
+                                                            .customerArea
+                                                            .value!
+                                                            .data![index]
+                                                            .plan!
+                                                            .planDate!)) ==
                                                         DateFormat('dd MMMM yyyy').format(DateTime.now())
                                                     ? AppStylesManger.font14RedularGreen
                                                     : AppStylesManger.font14RedularRed),
+                                            Text(
+                                                state
+                                                    .customerArea
+                                                    .value!
+                                                    .data![index]
+                                                    .customer!
+                                                    .name!,
+                                                style: AppStylesManger
+                                                    .font14RegularBlack)
                                           ],
                                         ),
                                         const Spacer(),
@@ -154,22 +168,21 @@ class MyPlansScreen extends StatelessWidget {
                                           .tr(context: context))));
                         }),
                       )
-                    : SliverToBoxAdapter(
-                        child:NoDataFound());
+                    : SliverToBoxAdapter(child: NoDataFound());
               } else if (state is GetCustomerAreaError) {
                 return SliverToBoxAdapter(
-                    child: state.error ==
-                            'Please check your internet connection'
-                        ? NoInternetConnectionWidget(onPressed: () {
-                            context.read<AttendanceCubit>().getCustomerArea();
-                          })
-                        : Column(
-                            children: [
-                              const Icon(Icons.error, color: Colors.red),
-                              verticalSpace(20),
-                              Text(state.error)
-                            ],
-                          ));
+                  child: state.error == 'Please check your internet connection'
+                      ? NoInternetConnectionWidget(onPressed: () {
+                          context.read<AttendanceCubit>().getCustomerArea();
+                        })
+                      : Column(
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            verticalSpace(20),
+                            Text(state.error)
+                          ],
+                        ),
+                );
               } else {
                 return SliverToBoxAdapter(
                     child: Padding(
