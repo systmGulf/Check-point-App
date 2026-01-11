@@ -64,7 +64,11 @@ class MyPlansScreen extends StatelessWidget {
                           BuildContext context,
                           int index,
                         ) {
-                          return state.customerArea.data![index].plan?.planDate !=
+                          final planDate =
+                              state.customerArea.data![index].plan!.planDate;
+                          final now = DateTime.now();
+                          return state.customerArea.data![index].plan
+                                      ?.planDate !=
                                   null
                               ? GestureDetector(
                                   onTap: () {
@@ -102,10 +106,11 @@ class MyPlansScreen extends StatelessWidget {
                                                 style: AppStylesManger
                                                     .font15BoldBlack),
                                             Text(
-                                                dateFormat.format(
-                                                    DateTime.parse(state
-                                                        .customerArea
-                                                        .data![index].plan?.planDate??"")),
+                                                dateFormat.format(state
+                                                    .customerArea
+                                                    .data![index]
+                                                    .plan!
+                                                    .planDate!),
                                                 style: AppStylesManger
                                                     .font14RegularBlack),
                                             SizedBox(
@@ -121,24 +126,27 @@ class MyPlansScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                                dateFormat.format(DateTime.parse(state.customerArea.data![index].plan?.planDate??"")) ==
-                                                        DateFormat('dd MMMM yyyy').format(
-                                                            DateTime.now())
+                                                DateUtils.isSameDay(
+                                                        planDate, now)
                                                     ? 'The plan is Today'
                                                         .tr(context: context)
-                                                    : int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].plan?.planDate??""))) <
-                                                            int.parse(DateFormat('dd').format(
-                                                                DateTime.now()))
-                                                        ? "The plan is Over".tr(
+                                                    : planDate!.isBefore(now)
+                                                        ? 'The plan is Over'.tr(
                                                             context: context)
-                                                        : ' ${int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].plan?.planDate??""))) - int.parse(DateFormat('dd').format(DateTime.now()))} ${"Days Left".tr(context: context)}',
-                                                style: dateFormat.format(
-                                                            DateTime.parse(state
-                                                                .customerArea
-                                                                .data![index].plan?.planDate??'')) ==
-                                                        DateFormat('dd MMMM yyyy').format(DateTime.now())
-                                                    ? AppStylesManger.font14RedularGreen
-                                                    : AppStylesManger.font14RedularRed),
+                                                        : '${planDate.difference(now).inDays} ${"Days Left".tr(context: context)}',
+                                                style: dateFormat.format(state
+                                                            .customerArea
+                                                            .data![index]
+                                                            .plan!
+                                                            .planDate!) ==
+                                                        DateFormat(
+                                                                'dd MMMM yyyy')
+                                                            .format(
+                                                                DateTime.now())
+                                                    ? AppStylesManger
+                                                        .font14RedularGreen
+                                                    : AppStylesManger
+                                                        .font14RedularRed),
                                           ],
                                         ),
                                         const Spacer(),
@@ -152,8 +160,7 @@ class MyPlansScreen extends StatelessWidget {
                                           .tr(context: context))));
                         }),
                       )
-                    : SliverToBoxAdapter(
-                        child:NoDataFound());
+                    : SliverToBoxAdapter(child: NoDataFound());
               } else if (state is GetCustomerAreaError) {
                 return SliverToBoxAdapter(
                     child: state.error ==

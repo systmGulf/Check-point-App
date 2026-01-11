@@ -50,7 +50,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                     final matchingAreas =
                         state.customerArea.data!.where((area) {
                       final planDate = DateFormat('yyyy-MM-dd').format(
-                        DateTime.parse(area.plan?.planDate ?? ""),
+                        area.plan!.planDate !,
                       );
                       return planDate == today;
                     }).toList();
