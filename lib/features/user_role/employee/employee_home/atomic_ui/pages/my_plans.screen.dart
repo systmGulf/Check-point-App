@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,65 +97,93 @@ class MyPlansScreen extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                "You Have Plan In"
-                                                    .tr(context: context),
-                                                style: AppStylesManger
-                                                    .font15BoldBlack),
-                                            Text(
-                                                dateFormat.format(state
-                                                    .customerArea
-                                                    .value!
-                                                    .data![index]
-                                                    .plan!
-                                                    .planDate!),
-                                                style: AppStylesManger
-                                                    .font14RegularBlack),
-                                            SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  0.7,
-                                              child: Text(
-                                                '${"Notes".tr(context: context)}: ${state.customerArea.value!.data![index].note ?? 'No Notes'.tr(context: context)}',
-                                                style: AppStylesManger
-                                                    .font14RegularBlack,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
+                                        Expanded(
+                                          flex: 4,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  "You Have Plan In"
+                                                      .tr(context: context),
+                                                  style: AppStylesManger
+                                                      .font15BoldBlack),
+                                              Text(
+                                                  dateFormat.format(state
+                                                      .customerArea
+                                                      .value!
+                                                      .data![index]
+                                                      .plan!
+                                                      .planDate!),
+                                                  style: AppStylesManger
+                                                      .font14RegularBlack),
+                                              SizedBox(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.7,
+                                                child: Text(
+                                                  '${"Notes".tr(context: context)}: ${state.customerArea.value!.data![index].note ?? 'No Notes'.tr(context: context)}',
+                                                  style: AppStylesManger
+                                                      .font14RegularBlack,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                                DateUtils.isSameDay(
-                                                        planDate, now)
-                                                    ? 'The plan is Today'
-                                                        .tr(context: context)
-                                                    : planDate!.isBefore(now)
-                                                        ? 'The plan is Over'.tr(
-                                                            context: context)
-                                                        : '${planDate.difference(now).inDays} ${"Days Left".tr(context: context)}',
-                                                style: dateFormat.format(state
-                                                            .customerArea
-                                                            .value!
-                                                            .data![index]
-                                                            .plan!
-                                                            .planDate!) ==
-                                                        DateFormat(
-                                                                'dd MMMM yyyy')
-                                                            .format(
-                                                                DateTime.now())
-                                                    ? AppStylesManger
-                                                        .font14RedularGreen
-                                                    : AppStylesManger
-                                                        .font14RedularRed),
-                                          ],
+                                              Text(
+                                                  DateUtils.isSameDay(
+                                                          planDate, now)
+                                                      ? 'The plan is Today'
+                                                          .tr(context: context)
+                                                      : planDate!.isBefore(now)
+                                                          ? 'The plan is Over'
+                                                              .tr(
+                                                                  context:
+                                                                      context)
+                                                          : '${planDate.difference(now).inDays} ${"Days Left".tr(context: context)}',
+                                                  style: dateFormat.format(state
+                                                              .customerArea
+                                                              .value!
+                                                              .data![index]
+                                                              .plan!
+                                                              .planDate!) ==
+                                                          DateFormat(
+                                                                  'dd MMMM yyyy')
+                                                              .format(DateTime
+                                                                  .now())
+                                                      ? AppStylesManger
+                                                          .font14RedularGreen
+                                                      : AppStylesManger
+                                                          .font14RedularRed),
+                                            ],
+                                          ),
                                         ),
                                         const Spacer(),
-                                        const Icon(Icons.location_on_outlined)
+                                        Expanded(
+                                          child: Row(
+                                            spacing: 16,
+                                            children: [
+                                              Expanded(
+                                                child: const Icon(
+                                                    Icons.location_on_outlined),
+                                              ),
+                                              Expanded(
+                                                child: SvgPicture.asset(
+                                                  width: 24,
+                                                  height: 24,
+                                                  Assets.assetsImagesDeleteIcon,
+                                                  colorFilter: ColorFilter.mode(
+                                                    ColorsManger.primaryColor,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ))
