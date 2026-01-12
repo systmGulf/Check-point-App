@@ -57,30 +57,32 @@ class MyPlansScreen extends StatelessWidget {
                 current is GetCustomerAreaLoading,
             builder: (context, state) {
               if (state is GetCustomerAreaDone) {
-                return state.customerArea.data!.isNotEmpty
+                return state.customerArea.value!.data!.isNotEmpty
                     ? SliverList(
                         delegate: SliverChildBuilderDelegate(
-                            childCount: state.customerArea.data!.length, (
+                            childCount: state.customerArea.value!.data!.length,
+                            (
                           BuildContext context,
                           int index,
                         ) {
-                          final planDate =
-                              state.customerArea.data![index].plan!.planDate;
+                          final planDate = state
+                              .customerArea.value!.data![index].plan!.planDate;
                           final now = DateTime.now();
-                          return state.customerArea.data![index].plan
+                          return state.customerArea.value!.data![index].plan
                                       ?.planDate !=
                                   null
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (_) {
-                                      return BlocProvider.value(
-                                        value: context.read<AttendanceCubit>()
-                                          ..getPlanById(
-                                              id: state.customerArea
-                                                  .data![index].id!),
-                                        child: const MyPlansDetailsScreen(),
-                                      );
+                                      return
+                                          //  BlocProvider.value(
+                                          //   value: context.read<AttendanceCubit>()
+                                          //     ..getPlanById(
+                                          //         id: state.customerArea
+                                          //             .data![index].id!),
+                                          //   child:
+                                          const MyPlansDetailsScreen();
                                     }));
                                   },
                                   child: Container(
@@ -108,6 +110,7 @@ class MyPlansScreen extends StatelessWidget {
                                             Text(
                                                 dateFormat.format(state
                                                     .customerArea
+                                                    .value!
                                                     .data![index]
                                                     .plan!
                                                     .planDate!),
@@ -118,7 +121,7 @@ class MyPlansScreen extends StatelessWidget {
                                                       .width *
                                                   0.7,
                                               child: Text(
-                                                '${"Notes".tr(context: context)}: ${state.customerArea.data![index].note ?? 'No Notes'.tr(context: context)}',
+                                                '${"Notes".tr(context: context)}: ${state.customerArea.value!.data![index].note ?? 'No Notes'.tr(context: context)}',
                                                 style: AppStylesManger
                                                     .font14RegularBlack,
                                                 maxLines: 2,
@@ -136,6 +139,7 @@ class MyPlansScreen extends StatelessWidget {
                                                         : '${planDate.difference(now).inDays} ${"Days Left".tr(context: context)}',
                                                 style: dateFormat.format(state
                                                             .customerArea
+                                                            .value!
                                                             .data![index]
                                                             .plan!
                                                             .planDate!) ==

@@ -14,8 +14,8 @@ class AuthenticationLoading extends AttendanceState {}
 class PickImageSuccess extends AttendanceState {}
 
 class PickImageFailed extends AttendanceState {}
-class PickImageLoading extends AttendanceState {}
 
+class PickImageLoading extends AttendanceState {}
 
 class AttendanceIneDone extends AttendanceState {
   final UserAttendanceModel userAttendanceModel;
@@ -58,7 +58,7 @@ class GetUserBranchError extends AttendanceState {
 class GetCustomerAreaLoading extends AttendanceState {}
 
 class GetCustomerAreaDone extends AttendanceState {
-  final GetPlanByEmployeeIdValue customerArea;
+  final EmployeePlansModel customerArea;
   GetCustomerAreaDone(this.customerArea);
 }
 
@@ -85,9 +85,7 @@ class GetPlanByIdError extends AttendanceState {
 
 class AddPlanFeedbackLoading extends AttendanceState {}
 
-class AddPlanFeedbackDone extends AttendanceState {
-  
-}
+class AddPlanFeedbackDone extends AttendanceState {}
 
 class AddPlanFeedbackError extends AttendanceState {
   final String error;

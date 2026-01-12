@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +64,7 @@ class _EmployeeCheckOutScreenBodyState
                         DateFormat('yyyy-MM-dd').format(DateTime.now());
 
                     final matchingAreas =
-                        state.customerArea.data!.where((area) {
+                        state.customerArea.value!.data!.where((area) {
                       final planDate = DateFormat('yyyy-MM-dd').format(
                         area.plan!.planDate!,
                       );
@@ -74,9 +72,9 @@ class _EmployeeCheckOutScreenBodyState
                     }).toList();
 
                     if (matchingAreas.isNotEmpty) {
-                      log(matchingAreas[0].plan?.planDate.toString() ?? "");
-                      BlocProvider.of<AttendanceCubit>(context)
-                          .getPlanById(id: matchingAreas[0].id!);
+                      // log(matchingAreas[0].planDate.toString());
+                      // BlocProvider.of<AttendanceCubit>(context)
+                      //     .getPlanById(id: matchingAreas[0].id!);
 
                       return widget.checkType == "Customer"
                           ? CustomerMapScreen(

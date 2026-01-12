@@ -922,8 +922,8 @@ packages:
     description:
       path: "."
       ref: TOT
-      resolved-ref: a2371f32651093940d294b1bed5444b95f43a794
-      url: "https://github.com/kareemTot/vodafone_package"
+      resolved-ref: be2200d13239b0007eefc7d6c6ec0cefd7564eb5
+      url: "https://github.com/systmGulf/Check-point-package"
     source: git
     version: "1.0.0+1"
   html:

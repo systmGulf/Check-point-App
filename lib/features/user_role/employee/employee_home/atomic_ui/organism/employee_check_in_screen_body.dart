@@ -47,18 +47,18 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                     final today =
                         DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-                    final matchingAreas =
-                        state.customerArea.data!.where((area) {
-                      final planDate = DateFormat('yyyy-MM-dd').format(
-                        area.plan!.planDate !,
-                      );
+                    final matchingAreas = state.customerArea.value?.data
+                        ?.where((area) => area.plan?.planDate != null)
+                        .where((area) {
+                      final planDate =
+                          DateFormat('yyyy-MM-dd').format(area.plan!.planDate!);
                       return planDate == today;
                     }).toList();
 
-                    if (matchingAreas.isNotEmpty) {
-                      log(matchingAreas[0].plan?.planDate.toString() ?? "");
-                      BlocProvider.of<AttendanceCubit>(context)
-                          .getPlanById(id: matchingAreas[0].id!);
+                    if (matchingAreas!.isNotEmpty) {
+                      log(matchingAreas[0].plan!.planDate.toString());
+                      // BlocProvider.of<AttendanceCubit>(context)
+                      //     .getPlanById(id: matchingAreas[0].id!);
 
                       return widget.checkType == "Customer"
                           ? CustomerMapScreen(
