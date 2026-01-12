@@ -8,9 +8,11 @@ import 'package:hr_management_system_package/core/common_methods/biometric_servi
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart' hide Value;
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
+    hide Value;
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -223,5 +225,25 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
       default:
     }
+  }
+
+  Future<void> removeAssignCustomerPlan({required int customerPlanId}) async {
+    emit(RemoveAssignCustomerPlanLoadingState());
+    final result = await employeeAttendanceRepo.removeAssignCustomerPlan(
+        removeAssignPlan: RemoveAssignCustomerPlanBody(
+            customerPlanId: customerPlanId,
+            employeeId: ApiConstant.employeeId));
+
+    result.fold(
+      (failure) {
+        emit(RemoveAssignCustomerPlanFailureState(
+          failure.message,
+        ));
+      },
+      (success) {
+        getCustomerArea();
+        emit(RemoveAssignCustomerPlanSuccessState());
+      },
+    );
   }
 }

@@ -91,3 +91,13 @@ class AddPlanFeedbackError extends AttendanceState {
   final String error;
   AddPlanFeedbackError(this.error);
 }
+
+class RemoveAssignCustomerPlanLoadingState extends AttendanceState {}
+
+class RemoveAssignCustomerPlanSuccessState extends AttendanceState {}
+
+class RemoveAssignCustomerPlanFailureState extends AttendanceState {
+  final String error;
+
+  RemoveAssignCustomerPlanFailureState(this.error);
+}

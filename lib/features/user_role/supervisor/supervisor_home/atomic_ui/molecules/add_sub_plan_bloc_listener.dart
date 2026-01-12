@@ -17,9 +17,17 @@ class AddPlanSubBlocListener extends StatelessWidget {
       listenWhen: (previous, current) =>
           current is SetSubPlanError ||
           current is SetSubPlanLoading ||
-          current is SetSubPlanSuccess,
+          current is SetSubPlanSuccess ||
+          current is DeleteSubPlanError,
       listener: (context, state) {
-        if (state is SetSubPlanError) {
+        if (state is DeleteSubPlanError) {
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.error(
+              message: state.error.tr(context: context),
+            ),
+          );
+        } else if (state is SetSubPlanError) {
           context.pop();
           showTopSnackBar(
             Overlay.of(context),

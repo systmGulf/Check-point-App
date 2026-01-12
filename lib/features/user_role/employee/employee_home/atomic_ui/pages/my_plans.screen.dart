@@ -76,14 +76,7 @@ class MyPlansScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (_) {
-                                      return
-                                          //  BlocProvider.value(
-                                          //   value: context.read<AttendanceCubit>()
-                                          //     ..getPlanById(
-                                          //         id: state.customerArea
-                                          //             .data![index].id!),
-                                          //   child:
-                                          const MyPlansDetailsScreen();
+                                      return const MyPlansDetailsScreen();
                                     }));
                                   },
                                   child: Container(
@@ -171,13 +164,25 @@ class MyPlansScreen extends StatelessWidget {
                                                     Icons.location_on_outlined),
                                               ),
                                               Expanded(
-                                                child: SvgPicture.asset(
-                                                  width: 24,
-                                                  height: 24,
-                                                  Assets.assetsImagesDeleteIcon,
-                                                  colorFilter: ColorFilter.mode(
-                                                    ColorsManger.primaryColor,
-                                                    BlendMode.srcIn,
+                                                child: GestureDetector(
+                                                  onTap: () => context
+                                                      .read<AttendanceCubit>()
+                                                      .removeAssignCustomerPlan(
+                                                          customerPlanId: state
+                                                              .customerArea
+                                                              .value!
+                                                              .data![index]
+                                                              .id!),
+                                                  child: SvgPicture.asset(
+                                                    width: 24,
+                                                    height: 24,
+                                                    Assets
+                                                        .assetsImagesDeleteIcon,
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                      ColorsManger.primaryColor,
+                                                      BlendMode.srcIn,
+                                                    ),
                                                   ),
                                                 ),
                                               )
