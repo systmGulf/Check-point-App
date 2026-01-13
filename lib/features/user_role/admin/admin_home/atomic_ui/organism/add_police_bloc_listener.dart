@@ -19,8 +19,18 @@ class AddPoliceBlocListener extends StatelessWidget {
           current is AddPoliceFailure ||
           current is AddPoliceLoading ||
           current is RemoveAssignPolicySuccessState ||
-          current is AssignPoliceError,
+          current is AssignPoliceError ||
+          current is DeletePoliceError,
       listener: (context, state) {
+        if (state is DeletePoliceError) {
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.error(
+              message: state.error,
+            ),
+          );
+          context.pop();
+        }
         if (state is AssignPoliceError) {
           context.pop();
           showTopSnackBar(
