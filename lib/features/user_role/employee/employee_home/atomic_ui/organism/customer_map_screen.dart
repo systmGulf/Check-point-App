@@ -43,10 +43,11 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
               .where((element) => element.customer!.customerType == "Customer")
               .toList();
 
-          int planDate = customers[0].plan!.planDate!.day;
+          bool planDate = customers
+              .any((element) => element.plan!.planDate != DateTime.now().day);
           int timeNow = DateTime.now().day;
           print("planDate $planDate timeNow $timeNow");
-          if (customers.isNotEmpty && timeNow == planDate) {
+          if (customers.isNotEmpty && planDate) {
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: Stack(
