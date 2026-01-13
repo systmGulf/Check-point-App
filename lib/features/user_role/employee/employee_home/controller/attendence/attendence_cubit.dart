@@ -248,12 +248,23 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   Future<void> getFeedBackStatus() async {
-    emit(GetFeedBackStatusLoadingState());
-    final result = await employeeAttendanceRepo.getFeedBackStatus();
-    result.fold((failure) {
-      emit(GetFeedBackStatusFailureState(failure.message));
-    }, (success) {
-      emit(GetFeedBackStatusSuccessState(success));
-    });
+    switch (state) {
+      case AccessAbleAreaState():
+        emit(GetFeedBackStatusLoadingState());
+        final result = await employeeAttendanceRepo.getFeedBackStatus();
+        result.fold((failure) {
+          emit(GetFeedBackStatusFailureState(
+            failure.message,
+          ));
+        }, (success) {
+          emit(GetFeedBackStatusSuccessState(
+            success,
+          ));
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 }

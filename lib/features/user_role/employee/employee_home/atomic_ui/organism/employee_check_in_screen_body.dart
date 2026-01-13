@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
-
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -104,7 +103,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                 },
               ),
         AttendanceMapBottomSheet(
-          customerPlans: CustomerPlans(),
+          customerPlans: Data(),
           area: widget.checkType,
           attendanceType: widget.attendanceType,
           widget: widget.checkType,

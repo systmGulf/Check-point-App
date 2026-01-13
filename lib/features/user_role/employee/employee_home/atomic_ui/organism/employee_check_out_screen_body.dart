@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -35,6 +35,7 @@ class _EmployeeCheckOutScreenBodyState
 
   @override
   void initState() {
+   
     super.initState();
   }
 
@@ -44,7 +45,7 @@ class _EmployeeCheckOutScreenBodyState
     super.dispose();
   }
 
-  CustomerPlans? customerPlans;
+  Data? customerPlans;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -106,7 +107,7 @@ class _EmployeeCheckOutScreenBodyState
                 },
               ),
         AttendanceMapBottomSheet(
-            customerPlans: customerPlans ?? CustomerPlans(),
+            customerPlans: customerPlans ?? Data(),
             area: widget.checkType,
             attendanceType: widget.attendanceType,
             widget: widget.checkType),

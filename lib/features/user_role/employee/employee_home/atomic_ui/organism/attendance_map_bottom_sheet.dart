@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -17,14 +17,15 @@ class AttendanceMapBottomSheet extends StatelessWidget {
   const AttendanceMapBottomSheet({
     super.key,
     required this.widget,
-    required this.attendanceType, required this.area, required this.customerPlans,
-    
+    required this.attendanceType,
+    required this.area,
+    required this.customerPlans,
   });
 
   final String widget;
   final AttendanceTypeEnum attendanceType;
   final String area;
-  final CustomerPlans customerPlans;
+  final Data customerPlans;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,10 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                   BlocBuilder<AttendanceCubit, AttendanceState>(
                     buildWhen: (previous, current) =>
                         current is AccessAbleAreaState ||
-                        current is AccessAbleAreaErrorState,
+                        current is AccessAbleAreaErrorState ||
+                        current is GetFeedBackStatusLoadingState ||
+                        current is GetFeedBackStatusFailureState ||
+                        current is GetFeedBackStatusSuccessState,
                     builder: (context, state) {
                       if (state is AccessAbleAreaState) {
                         return Column(
@@ -83,10 +87,9 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                    '${"You are in".tr(context: context)} ${"range".tr(context: context)} ${widget.tr(context: context)}',
-                                    textAlign: TextAlign.center,
-                                    style: AppStylesManger.font16blackMedium
-                                  ),
+                                      '${"You are in".tr(context: context)} ${"range".tr(context: context)} ${widget.tr(context: context)}',
+                                      textAlign: TextAlign.center,
+                                      style: AppStylesManger.font16blackMedium),
                                   const Spacer(),
                                   const Icon(Icons.location_on,
                                       color: Colors.green)
@@ -95,14 +98,13 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                             ),
                             verticalSpace(20),
                             attendanceType.name == "checkIn"
-                                ?  CheckInBlocBuilder(
-                                 
+                                ? CheckInBlocBuilder(
                                     area: area,
-                                )
-                                :  CheckOutBlocBuilder(
-                                  area: area,
-                                   customerPlans: customerPlans! ,
-                                ),
+                                  )
+                                : CheckOutBlocBuilder(
+                                    area: area,
+                                    customerPlans: customerPlans,
+                                  ),
                           ],
                         );
                       } else {

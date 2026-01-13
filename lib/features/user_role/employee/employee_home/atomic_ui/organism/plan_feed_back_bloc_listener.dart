@@ -24,6 +24,11 @@ class PlanFeedBackBottomSheet extends StatefulWidget {
 }
 
 class _PlanFeedBackBottomSheetState extends State<PlanFeedBackBottomSheet> {
+  initState() {
+    context.read<AttendanceCubit>().getFeedBackStatus();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -130,61 +135,69 @@ class _PlanFeedBackBottomSheetState extends State<PlanFeedBackBottomSheet> {
                   }
                 },
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      color: Colors.red, style: BorderStyle.solid, width: 0.80),
-                ),
-                child: Center(
-                  child: DropdownButton(
-                      isExpanded: true,
-                      underline: const SizedBox(),
-                      iconDisabledColor: ColorsManger.primaryColor,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      style: AppStylesManger.font16BoldBlack,
-                      borderRadius: BorderRadius.circular(4.r),
-                      dropdownColor: Colors.white,
-                      elevation: 0,
-                      iconSize: 30.sp,
-                      focusColor: ColorsManger.primaryColor,
-                      hint: Text('Select Feedback Type'.tr(context: context)),
-                      items: [
-                        DropdownMenuItem(
-                          value: 'Deal',
-                          child: Text('Deal'),
+              BlocBuilder<AttendanceCubit, AttendanceState>(
+                buildWhen: (previous, current) {
+                  return current is GetFeedBackStatusSuccessState ||
+                      current is GetFeedBackStatusLoadingState ||
+                      current is GetFeedBackStatusFailureState;
+                },
+                builder: (context, state) {
+                  return switch (state) {
+                    GetFeedBackStatusLoadingState() => Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    GetFeedBackStatusSuccessState(:final status) => Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.w, vertical: 5.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                              color: Colors.red,
+                              style: BorderStyle.solid,
+                              width: 0.80),
                         ),
-                        DropdownMenuItem(
-                          value: 'FollowUp',
-                          child: Text('Follow Up'),
+                        child: Center(
+                          child: DropdownButton(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              iconDisabledColor: ColorsManger.primaryColor,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              style: AppStylesManger.font16BoldBlack,
+                              borderRadius: BorderRadius.circular(4.r),
+                              dropdownColor: Colors.white,
+                              elevation: 0,
+                              iconSize: 30.sp,
+                              focusColor: ColorsManger.primaryColor,
+                              hint: Text(
+                                  'Select Feedback Type'.tr(context: context)),
+                              items: status
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(
+                                          e,
+                                          style:
+                                              AppStylesManger.font16BoldBlack,
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: context.read<AttendanceCubit>().planStatus,
+                              selectedItemBuilder: (context) => status
+                                  .map((e) => Text(
+                                        e,
+                                        style: AppStylesManger.font16BoldBlack,
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                context.read<AttendanceCubit>().planStatus =
+                                    value.toString();
+                                setState(() {});
+                              }),
                         ),
-                        DropdownMenuItem(
-                          value: 'NODeal',
-                          child: Text('Not Deal'),
-                        )
-                      ],
-                      value: context.read<AttendanceCubit>().planStatus,
-                      selectedItemBuilder: (context) => [
-                            Text(
-                              'Deal',
-                              style: AppStylesManger.font16BoldBlack,
-                            ),
-                            Text(
-                              'Follow Up',
-                              style: AppStylesManger.font16BoldBlack,
-                            ),
-                            Text(
-                              'Not Deal',
-                              style: AppStylesManger.font16BoldBlack,
-                            ),
-                          ],
-                      onChanged: (value) {
-                        context.read<AttendanceCubit>().planStatus =
-                            value.toString();
-                        setState(() {});
-                      }),
-                ),
+                      ),
+                    GetFeedBackStatusFailureState(:final error) => Text(error),
+                    _ => Container(),
+                  };
+                },
               ),
               verticalSpace(20),
               CustomAppTextFormField(

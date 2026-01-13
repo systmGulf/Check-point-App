@@ -102,15 +102,15 @@ class RemoveAssignCustomerPlanFailureState extends AttendanceState {
   RemoveAssignCustomerPlanFailureState(this.error);
 }
 
-class GetFeedBackStatusLoadingState extends AttendanceState {}
+class GetFeedBackStatusLoadingState extends AccessAbleAreaState {}
 
-class GetFeedBackStatusSuccessState extends AttendanceState {
+class GetFeedBackStatusSuccessState extends AccessAbleAreaState {
   final List<String> status;
 
   GetFeedBackStatusSuccessState(this.status);
 }
 
-class GetFeedBackStatusFailureState extends AttendanceState {
+class GetFeedBackStatusFailureState extends AccessAbleAreaState {
   final String error;
 
   GetFeedBackStatusFailureState(this.error);
