@@ -92,34 +92,36 @@ class UserItemListView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
-                      text: shiftName,
-                      style: AppStylesManger.font14RegularBlack
-                          .copyWith(color: Colors.grey))
-                ])),
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: "${"clockInTime".tr(context: context)} : ",
+                      text: shiftName.tr(context: context),
                       style: AppStylesManger.font14RegularBlack.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 122, 121, 121))),
-                  TextSpan(
-                      text: shiftStartTime,
-                      style: AppStylesManger.font14RegularBlack
-                          .copyWith(color: Colors.grey))
+                          color: shiftName == 'No Shift Assigned'
+                              ? Colors.blueAccent
+                              : Colors.grey))
                 ])),
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: "${"clockOutTime".tr(context: context)} : ",
-                      style: AppStylesManger.font14RegularBlack.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 122, 121, 121))),
-                  TextSpan(
-                      text: shiftEndTime,
-                      style: AppStylesManger.font14RegularBlack
-                          .copyWith(color: Colors.grey))
-                ]))
+                // RichText(
+                //     text: TextSpan(children: [
+                //   TextSpan(
+                //       text: "${"clockInTime".tr(context: context)} : ",
+                //       style: AppStylesManger.font14RegularBlack.copyWith(
+                //           fontWeight: FontWeight.bold,
+                //           color: const Color.fromARGB(255, 122, 121, 121))),
+                //   TextSpan(
+                //       text: shiftStartTime,
+                //       style: AppStylesManger.font14RegularBlack
+                //           .copyWith(color: Colors.grey))
+                // ])),
+                // RichText(
+                //     text: TextSpan(children: [
+                //   TextSpan(
+                //       text: "${"clockOutTime".tr(context: context)} : ",
+                //       style: AppStylesManger.font14RegularBlack.copyWith(
+                //           fontWeight: FontWeight.bold,
+                //           color: const Color.fromARGB(255, 122, 121, 121))),
+                //   TextSpan(
+                //       text: shiftEndTime,
+                //       style: AppStylesManger.font14RegularBlack
+                //           .copyWith(color: Colors.grey))
+                // ]))
               ],
             ),
           ),

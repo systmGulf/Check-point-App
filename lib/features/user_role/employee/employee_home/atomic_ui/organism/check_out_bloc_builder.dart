@@ -45,8 +45,7 @@ class CheckOutBlocBuilder extends StatelessWidget {
                         );
                   });
                 } else {
-                  print(
-                      'Customer id For this plan is===================>${customerPlans.id}');
+                 
                   customerPlans.id != null
                       ? showModalBottomSheet(
                           isScrollControlled: true,

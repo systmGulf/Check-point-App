@@ -17,7 +17,7 @@ class MyPlansDetailsScreen extends StatefulWidget {
 }
 
 class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
-  // Key: Item Index, Value: Color Hex Code
+
   Map<String, int> _itemColors = {};
 
   @override
@@ -26,7 +26,7 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     _loadSavedColors();
   }
 
-  // Load the map of colors from SharedPreferences
+ 
   Future<void> _loadSavedColors() async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString('saved_plan_colors');
@@ -37,7 +37,7 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     }
   }
 
-  // Save the map to SharedPreferences
+ 
   Future<void> _saveColor(int index, Color color) async {
     final prefs = await SharedPreferences.getInstance();
     _itemColors[index.toString()] = color.value;
@@ -45,7 +45,7 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     setState(() {});
   }
 
-  // Show a dialog to pick a color
+
   void _pickColor(int index) {
     showDialog(
     barrierColor: Colors.black26 ,

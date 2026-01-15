@@ -55,7 +55,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   Future<void> getCustomerArea() async {
     emit(GetCustomerAreaLoading());
     final result = await employeeAttendanceRepo.getCustomerPlanForEmployee();
-    print("state is =====================> ${result}");
+  
     result.fold((l) {
       if (isClosed) return;
 
@@ -64,7 +64,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       if (isClosed) return;
 
       emit(GetCustomerAreaDone(customerArea));
-      print("customerArea is =====================> ${customerArea}");
+   
     });
   }
 
@@ -150,13 +150,13 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     }, (userattendanceModel) async {
       checkOut = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceOutedDone(userattendanceModel));
-      FlutterBackgroundService().invoke('stopService');
+     
     });
   }
 
   void attend({required String typeAttendance, required String area}) async {
     var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
-    print("==================================> $hasBiometrics");
+
     if (hasBiometrics) {
       if (isClosed) return;
       emit(AuthenticationSuccess());
