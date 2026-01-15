@@ -39,7 +39,6 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
     final service = FlutterBackgroundService();
     print(
         'isServiceRunning:----------------------------------------> $isServiceRunning');
-    // listener لأي تحديث من الخدمة
     service.on('service_status').listen((event) {
       if (!mounted || event == null) return;
       setState(() {
@@ -47,7 +46,6 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
       });
     });
 
-    // اسأل الخدمة عن حالتها الحالية
     service.invoke('get_status');
   }
 
@@ -237,7 +235,6 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                   ),
                 ),
 
-                /// ▶️ TRACK BUTTON
                 Align(
                   alignment: AlignmentDirectional.topEnd,
                   child: Padding(
