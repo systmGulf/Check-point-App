@@ -10,5 +10,6 @@
     "source.organizeImports": "explicit"
   },
   "java.configuration.updateBuildConfiguration": "automatic",
-  "dart.flutterSdkPath": ".fvm/versions/3.7.12"
+  "dart.flutterSdkPath": ".fvm/versions/3.7.12",
+  "snyk.advanced.autoSelectOrganization": true
 }
