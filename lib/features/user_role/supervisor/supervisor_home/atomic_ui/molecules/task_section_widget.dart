@@ -1,6 +1,7 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/common/app_container_decoration.dart';
 
 class TasksSection extends StatelessWidget {
   final int taskCount;
@@ -15,15 +16,8 @@ class TasksSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-    margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.grey.shade100,
-          width: 1,
-        ),
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      decoration: AppConatinerDecoration(),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -47,13 +41,13 @@ class TasksSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                
+
                 // Text section
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
+                      Text(
                         'New tasks today'.tr(context: context),
                         style: TextStyle(
                           color: Color(0xFF111827),
@@ -74,7 +68,7 @@ class TasksSection extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 // Badge and chevron
                 Row(
                   children: [

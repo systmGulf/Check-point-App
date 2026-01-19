@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,18 +29,7 @@ class PlanItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x29000000),
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
+            decoration: AppConatinerDecoration(),
             child: ListTile(
                 leading:
                     Image.asset('assets/images/planning.png', height: 30.h),
@@ -56,7 +46,8 @@ class PlanItem extends StatelessWidget {
                   onTap: () {
                     buildDeleteAlertDialog(context,
                         title: 'Delete Plan'.tr(context: context),
-                        message: 'Are you sure you want to delete this Plan?'.tr(context: context)
+                        message: 'Are you sure you want to delete this Plan?'
+                            .tr(context: context)
                             .tr(context: context), onYes: () {
                       context.pop();
                       context.read<PlanCubit>().deletePlan(id: planId);

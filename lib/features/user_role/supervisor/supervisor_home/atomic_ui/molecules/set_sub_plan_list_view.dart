@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,16 +49,9 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
       itemBuilder: (context, index) {
         return widget.planModel.customerPlans![index].customer!.customerType ==
                 widget.planType
-            ? Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: const BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    )),
-                color: Colors.white,
-                margin: const EdgeInsets.all(8.0),
-                elevation: 0,
+            ? Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: AppConatinerDecoration(),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

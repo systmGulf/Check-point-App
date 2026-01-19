@@ -22,7 +22,6 @@ class OnboardingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        
         Image.asset('assets/images/banner-my-course.png'),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35),
@@ -87,14 +86,6 @@ class OnboardingScreenBody extends StatelessWidget {
                           });
                     },
                   ),
-
-                  // Text(
-                  //   'Create Eployee Account'.tr(),
-                  //   style: AppStylesManger.font13regulerBlue.copyWith(
-                  //     color: Colors.grey,
-                  //     fontWeight: FontWeight.bold
-                  //   ),
-                  // ),
                   verticalSpace(10),
                   const RegisterAccountBlocListener()
                 ],

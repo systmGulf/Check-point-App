@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,15 +24,9 @@ class ClientItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shadowColor: Colors.orange.shade100,
-      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
-      elevation: 0,
-      color: color,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        side: BorderSide(color: Colors.grey),
-      ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+      decoration: AppConatinerDecoration(),
       child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

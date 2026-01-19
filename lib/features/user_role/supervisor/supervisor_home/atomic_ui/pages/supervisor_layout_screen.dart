@@ -3,6 +3,7 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/con
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_leave_requests_repo/employee_action_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
@@ -111,25 +112,45 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
             iconSize: 30.h,
             selectedItemColor: ColorsManger.primaryColor,
             unselectedItemColor: Colors.grey,
+            selectedLabelStyle: AppStylesManger.font12RegularGrey.copyWith(
+              color: ColorsManger.primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: AppStylesManger.font12RegularGrey,
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.home_filled),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/home_icon.svg',
+                  color: ColorsManger.primaryColor,
+                ),
+                icon: SvgPicture.asset(
+                  'assets/images/home_icon.svg',
+                ),
                 label: 'Home'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.attribution_outlined),
+                activeIcon: SvgPicture.asset(
+                    'assets/images/attendance_icon.svg',
+                    color: ColorsManger.primaryColor),
+                icon: SvgPicture.asset('assets/images/attendance_icon.svg'),
                 label: 'Attendance'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.task_alt),
+                icon: SvgPicture.asset('assets/images/tasks_icon.svg'),
+                activeIcon: SvgPicture.asset('assets/images/task_icon.svg',
+                    color: ColorsManger.primaryColor),
                 label: 'Tasks'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.event_note_outlined),
+                activeIcon: SvgPicture.asset('assets/images/requests.svg',
+                    color: ColorsManger.primaryColor),
+                icon: SvgPicture.asset('assets/images/requests.svg'),
                 label: 'Requests'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.analytics),
+                activeIcon: SvgPicture.asset('assets/images/plans_icon.svg',
+                    color: ColorsManger.primaryColor),
+                icon: SvgPicture.asset('assets/images/plans_icon.svg'),
                 label: 'Plans'.tr(context: context),
               ),
             ],

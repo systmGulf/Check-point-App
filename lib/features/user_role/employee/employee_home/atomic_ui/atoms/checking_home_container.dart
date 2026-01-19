@@ -8,10 +8,13 @@ class CheckingHomeContainer extends StatelessWidget {
     super.key,
     required this.image,
     required this.string,
-    required this.color, required this.iconColor,
+    required this.color,
+    required this.iconColor,
+    required this.time,
   });
   final String image, string;
   final Color color, iconColor;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class CheckingHomeContainer extends StatelessWidget {
         width: 152.h,
         decoration: BoxDecoration(
           color: color,
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 10),
+          border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Column(
@@ -31,11 +34,16 @@ class CheckingHomeContainer extends StatelessWidget {
             Align(
                 alignment: AlignmentDirectional.center,
                 child: Image.asset(
-                  height: 80.h,
+                  height: 50.h,
                   color: iconColor,
                   image,
                 )),
-            Text(string, style: AppStylesManger.font24boldWhite),
+            Text(string,
+                style: AppStylesManger.font15BoldBlack
+                    .copyWith(color: Colors.black)),
+            Text(time,
+                style: AppStylesManger.font12RegularGrey
+                    .copyWith(color: Colors.black)),
           ],
         ),
       ),

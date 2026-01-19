@@ -32,7 +32,7 @@ class _HrManagementSystemState extends State<HrManagementSystem>
     if (!Platform.isIOS) {
       _checkPermissions();
     }
-  }  
+  }
 
   @override
   void dispose() {
@@ -79,7 +79,6 @@ class _HrManagementSystemState extends State<HrManagementSystem>
   @override
   Widget build(BuildContext context) {
     if (!_allPermissionsGranted && !Platform.isIOS) {
-      // Show permission screen if permissions are not granted
       return ScreenUtilInit(
         designSize: const Size(375, 812),
         minTextAdapt: true,
@@ -113,7 +112,8 @@ class _HrManagementSystemState extends State<HrManagementSystem>
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: ThemeData(
-                fontFamily: 'Cairo', scaffoldBackgroundColor:ColorsManger.scaffoldBackgroundColor),
+                fontFamily: 'Cairo',
+                scaffoldBackgroundColor: ColorsManger.scaffoldBackgroundColor),
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.splash,
             onGenerateRoute: AppRouter.onGenerateRoute,

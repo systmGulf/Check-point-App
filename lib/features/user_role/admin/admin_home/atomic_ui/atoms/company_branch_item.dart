@@ -2,38 +2,33 @@ import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../core/common/app_container_decoration.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 
 class CompanyBranchItem extends StatelessWidget {
-  const CompanyBranchItem(
-      {super.key,
-      required this.name,
-      required this.location,
-      required this.decoration, required this.onDelete,
-     });
+  const CompanyBranchItem({
+    super.key,
+    required this.name,
+    required this.location,
+    required this.decoration,
+    required this.onDelete,
+  });
   final String name, location, decoration;
   final VoidCallback onDelete;
 
-
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 16,
       ),
-      shadowColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: Colors.grey),
-        
-      ),
-      color: Colors.white,
+      decoration: AppConatinerDecoration(),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-           Icon(
+            Icon(
               Icons.location_on,
               color: ColorsManger.primaryColor,
             ),

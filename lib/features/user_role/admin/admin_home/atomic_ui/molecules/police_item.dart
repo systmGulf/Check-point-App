@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:employee_mangement/core/widgets/employee_assigned_widget.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,9 +33,9 @@ class PoliceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(10),
         width: double.infinity,
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+        padding: const EdgeInsets.all(16.0),
+        decoration: AppConatinerDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: [

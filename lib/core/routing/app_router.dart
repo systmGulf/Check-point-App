@@ -166,6 +166,7 @@ abstract class AppRouter {
               BlocProvider(
                 create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
               ),
+              BlocProvider(create: (context) => getIt<UploadUserImageCubit>())
             ],
             child: const EmployeeHomeScreen(),
           ),

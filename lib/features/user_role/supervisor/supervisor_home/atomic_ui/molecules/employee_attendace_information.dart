@@ -1,3 +1,4 @@
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,15 +27,10 @@ class EmployeeAttendanceInformation extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(1),
-          decoration: BoxDecoration(
-              color: ColorsManger.primaryColor,
-              borderRadius: BorderRadius.circular(5.r)),
+          decoration: AppConatinerDecoration(),
           child: Container(
               height: 28.h,
               width: 114.w,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.r)),
               child: Center(
                 child: Text(
                   days,

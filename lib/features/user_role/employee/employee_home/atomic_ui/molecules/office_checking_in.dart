@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/formate_hours.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_management_system_package/core/networking/api_constant.dart';
 
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../atoms/checking_home_container.dart';
 
 class CheckInOrCheckOutWidget extends StatelessWidget {
@@ -27,10 +28,13 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
                   arguments: attendType);
             },
             child: CheckingHomeContainer(
-              iconColor: Colors.white,
-              color: ColorsManger.darkGreen,
+              time: ApiConstant.employeeCheckinTime == ''
+                  ? formatHour('00:00')
+                  : formatHour(ApiConstant.employeeCheckinTime),
+              iconColor: Colors.black,
+              color: Color.fromARGB(255, 170, 236, 192),
               image: 'assets/images/tap.png',
-              string: 'In'.tr(
+              string: 'Check In'.tr(
                 context: context,
               ),
             ),
@@ -41,10 +45,13 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
                   arguments: attendType);
             },
             child: CheckingHomeContainer(
-              iconColor: Colors.white,
-              color: ColorsManger.primaryColor,
+              time: ApiConstant.employeeCheckoutTime == ''
+                  ? formatHour('00:00')
+                  : formatHour(ApiConstant.employeeCheckoutTime),
+              iconColor: Colors.black,
+              color: Color.fromARGB(255, 230, 108, 99),
               image: 'assets/images/tap.png',
-              string: 'Out'.tr(
+              string: 'Check Out'.tr(
                 context: context,
               ),
             ),

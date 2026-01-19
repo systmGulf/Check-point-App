@@ -30,11 +30,11 @@ class EmployeeCustomDrawer extends StatelessWidget {
               child: IntrinsicHeight(
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40.r),
-                  bottomRight: Radius.circular(40.r),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: [ColorsManger.primaryColor, ColorsManger.darkGreen],
                 ),
-                color: ColorsManger.primaryColor,
               ),
               child: SafeArea(
                 child: Column(

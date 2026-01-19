@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 
 class ActiveDrawerItem extends StatelessWidget {
@@ -21,14 +20,12 @@ class ActiveDrawerItem extends StatelessWidget {
               horizontalSpace(8),
               Text(
                 text,
-                style: AppStylesManger.font15BoldBlack,
+                style: AppStylesManger.font15regulerGrey
+                    .copyWith(color: Colors.black),
               ),
             ],
           ),
-          Divider(
-            thickness: 1,
-            color: ColorsManger.lightblack,
-          ),
+          verticalSpace(6),
         ],
       ),
     );

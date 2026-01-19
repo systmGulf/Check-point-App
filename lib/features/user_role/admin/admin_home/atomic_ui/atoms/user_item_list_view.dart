@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,10 +50,7 @@ class UserItemListView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0XFFFAFAFA),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+      decoration: AppConatinerDecoration(),
       child: Row(
         children: [
           UserImage(height: 50, imageUrl: imageUrl),

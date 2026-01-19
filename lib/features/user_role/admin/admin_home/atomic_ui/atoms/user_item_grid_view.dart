@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,8 @@ class UserItemGridView extends StatelessWidget {
       required this.role,
       required this.branch,
       required this.departmentId,
-      required this.branchId, required this.userImage});
+      required this.branchId,
+      required this.userImage});
   final String name,
       position,
       userId,
@@ -45,10 +47,7 @@ class UserItemGridView extends StatelessWidget {
           horizontal: 10,
         ),
         height: 120.h,
-        decoration: const BoxDecoration(
-          color: Color(0XFFFAFAFA),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
+        decoration: AppConatinerDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           UserImage(height: 50, imageUrl: userImage),
           verticalSpace(20),
@@ -110,7 +109,9 @@ class UserItemGridView extends StatelessWidget {
                         },
                       ),
                     ).then((value) {
-                      context.read<EmployeeCubit>().getAllEmployees( pageNumber: 0, itemCount: 10);
+                      context
+                          .read<EmployeeCubit>()
+                          .getAllEmployees(pageNumber: 0, itemCount: 10);
                     });
                   },
                   icon: SizedBox(

@@ -97,7 +97,8 @@ class _SupervisorAttendSomeEmployeeScreenState
                         ));
                   },
                   child: CheckingHomeContainer(
-                    iconColor: Colors.white,
+                    time: widget.getEmployeesValue.clockInTime ?? '09:00 AM',
+                    iconColor: Colors.black,
                     color: ColorsManger.darkGreen,
                     image: 'assets/images/tap.png',
                     string: 'In'.tr(
@@ -120,7 +121,8 @@ class _SupervisorAttendSomeEmployeeScreenState
                     );
                   },
                   child: CheckingHomeContainer(
-                    iconColor: Colors.white,
+                    iconColor: Colors.black,
+                    time: widget.getEmployeesValue.clockOutTime ?? '05:00 PM',
                     color: ColorsManger.primaryColor,
                     image: 'assets/images/tap.png',
                     string: 'Out'.tr(

@@ -103,7 +103,7 @@ class _PlansScreenState extends State<PlansScreen> {
                                 log("query: $query");
                               });
                             },
-                            hint: "Search employee...".tr(context: context),
+                            hint: "Search a plan...".tr(context: context),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: SvgPicture.asset(

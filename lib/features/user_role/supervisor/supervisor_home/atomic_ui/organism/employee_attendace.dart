@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,15 +48,8 @@ class EmployeeAttendance extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(1),
-      decoration: BoxDecoration(
-        color: ColorsManger.primaryColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: AppConatinerDecoration(),
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Row(

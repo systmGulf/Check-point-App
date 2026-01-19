@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,12 +21,8 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.grey)),
-      color: Colors.white,
+    return Container(
+      decoration: AppConatinerDecoration(),
       child: ListTile(
         title: Text(
           '${"Request".tr(context: context)}  \n${"from".tr(context: context)}: $from\n${"To".tr(context: context)}: $to',

@@ -1,5 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
@@ -14,10 +16,12 @@ class HistoryItem extends StatelessWidget {
     required this.area,
     required this.clockInTime,
     required this.clockOutTime,
-    required this.totalhours, required this.isEarly, required this.isLate,
+    required this.totalhours,
+    required this.isEarly,
+    required this.isLate,
   });
   final String date, area, clockInTime, clockOutTime, totalhours;
-  final bool isEarly, isLate ;
+  final bool isEarly, isLate;
   @override
   Widget build(BuildContext context) {
     DateTime clockIn =
@@ -25,19 +29,9 @@ class HistoryItem extends StatelessWidget {
     DateTime clockOut =
         DateTime.parse('2000-01-01 ${clockOutTime.substring(0, 5)}:00');
 
- 
-
     return Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          color: ColorsManger.primaryColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
         child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
+            decoration: AppConatinerDecoration(),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +130,8 @@ class HistoryItem extends StatelessWidget {
                           clockOutTime == '00:00:00'
                               ? Text('--')
                               : Text(
-                                  totalhours.substring(0, 3),
+                                  formatTotalHoursWorked(
+                                      double.parse(totalhours)),
                                   style: TextStyle(
                                     color: isEarly
                                         ? Colors.red
