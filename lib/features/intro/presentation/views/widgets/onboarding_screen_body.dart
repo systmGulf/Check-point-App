@@ -80,12 +80,13 @@ class OnboardingScreenBody extends StatelessWidget {
                     )),
                     onPressed: () {
                       showDialog(
-                          barrierDismissible: false,
+                          barrierDismissible: true,
                           context: context,
                           builder: (_) {
                             return BlocProvider.value(
                               value: context.read<RegisterAccountCubit>(),
-                              child: const RegisterAccountDialog(),
+                              child: ElasticInUp(
+                                  child: const RegisterAccountDialog()),
                             );
                           });
                     },

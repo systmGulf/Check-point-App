@@ -1,6 +1,6 @@
-// ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
+  static Assets instance = Assets._();
 
   /// Assets for Admin
   /// assets/images/admin.png
@@ -228,3 +228,4 @@ class Assets {
   /// assets/images/work_shift.png
   static const String WorkShiftImage = "assets/images/work_shift.png";
 }
+

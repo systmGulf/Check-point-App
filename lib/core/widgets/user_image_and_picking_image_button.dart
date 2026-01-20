@@ -52,9 +52,13 @@ class UserImageAndPickingImageButton extends StatelessWidget {
                     });
                   });
             },
-            child: const Icon(
-              Icons.edit_rounded,
-              color: Colors.black,
+            child: CircleAvatar(
+              radius: 12.r,
+              backgroundColor: Colors.blue,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

@@ -1,7 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -26,36 +29,40 @@ class AdminNotificationScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is GetAddAccountRequestsSuccess) {
             return state.value.data!.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.value.data!.length,
-                    itemBuilder: (context, index) {
-                      return AdminNotificationItem(
-                        id: state.value.data![index].id!,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.allUsersScreen,
-                            arguments: state.value.data![index],
-                          ).then((_) => BlocProvider.of<EmployeeCubit>(context)
-                              .getAddAccountRequests());
-                        },
-                        name: state.value.data![index].name ?? "",
-                        mobileId: state.value.data![index].mobileId ?? "",
-                        date: state.value.data![index].createdDate  ?? DateTime.now(),
-                      );
-                    })
+                ? ElasticInUp(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.value.data!.length,
+                        itemBuilder: (context, index) {
+                          return AdminNotificationItem(
+                            id: state.value.data![index].id!,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.allUsersScreen,
+                                arguments: state.value.data![index],
+                              ).then((_) =>
+                                  BlocProvider.of<EmployeeCubit>(context)
+                                      .getAddAccountRequests());
+                            },
+                            name: state.value.data![index].name ?? "",
+                            mobileId: state.value.data![index].mobileId ?? "",
+                            date: state.value.data![index].createdDate ??
+                                DateTime.now(),
+                          );
+                        }),
+                  )
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.notifications_active_rounded,
-                          color: Colors.grey,
-                          size: 100,
-                        ),
+                        SizedBox(
+                            height: 150.h,
+                            child: Lottie.asset(
+                                'assets/animated_images/Alert.json',
+                                fit: BoxFit.contain)),
                         verticalSpace(20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

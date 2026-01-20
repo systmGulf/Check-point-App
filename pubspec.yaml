@@ -118,6 +118,8 @@ flutter:
   assets:
     - assets/images/
     - assets/animated_images/attendance_done_animated_image.json
+    - assets/animated_images/profile_image.json
+    - assets/animated_images/Alert.json
     - assets/translations/
 
 

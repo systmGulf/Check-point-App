@@ -20,23 +20,25 @@ class _CompanyBranchesScreenState extends State<CompanyBranchesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: CustomFloatingActionButton(text: 'Add Branch'.tr(context: context), onTap: (){
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
+        floatingActionButton: CustomFloatingActionButton(
+            text: 'Add Branch'.tr(context: context),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
                 ),
-              ),
-              builder: (BuildContext cnx) {
-                return BlocProvider.value(
-                  value: context.read<BranchCubit>(),
-                  child: const AddBranchBottomSheet(),
-                );
-              },
-            );
-        }),
+                builder: (BuildContext cnx) {
+                  return BlocProvider.value(
+                    value: context.read<BranchCubit>(),
+                    child: const AddBranchBottomSheet(),
+                  );
+                },
+              );
+            }),
         body: CompanyBranchesBlocBuilder());
   }
 }

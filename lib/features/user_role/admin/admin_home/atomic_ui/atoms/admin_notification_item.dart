@@ -30,7 +30,9 @@ class AdminNotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      curve: Curves.fastOutSlowIn,
+      duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
       decoration: AppConatinerDecoration(),
       child: Padding(

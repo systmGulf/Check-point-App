@@ -18,7 +18,7 @@ import 'employee_mangement_system.dart';
 
 Future<void> initializeServices() async {
   // await Firebase.initializeApp(
-    
+
   // );
   // await FcmNotificationService.init();
   // await LocalNotificationService.init();
@@ -60,8 +60,8 @@ Future<void> main() async {
   //     await initializeServices();
   //     await runMainApp();
   // } else {
-    currentEnvironment = EnvironmentType.dev;
-    await initializeServices();
-    await runMainApp();
+  currentEnvironment = EnvironmentType.dev;
+  await initializeServices();
+  await runMainApp();
   // }
 }

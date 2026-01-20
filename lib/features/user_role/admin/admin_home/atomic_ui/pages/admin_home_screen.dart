@@ -62,13 +62,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       });
                     },
                     icon: Badge(
+                      
+                      backgroundColor: ColorsManger.primaryColor,
                       label: state is GetAddAccountRequestsSuccess &&
                               state.value.data!.isNotEmpty
                           ? Text(state.value.data!.length.toString())
                           : null,
-                      child: const Icon(
+                      child: Icon(
                         Icons.notifications,
                         size: 30,
+                        shadows: [BoxShadow(color: ColorsManger.primaryColor)],
                         color: Colors.black,
                       ),
                     )),

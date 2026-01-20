@@ -53,9 +53,8 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                   ),
                 ),
                 excludeHeaderSemantics: true,
-                pinned: true,
                 expandedHeight: 150.h,
-                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.transparent,
                 flexibleSpace: FlexibleSpaceBar(
                   expandedTitleScale: 1.1,
                   title: Text('Company Branches'.tr(context: context),
@@ -129,7 +128,6 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                           state.branches.data![index].location,
                           state.branches.data![index].description,
                           state.branches.data![index].coordinates,
-
                           state.branches.data![index].id,
                           context,
                         ]);
@@ -149,7 +147,8 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                         },
                         name: state.branches.data![index].name ?? '',
                         location: state.branches.data![index].location ?? '',
-                        decoration: state.branches.data![index].description ?? '',
+                        decoration:
+                            state.branches.data![index].description ?? '',
                       ),
                     ),
                   );

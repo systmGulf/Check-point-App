@@ -70,14 +70,13 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
         TextButton(
             style: TextButton.styleFrom(
               backgroundColor: ColorsManger.primaryColor,
-              elevation: 0,
+              elevation: 1,
+              shadowColor: ColorsManger.primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                   side: BorderSide(color: ColorsManger.primaryColor)),
             ),
-            onPressed: () {
-              validateAndRegister(context);
-            },
+            onPressed: () {},
             child: Text('Ok'.tr(),
                 style: AppStylesManger.font15BoldBlack
                     .copyWith(color: Colors.white))),

@@ -1,6 +1,7 @@
 import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:profile_view/profile_view.dart';
 
 class UserImage extends StatelessWidget {
@@ -14,54 +15,39 @@ class UserImage extends StatelessWidget {
       height: height ?? 80,
       width: height ?? 80,
       child: CircleAvatar(
-        radius: 44,
         backgroundColor: ColorsManger.primaryColor,
         child: CircleAvatar(
           backgroundColor: ColorsManger.lightGreen,
-          radius: 43,
+          radius: 80.r,
           child: imageUrl != null
               ? ProfileView(
                   loadingIndicatorColor: ColorsManger.primaryColor,
                   fullscreenOnEnlarge: false,
                   enableZoom: true,
-                  isCircular: true,
                   height: height ?? 80,
                   width: height ?? 80,
                   overlayBackgroundColor: ColorsManger.primaryColor,
-                  badgeColor: ColorsManger.lightGreen,
-                  badgeBorderColor: ColorsManger.lightGreen,
                   placeholder: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                    child: Image.asset(
-                      'assets/images/employee_image.png',
-                      height: 15.h,
-                      width: 15.w,
+                    radius: 70.r,
+                    child: Lottie.asset(
+                      'assets/animated_images/profile_image.json',
+                      height: height ?? 80,
+                      width: height ?? 80,
                     ),
                   ),
-                  borderColor: ColorsManger.lightGreen,
-                  errorWidget: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                    child: Image.asset(
-                      'assets/images/employee_image.png',
-                      height: 15.h,
-                      width: 15.w,
-                    ),
+                  borderColor: ColorsManger.primaryColor,
+                  errorWidget: Lottie.asset(
+                    'assets/animated_images/profile_image.json',
                   ),
                   image: NetworkImage(
                     "http://emsdemo.runasp.net$imageUrl",
                     scale: 1.0,
                   ),
                 )
-              : CircleAvatar(
-                  radius: 20.r,
-                  backgroundColor: ColorsManger.primaryColor.withOpacity(0.5),
-                  child: Image.asset(
-                    'assets/images/employee_image.png',
-                    height: 15.h,
-                    width: 15.w,
-                  ),
+              : Lottie.asset(
+                  'assets/animated_images/profile_image.json',
+                  height: height ?? 80,
+                  width: height ?? 80,
                 ),
         ),
       ),

@@ -24,18 +24,27 @@ class CustomAppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         padding: EdgeInsets.all(border ?? 0),
         width: width ?? double.infinity,
         height: height ?? 51.h,
         decoration: BoxDecoration(
             color: buttonColor ?? ColorsManger.lighorage,
+            boxShadow: [
+              BoxShadow(
+                color: ColorsManger.primaryColor.withValues(alpha: 0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
                   ColorsManger.primaryColor,
-                  const Color.fromARGB(255, 150, 144, 144),
+                  ColorsManger.primaryColorLight,
                 ]),
             borderRadius: BorderRadius.circular(12)),
         child: Center(

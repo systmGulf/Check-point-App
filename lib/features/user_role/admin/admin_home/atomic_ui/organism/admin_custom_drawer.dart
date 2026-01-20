@@ -53,6 +53,7 @@ class AdminCustomDrawer extends StatelessWidget {
             context.pushReplacementName(Routes.userRoleScreen);
           },
           icon: Icons.logout,
+          color: Colors.red,
           trailingIcon: Icons.arrow_forward_ios,
           title: 'Logout'.tr(context: context)),
     ];
@@ -87,10 +88,12 @@ class AdminDrawerItem extends StatelessWidget {
       required this.icon,
       required this.trailingIcon,
       required this.title,
-      this.onTap});
+      this.onTap,
+      this.color});
   final IconData icon, trailingIcon;
   final String title;
   final Function()? onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +102,15 @@ class AdminDrawerItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: ListTile(
-          leading: Icon(icon, color: Colors.grey, size: 23),
+          dense: true,
+          minLeadingWidth: 0,
+          leading: Icon(icon, color: color ?? Colors.grey, size: 23),
           title: Text(title,
               style: AppStylesManger.font14RegularBlack.copyWith(
-                  color: const Color.fromARGB(255, 93, 93, 93),
+                  color: color ?? const Color.fromARGB(255, 93, 93, 93),
                   fontWeight: FontWeight.bold,
                   fontSize: 13.5)),
-          trailing: Icon(trailingIcon, color: Colors.grey, size: 15),
+          trailing: Icon(trailingIcon, color: color ?? Colors.grey, size: 15),
         ),
       ),
     );

@@ -52,8 +52,16 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
       verticalSpace(20),
       AnalogClock(
         decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: ColorsManger.primaryColor.withOpacity(0.3),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              )
+            ],
             border: Border.all(width: 2.0, color: ColorsManger.primaryColor),
-            color: Colors.transparent,
+            color: Colors.white,
             shape: BoxShape.circle),
         width: 135.0,
         height: 135.0,
