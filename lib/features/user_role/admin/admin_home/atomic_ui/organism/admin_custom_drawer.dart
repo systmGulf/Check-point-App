@@ -8,6 +8,8 @@ import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_change_language_bottom_sheet.dart';
+import '../../../../../../core/widgets/user_image_and_picking_image_button.dart';
+import '../../../../employee/employee_home/atomic_ui/organism/pick_image_bloc_listener.dart';
 
 class AdminCustomDrawer extends StatelessWidget {
   const AdminCustomDrawer({super.key});
@@ -60,10 +62,7 @@ class AdminCustomDrawer extends StatelessWidget {
         child: Column(
           children: [
             verticalSpace(15),
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/images/manger.png'),
-            ),
+            UserImageAndPickingImageButton(),
             verticalSpace(15),
             Text(
               ApiConstant.username,
@@ -74,6 +73,7 @@ class AdminCustomDrawer extends StatelessWidget {
             Expanded(
               child: ListView(children: drawerItems),
             ),
+            PickImageBlocListener(),
           ],
         ),
       ),

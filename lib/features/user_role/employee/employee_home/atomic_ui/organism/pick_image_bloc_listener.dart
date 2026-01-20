@@ -24,7 +24,6 @@ class PickImageBlocListener extends StatelessWidget {
             Overlay.of(context),
             CustomSnackBar.success(
               message: 'Image Updated successfully',
-              // backgroundColor: Colors.red,
             ),
           );
         } else if (state is UploadUserImageError) {
@@ -33,7 +32,6 @@ class PickImageBlocListener extends StatelessWidget {
             Overlay.of(context),
             CustomSnackBar.error(
               message: state.message,
-              // backgroundColor: Colors.red,
             ),
           );
         } else {

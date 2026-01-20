@@ -227,7 +227,7 @@ class MyPlanWidget extends StatelessWidget {
               });
             },
             child: SvgPicture.asset(
-              Assets.assetsImagesDeleteIcon,
+              Assets.DeleteIconImage,
               width: 24,
               height: 24,
               colorFilter: ColorFilter.mode(

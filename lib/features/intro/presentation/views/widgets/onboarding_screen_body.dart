@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class OnboardingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset('assets/images/banner-my-course.png'),
+        Image.asset(Assets.OnboardingBgImageImage, fit: BoxFit.cover),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35),
             child: SafeArea(
@@ -44,8 +45,7 @@ class OnboardingScreenBody extends StatelessWidget {
                   CircleAvatar(
                       radius: 30.r,
                       backgroundColor: Colors.white,
-                      backgroundImage:
-                          AssetImage('assets/images/vodaphone.png')),
+                      backgroundImage: AssetImage(Assets.VodafoneImage)),
                   verticalSpace(10),
                   FadeIn(
                     duration: const Duration(milliseconds: 500),
@@ -68,6 +68,10 @@ class OnboardingScreenBody extends StatelessWidget {
                       text: 'Ask Admin to Create Account  '.tr(),
                       style: AppStylesManger.font14RegularBlack,
                       children: [
+                        TextSpan(
+                            text: ' '.tr(),
+                            style: AppStylesManger.font16BoldBlack
+                                .copyWith(color: ColorsManger.primaryColor)),
                         TextSpan(
                             text: 'register'.tr(),
                             style: AppStylesManger.font16BoldBlack

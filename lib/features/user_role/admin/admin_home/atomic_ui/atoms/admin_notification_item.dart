@@ -92,7 +92,7 @@ class AdminNotificationItem extends StatelessWidget {
                             ),
                           ),
                           SvgPicture.asset(
-                            Assets.assetsImagesCalenderAttendance,
+                            Assets.CalenderAttendanceImage,
                             height: 12.h,
                             width: 12.w,
                             colorFilter: ColorFilter.mode(

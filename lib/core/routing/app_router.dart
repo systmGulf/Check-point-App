@@ -146,9 +146,17 @@ abstract class AppRouter {
 
       case Routes.adminHomeScreen:
         return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()
-              ..getAllEmployees(pageNumber: 0, itemCount: 10),
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<EmployeeCubit>()
+                  ..getAllEmployees(pageNumber: 0, itemCount: 10),
+              ),
+              BlocProvider(
+                create: (context) => getIt<UploadUserImageCubit>(),
+              ),
+              BlocProvider(create: (context) => getIt<LoginCubit>())
+            ],
             child: const AdminHomeScreen(),
           ),
         );

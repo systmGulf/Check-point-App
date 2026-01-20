@@ -13,7 +13,7 @@ class SupervisorLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: buildCustomAppBar(context, ""),
+      appBar: buildCustomAppBar(context, ""),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 27),
@@ -22,7 +22,7 @@ class SupervisorLoginScreen extends StatelessWidget {
               verticalSpace(38),
               Text(
                 'Welcome Back!'.tr(),
-                style: AppStylesManger.font24regulerBlack
+                style: AppStylesManger.font24regularBlack
                     .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(

@@ -14,18 +14,18 @@ import '../../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../../../../../../core/widgets/password_validator.dart';
 import 'admin_login_bloc_listener.dart';
 
-class AdminEmailAndPasswordTextFeild extends StatefulWidget {
-  const AdminEmailAndPasswordTextFeild({
+class AdminEmailAndPasswordTextField extends StatefulWidget {
+  const AdminEmailAndPasswordTextField({
     super.key,
   });
 
   @override
-  State<AdminEmailAndPasswordTextFeild> createState() =>
-      _AdminEmailAndPasswordTextFeildState();
+  State<AdminEmailAndPasswordTextField> createState() =>
+      _AdminEmailAndPasswordTextFieldState();
 }
 
-class _AdminEmailAndPasswordTextFeildState
-    extends State<AdminEmailAndPasswordTextFeild> {
+class _AdminEmailAndPasswordTextFieldState
+    extends State<AdminEmailAndPasswordTextField> {
   late TextEditingController emailController;
   late TextEditingController passwordTextController;
   bool isObscure = true;
@@ -64,7 +64,10 @@ class _AdminEmailAndPasswordTextFeildState
         child: AutofillGroup(
           child: Column(children: [
             CustomAppTextFormField(
-              autofillHints: const [AutofillHints.email, AutofillHints.username],
+              autofillHints: const [
+                AutofillHints.email,
+                AutofillHints.username
+              ],
               controller: emailController,
               icon: Icons.person,
               validator: (value) {
@@ -101,7 +104,6 @@ class _AdminEmailAndPasswordTextFeildState
             ),
             verticalSpace(10),
             PasswordValidation(
-              
               hasLowerCase: hasLowercase,
               hasUpperCase: hasUppercase,
               hasNumber: hasNumber,

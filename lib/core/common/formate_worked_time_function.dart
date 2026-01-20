@@ -11,7 +11,6 @@ String formatWorkedTime({
 
   final totalMinutes = difference.inSeconds / 60;
 
-  // لو أقل من دقيقة نحسبها دقيقة
   if (totalMinutes < 1) {
     return "1 ${"minute".tr()}";
   }

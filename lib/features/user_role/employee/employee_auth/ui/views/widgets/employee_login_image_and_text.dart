@@ -15,7 +15,7 @@ class EmployeeLoginImageAndText extends StatelessWidget {
         children: [
           Text(
             'Welcome Back!'.tr(),
-            style: AppStylesManger.font24regulerBlack
+            style: AppStylesManger.font24regularBlack
                 .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Text(

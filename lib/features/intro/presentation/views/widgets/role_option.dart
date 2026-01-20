@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/styles/styles.dart';
@@ -21,7 +22,7 @@ class RoleOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(15),
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        height: 80,
+        height: 80.h,
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -45,7 +46,7 @@ class RoleOption extends StatelessWidget {
                   roleOptionText,
                   style: AppStylesManger.font14regularWhite.copyWith(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       color: const Color.fromARGB(255, 19, 53, 81)),
                 ),
                 verticalSpace(2),

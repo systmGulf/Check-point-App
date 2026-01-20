@@ -107,7 +107,7 @@ class _PlansScreenState extends State<PlansScreen> {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: SvgPicture.asset(
-                                Assets.assetsImagesSearchIcon,
+                                Assets.SearchIconImage,
                                 height: 20,
                                 width: 20,
                               ),

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,8 +24,7 @@ class UserRoleScreenBody extends StatelessWidget {
               verticalSpace(MediaQuery.sizeOf(context).height * 0.05),
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.3,
-                child: const Image(
-                    image: AssetImage('assets/images/networking.png')),
+                child: const Image(image: AssetImage(Assets.NetworkingImage)),
               ),
               verticalSpace(40),
               FadeInLeft(
@@ -34,7 +34,7 @@ class UserRoleScreenBody extends StatelessWidget {
                     context.pushName(Routes.employeeLoginScreen);
                   },
                   roleOptionText: 'Employee'.tr(),
-                  roleImage: 'assets/images/employee.png',
+                  roleImage: Assets.EmployeeImage,
                 ),
               ),
               verticalSpace(10),
@@ -45,7 +45,7 @@ class UserRoleScreenBody extends StatelessWidget {
                     context.pushName(Routes.supervisorLoginScreen);
                   },
                   roleOptionText: 'Supervisor'.tr(),
-                  roleImage: 'assets/images/manger.png',
+                  roleImage: Assets.MangerImage,
                 ),
               ),
               verticalSpace(10),
@@ -56,7 +56,7 @@ class UserRoleScreenBody extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.adminLoginScreen);
                   },
                   roleOptionText: 'Admin'.tr(),
-                  roleImage: 'assets/images/admin.png',
+                  roleImage: Assets.AdminImage,
                 ),
               ),
               verticalSpace(40),
@@ -65,7 +65,7 @@ class UserRoleScreenBody extends StatelessWidget {
                 child: CircleAvatar(
                     radius: 30.r,
                     backgroundColor: Colors.white,
-                    backgroundImage: AssetImage('assets/images/vodaphone.png')),
+                    backgroundImage: AssetImage(Assets.VodafoneImage)),
               ),
             ],
           ),

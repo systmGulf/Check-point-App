@@ -28,7 +28,7 @@ class EmployeeLoginBlocListener extends StatelessWidget {
         } else if (state is LoginFailure) {
           context.pop();
            if(state.error == "This devise doesn't have access to login"){
-              AskAdminToChnageDeviceIdDialog(context);
+              AskAdminToChangeDeviceIdDialog(context);
               
             }
           showTopSnackBar(

@@ -14,6 +14,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/pick_image_from_gallary_or_camera_widget.dart';
+import '../../../../../../core/widgets/user_image_and_picking_image_button.dart';
 import 'employee_drawer_item_list_view.dart';
 import 'pick_image_bloc_listener.dart';
 
@@ -41,55 +42,7 @@ class EmployeeCustomDrawer extends StatelessWidget {
                   children: [
                     PickImageBlocListener(),
                     verticalSpace(14),
-                    Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        UserImage(
-                          imageUrl: ApiConstant.imageUrl,
-                          height: 80.h,
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          child: GestureDetector(
-                            onTap: () async {
-                              selectImageDialog(
-                                  context: context,
-                                  SelectedGalleryAction: () async {
-                                    await context
-                                        .read<UploadUserImageCubit>()
-                                        .uploadUserImage(
-                                            source: ImagePickSource.gallery)
-                                        .then((value) async {
-                                      await context
-                                          .read<LoginCubit>()
-                                          .getEmployeeById();
-                                    }).then((value) {
-                                      context.pop();
-                                    });
-                                  },
-                                  SelectedCameraAction: () async {
-                                    await context
-                                        .read<UploadUserImageCubit>()
-                                        .uploadUserImage(
-                                            source: ImagePickSource.camera)
-                                        .then((value) async {
-                                      await context
-                                          .read<LoginCubit>()
-                                          .getEmployeeById();
-                                    }).then((value) {
-                                      context.pop();
-                                    });
-                                  });
-                            },
-                            child: const Icon(
-                              Icons.edit_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    UserImageAndPickingImageButton(),
                     verticalSpace(10),
                     Text(
                       '${"Hi".tr(

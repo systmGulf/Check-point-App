@@ -20,11 +20,10 @@ class AppStylesManger {
     fontWeight: FontWeight.normal,
     color: Colors.black,
   );
- static TextStyle  font16BoldPrimary = TextStyle(
-    fontSize: 16.sp,
-    fontWeight: FontWeight.bold,
-    color: ColorsManger.primaryColor
-);
+  static TextStyle font16BoldPrimary = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.bold,
+      color: ColorsManger.primaryColor);
   static TextStyle font18RedularGreen = TextStyle(
     fontSize: 19.sp,
     fontWeight: FontWeight.normal,
@@ -109,7 +108,7 @@ class AppStylesManger {
     color: Colors.blue,
   );
 
-  static TextStyle font24regulerBlack = TextStyle(
+  static TextStyle font24regularBlack = TextStyle(
     fontSize: 24.sp,
     fontWeight: FontWeight.normal,
     color: Colors.black,

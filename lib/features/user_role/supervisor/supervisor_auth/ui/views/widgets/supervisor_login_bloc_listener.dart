@@ -27,9 +27,8 @@ class SupervisorLoginBlocListener extends StatelessWidget {
           context.pushAndRemoveUntilName(Routes.supervisorHomeScreen);
         } else if (state is LoginFailure) {
           context.pop();
-          if(state.error == "This devise doesn't have access to login"){
-            AskAdminToChnageDeviceIdDialog(context);
-            
+          if (state.error == "This devise doesn't have access to login") {
+            AskAdminToChangeDeviceIdDialog(context);
           }
           showTopSnackBar(
             Overlay.of(context),
@@ -44,6 +43,4 @@ class SupervisorLoginBlocListener extends StatelessWidget {
       child: const SizedBox.shrink(),
     );
   }
-
-
 }

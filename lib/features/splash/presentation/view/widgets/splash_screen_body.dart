@@ -18,7 +18,7 @@ class SplashScreenBody extends StatefulWidget {
 }
 
 class _SplashScreenBodyState extends State<SplashScreenBody> {
-  NetworkChecker commonMehtods = NetworkChecker();
+  NetworkChecker commonMethods = NetworkChecker();
   @override
   void initState() {
     navigateToLogin(context);
@@ -36,7 +36,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           child: CircleAvatar(
               radius: 70.r,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage(Assets.assetsImagesVodaphone)),
+              backgroundImage: AssetImage(Assets.VodafoneImage)),
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),
@@ -46,7 +46,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
   }
 
   void navigateToLogin(BuildContext context) async {
-    commonMehtods.checkConnectivity(onFailure: () {
+    commonMethods.checkConnectivity(onFailure: () {
       Future.delayed(const Duration(seconds: 1), () {
         if (context.mounted) {
           showTopSnackBar(
