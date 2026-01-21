@@ -89,7 +89,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
                         top: Radius.circular(20),
                       ),
                     ),
-                    builder: (_) {
+                    builder: (_) { 
                       return MultiBlocProvider(providers: [
                         BlocProvider.value(value: context.read<PlanCubit>()),
                         BlocProvider(

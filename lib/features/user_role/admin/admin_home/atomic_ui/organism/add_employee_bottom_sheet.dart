@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,113 +107,125 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                         ),
                       ),
                       verticalSpace(7),
-                      CustomAppTextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Name can't be empty".tr(context: context);
-                          }
-                          return null;
-                        },
-                        controller: nameController,
-                        hint: 'Name'.tr(context: context),
+                      ElasticInLeft(
+                        child: CustomAppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Name can't be empty".tr(context: context);
+                            }
+                            return null;
+                          },
+                          controller: nameController,
+                          hint: 'Name'.tr(context: context),
+                        ),
                       ),
                       verticalSpace(7),
-                      CustomAppTextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Username can't be empty"
-                                .tr(context: context);
-                          }
-                          return null;
-                        },
-                        controller: BlocProvider.of<EmployeeCubit>(context)
-                            .usernameController,
-                        hint: 'Username'.tr(context: context),
+                      ElasticInLeft(
+                        child: CustomAppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Username can't be empty"
+                                  .tr(context: context);
+                            }
+                            return null;
+                          },
+                          controller: BlocProvider.of<EmployeeCubit>(context)
+                              .usernameController,
+                          hint: 'Username'.tr(context: context),
+                        ),
                       ),
                       verticalSpace(7),
-                      CustomAppTextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !AppRegex.isPasswordValid(value)) {
-                            return 'Please a valid password'.tr();
-                          }
-                          return null;
-                        },
-                        controller: BlocProvider.of<EmployeeCubit>(context)
-                            .passwordController,
-                        hint: 'Password'.tr(context: context),
+                      ElasticInLeft(
+                        child: CustomAppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !AppRegex.isPasswordValid(value)) {
+                              return 'Please a valid password'.tr();
+                            }
+                            return null;
+                          },
+                          controller: BlocProvider.of<EmployeeCubit>(context)
+                              .passwordController,
+                          hint: 'Password'.tr(context: context),
+                        ),
                       ),
                       verticalSpace(7),
-                      CustomAppTextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Position can't be empty"
-                                .tr(context: context);
-                          }
-                          return null;
-                        },
-                        controller: BlocProvider.of<EmployeeCubit>(context)
-                            .positionController,
-                        hint: 'Position'.tr(context: context),
+                      ElasticInLeft(
+                        child: CustomAppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Position can't be empty"
+                                  .tr(context: context);
+                            }
+                            return null;
+                          },
+                          controller: BlocProvider.of<EmployeeCubit>(context)
+                              .positionController,
+                          hint: 'Position'.tr(context: context),
+                        ),
                       ),
                       verticalSpace(7),
                       Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: ColorsManger.primaryColor),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: role,
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                dropdownColor: Colors.white,
-                                iconSize: 24,
-                                elevation: 16,
-                                underline: const SizedBox(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    role = value.toString();
-                                  });
-                                  BlocProvider.of<EmployeeCubit>(context).role =
-                                      value.toString();
-                                },
-                                items: [
-                                  DropdownMenuItem(
-                                    value: 'Admin',
-                                    child: Text('Admin'.tr(context: context)),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Supervisor',
-                                    child:
-                                        Text('Supervisor'.tr(context: context)),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Employee',
-                                    child:
-                                        Text('Employee'.tr(context: context)),
-                                  ),
-                                ],
+                            child: ElasticInLeft(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: ColorsManger.primaryColor),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  value: role,
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+                                  dropdownColor: Colors.white,
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  underline: const SizedBox(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      role = value.toString();
+                                    });
+                                    BlocProvider.of<EmployeeCubit>(context)
+                                        .role = value.toString();
+                                  },
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: 'Admin',
+                                      child: Text('Admin'.tr(context: context)),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'Supervisor',
+                                      child: Text(
+                                          'Supervisor'.tr(context: context)),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'Employee',
+                                      child:
+                                          Text('Employee'.tr(context: context)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           horizontalSpace(7),
                           Expanded(
-                            child: CustomAppTextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "MobileID can't be empty"
-                                      .tr(context: context);
-                                }
-                                return null;
-                              },
-                              controller: mobileIdController,
-                              hint: 'MobileID'.tr(context: context),
+                            child: ElasticInLeft(
+                              child: CustomAppTextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "MobileID can't be empty"
+                                        .tr(context: context);
+                                  }
+                                  return null;
+                                },
+                                controller: mobileIdController,
+                                hint: 'MobileID'.tr(context: context),
+                              ),
                             ),
                           ),
                         ],
@@ -222,7 +235,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                         color: ColorsManger.lightblack,
                       ),
                       verticalSpace(7),
-                      const SelectDepartment(),
+                      BounceInLeft(child: const SelectDepartment()),
                       verticalSpace(7),
                       BlocBuilder<BranchCubit, BranchState>(
                           buildWhen: (state, current) =>
@@ -243,12 +256,14 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                             }
                           }),
                       verticalSpace(7),
-                      CustomAppButton(
-                          textButton: 'Submit'.tr(context: context),
-                          buttonColor: ColorsManger.primaryColor,
-                          onPressed: () {
-                            validateAndAddUser(role: role);
-                          }),
+                      FadeInUp(
+                        child: CustomAppButton(
+                            textButton: 'Submit'.tr(context: context),
+                            buttonColor: ColorsManger.primaryColor,
+                            onPressed: () {
+                              validateAndAddUser(role: role);
+                            }),
+                      ),
                       AddEmployeeBlocListener(
                         requestId: widget.requestId ?? 0,
                         userName: context

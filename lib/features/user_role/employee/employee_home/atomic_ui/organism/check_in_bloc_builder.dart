@@ -36,7 +36,6 @@ class CheckInBlocBuilder extends StatelessWidget {
               activeTrackColor: Colors.grey.shade300,
               onSwipe: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
-                 
                   context
                       .read<AttendanceCubit>()
                       .attend(typeAttendance: 'check_in', area: area);

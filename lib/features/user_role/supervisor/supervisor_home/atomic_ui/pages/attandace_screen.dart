@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -26,8 +25,6 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
   Widget build(BuildContext context) {
     List<String> texts = [
       'Attendance'.tr(context: context),
-      // 'Late Comers'.tr(context: context),
-      // 'Early Leavers'.tr(context: context),
       'Employees'.tr(context: context)
     ];
     return SafeArea(
@@ -65,11 +62,13 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
                                     style: selectedIndex == e.key
                                         ? AppStylesManger.font14RegularBlack
                                             .copyWith(
-                                                color: ColorsManger.primaryColor)
+                                                color:
+                                                    ColorsManger.primaryColor)
                                         : AppStylesManger.font14RegularBlack
-                                            .copyWith(color: ColorsManger.grey)),
+                                            .copyWith(
+                                                color: ColorsManger.grey)),
                               ),
-                              SizedBox(height: 8.h),
+                              verticalSpace(8),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: Divider(
@@ -97,16 +96,6 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
       create: (context) => ShareattendanceCubit(),
       child: const EmployeesAttendance(),
     ),
-    // BlocProvider.value(
-    //     value: SupervisorGetEmployeeAttendanceCubit(
-    //       getIt<SupervisorRepo>(),
-    //     )..supervisorGetLateComers(),
-    //     child: const LateComers()),
-    // BlocProvider.value(
-    //     value: SupervisorGetEmployeeAttendanceCubit(
-    //       getIt<SupervisorRepo>(),
-    //     )..supervisorGetEarlyLeavers(),
-    //     child: const EarlyLeavers()),
     const EmployeeList(),
   ];
 }

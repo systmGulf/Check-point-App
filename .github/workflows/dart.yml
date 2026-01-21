@@ -6,12 +6,12 @@ on:
 jobs:
   build-ios:
     name: 🎉 iOS Build
-    runs-on: macos-15   # macOS with Xcode 16.1
+    runs-on: macos-15  
 
     steps:
       - uses: actions/checkout@v3
 
-      # Install Flutter 3.32.0
+      
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.0'
@@ -21,7 +21,6 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
 
-      # Ensure Xcode version (macos-15 uses Xcode 16.1)
       - name: Print Xcode version
         run: xcodebuild -version
 
@@ -45,6 +44,9 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.02
+          tag: v1.03
           overwrite: true
-          body: " release using Flutter 3.32.0 & Xcode 16.1 ✅✈️"
+          body: " release using Flutter 3.32.0 & Xcode 16.1 ✅✈️" 
+
+
+    

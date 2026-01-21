@@ -76,7 +76,9 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
                   borderRadius: BorderRadius.circular(10.r),
                   side: BorderSide(color: ColorsManger.primaryColor)),
             ),
-            onPressed: () {},
+            onPressed: () {
+              validateAndRegister(context);
+            },
             child: Text('Ok'.tr(),
                 style: AppStylesManger.font15BoldBlack
                     .copyWith(color: Colors.white))),

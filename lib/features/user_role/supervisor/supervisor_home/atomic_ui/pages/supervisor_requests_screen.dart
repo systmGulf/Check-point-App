@@ -1,7 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/enums/request_status.dart';
+import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -23,28 +24,28 @@ String? selectedStatus;
 class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
   @override
   Widget build(BuildContext context) {
-     List<Widget> employeeAttendanceItems = [
-    RecentLeaveApplication(
-      type: 'LeaveRequest',
-      selectedStatus: selectedStatus,
-    ),
-    RecentLeaveApplication(
-      type: 'RequestClaim',
-      selectedStatus: selectedStatus,
-    ),
-    RecentLeaveApplication(
-      type: 'LeaveSchedule',
-      selectedStatus: selectedStatus,
-    ),
-    RecentLeaveApplication(
-      type: 'LeavePlanner',
-      selectedStatus: selectedStatus,
-    ),
-    RecentLeaveApplication(
-      type: 'Icident',
-      selectedStatus: selectedStatus,
-    ),
-  ];
+    List<Widget> employeeAttendanceItems = [
+      RecentLeaveApplication(
+        type: 'LeaveRequest',
+        selectedStatus: selectedStatus,
+      ),
+      RecentLeaveApplication(
+        type: 'RequestClaim',
+        selectedStatus: selectedStatus,
+      ),
+      RecentLeaveApplication(
+        type: 'LeaveSchedule',
+        selectedStatus: selectedStatus,
+      ),
+      RecentLeaveApplication(
+        type: 'LeavePlanner',
+        selectedStatus: selectedStatus,
+      ),
+      RecentLeaveApplication(
+        type: 'Icident',
+        selectedStatus: selectedStatus,
+      ),
+    ];
     final texts = <String>[
       'Leave Requests'.tr(context: context),
       'Claim Requests'.tr(context: context),
@@ -96,55 +97,55 @@ class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
           }
         },
       ),
-      body: ListView(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: employeeAttendanceItems
-                  .asMap()
-                  .entries
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = e.key;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            texts[e.key],
-                            style: selectedIndex == e.key
-                                ? AppStylesManger.font14RegularBlack.copyWith(
-                                    color: ColorsManger.primaryColor,
-                                  )
-                                : AppStylesManger.font14RegularBlack
-                                    .copyWith(color: ColorsManger.grey),
-                          ),
-                          SizedBox(height: 8.h),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Divider(
-                              color: selectedIndex == e.key
-                                  ? ColorsManger.primaryColor
-                                  : ColorsManger.grey,
-                              thickness: 1.9,
+      body: ElasticInUp(
+        child: ListView(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: employeeAttendanceItems
+                    .asMap()
+                    .entries
+                    .map(
+                      (e) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = e.key;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              texts[e.key],
+                              style: selectedIndex == e.key
+                                  ? AppStylesManger.font14RegularBlack.copyWith(
+                                      color: ColorsManger.primaryColor,
+                                    )
+                                  : AppStylesManger.font14RegularBlack
+                                      .copyWith(color: ColorsManger.grey),
                             ),
-                          ),
-                        ],
+                            verticalSpace(8),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: Divider(
+                                color: selectedIndex == e.key
+                                    ? ColorsManger.primaryColor
+                                    : ColorsManger.grey,
+                                thickness: 1.9,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-          employeeAttendanceItems[selectedIndex],
-        ],
+            employeeAttendanceItems[selectedIndex],
+          ],
+        ),
       ),
     );
   }
-
- 
 }

@@ -1,4 +1,5 @@
 import 'package:analog_clock/analog_clock.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
@@ -50,32 +51,34 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
             ],
           )),
       verticalSpace(20),
-      AnalogClock(
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: ColorsManger.primaryColor.withOpacity(0.3),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              )
-            ],
-            border: Border.all(width: 2.0, color: ColorsManger.primaryColor),
-            color: Colors.white,
-            shape: BoxShape.circle),
-        width: 135.0,
-        height: 135.0,
-        isLive: true,
-        hourHandColor: Colors.black,
-        minuteHandColor: Colors.black,
-        showSecondHand: true,
-        numberColor: ColorsManger.primaryColor,
-        showNumbers: true,
-        showAllNumbers: true,
-        textScaleFactor: 1.4,
-        showTicks: true,
-        showDigitalClock: false,
-        datetime: DateTime.now(),
+      Spin(
+        child: AnalogClock(
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: ColorsManger.primaryColor.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                )
+              ],
+              border: Border.all(width: 2.0, color: ColorsManger.primaryColor),
+              color: Colors.white,
+              shape: BoxShape.circle),
+          width: 135.0,
+          height: 135.0,
+          isLive: true,
+          hourHandColor: Colors.black,
+          minuteHandColor: Colors.black,
+          showSecondHand: true,
+          numberColor: ColorsManger.primaryColor,
+          showNumbers: true,
+          showAllNumbers: true,
+          textScaleFactor: 1.4,
+          showTicks: true,
+          showDigitalClock: false,
+          datetime: DateTime.now(),
+        ),
       ),
       verticalSpace(10),
       Container(
@@ -119,9 +122,11 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
                         context: context,
                       ),
                       style: AppStylesManger.font15BoldBlack),
-                  Text(
-                    dateFormat.format(DateTime.now()),
-                    style: AppStylesManger.font15BoldBlack,
+                  ZoomIn(
+                    child: Text(
+                      dateFormat.format(DateTime.now()),
+                      style: AppStylesManger.font15BoldBlack,
+                    ),
                   ),
                   verticalSpace(10),
                   Row(
@@ -167,15 +172,27 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              CircleAvatar(
-                radius: 35,
-                backgroundColor: Colors.green,
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: ColorsManger.primaryColor,
+                  border: Border.all(color: ColorsManger.primaryColor),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorsManger.primaryColor.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
                 child: Image.asset('assets/images/fingerprint.png',
                     color: Colors.white,
                     width: 58.w,
                     height: 58.h,
                     fit: BoxFit.fill),
-              ),
+              )
             ],
           )),
       verticalSpace(10),

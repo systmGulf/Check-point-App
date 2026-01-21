@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,68 +60,70 @@ class _AdminEmailAndPasswordTextFieldState
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: formKey,
-        child: AutofillGroup(
-          child: Column(children: [
-            CustomAppTextFormField(
-              autofillHints: const [
-                AutofillHints.email,
-                AutofillHints.username
-              ],
-              controller: emailController,
-              icon: Icons.person,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter username'.tr();
-                }
-                return null;
-              },
-              hint: 'Email'.tr(),
-            ),
-            verticalSpace(10),
-            CustomAppTextFormField(
-              autofillHints: const [AutofillHints.password],
-              controller: passwordTextController,
-              obscureText: isObscure,
-              validator: (value) {
-                if (value!.isEmpty || !AppRegex.isPasswordValid(value)) {
-                  return 'Please a valid password'.tr();
-                }
-                return null;
-              },
-              suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isObscure = !isObscure;
-                    });
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
-                  )),
-              icon: Icons.person,
-              hint: 'Password'.tr(),
-            ),
-            verticalSpace(10),
-            PasswordValidation(
-              hasLowerCase: hasLowercase,
-              hasUpperCase: hasUppercase,
-              hasNumber: hasNumber,
-              hasSpecialCharacter: hasSpecialCharacters,
-              hasMinLength: hasMinLength,
-            ),
-            verticalSpace(10),
-            CustomAppButton(
-                onPressed: () {
-                  TextInput.finishAutofillContext(shouldSave: true);
-                  validateAndLogin(context);
+    return ZoomIn(
+      child: Form(
+          key: formKey,
+          child: AutofillGroup(
+            child: Column(children: [
+              CustomAppTextFormField(
+                autofillHints: const [
+                  AutofillHints.email,
+                  AutofillHints.username
+                ],
+                controller: emailController,
+                icon: Icons.person,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter username'.tr();
+                  }
+                  return null;
                 },
-                textButton: 'Sign In'.tr(),
-                buttonColor: ColorsManger.primaryColor),
-            const AdminLoginBlocListener()
-          ]),
-        ));
+                hint: 'Email'.tr(),
+              ),
+              verticalSpace(10),
+              CustomAppTextFormField(
+                autofillHints: const [AutofillHints.password],
+                controller: passwordTextController,
+                obscureText: isObscure,
+                validator: (value) {
+                  if (value!.isEmpty || !AppRegex.isPasswordValid(value)) {
+                    return 'Please a valid password'.tr();
+                  }
+                  return null;
+                },
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    icon: Icon(
+                      isObscure ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.grey,
+                    )),
+                icon: Icons.person,
+                hint: 'Password'.tr(),
+              ),
+              verticalSpace(10),
+              PasswordValidation(
+                hasLowerCase: hasLowercase,
+                hasUpperCase: hasUppercase,
+                hasNumber: hasNumber,
+                hasSpecialCharacter: hasSpecialCharacters,
+                hasMinLength: hasMinLength,
+              ),
+              verticalSpace(10),
+              CustomAppButton(
+                  onPressed: () {
+                    TextInput.finishAutofillContext(shouldSave: true);
+                    validateAndLogin(context);
+                  },
+                  textButton: 'Sign In'.tr(),
+                  buttonColor: ColorsManger.primaryColor),
+              const AdminLoginBlocListener()
+            ]),
+          )),
+    );
   }
 
   validateAndLogin(BuildContext context) async {

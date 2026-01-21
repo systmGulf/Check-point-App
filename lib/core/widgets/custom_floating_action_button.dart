@@ -21,6 +21,14 @@ class CustomFloatingActionButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
             decoration: BoxDecoration(
                 color: ColorsManger.primaryColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorsManger.primaryColor,
+                    spreadRadius: 2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
                 borderRadius: BorderRadius.circular(16.r)),
             child: Row(children: [
               Icon(

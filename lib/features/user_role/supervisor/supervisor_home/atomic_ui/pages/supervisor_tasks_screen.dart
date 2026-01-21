@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/enums/task_status.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
@@ -198,7 +199,6 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                 itemBuilder: (_, __) => TaskItem(
                   employeeName: [],
                   onSelected: (value) {},
-                  // employeeName: [],
                   onEdit: () {},
                   onDelete: () {},
                   tasks: context.read<TasksCubit>().tasks,
@@ -241,50 +241,53 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: tasks.length,
                           itemBuilder: (_, index) {
-                            return TaskItem(
-                              onSelected: (status) {
-                                context.read<TasksCubit>().taskStatus = status;
-                                context.read<TasksCubit>().changeTaskStatus(
-                                    taskId: context
-                                        .read<TasksCubit>()
-                                        .tasks[index]
-                                        .id!);
-                              },
-                              employeeName: tasks[index].employees!,
-                              onEdit: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => MultiBlocProvider(
-                                        providers: [
-                                          BlocProvider.value(
-                                            value: context.read<TasksCubit>(),
+                            return BounceInUp(
+                              child: TaskItem(
+                                onSelected: (status) {
+                                  context.read<TasksCubit>().taskStatus =
+                                      status;
+                                  context.read<TasksCubit>().changeTaskStatus(
+                                      taskId: context
+                                          .read<TasksCubit>()
+                                          .tasks[index]
+                                          .id!);
+                                },
+                                employeeName: tasks[index].employees!,
+                                onEdit: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => MultiBlocProvider(
+                                          providers: [
+                                            BlocProvider.value(
+                                              value: context.read<TasksCubit>(),
+                                            ),
+                                            BlocProvider(
+                                              create: (context) => getIt<
+                                                  GetEmployeesDataCubit>()
+                                                ..getEmployeesByDepartmentId(),
+                                            ),
+                                          ],
+                                          child: AssignTaskScreen(
+                                            taskId: tasks[index].id!,
                                           ),
-                                          BlocProvider(
-                                            create: (context) => getIt<
-                                                GetEmployeesDataCubit>()
-                                              ..getEmployeesByDepartmentId(),
-                                          ),
-                                        ],
-                                        child: AssignTaskScreen(
-                                          taskId: tasks[index].id!,
                                         ),
-                                      ),
-                                    )).then((value) {
-                                  context.read<TasksCubit>().getTasks();
-                                });
-                              },
-                              onDelete: () => _deleteTask(index),
-                              tasks: [],
-                              id: tasks[index].id.toString(),
-                              priority: tasks[index].priorityStatus ?? '',
-                              state: tasks[index].status ?? '',
-                              title: tasks[index].title ?? '',
-                              description: tasks[index].description ?? '',
-                              date: DateFormat('yyyy-MM-dd')
-                                  .format(DateTime.parse(
-                                tasks[index].dueDate ?? '',
-                              )),
+                                      )).then((value) {
+                                    context.read<TasksCubit>().getTasks();
+                                  });
+                                },
+                                onDelete: () => _deleteTask(index),
+                                tasks: [],
+                                id: tasks[index].id.toString(),
+                                priority: tasks[index].priorityStatus ?? '',
+                                state: tasks[index].status ?? '',
+                                title: tasks[index].title ?? '',
+                                description: tasks[index].description ?? '',
+                                date: DateFormat('yyyy-MM-dd')
+                                    .format(DateTime.parse(
+                                  tasks[index].dueDate ?? '',
+                                )),
+                              ),
                             );
                           },
                         ),

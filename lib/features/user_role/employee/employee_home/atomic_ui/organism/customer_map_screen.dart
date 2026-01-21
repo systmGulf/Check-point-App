@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/core.dart';
+import 'package:lottie/lottie.dart' show Lottie;
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -37,8 +38,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
   void initState() {
     super.initState();
     final service = FlutterBackgroundService();
-    print(
-        'isServiceRunning:----------------------------------------> $isServiceRunning');
+
     service.on('service_status').listen((event) {
       if (!mounted || event == null) return;
       setState(() {
@@ -69,8 +69,19 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
 
           if (customers.isEmpty) {
             return Center(
-              child: Text(
-                'You Do Not Have Customer Plans Today'.tr(context: context),
+              child: Column(
+                children: [
+                  Lottie.asset(
+                    'assets/animated_images/empty.json',
+                    repeat: false,
+                    height: 150.h,
+                    width: 150.w,
+                    fit: BoxFit.cover,
+                  ),
+                  Text(
+                    'You Do Not Have Customer Plans Today'.tr(context: context),
+                  ),
+                ],
               ),
             );
           }

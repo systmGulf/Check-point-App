@@ -121,6 +121,7 @@ flutter:
     - assets/animated_images/profile_image.json
     - assets/animated_images/Alert.json
     - assets/translations/
+    - assets/animated_images/empty.json
 
 
   fonts:

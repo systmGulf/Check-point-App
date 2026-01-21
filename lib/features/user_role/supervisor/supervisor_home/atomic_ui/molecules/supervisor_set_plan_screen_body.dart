@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
@@ -115,37 +116,39 @@ class _PlansScreenState extends State<PlansScreen> {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
-                              itemCount: plan.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  spacing: 16,
-                                  children: [
-                                    PlanItem(
-                                      planId: plan[index].id!,
-                                      planDate: plan[index].planDate ?? '',
-                                      note: plan[index].note ?? '',
-                                      onTap: () {
-                                        context.read<PlanCubit>().planId =
-                                            plan[index].id!;
-                                        log(state.planModel.data![index].id!
-                                            .toString());
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (_) {
-                                          return BlocProvider.value(
-                                            value: context.read<PlanCubit>()
-                                              ..getPlanById(
-                                                  id: plan[index].id!),
-                                            child: SubPlansScreen(
-                                              planId: plan[index].id!,
-                                            ),
-                                          );
-                                        }));
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }),
+                          child: ElasticInUp(
+                            child: ListView.builder(
+                                itemCount: plan.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    spacing: 16,
+                                    children: [
+                                      PlanItem(
+                                        planId: plan[index].id!,
+                                        planDate: plan[index].planDate ?? '',
+                                        note: plan[index].note ?? '',
+                                        onTap: () {
+                                          context.read<PlanCubit>().planId =
+                                              plan[index].id!;
+                                          log(state.planModel.data![index].id!
+                                              .toString());
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (_) {
+                                            return BlocProvider.value(
+                                              value: context.read<PlanCubit>()
+                                                ..getPlanById(
+                                                    id: plan[index].id!),
+                                              child: SubPlansScreen(
+                                                planId: plan[index].id!,
+                                              ),
+                                            );
+                                          }));
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ),
                         ),
                       ],
                     ))
