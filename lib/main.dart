@@ -14,13 +14,12 @@ import 'package:hr_management_system_package/env/env.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'core/common/bloc_observer.dart';
-import 'employee_mangement_system.dart';
-
+import 'check_point_app.dart';
 
 Future<void> initializeServices() async {
   // await Firebase.initializeApp(
 
-  // ); 
+  // );
   // await FcmNotificationService.init();
   // await LocalNotificationService.init();
   await Permission.storage.request();
@@ -41,7 +40,7 @@ Future<void> runMainApp() async {
       supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AE')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
-      child: const HrManagementSystem(),
+      child: const CheckPointApp(),
     ),
   );
 }

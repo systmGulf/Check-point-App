@@ -31,7 +31,7 @@ class DepartmentItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.all(10),
-        decoration: AppConatinerDecoration(),
+        decoration: AppContainerDecoration(),
         child: Row(
           children: [
             Text(

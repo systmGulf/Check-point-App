@@ -1,57 +1,34 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_request_model.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
+import '../../../../../../core/widgets/error_widget.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
 
-class RecentLeaveApplication extends StatefulWidget {
+class RecentLeaveApplication extends StatelessWidget {
   const RecentLeaveApplication({
     super.key,
     required this.type,
-    this.selectedStatus,
   });
   final String type;
-  final String? selectedStatus;
-
-  @override
-  State<RecentLeaveApplication> createState() => _RecentLeaveApplicationState();
-}
-
-class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
-  List<Data> _filterRequests(List<Data> requests) {
-      if (widget.selectedStatus == null) return requests;
-    return requests.where((task) {
-      final matchesStatus = widget.selectedStatus == null ||
-          task.status!.toLowerCase() == widget.selectedStatus!.toLowerCase();
-
-      return matchesStatus;
-    }).toList();
-  }
-  @override
-  void initState() {
-    BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
-        .getLeaveApplication(
-      type: widget.type,
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-   
+    BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
+        .getLeaveApplication(
+      type: type,
+    );
     return RefreshIndicator(
       onRefresh: () async {
         BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
             .getLeaveApplication(
-          type: widget.type,
+          type: type,
         );
       },
       child: Column(
@@ -72,24 +49,17 @@ class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
                       current is GetLeaveApplicationLoading,
                   builder: (context, state) {
                     if (state is GetLeaveApplicationFailure) {
-                      return state.error ==
-                              'Please check your internet connection'
-                          ? NoInternetConnectionWidget(onPressed: () {
-                              context
-                                  .read<LeaveApplicationCubitSupervisor>()
-                                  .getLeaveApplication(type: widget.type);
-                            })
-                          : Column(
-                              children: [
-                                const Icon(Icons.error, color: Colors.red),
-                                verticalSpace(20),
-                                Text(state.error)
-                              ],
+                      return CustomErrorWidget(
+                          error: state.error,
+                          onRetry: () {
+                            BlocProvider.of<LeaveApplicationCubitSupervisor>(
+                                    context)
+                                .getLeaveApplication(
+                              type: type,
                             );
+                          });
                     }
                     if (state is GetLeaveApplicationSuccess) {
-                      final request = _filterRequests(
-                          state.getLeaveRequestModel.value!.data!);
                       return state.getLeaveRequestModel.value!.data!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
@@ -104,13 +74,13 @@ class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: Colors.red,
                                       count: state
                                           .getLeaveRequestModel.value!.data!
                                           .where((e) => e.status == 'Pending')
                                           .length,
                                       child: Icon(Icons.notifications_on,
-                                          color: ColorsManger.primaryColor),
+                                          color: Colors.grey.shade400),
                                     )
                                   ],
                                 ),
@@ -118,36 +88,69 @@ class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: request.length,
+                                  itemCount: state
+                                      .getLeaveRequestModel.value!.data!.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
-                                      child: LeaveApplicationItem(
-                                        userImage:
-                                            request[index].employee?.imageUrl ??
-                                                '',
-                                        userToken: request[index]
-                                                .employee!
-                                                .deviceTokens!
-                                                .isNotEmpty
-                                            ? request[index]
-                                                .employee!
-                                                .deviceTokens!
-                                                .first
-                                            : '',
-                                        employeeId:
-                                            request[index].employee?.id ?? '',
-                                        type: widget.type,
-                                        createdBy:
-                                            request[index].createdBy ?? "",
-                                        status: request[index].status ?? "",
-                                        name:
-                                            request[index].employee?.name ?? "",
-                                        from: request[index].startDate ?? "",
-                                        to: request[index].endDate ?? "",
-                                        reason: request[index].reason ?? "",
-                                        id: request[index].id ?? 0,
+                                      child: ElasticInUp(
+                                        child: LeaveApplicationItem(
+                                          userToken: state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .employee!
+                                                  .deviceTokens!
+                                                  .isNotEmpty
+                                              ? state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .employee!
+                                                  .deviceTokens!
+                                                  .first
+                                              : '',
+                                          employeeId: state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .employee
+                                                  ?.id ??
+                                              '',
+                                          type: type,
+                                          createdBy: state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .createdBy ??
+                                              "",
+                                          status: state.getLeaveRequestModel
+                                                  .value!.data![index].status ??
+                                              "",
+                                          name: state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .employee
+                                                  ?.name ??
+                                              "",
+                                          from: state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .startDate ??
+                                              "",
+                                          to: state.getLeaveRequestModel.value!
+                                                  .data![index].endDate ??
+                                              "",
+                                          reason: state.getLeaveRequestModel
+                                                  .value!.data![index].reason ??
+                                              "",
+                                          id: state.getLeaveRequestModel.value!
+                                                  .data![index].id ??
+                                              0,
+                                        ),
                                       ),
                                     );
                                   },
@@ -161,7 +164,6 @@ class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
                         return const Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: LeaveApplicationItem(
-                            userImage: '',
                             userToken: 'Data Load',
                             employeeId: 'Data load',
                             type: 'Data Load',

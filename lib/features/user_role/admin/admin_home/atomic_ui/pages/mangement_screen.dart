@@ -14,29 +14,38 @@ class ManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<AdminManagementScreenItems> categoryItems = [
-      AdminManagementScreenItems(
-          onTap: () {
-            context.pushName(Routes.sitesScreen);
-          },
-          color: Colors.green,
-          text: 'Sites'.tr(context: context),
-          icon: Icons.location_on_outlined),
-      AdminManagementScreenItems(
-        color: ColorsManger.primaryColor,
-        onTap: () {
-          context.pushName(Routes.clientsScreen);
-        },
-        text: 'Clients'.tr(context: context),
-        icon: Icons.group,
+    List<dynamic> categoryItems = [
+      SlideInLeft(
+        from: 50,
+        child: AdminManagementScreenItems(
+            onTap: () {
+              context.pushName(Routes.sitesScreen);
+            },
+            color: Colors.green,
+            text: 'Sites'.tr(context: context),
+            icon: Icons.location_on_outlined),
       ),
-      AdminManagementScreenItems(
-        color: Colors.blueGrey,
-        onTap: () {
-          context.pushName(Routes.notifyUsersScreen);
-        },
-        text: 'Notifications'.tr(context: context),
-        icon: Icons.notifications_outlined,
+      SlideInLeft(
+        from: 100,
+        child: AdminManagementScreenItems(
+          color: ColorsManger.primaryColor,
+          onTap: () {
+            context.pushName(Routes.clientsScreen);
+          },
+          text: 'Clients'.tr(context: context),
+          icon: Icons.group,
+        ),
+      ),
+      SlideInLeft(
+        from: 200,
+        child: AdminManagementScreenItems(
+          color: Colors.blueGrey,
+          onTap: () {
+            context.pushName(Routes.notifyUsersScreen);
+          },
+          text: 'Notifications'.tr(context: context),
+          icon: Icons.notifications_outlined,
+        ),
       ),
     ];
     return Stack(
@@ -49,20 +58,15 @@ class ManagementScreen extends StatelessWidget {
           child: Column(
             children: [
               verticalSpace(20),
-              FadeInLeft(
-                  delay: const Duration(milliseconds: 300),
-                  child: const ManagementScreenGridView()),
+              const ManagementScreenGridView(),
               verticalSpace(30),
               Expanded(
-                child: FadeInUp(
-                  delay: const Duration(milliseconds: 300),
-                  child: ListView.builder(
-                      itemCount: categoryItems.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return categoryItems[index];
-                      }),
-                ),
+                child: ListView.builder(
+                    itemCount: categoryItems.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return categoryItems[index];
+                    }),
               ),
             ],
           ),

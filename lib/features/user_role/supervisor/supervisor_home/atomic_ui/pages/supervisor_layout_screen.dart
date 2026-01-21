@@ -136,8 +136,8 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 label: 'Attendance'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/tasks_icon.svg'),
-                activeIcon: SvgPicture.asset('assets/images/task_icon.svg',
+                icon: SvgPicture.asset('assets/images/client.svg'),
+                activeIcon: SvgPicture.asset('assets/images/client.svg',
                     color: ColorsManger.primaryColor),
                 label: 'Tasks'.tr(context: context),
               ),

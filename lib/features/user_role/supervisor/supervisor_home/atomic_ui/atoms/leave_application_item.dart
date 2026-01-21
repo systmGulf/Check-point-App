@@ -11,19 +11,19 @@ import '../../../../../../core/styles/styles.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 
 class LeaveApplicationItem extends StatefulWidget {
-  const LeaveApplicationItem(
-      {super.key,
-      required this.name,
-      required this.from,
-      required this.to,
-      required this.reason,
-      required this.id,
-      required this.status,
-      required this.createdBy,
-      required this.type,
-      required this.employeeId,
-      required this.userToken,
-      required this.userImage});
+  const LeaveApplicationItem({
+    super.key,
+    required this.name,
+    required this.from,
+    required this.to,
+    required this.reason,
+    required this.id,
+    required this.status,
+    required this.createdBy,
+    required this.type,
+    required this.employeeId,
+    required this.userToken,
+  });
 
   final String name,
       from,
@@ -33,8 +33,7 @@ class LeaveApplicationItem extends StatefulWidget {
       createdBy,
       type,
       employeeId,
-      userToken,
-      userImage;
+      userToken;
   final int id;
 
   @override
@@ -61,6 +60,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
         tr('date_format', context: context), context.locale.toString());
     return IntrinsicHeight(
       child: Container(
+        padding: const EdgeInsets.all(10),
         decoration: AppConatinerDecoration(),
         child: Column(
           children: [
@@ -69,28 +69,24 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  UserImage(
-                    imageUrl: widget.userImage,
-                    height: 50,
-                  ),
+                  UserImage(imageUrl: '', height: 40),
                   horizontalSpace(10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.name,
-                          style: AppStylesManger.font15BoldBlack,
-                        ),
-                        Text(
-                          widget.type,
-                          style: AppStylesManger.font15BoldBlack
-                              .copyWith(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: AppStylesManger.font15BoldBlack,
+                      ),
+                      Text(
+                        'Flutter Developer',
+                        style: AppStylesManger.font15BoldBlack
+                            .copyWith(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
                   ),
-                  if (widget.status == 'Cancelled')
+                  const Spacer(),
+                  if (widget.status == 'Cancelled' || isCancelled)
                     Row(
                       children: [
                         const Icon(Icons.close, color: Colors.red),
@@ -100,7 +96,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Approved')
+                  if (widget.status == 'Approved' || isApproved)
                     Row(
                       children: [
                         const Icon(Icons.check, color: Colors.green),
@@ -110,7 +106,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Pending')
+                  if (widget.status == 'Pending' && !isCancelled && !isApproved)
                     Row(
                       children: [
                         const Icon(Icons.watch_later, color: Colors.orange),
@@ -142,6 +138,32 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     maxLines: 2,
                   ),
                 ),
+                // GestureDetector(
+                //   onTap: () {
+                //     showDialog(context: context, builder: (context) =>
+                //         Container(
+                //           child: AlertDialog(
+                //             backgroundColor: Colors.white,
+                //             shape: const RoundedRectangleBorder(
+
+                //               borderRadius: BorderRadius.all(Radius.circular(10))),
+                //             title:
+                //             content: Text(widget.reason),
+                //           ),
+                //         )
+                //     );
+                //   },
+                //   child: SizedBox(
+                //     width: MediaQuery.of(context).size.width * 0.3,
+                //     child: Text(
+                //       '${"Reason".tr(context: context)}: ${widget.reason}',
+                //       style: AppStylesManger.font15regulerGrey
+                //         ..copyWith(height: 1.5, color: Colors.black),
+                //       overflow: TextOverflow.ellipsis,
+                //       maxLines: 2,
+                //     ),
+                //   ),
+                // ),
               ]),
             ),
             verticalSpace(9),
@@ -153,7 +175,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       'Request Created By Anther Employee'.tr(context: context),
                       style: AppStylesManger.font15regulerGrey),
             verticalSpace(5),
-            if (widget.status == 'Pending')
+            if (widget.status == 'Pending' && !isCancelled && !isApproved)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

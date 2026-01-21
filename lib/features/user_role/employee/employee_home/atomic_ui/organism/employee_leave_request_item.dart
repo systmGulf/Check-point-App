@@ -22,7 +22,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: ListTile(
         title: Text(
           '${"Request".tr(context: context)}  \n${"from".tr(context: context)}: $from\n${"To".tr(context: context)}: $to',

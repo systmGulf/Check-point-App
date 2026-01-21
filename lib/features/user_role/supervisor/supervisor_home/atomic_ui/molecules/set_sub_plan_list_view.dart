@@ -54,7 +54,7 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                   widget.planType
               ? Container(
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  decoration: AppConatinerDecoration(),
+                  decoration: AppContainerDecoration(),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

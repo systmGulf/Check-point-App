@@ -17,8 +17,9 @@ class CustomerLoadingSkeleton extends StatelessWidget {
         CustomAdminAppBar(onPickExcel: onPickExcel, appBarName: 'Clients',),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => const Skeletonizer(
+            (context, index) =>  Skeletonizer(
               child: ClientItem(
+                onTap:() {},
                 color: Colors.white,
                 id: '',
                 name: 'Load Data',

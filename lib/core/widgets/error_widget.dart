@@ -1,7 +1,7 @@
-
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../helpers/app_spaces.dart';
 
@@ -9,7 +9,8 @@ class CustomErrorWidget extends StatelessWidget {
   final String error;
   final VoidCallback onRetry;
 
-  const CustomErrorWidget({Key? key, required this.error, required this.onRetry})
+  const CustomErrorWidget(
+      {Key? key, required this.error, required this.onRetry})
       : super(key: key);
 
   @override
@@ -20,10 +21,21 @@ class CustomErrorWidget extends StatelessWidget {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          Image.asset('assets/images/error-icon-25243.png', height: 100.h, width: 100.w,),
-            verticalSpace(20),
-            Text(error, style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w500)),
+            Lottie.asset(
+              'assets/animated_images/empty.json',
+              repeat: false,
+              height: 150.h,
+              width: 150.w,
+              fit: BoxFit.cover,
+            ),
+            verticalSpace(10),
+            Text(error,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold)),
           ],
         ),
       );

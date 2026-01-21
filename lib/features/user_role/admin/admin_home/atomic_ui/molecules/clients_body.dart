@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/models/customers_model/get_customer_model.dart';
@@ -48,8 +47,8 @@ class ClientsBody extends StatelessWidget {
             },
             child: CustomScrollView(
               slivers: [
-                CustomAdminAppBar(onPickExcel: onPickExcel, appBarName: 'Clients'),
-          
+                CustomAdminAppBar(
+                    onPickExcel: onPickExcel, appBarName: 'Clients'),
                 ClientList(
                   customerData: customerData,
                   selectedClients: selectedClients,

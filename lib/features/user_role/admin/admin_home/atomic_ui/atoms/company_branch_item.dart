@@ -23,7 +23,7 @@ class CompanyBranchItem extends StatelessWidget {
         vertical: 8,
         horizontal: 16,
       ),
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

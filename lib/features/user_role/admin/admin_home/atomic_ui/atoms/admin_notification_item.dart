@@ -45,7 +45,7 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
       curve: Curves.fastOutSlowIn,
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(

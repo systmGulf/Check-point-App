@@ -283,7 +283,11 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
           return Center(child: Text(state.error));
         }
 
-        return const Center(child: CircularProgressIndicator());
+        return  Center(
+            child: CircularProgressIndicator(
+                color: ColorsManger.primaryColor,
+                strokeWidth: 2,
+                backgroundColor: ColorsManger.lighorage));
       },
     );
   }

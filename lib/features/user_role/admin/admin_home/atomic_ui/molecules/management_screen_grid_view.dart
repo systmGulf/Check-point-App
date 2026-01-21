@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -14,41 +15,49 @@ class ManagementScreenGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> items = [
-      ManagementScreenGridViewItem(
-        image: 'assets/images/corporate.png',
-        onTap: () {
-          context.pushName(Routes.supervisorPermission);
-        },
-        text: 'Departments'.tr(context: context),
-        color1: ColorsManger.primaryColor,
-        color2: Colors.white,
+      BounceInLeft(
+        child: ManagementScreenGridViewItem(
+          image: 'assets/images/corporate.png',
+          onTap: () {
+            context.pushName(Routes.supervisorPermission);
+          },
+          text: 'Departments'.tr(context: context),
+          color1: ColorsManger.primaryColor,
+          color2: Colors.white,
+        ),
       ),
-      ManagementScreenGridViewItem(
-        onTap: () {
-          context.pushName(Routes.holidaysScreen);
-        },
-        image: 'assets/images/calendar-date.png',
-        text: 'Holidays'.tr(context: context),
-        color1: const Color.fromARGB(255, 96, 161, 214),
-        color2: Colors.white,
+      BounceInLeft(
+        child: ManagementScreenGridViewItem(
+          onTap: () {
+            context.pushName(Routes.holidaysScreen);
+          },
+          image: 'assets/images/calendar-date.png',
+          text: 'Holidays'.tr(context: context),
+          color1: const Color.fromARGB(255, 96, 161, 214),
+          color2: Colors.white,
+        ),
       ),
-      ManagementScreenGridViewItem(
-        onTap: () {
-          context.pushName(Routes.companyBranchesScreen);
-        },
-        image: 'assets/images/corporate-culture.png',
-        text: 'Company branches'.tr(context: context),
-        color1: const Color.fromARGB(255, 79, 194, 83),
-        color2: Colors.white,
+      BounceInLeft(
+        child: ManagementScreenGridViewItem(
+          onTap: () {
+            context.pushName(Routes.companyBranchesScreen);
+          },
+          image: 'assets/images/corporate-culture.png',
+          text: 'Company branches'.tr(context: context),
+          color1: const Color.fromARGB(255, 79, 194, 83),
+          color2: Colors.white,
+        ),
       ),
-      ManagementScreenGridViewItem(
-        onTap: () {
-          context.pushName(Routes.shiftsScreen);
-        },
-        image: 'assets/images/people.png',
-        text: 'Shifts & Policies'.tr(context: context),
-        color1: const Color.fromARGB(255, 207, 171, 168),
-        color2: Colors.white,
+      BounceInLeft(
+        child: ManagementScreenGridViewItem(
+          onTap: () {
+            context.pushName(Routes.shiftsScreen);
+          },
+          image: 'assets/images/people.png',
+          text: 'Shifts & Policies'.tr(context: context),
+          color1: const Color.fromARGB(255, 207, 171, 168),
+          color2: Colors.white,
+        ),
       ),
     ];
 

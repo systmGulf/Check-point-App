@@ -26,7 +26,7 @@ class ShiftItem extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         height: 80.h,
         width: double.infinity,
-        decoration: AppConatinerDecoration(),
+        decoration: AppContainerDecoration(),
         child: Row(children: [
           Icon(Icons.work, color: ColorsManger.primaryColor),
           horizontalSpace(10.w),

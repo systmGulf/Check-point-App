@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-BoxDecoration AppConatinerDecoration() => BoxDecoration(
+BoxDecoration AppContainerDecoration() => BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(24),
       border: Border.all(

@@ -29,7 +29,7 @@ class PlanItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Container(
-            decoration: AppConatinerDecoration(),
+            decoration: AppContainerDecoration(),
             child: ListTile(
                 leading:
                     Image.asset('assets/images/planning.png', height: 30.h),

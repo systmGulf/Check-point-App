@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
@@ -63,15 +64,21 @@ class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
                   },
                 );
         } else {
-          return Skeletonizer(
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) => SupervisorGetEmployeesInTeamItem(
-                name: 'load Data',
-                id: 'load Data',
-                getAllEmployeesValue: EmployeeData(),
+          return SlideInUp(
+            child: SlideInUp(
+              onFinish: (a) {},
+              child: Skeletonizer(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, index) =>
+                      SupervisorGetEmployeesInTeamItem(
+                    name: 'load Data',
+                    id: 'load Data',
+                    getAllEmployeesValue: EmployeeData(),
+                  ),
+                ),
               ),
             ),
           );

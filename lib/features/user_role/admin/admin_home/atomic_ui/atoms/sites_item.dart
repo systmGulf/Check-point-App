@@ -25,7 +25,7 @@ class SitesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

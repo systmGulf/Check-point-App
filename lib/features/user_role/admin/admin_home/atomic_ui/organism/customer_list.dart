@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/admin_infrastructure/admin_data.dart';
 
@@ -35,13 +37,14 @@ class ClientList extends StatelessWidget {
               } else {
                 if (selectedClients.isNotEmpty) {
                   onToggleSelection(client.id!);
-                } else {
-                  // Navigate or perform another action.
-                }
+                } else {}
               }
             },
             child: FadeInUp(
               child: ClientItem(
+                onTap: () {
+                  context.pushName(Routes.ClientDetailsScreen);
+                },
                 color: selectedClients.contains(client.id)
                     ? Colors.grey.shade300
                     : Colors.white,
@@ -58,4 +61,3 @@ class ClientList extends StatelessWidget {
     );
   }
 }
-

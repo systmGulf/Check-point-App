@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/core.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart'
+    show Data;
+import 'package:lottie/lottie.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/common/animate_camera_postion.dart';
@@ -32,12 +34,12 @@ class _SiteMapScreenState extends State<SiteMapScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceCubit, AttendanceState>(
       buildWhen: (previous, current) =>
-          current is GetPlanByIdLoading ||
-          current is GetPlanByIdIdDone ||
-          current is GetPlanByIdError,
+          current is GetCustomerAreaDone ||
+          current is GetCustomerAreaError ||
+          current is GetCustomerAreaError,
       builder: (context, state) {
-        if (state is GetPlanByIdIdDone) {
-          List<CustomerPlans> customers = state.plansById.customerPlans!
+        if (state is GetCustomerAreaDone) {
+          List<Data> customers = state.customerArea.value!.data!
               .where((element) => element.customer!.customerType == "Site")
               .toList();
           if (customers.isNotEmpty) {
@@ -223,20 +225,35 @@ class _SiteMapScreenState extends State<SiteMapScreen> {
           } else {
             return Container(
               color: Colors.white,
-              child: Center(
-                child: Text(
-                  'You Do Not Have Site Plans'.tr(context: context),
-                  style: AppStylesManger.font15BoldRed.copyWith(
-                    color: ColorsManger.primaryColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LottieBuilder.asset(
+                    'assets/animated_images/empty.json',
+                    height: 100.h,
+                    width: 100.w,
+                    fit: BoxFit.cover,
                   ),
-                ),
+                  Center(
+                    child: Text(
+                      'You Do Not Have Site Plans'.tr(context: context),
+                      style: AppStylesManger.font15BoldRed.copyWith(
+                        color: ColorsManger.primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           }
         } else if (state is GetUserBranchError) {
           return Text(state.error);
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator(
+                  color: ColorsManger.primaryColor,
+                  strokeWidth: 2,
+                  backgroundColor: ColorsManger.lighorage));
         }
       },
     );

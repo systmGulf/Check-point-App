@@ -14,14 +14,14 @@ import 'core/routing/routes.dart';
 import 'core/widgets/permission_screen.dart';
 import 'features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 
-class HrManagementSystem extends StatefulWidget {
-  const HrManagementSystem({super.key});
+class CheckPointApp extends StatefulWidget {
+  const CheckPointApp({super.key});
 
   @override
-  State<HrManagementSystem> createState() => _HrManagementSystemState();
+  State<CheckPointApp> createState() => _CheckPointAppState();
 }
 
-class _HrManagementSystemState extends State<HrManagementSystem>
+class _CheckPointAppState extends State<CheckPointApp>
     with WidgetsBindingObserver {
   bool _allPermissionsGranted = false;
 

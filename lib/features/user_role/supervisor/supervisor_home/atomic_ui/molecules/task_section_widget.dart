@@ -17,7 +17,7 @@ class TasksSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
