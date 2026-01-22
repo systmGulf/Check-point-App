@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_switcher/slide_switcher.dart';
 
+import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -52,8 +53,11 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
 
     return Stack(
       children: [
-        Image.asset(
-          'assets/images/banner-home.png',
+        AnimatedByWidgetType(
+          widgetType: WidgetAnimationType.image,
+          child: Image.asset(
+            'assets/images/banner-home.png',
+          ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -68,48 +72,77 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
               physics: const BouncingScrollPhysics(),
               children: [
                 verticalSpace(15),
-                const GetEmployeeDataInEmployeeHomeScreenBlocBuilder(),
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: SlideSwitcher(
-                    initialIndex: selectedIndex,
-                    onSelect: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                    containerColor: ColorsManger.primaryColor,
-                    slidersBorder: Border.all(color: ColorsManger.primaryColor),
-                    containerHeight: 40.h,
-                    containerWight: MediaQuery.sizeOf(context).width / 1.2,
-                    children: List.generate(3, (index) {
-                      return Text(
-                        checkingText[index],
-                        style: AppStylesManger.font18BoldBlack.copyWith(
-                          color: selectedIndex == index
-                              ? ColorsManger.primaryColor
-                              : Colors.white,
-                        ),
-                      );
-                    }),
+                const AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.header,
+                  delayDuration: Duration(milliseconds: 100),
+                  child: GetEmployeeDataInEmployeeHomeScreenBlocBuilder(),
+                ),
+                AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.container,
+                  delayDuration: const Duration(milliseconds: 200),
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: SlideSwitcher(
+                      initialIndex: selectedIndex,
+                      onSelect: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      containerColor: ColorsManger.primaryColor,
+                      slidersBorder:
+                          Border.all(color: ColorsManger.primaryColor),
+                      containerHeight: 40.h,
+                      containerWight: MediaQuery.sizeOf(context).width / 1.2,
+                      children: List.generate(3, (index) {
+                        return Text(
+                          checkingText[index],
+                          style: AppStylesManger.font18BoldBlack.copyWith(
+                            color: selectedIndex == index
+                                ? ColorsManger.primaryColor
+                                : Colors.white,
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
                 verticalSpace(20),
-                checkingSites[selectedIndex],
+                AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.container,
+                  delayDuration: const Duration(milliseconds: 300),
+                  child: checkingSites[selectedIndex],
+                ),
                 verticalSpace(30),
-                BlocBuilder<EmployeeTasksCubit, EmployeeTasksState>(
-                  buildWhen: (previous, current) =>
-                      current is GetMyTasksError ||
-                      current is GetMyTasksSuccess ||
-                      current is GetMyTasksLoading,
-                  builder: (context, state) {
-                    if (state is GetMyTasksError) {
-                      return Text(state.error);
-                    }
-                    if (state is GetMyTasksSuccess) {
-                      return EmployeeHomeSectionItem(
-                        getTaskResponse: state.getTaskResponse,
-                        title: 'New tasks today'.tr(
+                AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.card,
+                  delayDuration: const Duration(milliseconds: 400),
+                  child: BlocBuilder<EmployeeTasksCubit, EmployeeTasksState>(
+                    buildWhen: (previous, current) =>
+                        current is GetMyTasksError ||
+                        current is GetMyTasksSuccess ||
+                        current is GetMyTasksLoading,
+                    builder: (context, state) {
+                      if (state is GetMyTasksError) {
+                        return Text(state.error);
+                      }
+                      if (state is GetMyTasksSuccess) {
+                        return EmployeeHomeSectionItem(
+                          getTaskResponse: state.getTaskResponse,
+                          title: 'New tasks today'.tr(
+                            context: context,
+                          ),
+                          content:
+                              'No Alert available for today. Please check back again tomorrow.'
+                                  .tr(
+                            context: context,
+                          ),
+                        );
+                      }
+                      return Skeletonizer(
+                          child: EmployeeHomeSectionItem(
+                        getTaskResponse: [],
+                        title: 'Data Loading'.tr(
                           context: context,
                         ),
                         content:
@@ -117,42 +150,38 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                                 .tr(
                           context: context,
                         ),
-                      );
-                    }
-                    return Skeletonizer(
-                        child: EmployeeHomeSectionItem(
-                      getTaskResponse: [],
-                      title: 'Data Loading'.tr(
-                        context: context,
-                      ),
-                      content:
-                          'No Alert available for today. Please check back again tomorrow.'
-                              .tr(
-                        context: context,
-                      ),
-                    ));
-                  },
+                      ));
+                    },
+                  ),
                 ),
                 verticalSpace(30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'History'.tr(
-                        context: context,
+                AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.text,
+                  delayDuration: const Duration(milliseconds: 500),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'History'.tr(
+                          context: context,
+                        ),
+                        style: AppStylesManger.font18RegulerBlack,
                       ),
-                      style: AppStylesManger.font18RegulerBlack,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          context
-                              .pushName(Routes.employeeAttendanceHistoryScreen);
-                        },
-                        child: const Icon(Icons.arrow_forward_ios_outlined))
-                  ],
+                      GestureDetector(
+                          onTap: () {
+                            context.pushName(
+                                Routes.employeeAttendanceHistoryScreen);
+                          },
+                          child: const Icon(Icons.arrow_forward_ios_outlined))
+                    ],
+                  ),
                 ),
                 verticalSpace(10),
-                const EmployeeAttendanceBlocBuilder(),
+                const AnimatedByWidgetType(
+                  widgetType: WidgetAnimationType.listItem,
+                  delayDuration: Duration(milliseconds: 600),
+                  child: EmployeeAttendanceBlocBuilder(),
+                ),
                 verticalSpace(10),
               ],
             ),

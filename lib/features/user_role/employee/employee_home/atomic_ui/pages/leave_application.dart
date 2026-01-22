@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -64,65 +65,93 @@ class _LeaveApplicationState extends State<LeaveApplication> {
             padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: ListView(children: [
               verticalSpace(15),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Text('For a while'.tr(context: context),
-                    style: AppStylesManger.font12RegularGrey),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.text,
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('For a while'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
               ),
               verticalSpace(10),
-              Row(
-                children: [
-                  Expanded(
-                      child: DateButtonLeaveRequest(
-                    text: 'From'.tr(context: context),
-                  )),
-                  horizontalSpace(10),
-                  Expanded(
-                      child: DateButtonLeaveRequest(
-                    text: 'To'.tr(context: context),
-                  )),
-                ],
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.container,
+                delayDuration: const Duration(milliseconds: 100),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: DateButtonLeaveRequest(
+                      text: 'From'.tr(context: context),
+                    )),
+                    horizontalSpace(10),
+                    Expanded(
+                        child: DateButtonLeaveRequest(
+                      text: 'To'.tr(context: context),
+                    )),
+                  ],
+                ),
               ),
               verticalSpace(10),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Text('Reason'.tr(context: context),
-                    style: AppStylesManger.font12RegularGrey),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.text,
+                delayDuration: const Duration(milliseconds: 200),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Reason'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
               ),
               verticalSpace(10),
-              CustomAppTextFormField(
-                  maxLines: 4,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Reason Required'.tr(context: context);
-                    }
-                    return null;
-                  },
-                  controller: reasonController,
-                  hint: 'Reason * (200 Chaaracters Max)'.tr(context: context)),
-              verticalSpace(10),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Text('Remark'.tr(context: context),
-                    style: AppStylesManger.font12RegularGrey),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.container,
+                delayDuration: const Duration(milliseconds: 300),
+                child: CustomAppTextFormField(
+                    maxLines: 4,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Reason Required'.tr(context: context);
+                      }
+                      return null;
+                    },
+                    controller: reasonController,
+                    hint:
+                        'Reason * (200 Chaaracters Max)'.tr(context: context)),
               ),
               verticalSpace(10),
-              CustomAppTextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Remark Required'.tr(context: context);
-                    }
-                    return null;
-                  },
-                  controller: remarkController,
-                  hint: 'Remark'.tr(context: context)),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.text,
+                delayDuration: const Duration(milliseconds: 400),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Remark'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
+              ),
+              verticalSpace(10),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.container,
+                delayDuration: const Duration(milliseconds: 500),
+                child: CustomAppTextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Remark Required'.tr(context: context);
+                      }
+                      return null;
+                    },
+                    controller: remarkController,
+                    hint: 'Remark'.tr(context: context)),
+              ),
               verticalSpace(20),
-              CustomAppButton(
-                onPressed: () {
-                  validateAndSubmitLeaveRequest();
-                },
-                textButton: 'Submit'.tr(context: context),
-                buttonColor: ColorsManger.primaryColor,
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.button,
+                delayDuration: const Duration(milliseconds: 600),
+                child: CustomAppButton(
+                  onPressed: () {
+                    validateAndSubmitLeaveRequest();
+                  },
+                  textButton: 'Submit'.tr(context: context),
+                  buttonColor: ColorsManger.primaryColor,
+                ),
               ),
               const CreateLeaveApplicationBlocListener(
                 requestType: "Leave Request",

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 
+import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -50,62 +51,68 @@ class _EmployeeCheckOutScreenBodyState
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        widget.checkType == "Office"
-            ? OfficeMapScreen(
-                attendanceType: widget.attendanceType,
-              )
-            : BlocBuilder<AttendanceCubit, AttendanceState>(
-                buildWhen: (previous, current) =>
-                    current is GetCustomerAreaDone ||
-                    current is GetCustomerAreaError ||
-                    current is GetCustomerAreaLoading,
-                builder: (context, state) {
-                  if (state is GetCustomerAreaDone) {
-                    final today =
-                        DateFormat('yyyy-MM-dd').format(DateTime.now());
+        AnimatedByWidgetType(
+          widgetType: WidgetAnimationType.container,
+          child: widget.checkType == "Office"
+              ? OfficeMapScreen(
+                  attendanceType: widget.attendanceType,
+                )
+              : BlocBuilder<AttendanceCubit, AttendanceState>(
+                  buildWhen: (previous, current) =>
+                      current is GetCustomerAreaDone ||
+                      current is GetCustomerAreaError ||
+                      current is GetCustomerAreaLoading,
+                  builder: (context, state) {
+                    if (state is GetCustomerAreaDone) {
+                      final today =
+                          DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-                    final matchingAreas =
-                        state.customerArea.value!.data!.where((area) {
-                      final planDate = DateFormat('yyyy-MM-dd').format(
-                        area.plan!.planDate!,
-                      );
-                      return planDate == today;
-                    }).toList();
+                      final matchingAreas =
+                          state.customerArea.value!.data!.where((area) {
+                        final planDate = DateFormat('yyyy-MM-dd').format(
+                          area.plan!.planDate!,
+                        );
+                        return planDate == today;
+                      }).toList();
 
-                    if (matchingAreas.isNotEmpty) {
-                      // log(matchingAreas[0].planDate.toString());
-                      // BlocProvider.of<AttendanceCubit>(context)
-                      //     .getPlanById(id: matchingAreas[0].id!);
+                      if (matchingAreas.isNotEmpty) {
+                        // log(matchingAreas[0].planDate.toString());
+                        // BlocProvider.of<AttendanceCubit>(context)
+                        //     .getPlanById(id: matchingAreas[0].id!);
 
-                      return widget.checkType == "Customer"
-                          ? CustomerMapScreen(
-                              oncustomerChanged: (customer) {
-                                setState(() {
-                                  customerPlans = customer;
-                                });
-                              },
-                              attendanceType: widget.attendanceType,
-                            )
-                          : SiteMapScreen(
-                              attendanceType: widget.attendanceType,
-                            );
+                        return widget.checkType == "Customer"
+                            ? CustomerMapScreen(
+                                oncustomerChanged: (customer) {
+                                  setState(() {
+                                    customerPlans = customer;
+                                  });
+                                },
+                                attendanceType: widget.attendanceType,
+                              )
+                            : SiteMapScreen(
+                                attendanceType: widget.attendanceType,
+                              );
+                      }
                     }
-                  }
 
-                  return Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: Text(
-                        'You Do Not Have ${widget.checkType} Plans'
-                            .tr(context: context),
-                        style: AppStylesManger.font15BoldRed.copyWith(
-                          color: ColorsManger.primaryColor,
+                    return Container(
+                      color: Colors.white,
+                      child: Center(
+                        child: AnimatedByWidgetType(
+                          widgetType: WidgetAnimationType.text,
+                          child: Text(
+                            'You Do Not Have ${widget.checkType} Plans'
+                                .tr(context: context),
+                            style: AppStylesManger.font15BoldRed.copyWith(
+                              color: ColorsManger.primaryColor,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
+        ),
         AttendanceMapBottomSheet(
             customerPlans: customerPlans ?? Data(),
             area: widget.checkType,

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:lottie/lottie.dart' show Lottie;
 
+import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -35,86 +36,96 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        widget.checkType == "Office"
-            ? OfficeMapScreen(
-                attendanceType: widget.attendanceType,
-              )
-            : BlocBuilder<AttendanceCubit, AttendanceState>(
-                buildWhen: (previous, current) =>
-                    current is GetCustomerAreaDone ||
-                    current is GetCustomerAreaError ||
-                    current is GetCustomerAreaLoading,
-                builder: (context, state) {
-                  if (state is GetCustomerAreaDone) {
-                    final today =
-                        DateFormat('yyyy-MM-dd').format(DateTime.now());
+        AnimatedByWidgetType(
+          widgetType: WidgetAnimationType.container,
+          child: widget.checkType == "Office"
+              ? OfficeMapScreen(
+                  attendanceType: widget.attendanceType,
+                )
+              : BlocBuilder<AttendanceCubit, AttendanceState>(
+                  buildWhen: (previous, current) =>
+                      current is GetCustomerAreaDone ||
+                      current is GetCustomerAreaError ||
+                      current is GetCustomerAreaLoading,
+                  builder: (context, state) {
+                    if (state is GetCustomerAreaDone) {
+                      final today =
+                          DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-                    final matchingAreas = state.customerArea.value?.data
-                        ?.where((area) => area.plan?.planDate != null)
-                        .where((area) {
-                      final planDate =
-                          DateFormat('yyyy-MM-dd').format(area.plan!.planDate!);
-                      return planDate == today;
-                    }).toList();
+                      final matchingAreas = state.customerArea.value?.data
+                          ?.where((area) => area.plan?.planDate != null)
+                          .where((area) {
+                        final planDate = DateFormat('yyyy-MM-dd')
+                            .format(area.plan!.planDate!);
+                        return planDate == today;
+                      }).toList();
 
-                    if (matchingAreas!.isNotEmpty) {
-                      log(matchingAreas[0].plan!.planDate.toString());
+                      if (matchingAreas!.isNotEmpty) {
+                        log(matchingAreas[0].plan!.planDate.toString());
 
-                      return widget.checkType == "Customer"
-                          ? CustomerMapScreen(
-                              oncustomerChanged: (value) {},
-                              attendanceType: widget.attendanceType,
-                            )
-                          : SiteMapScreen(
-                              attendanceType: widget.attendanceType,
-                            );
+                        return widget.checkType == "Customer"
+                            ? CustomerMapScreen(
+                                oncustomerChanged: (value) {},
+                                attendanceType: widget.attendanceType,
+                              )
+                            : SiteMapScreen(
+                                attendanceType: widget.attendanceType,
+                              );
+                      }
+                    } else if (state is GetCustomerAreaError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                            verticalSpace(10),
+                            Text(
+                              state.error,
+                              style: AppStylesManger.font14RedularRed,
+                            ),
+                          ],
+                        ),
+                      );
                     }
-                  } else if (state is GetCustomerAreaError) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                          verticalSpace(10),
-                          Text(
-                            state.error,
-                            style: AppStylesManger.font14RedularRed,
-                          ),
-                        ],
+
+                    return Container(
+                      color: Colors.white,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AnimatedByWidgetType(
+                              widgetType: WidgetAnimationType.image,
+                              child: Lottie.asset(
+                                'assets/animated_images/empty.json',
+                                repeat: false,
+                                height: 150.h,
+                                width: 150.w,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            AnimatedByWidgetType(
+                              widgetType: WidgetAnimationType.text,
+                              delayDuration: const Duration(milliseconds: 200),
+                              child: Text(
+                                'You Do Not Have ${widget.checkType} Plans'
+                                    .tr(context: context),
+                                style: AppStylesManger.font15BoldRed.copyWith(
+                                  color: ColorsManger.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  }
-
-                  return Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Lottie.asset(
-                            'assets/animated_images/empty.json',
-                            repeat: false,
-                            height: 150.h,
-                            width: 150.w,
-                            fit: BoxFit.cover,
-                          ),
-                          Text(
-                            'You Do Not Have ${widget.checkType} Plans'
-                                .tr(context: context),
-                            style: AppStylesManger.font15BoldRed.copyWith(
-                              color: ColorsManger.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                  },
+                ),
+        ),
         AttendanceMapBottomSheet(
           customerPlans: Data(),
           area: widget.checkType,
