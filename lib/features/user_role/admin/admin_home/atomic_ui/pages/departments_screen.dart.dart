@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +23,7 @@ class DepartmentScreen extends StatelessWidget {
       floatingActionButton: CustomFloatingActionButton(
         text: 'Add Department'.tr(context: context),
         onTap: () {
-            showModalBottomSheet(
+          showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
@@ -49,7 +50,7 @@ class DepartmentScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: [
                 verticalSpace(MediaQuery.sizeOf(context).height * 0.1),
-                Image.asset('assets/images/department.png', height: 150),
+                Image.asset(Assets.DepartmentImage, height: 150),
                 verticalSpace(20),
                 const Expanded(
                   child: GetDepartmentBlocBuilder(),
@@ -109,4 +110,3 @@ class DepartmentScreen extends StatelessWidget {
     );
   }
 }
-

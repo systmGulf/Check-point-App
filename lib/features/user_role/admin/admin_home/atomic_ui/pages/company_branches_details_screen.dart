@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/styles/styles.dart';
 import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class CompanyBranchDetailsScreen extends StatefulWidget {
     required this.location,
     required this.description,
     required this.points,
-    required this.branchId, required this.contextt,
+    required this.branchId,
+    required this.contextt,
   });
 
   final String name;
@@ -48,7 +50,6 @@ class _CompanyBranchDetailsScreenState
         body: Column(
           children: [
             Expanded(
-              
               child: GoogleMap(
                 onMapCreated: (controller) {
                   _mapController = controller;
@@ -98,11 +99,7 @@ class _CompanyBranchDetailsScreenState
                         Expanded(
                           child: Text(
                             widget.location,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black87,
-                            ),
+                            style: AppStylesManger.font15BoldBlack,
                           ),
                         ),
                       ],
@@ -110,27 +107,23 @@ class _CompanyBranchDetailsScreenState
                     const SizedBox(height: 16),
                     Text(
                       widget.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87,
-                        height: 1.5,
-                      ),
+                      style: AppStylesManger.font14RegularBlack,
                     ),
-                    verticalSpace(  20),
+                    verticalSpace(20),
                     CustomAppButton(
                       textButton: "Delete this branch".tr(context: context),
                       buttonColor: ColorsManger.primaryColor,
                       onPressed: () {
                         BlocProvider.of<BranchCubit>(widget.contextt)
                             .deleteBranch(
-                              widget.branchId,
-                            )
+                          widget.branchId,
+                        )
                             .then((_) {
                           Navigator.of(context).pop();
-                            });
+                        });
                       },
                     ),
-                    verticalSpace(  20),
+                    verticalSpace(20),
                   ],
                 ),
               ),

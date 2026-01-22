@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +72,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 child: Row(children: [
                   horizontalSpace(5),
                   Image.asset(
-                    'assets/images/cup.png',
+                    Assets.CupImage,
                     width: 30.w,
                     height: 30.h,
                   ),
@@ -120,19 +121,18 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
             items: [
               BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
+                  Assets.HomeIconImage,
                   color: ColorsManger.primaryColor,
                 ),
                 icon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
+                  Assets.HomeIconImage,
                 ),
                 label: 'Home'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(
-                    'assets/images/attendance_icon.svg',
+                activeIcon: SvgPicture.asset(Assets.AttendanceIconImage,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset('assets/images/attendance_icon.svg'),
+                icon: SvgPicture.asset(Assets.AttendanceIconImage),
                 label: 'Attendance'.tr(context: context),
               ),
               BottomNavigationBarItem(
@@ -142,15 +142,15 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 label: 'Tasks'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset('assets/images/requests.svg',
+                activeIcon: SvgPicture.asset(Assets.RequestsImage,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset('assets/images/requests.svg'),
+                icon: SvgPicture.asset(Assets.RequestsImage),
                 label: 'Requests'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset('assets/images/plans_icon.svg',
+                activeIcon: SvgPicture.asset(Assets.PlansIconImage,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset('assets/images/plans_icon.svg'),
+                icon: SvgPicture.asset(Assets.PlansIconImage),
                 label: 'Plans'.tr(context: context),
               ),
             ],

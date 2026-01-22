@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -51,7 +52,7 @@ class ManagementScreen extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/banner-home.png',
+          Assets.BannerHomeImage,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -1,6 +1,7 @@
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/styles/styles.dart';
 import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class ClientDetailsScreen extends StatelessWidget {
           children: [
             verticalSpace(16),
             Column(
-              children: const [
+              children: [
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
@@ -29,12 +30,12 @@ class ClientDetailsScreen extends StatelessWidget {
                 SizedBox(height: 12),
                 Text(
                   'Jenny Wilson',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: AppStylesManger.font15BoldBlack,
                 ),
                 SizedBox(height: 4),
                 Text(
                   'Software Engineer',
-                  style: TextStyle(color: Colors.grey),
+                  style: AppStylesManger.font15regulerGrey,
                 ),
               ],
             ),

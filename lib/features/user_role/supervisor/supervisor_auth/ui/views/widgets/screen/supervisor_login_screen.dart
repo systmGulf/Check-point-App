@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../../../core/animations/animations.dart';
 import '../../../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../../../core/styles/styles.dart';
 import '../../../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../common/constants/auth_animation_constants.dart';
+import '../../../../../../common/widgets/auth_header_widget.dart';
 import '../../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
 import '../email_and_password_text_field.dart';
 
@@ -19,23 +21,25 @@ class SupervisorLoginScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 27),
           child: ListView(
             children: [
-              verticalSpace(38),
-              Text(
-                'Welcome Back!'.tr(),
-                style: AppStylesManger.font24regularBlack
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+              verticalSpace(AuthAnimationConstants.verticalSpaceXLarge),
+              AuthHeaderWidget(
+                title: 'Welcome Back!'.tr(),
+                subtitle: 'Sign in to your account as Supervisor'.tr(),
               ),
-              Text(
-                'Sign in to your account as Supervisor'.tr(),
-                style: AppStylesManger.font14RegularBlack
-                    .copyWith(color: Colors.grey, fontSize: 14),
+              verticalSpace(AuthAnimationConstants.verticalSpaceLarge),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.container,
+                delayDuration: AuthAnimationConstants.formDelay,
+                child: const SupervisorEmailAndPasswordTextField(),
               ),
-              verticalSpace(22),
-              const SupervisorEmailAndPasswordTextField(),
               verticalSpace(20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: TextTermsAndCondition(),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.text,
+                delayDuration: AuthAnimationConstants.termsDelay,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextTermsAndCondition(),
+                ),
               )
             ],
           ),

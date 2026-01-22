@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
+import '../../../../../../../core/animations/animations.dart';
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/custom_app_button.dart';
+import '../../../../../common/constants/auth_animation_constants.dart';
 import 'email_and_password_text_feild.dart';
 import 'employee_login_bloc_listener.dart';
 import 'employee_login_image_and_text.dart';
@@ -25,21 +27,31 @@ class EmployeeLoginScreenBody extends StatelessWidget {
           key: BlocProvider.of<LoginCubit>(context).formKey,
           child: Column(
             children: [
-              verticalSpace(38),
-              const EmployeeLoginImageAndText(),
+              verticalSpace(AuthAnimationConstants.verticalSpaceXLarge),
+              AnimatedHeaderWidget(
+                child: const EmployeeLoginImageAndText(),
+              ),
               verticalSpace(30),
-              const EmailAndPasswordTextField(),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.container,
+                delayDuration: AuthAnimationConstants.formDelay,
+                child: const EmailAndPasswordTextField(),
+              ),
               verticalSpace(1),
-              verticalSpace(10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: CustomAppButton(
-                    onPressed: () {
-                      TextInput.finishAutofillContext(shouldSave: true);
-                      validateAndLogin(context);
-                    },
-                    textButton: 'Sign In'.tr(),
-                    buttonColor: ColorsManger.primaryColor),
+              verticalSpace(AuthAnimationConstants.verticalSpaceMedium),
+              AnimatedByWidgetType(
+                widgetType: WidgetAnimationType.button,
+                delayDuration: AuthAnimationConstants.buttonDelay,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: CustomAppButton(
+                      onPressed: () {
+                        TextInput.finishAutofillContext(shouldSave: true);
+                        validateAndLogin(context);
+                      },
+                      textButton: 'Sign In'.tr(),
+                      buttonColor: ColorsManger.primaryColor),
+                ),
               ),
               const EmployeeLoginBlocListener(),
               verticalSpace(20),

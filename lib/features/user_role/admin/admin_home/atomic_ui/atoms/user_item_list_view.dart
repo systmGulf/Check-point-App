@@ -1,14 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/utils/assets_manager.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../pages/edit_user_screen.dart';
 
@@ -47,10 +48,11 @@ class UserItemListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedCardWidget(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      borderRadius: BorderRadius.circular(12),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      width: double.infinity,
-      decoration: AppConatinerDecoration(),
       child: Row(
         children: [
           UserImage(height: 50, imageUrl: imageUrl),
@@ -157,7 +159,7 @@ class UserItemListView extends StatelessWidget {
               width: 26,
               child: Center(
                 child: SvgPicture.asset(
-                  'assets/images/edit.svg',
+                  Assets.EditImage,
                   color: ColorsManger.primaryColor,
                 ),
               ),
@@ -170,8 +172,7 @@ class UserItemListView extends StatelessWidget {
             icon: SizedBox(
                 height: 24,
                 width: 24,
-                child: Center(
-                    child: SvgPicture.asset('assets/images/delete_icon.svg'))),
+                child: Center(child: SvgPicture.asset(Assets.DeleteIconImage))),
             color: Colors.red,
           ),
         ],

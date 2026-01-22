@@ -60,8 +60,7 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                       style: AppStylesManger.font14RegularBlack),
                   Text(
                     "${"Name".tr(context: context)} : ${widget.name} ",
-                    style: const TextStyle(
-                      fontSize: 12.0,
+                    style: AppStylesManger.font12RegularBlack.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
@@ -73,11 +72,9 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                       children: [
                         Text(
                           "${"Mobile ".tr(context: context)} :",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey[700],
+                          style: AppStylesManger.font12RegularBlack.copyWith(
                             fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
+                            color: Colors.grey[700],
                           ),
                           maxLines: 1,
                         ),
@@ -86,10 +83,8 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                               ImageFilter.blur(sigmaX: value, sigmaY: value),
                           child: Text(
                             widget.mobileId,
-                            style: TextStyle(
-                              fontSize: 12.0,
+                            style: AppStylesManger.font12RegularBlack.copyWith(
                               color: Colors.grey[700],
-                              overflow: TextOverflow.ellipsis,
                             ),
                             maxLines: 1,
                           ),

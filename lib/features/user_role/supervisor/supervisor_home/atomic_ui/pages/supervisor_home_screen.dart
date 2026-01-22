@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
+import 'package:employee_mangement/core/animations/animations.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +52,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/banner-home.png',
+          Assets.BannerHomeImage,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -96,12 +98,15 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                     containerHeight: 40.h,
                     containerWight: 350.w,
                     children: List.generate(3, (index) {
-                      return Text(checkingText[index],
-                          style: AppStylesManger.font18BoldBlack.copyWith(
+                      return AnimatedTextWidget(
+                        text: checkingText[index],
+                        style: AppStylesManger.font18BoldBlack.copyWith(
                             color: selectedIndex == index
                                 ? ColorsManger.primaryColor
                                 : Colors.white,
-                          ));
+                          ),
+                        textAlign: TextAlign.center,
+                      );
                     }),
                   ),
                 ),

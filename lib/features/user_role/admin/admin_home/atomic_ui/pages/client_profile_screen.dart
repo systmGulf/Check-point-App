@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,8 +99,8 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: const AssetImage(
-                            'assets/images/icon-default-user.png'),
+                        backgroundImage:
+                            const AssetImage(Assets.IconDefaultUserImage),
                         backgroundColor: Colors.grey[200],
                       ),
                       const SizedBox(height: 16),
@@ -137,14 +138,12 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                           const SizedBox(width: 8),
                           Text(
                             'Location:'.tr(context: context),
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.blue[600]),
+                            style: AppStylesManger.font15regulerPrimaryColor,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             _location,
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[600]),
+                            style: AppStylesManger.font15regulerGrey,
                           ),
                           const SizedBox(width: 16),
                         ],

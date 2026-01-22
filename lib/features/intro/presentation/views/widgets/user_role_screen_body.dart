@@ -1,9 +1,9 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/animations/animations.dart';
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
@@ -27,7 +27,8 @@ class UserRoleScreenBody extends StatelessWidget {
                 child: const Image(image: AssetImage(Assets.NetworkingImage)),
               ),
               verticalSpace(40),
-              FadeInLeft(
+              AnimatedListItemWidget(
+                index: 0,
                 child: RoleOption(
                   roleDescription: 'Continue_as_Employee_to_start_work'.tr(),
                   onTap: () {
@@ -38,7 +39,8 @@ class UserRoleScreenBody extends StatelessWidget {
                 ),
               ),
               verticalSpace(10),
-              FadeInRight(
+              AnimatedListItemWidget(
+                index: 1,
                 child: RoleOption(
                   roleDescription: 'Lead_Employees_and_Assign_Tasks'.tr(),
                   onTap: () {
@@ -49,7 +51,8 @@ class UserRoleScreenBody extends StatelessWidget {
                 ),
               ),
               verticalSpace(10),
-              FadeInLeft(
+              AnimatedListItemWidget(
+                index: 2,
                 child: RoleOption(
                   roleDescription: 'Manage_App_Users_and_Permissions'.tr(),
                   onTap: () {
@@ -62,10 +65,11 @@ class UserRoleScreenBody extends StatelessWidget {
               verticalSpace(40),
               Align(
                 alignment: Alignment.center,
-                child: CircleAvatar(
-                    radius: 30.r,
-                    backgroundColor: Colors.white,
-                    backgroundImage: AssetImage(Assets.VodafoneImage)),
+                child: AnimatedImageWidget(
+                  imagePath: Assets.VodafoneImage,
+                  width: 60.r,
+                  height: 60.r,
+                ),
               ),
             ],
           ),

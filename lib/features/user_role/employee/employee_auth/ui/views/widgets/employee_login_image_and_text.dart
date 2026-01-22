@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../../core/styles/styles.dart';
+import '../../../../../../../features/user_role/common/widgets/auth_header_widget.dart';
 
+/// Employee-specific login header displaying welcome message and role information
 class EmployeeLoginImageAndText extends StatelessWidget {
   const EmployeeLoginImageAndText({super.key});
 
@@ -13,15 +14,9 @@ class EmployeeLoginImageAndText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Welcome Back!'.tr(),
-            style: AppStylesManger.font24regularBlack
-                .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          Text(
-            'Sign in to your account as Employee'.tr(),
-            style: AppStylesManger.font14RegularBlack
-                .copyWith(color: Colors.grey, fontSize: 14),
+          AuthHeaderWidget(
+            title: 'Welcome Back!'.tr(),
+            subtitle: 'Sign in to your account as Employee'.tr(),
           ),
           const Row(children: []),
         ],
