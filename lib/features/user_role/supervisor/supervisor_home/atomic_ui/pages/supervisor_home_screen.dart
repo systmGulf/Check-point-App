@@ -101,10 +101,10 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                       return AnimatedTextWidget(
                         text: checkingText[index],
                         style: AppStylesManger.font18BoldBlack.copyWith(
-                            color: selectedIndex == index
-                                ? ColorsManger.primaryColor
-                                : Colors.white,
-                          ),
+                          color: selectedIndex == index
+                              ? ColorsManger.primaryColor
+                              : Colors.white,
+                        ),
                         textAlign: TextAlign.center,
                       );
                     }),

@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
@@ -7,7 +6,8 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+
+import '../molecules/supervisor_get_all_employees_loading_skeleton.dart';
 
 class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
   final String? query;
@@ -64,24 +64,7 @@ class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
                   },
                 );
         } else {
-          return SlideInUp(
-            child: SlideInUp(
-              onFinish: (a) {},
-              child: Skeletonizer(
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) =>
-                      SupervisorGetEmployeesInTeamItem(
-                    name: 'load Data',
-                    id: 'load Data',
-                    getAllEmployeesValue: EmployeeData(),
-                  ),
-                ),
-              ),
-            ),
-          );
+          return const SupervisorGetAllEmployeesLoadingSkeleton();
         }
       },
     );

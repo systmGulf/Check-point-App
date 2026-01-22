@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../molecules/members_in_department_list_view.dart';
+import './employees_by_department_loading_skeleton.dart';
 
 class GetMembersByDepartment extends StatelessWidget {
   const GetMembersByDepartment(
@@ -27,17 +27,7 @@ class GetMembersByDepartment extends StatelessWidget {
               
                 manger: manger, role: role, departmentId: departmentId);
           } else if (state is GetEmployeeByDepartmentLoading) {
-            return Skeletonizer(
-              child: ListView.builder(
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  itemBuilder: (_, index) {
-                    return MembersInDepartmentListView(
-                        manger: [
-                          
-                        ], role: role, departmentId: departmentId);
-                  }),
-            );
+            return const EmployeesByDepartmentLoadingSkeleton();
           } else if (state is GetEmployeeByDepartmentError) {
             return Text(state.toString());
           } else {

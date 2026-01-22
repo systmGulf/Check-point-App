@@ -3,13 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/error_widget.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
+import '../pages/recent_leave_application_loading_skeleton.dart';
 
 class RecentLeaveApplication extends StatelessWidget {
   const RecentLeaveApplication({
@@ -158,29 +158,7 @@ class RecentLeaveApplication extends StatelessWidget {
                               ],
                             );
                     }
-                    return Skeletonizer(
-                        child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return const Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: LeaveApplicationItem(
-                            userToken: 'Data Load',
-                            employeeId: 'Data load',
-                            type: 'Data Load',
-                            createdBy: 'Data Load',
-                            status: 'Data Load',
-                            name: 'Data Load',
-                            from: '2024-11-11',
-                            to: '2024-11-30',
-                            reason: 'Data Load',
-                            id: 0,
-                          ),
-                        );
-                      },
-                      itemCount: 10,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                    ));
+                    return const RecentLeaveApplicationLoadingSkeleton();
                   },
                 ),
               ],

@@ -5,7 +5,6 @@ import 'package:employee_mangement/core/widgets/custom_floating_action_button.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
@@ -22,6 +21,7 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../atoms/task_item.dart';
+import '../pages/supervisor_tasks_loading_skeleton.dart';
 import 'assign_task_screen.dart';
 
 class SupervisorTasksScreen extends StatefulWidget {
@@ -193,24 +193,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
             current is GetTaskPaginationLoading,
         builder: (context, state) {
           if (state is GetTasksLoading) {
-            return Skeletonizer(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (_, __) => TaskItem(
-                  employeeName: [],
-                  onSelected: (value) {},
-                  onEdit: () {},
-                  onDelete: () {},
-                  tasks: context.read<TasksCubit>().tasks,
-                  id: '1',
-                  priority: 'Loading...',
-                  state: 'Loading...',
-                  title: 'Loading...',
-                  description: 'Loading...',
-                  date: '2023-12-12',
-                ),
-              ),
-            );
+            return const SupervisorTasksLoadingSkeleton();
           }
           if (state is GetTasksError) {
             return state.errorMessage == 'Please check your internet connection'

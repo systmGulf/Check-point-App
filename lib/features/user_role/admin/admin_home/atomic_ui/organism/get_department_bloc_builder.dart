@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -9,6 +8,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/department_cubit/department_cubit.dart';
 import '../atoms/departments_item.dart';
+import './department_loading_skeleton.dart';
 
 class GetDepartmentBlocBuilder extends StatelessWidget {
   const GetDepartmentBlocBuilder({
@@ -45,13 +45,15 @@ class GetDepartmentBlocBuilder extends StatelessWidget {
                   itemCount: state.departmentList.data!.length,
                   itemBuilder: (context, index) {
                     return DepartmentItem(
-                        departmentId: state.departmentList.data![index].id ?? 00,
+                        departmentId:
+                            state.departmentList.data![index].id ?? 00,
                         onTap: () async {
-                          context
-                              .pushName(Routes.departmentPermission, arguments: [
-                            state.departmentList.data![index].departmentName,
-                            state.departmentList.data![index].id
-                          ]);
+                          context.pushName(Routes.departmentPermission,
+                              arguments: [
+                                state
+                                    .departmentList.data![index].departmentName,
+                                state.departmentList.data![index].id
+                              ]);
                         },
                         departmentName:
                             state.departmentList.data![index].departmentName ??
@@ -60,16 +62,7 @@ class GetDepartmentBlocBuilder extends StatelessWidget {
             ),
           );
         } else {
-          return ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Skeletonizer(
-                  child: DepartmentItem(
-                      departmentId: 00,
-                      onTap: () {},
-                      departmentName: 'Loading...'),
-                );
-              });
+          return const DepartmentLoadingSkeleton();
         }
       },
     );

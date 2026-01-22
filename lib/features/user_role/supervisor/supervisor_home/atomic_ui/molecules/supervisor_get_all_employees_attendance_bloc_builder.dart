@@ -6,13 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/share_attendace_cubit/shareattendance_cubit.dart';
 import '../organism/employee_attendace.dart';
+import 'supervisor_employees_attendance_loading_skeleton.dart';
 
 class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
   const SupervisorGetAllEmployeesAttendanceBlocBuilder({super.key});
@@ -113,31 +113,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                 )
               : SizedBox(height: 300.h, child: NoDataFound());
         } else if (state is SupervisorGetEmployeeAttendanceLoading) {
-          return Skeletonizer(
-            enabled: true,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: EmployeeAttendance(
-                    feedbacks: [],
-                    isEarly: false,
-                    isLate: false,
-                    employeeId: '',
-                    totalHours: double.parse('0.12').toStringAsFixed(2),
-                    id: '',
-                    employeeName: 'data loading',
-                    location: 'data loading',
-                    inTime: '10:00',
-                    outTime: '10:00',
-                  ),
-                );
-              },
-            ),
-          );
+          return const SupervisorEmployeesAttendanceLoadingSkeleton();
         } else {
           return Container();
         }

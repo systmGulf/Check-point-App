@@ -5,10 +5,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/molecules/supervisor_set_plan_loading_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/widgets/custom_app_text_form_field.dart';
@@ -154,18 +154,7 @@ class _PlansScreenState extends State<PlansScreen> {
                     ))
                 : NoDataFound();
           }
-          return ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Skeletonizer(
-                  child: PlanItem(
-                    planId: 00,
-                    planDate: '2024-11-21T00:00:00',
-                    note: 'Data Load',
-                    onTap: () {},
-                  ),
-                );
-              });
+          return const SupervisorSetPlanLoadingSkeleton();
         },
       ),
     );

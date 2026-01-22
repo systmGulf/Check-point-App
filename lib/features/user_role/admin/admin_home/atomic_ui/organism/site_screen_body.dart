@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -11,6 +10,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../atoms/sites_item.dart';
+import './site_screen_loading_skeleton.dart';
 
 class SiteScreenBody extends StatelessWidget {
   const SiteScreenBody({super.key});
@@ -29,9 +29,7 @@ class SiteScreenBody extends StatelessWidget {
           return RefreshIndicator(
             onRefresh: () async {
               context.read<CustomerCubit>().getCustomersByType(
-                    customerType: CustomerType.Site,
-                    isLoading: true
-                  );
+                  customerType: CustomerType.Site, isLoading: true);
             },
             child: CustomScrollView(
               slivers: <Widget>[
@@ -96,61 +94,12 @@ class SiteScreenBody extends StatelessWidget {
             ),
           );
         } else if (state is GetAllCustomersLoading) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Center(
-                      child: Transform(
-                        alignment: Alignment.center,
-                        transform: currentLanguageCode == 'ar'
-                            ? Matrix4.rotationY(3.14)
-                            : Matrix4.rotationY(0),
-                        child: SvgPicture.asset('assets/images/arrow_back.svg'),
-                      ),
-                    ),
-                  ),
-                ),
-                excludeHeaderSemantics: true,
-                pinned: true,
-                expandedHeight: 130,
-                backgroundColor: Colors.white,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    'Sites'.tr(context: context),
-                    style: AppStylesManger.font15BoldBlack,
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(childCount: 10, (
-                  BuildContext context,
-                  int index,
-                ) {
-                  return const Skeletonizer(
-                    child: SitesItem(
-                      id: 'Load Data',
-                      name: 'Load Data',
-                      descritption: 'Load Data',
-                      location: 'Load Data',
-                    ),
-                  );
-                }),
-              ),
-            ],
-          );
+          return const SiteScreenLoadingSkeleton();
         } else if (state is GetAllCustomersError) {
           return state.error == 'Please check your internet connection'
               ? NoInternetConnectionWidget(onPressed: () {
-                  context
-                      .read<CustomerCubit>()
-                      .getCustomersByType(customerType: CustomerType.Site, isLoading: true);
+                  context.read<CustomerCubit>().getCustomersByType(
+                      customerType: CustomerType.Site, isLoading: true);
                 })
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,

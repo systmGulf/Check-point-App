@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../organism/employee_attendace.dart';
+import 'supervisor_early_leavers_loading_skeleton.dart';
 
 class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
   const SupervisorGetEarlyLeaversBlocBuilder({super.key});
@@ -26,19 +26,25 @@ class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
             itemCount: state.employeeAllAttendance.data!.length,
             itemBuilder: (context, index) {
               return EmployeeAttendance(
-                isEarly: state.employeeAllAttendance.data![index].isEarly ?? false
-                ,
-                isLate: state.employeeAllAttendance.data![index].isLate ?? false,
-                employeeId: state.employeeAllAttendance.data![index].employeeId.toString(),
-                customerId: state.employeeAllAttendance.data![index].customerId.toString(), 
-                totalHours:
-                    state.employeeAllAttendance.data![index].totalHours.toString(),
+                isEarly:
+                    state.employeeAllAttendance.data![index].isEarly ?? false,
+                isLate:
+                    state.employeeAllAttendance.data![index].isLate ?? false,
+                employeeId: state.employeeAllAttendance.data![index].employeeId
+                    .toString(),
+                customerId: state.employeeAllAttendance.data![index].customerId
+                    .toString(),
+                totalHours: state.employeeAllAttendance.data![index].totalHours
+                    .toString(),
                 id: state.employeeAllAttendance.data![index].id.toString(),
                 employeeName:
                     state.employeeAllAttendance.data![index].employeeName ?? '',
-                location: state.employeeAllAttendance.data![index].location ?? '',
-                inTime: state.employeeAllAttendance.data![index].clockInTime ?? '',
-                outTime: state.employeeAllAttendance.data![index].clockOutTime ?? '',
+                location:
+                    state.employeeAllAttendance.data![index].location ?? '',
+                inTime:
+                    state.employeeAllAttendance.data![index].clockInTime ?? '',
+                outTime:
+                    state.employeeAllAttendance.data![index].clockOutTime ?? '',
               );
             },
           );
@@ -59,28 +65,7 @@ class SupervisorGetEarlyLeaversBlocBuilder extends StatelessWidget {
             ),
           );
         } else if (state is SupervisorGetEarlyLeaversLoading) {
-          return Skeletonizer(
-              child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: EmployeeAttendance(
-                  isEarly: false,
-                  isLate: false,
-                  employeeId: '',
-                  totalHours: '10:00',
-                  id: '',
-                  employeeName: 'data loading',
-                  location: 'data loading',
-                  inTime: '10:00',
-                  outTime: '10:00',
-                ),
-              );
-            },
-          ));
+          return const SupervisorEarlyLeaversLoadingSkeleton();
         } else {
           return Container();
         }

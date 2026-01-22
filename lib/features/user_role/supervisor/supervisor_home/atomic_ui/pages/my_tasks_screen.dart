@@ -3,12 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../atoms/taks_card.dart';
+import '../pages/my_tasks_loading_skeleton.dart';
 
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
@@ -26,21 +25,7 @@ class TasksScreen extends StatelessWidget {
               current is GetMyTasksError,
           builder: (context, state) {
             if (state is GetMyTasksLoading) {
-              Skeletonizer(
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  itemCount: 5,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    return TaskCard(
-                      task: EmployeeTasks(),
-                    );
-                  },
-                ),
-              );
+              return const MyTasksLoadingSkeleton();
             }
 
             if (state is GetMyTasksError) {
@@ -68,21 +53,7 @@ class TasksScreen extends StatelessWidget {
                 },
               );
             }
-            return Skeletonizer(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
-                ),
-                itemCount: 5,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  return TaskCard(
-                    task: EmployeeTasks(),
-                  );
-                },
-              ),
-            );
+            return const MyTasksLoadingSkeleton();
           },
         ),
       ),

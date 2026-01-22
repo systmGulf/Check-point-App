@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
@@ -18,6 +17,7 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/user_item_list_view.dart';
 import '../molecules/custom_search_bar.dart';
+import '../organism/all_users_list_loading_skeleton.dart';
 import '../pages/edit_user_screen.dart';
 
 class AllUsersListView extends StatefulWidget {
@@ -300,57 +300,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                 ],
               );
             } else if (state is GetAllEmployeesLoading) {
-              return Skeletonizer(
-                child: ListView(
-                  children: [
-                    Row(
-                      children: [
-                        Text('Users List'.tr(context: context),
-                            style: AppStylesManger.font15BoldBlack),
-                        const Spacer(),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: ColorsManger.primaryColor),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: Text(
-                              '0',
-                              style: AppStylesManger.font14regularWhite,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) => Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: UserItemListView(
-                          imageUrl: "",
-                          onDelete: () {},
-                          branchId: 0,
-                          branch: "Data Load",
-                          departmentId: 0,
-                          role: "Data Load",
-                          mobileId: "Data Load",
-                          userName: "Data Load",
-                          department: "Data Load",
-                          userId: "Data Load",
-                          name: "Data Load",
-                          position: "Data Load",
-                          shiftEndTime: "Data Load",
-                          shiftName: "Data Load",
-                          shiftStartTime: "Data Load",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return const AllUsersListLoadingSkeleton();
             } else if (state is GetAllEmployeesFailure) {
               return state.error == 'Please check your internet connection'
                   ? NoInternetConnectionWidget(onPressed: () {

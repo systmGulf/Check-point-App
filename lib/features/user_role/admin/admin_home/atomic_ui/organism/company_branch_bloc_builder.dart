@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -14,6 +13,7 @@ import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../atoms/company_branch_item.dart';
+import '../organism/company_branch_loading_skeleton.dart';
 
 class CompanyBranchesBlocBuilder extends StatelessWidget {
   const CompanyBranchesBlocBuilder({
@@ -31,52 +31,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
           current is GetBranchLoading),
       builder: (context, state) {
         if (state is GetBranchLoading) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Center(
-                      child: Transform(
-                          alignment: Alignment.center,
-                          transform: currentLanguageCode == 'ar'
-                              ? Matrix4.rotationY(3.14)
-                              : Matrix4.rotationY(0),
-                          child:
-                              SvgPicture.asset('assets/images/arrow_back.svg')),
-                    ),
-                  ),
-                ),
-                excludeHeaderSemantics: true,
-                expandedHeight: 150.h,
-                surfaceTintColor: Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  expandedTitleScale: 1.1,
-                  title: Text('Company Branches'.tr(context: context),
-                      style: AppStylesManger.font18BoldBlack),
-                ),
-              ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(childCount: 10, (
-                BuildContext context,
-                int index,
-              ) {
-                return Skeletonizer(
-                  child: CompanyBranchItem(
-                    onDelete: () {},
-                    name: 'data Load',
-                    location: 'data Load',
-                    decoration: 'data Load',
-                  ),
-                );
-              }))
-            ],
-          );
+          return const CompanyBranchLoadingSkeleton();
         } else if (state is GetBranchSuccess) {
           return RefreshIndicator(
             onRefresh: () async {
