@@ -65,7 +65,6 @@ class AnimatedCardWidget extends StatelessWidget {
       delayDuration: delayDuration,
       child: Container(
         decoration: AppConatinerDecoration(),
-        color: backgroundColor,
         child: Padding(
           padding: padding,
           child: child,

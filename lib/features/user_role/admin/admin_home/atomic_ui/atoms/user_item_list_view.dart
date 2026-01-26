@@ -98,7 +98,6 @@ class UserItemListView extends StatelessWidget {
                               ? Colors.blueAccent
                               : Colors.grey))
                 ])),
-              
               ],
             ),
           ),

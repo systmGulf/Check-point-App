@@ -78,15 +78,19 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                           ),
                           maxLines: 1,
                         ),
-                        ImageFiltered(
-                          imageFilter:
-                              ImageFilter.blur(sigmaX: value, sigmaY: value),
-                          child: Text(
-                            widget.mobileId,
-                            style: AppStylesManger.font12RegularBlack.copyWith(
-                              color: Colors.grey[700],
+                        Expanded(
+                          child: ImageFiltered(
+                            imageFilter:
+                                ImageFilter.blur(sigmaX: value, sigmaY: value),
+                            child: Text(
+                              widget.mobileId,
+                              style:
+                                  AppStylesManger.font12RegularBlack.copyWith(
+                                color: Colors.grey[700],
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
                           ),
                         ),
                         IconButton(

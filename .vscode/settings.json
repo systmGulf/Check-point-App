@@ -11,5 +11,6 @@
   },
   "java.configuration.updateBuildConfiguration": "automatic",
   "dart.flutterSdkPath": ".fvm/versions/3.7.12",
-  "snyk.advanced.autoSelectOrganization": true
+  "snyk.advanced.autoSelectOrganization": true,
+  "snyk.advanced.organization": "4b73ec50-3481-4349-9974-a017ec5a8cc4"
 }

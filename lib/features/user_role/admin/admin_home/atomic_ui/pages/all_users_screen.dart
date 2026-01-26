@@ -56,10 +56,10 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:CustomFloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         text: 'Add User'.tr(context: context),
         onTap: () {
-           showModalBottomSheet(
+          showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(

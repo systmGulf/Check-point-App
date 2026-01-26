@@ -27,7 +27,6 @@ class NoInternetConnectionWidget extends StatelessWidget {
           child: CustomAppButton(
               border: 10,
               onPressed: onPressed,
-              height: 40.h,
               textButton: 'Retry'.tr(context: context),
               buttonColor: ColorsManger.primaryColor),
         )

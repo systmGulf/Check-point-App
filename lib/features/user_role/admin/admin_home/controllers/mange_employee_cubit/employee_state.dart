@@ -108,3 +108,8 @@ class DeleteAddAccountRequestFailure extends EmployeeState {
   final String error;
   DeleteAddAccountRequestFailure({required this.error});
 }
+
+class GetAccountRequestsPaginationFailure extends EmployeeState {
+  final String error;
+  GetAccountRequestsPaginationFailure({required this.error});
+}

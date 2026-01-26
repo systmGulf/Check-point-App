@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart' ;
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 part 'employee_state.dart';
 
@@ -23,31 +23,60 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
 
-Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, }) async {
-  if (pageNumber == 0 ) {
-    emit(GetAllEmployeesLoading());
-  } else {
-    emit(GetAllEmployeesPaginationLoading());
+  int? totalEmployeesCount;
+  int? totalAccountRequestsCount;
+
+  Future<void> getAllEmployees({
+    int pageNumber = 0,
+    required int itemCount,
+  }) async {
+    if (pageNumber == 0) {
+      emit(GetAllEmployeesLoading());
+    } else {
+      emit(GetAllEmployeesPaginationLoading());
+    }
+    final result = await adminManageEmployeeRepo.getAllEmployees(
+        pageNumber: pageNumber, itemCount: itemCount);
+    result.fold(
+      (error) {
+        if (pageNumber == 0) {
+          emit(GetAllEmployeesFailure(error: error.message));
+        } else {
+          emit(GetAllEmployeesPaginationFailure(error: error.message));
+        }
+      },
+      (allEmployeesList) {
+        totalEmployeesCount = allEmployeesList.totalCount;
+        emit(GetAllEmployeesSuccess(value: allEmployeesList));
+      },
+    );
   }
-  final result = await adminManageEmployeeRepo.getAllEmployees(pageNumber: pageNumber, itemCount: itemCount);
-  result.fold(
-    (error) {
-      if (pageNumber == 0 ) {
-        emit(GetAllEmployeesFailure(error: error.message));
-      } else {
+
+  Future<GetAllEmployeesValue?> fetchEmployeesPage({
+    required int pageKey,
+    required int pageSize,
+  }) async {
+    final result = await adminManageEmployeeRepo.getAllEmployees(
+      pageNumber: pageKey,
+      itemCount: pageSize,
+    );
+    return result.fold(
+      (error) {
         emit(GetAllEmployeesPaginationFailure(error: error.message));
-      }
-    },
-    (allEmployeesList) {
-      emit(GetAllEmployeesSuccess(value: allEmployeesList));
-    },
-  );
-}
+        return null;
+      },
+      (allEmployeesList) {
+        totalEmployeesCount = allEmployeesList.totalCount;
+        return allEmployeesList;
+      },
+    );
+  }
   // Search employee
 
   Future<void> searchEmployee({required String name}) async {
     emit(SearchEmployeeLoading());
-    final result = await adminManageEmployeeRepo.searchEmployees(searchKey: name);
+    final result =
+        await adminManageEmployeeRepo.searchEmployees(searchKey: name);
     result.fold(
       (error) {
         emit(SearchEmployeeFailure(error: error.message));
@@ -110,11 +139,40 @@ Future<void> getAllEmployees({int pageNumber = 0, required int itemCount, }) asy
 
   Future<void> getAddAccountRequests() async {
     emit(GetAddAccountRequestsLoading());
-    final result =
-        await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
+    final result = await adminManageEmployeeRepo.getAddAccountRequestsForAdmin(
+      pageNumber: 0,
+      itemCount: 10,
+    );
     result.fold(
       (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
-      (r) => emit(GetAddAccountRequestsSuccess(value: r)),
+      (r) {
+        totalAccountRequestsCount = r.totalCount;
+        emit(GetAddAccountRequestsSuccess(value: r));
+      },
+    );
+  }
+
+  void clearAccountRequestsCache() {
+    totalAccountRequestsCount = null;
+  }
+
+  Future<List<AddAccountRequestData>?> fetchAccountRequestsPage({
+    required int pageKey,
+    required int pageSize,
+  }) async {
+    final result = await adminManageEmployeeRepo.getAddAccountRequestsForAdmin(
+      pageNumber: pageKey,
+      itemCount: pageSize,
+    );
+    return result.fold(
+      (error) {
+        emit(GetAccountRequestsPaginationFailure(error: error.message));
+        return null;
+      },
+      (value) {
+        totalAccountRequestsCount = value.totalCount;
+        return value.data ?? [];
+      },
     );
   }
 

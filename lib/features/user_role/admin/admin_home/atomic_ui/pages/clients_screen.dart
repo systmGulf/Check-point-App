@@ -13,16 +13,20 @@ class ClientsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingActionButton(text: 'Add Client'.tr(context: context), onTap: (){ showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (BuildContext cnx) {
-              return BlocProvider.value(
-                value: context.read<CustomerCubit>(),
-                child: const AddClientBottomSheet(),
-              );
-            },
-          );}),
+      floatingActionButton: CustomFloatingActionButton(
+          text: 'Add Client'.tr(context: context),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext cnx) {
+                return BlocProvider.value(
+                  value: context.read<CustomerCubit>(),
+                  child: const AddClientBottomSheet(),
+                );
+              },
+            );
+          }),
       body: const ClientsBodyScreen(),
     );
   }

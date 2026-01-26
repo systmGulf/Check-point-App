@@ -39,6 +39,7 @@ class ClientsBody extends StatelessWidget {
       child: Stack(
         children: [
           RefreshIndicator(
+            color: ColorsManger.primaryColor,
             onRefresh: () async {
               context.read<CustomerCubit>().getCustomersByType(
                     customerType: CustomerType.Customer,

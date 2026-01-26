@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -134,9 +135,12 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                         current is GetBranchError,
                     builder: (context, state) {
                       if (state is GetBranchLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return Center(
+                            child: Skeletonizer(
+                                child: Text(
+                          'Loading',
+                          style: AppStylesManger.font15BoldBlack,
+                        )));
                       } else if (state is GetBranchSuccess) {
                         return Container(
                           padding: const EdgeInsets.symmetric(

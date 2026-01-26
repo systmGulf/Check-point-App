@@ -17,8 +17,8 @@ class CustomFloatingActionButton extends StatelessWidget {
       onTap: onTap,
       child: IntrinsicWidth(
         child: Container(
-            height: 55.h,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            height: 45.h,
+            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
             decoration: BoxDecoration(
                 color: ColorsManger.primaryColor,
                 boxShadow: [
@@ -38,8 +38,10 @@ class CustomFloatingActionButton extends StatelessWidget {
               ),
               horizontalSpace(5.w),
               Text(text,
-                  style: AppStylesManger.font14regularWhite
-                      .copyWith(fontWeight: FontWeight.bold))
+                  style: AppStylesManger.font11clamgrey400weight.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: Colors.white))
             ])),
       ),
     );
