@@ -32,6 +32,7 @@ UAT_Test_Plan.md
 .flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
+Business_Document.md
 .pub/
 /build/
 
