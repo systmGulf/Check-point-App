@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/styles/styles.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -38,21 +39,23 @@ class GetAllEmployeesLoadingSkeleton extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: UserItemListView(
-                  userId: ' ',
-                  userName: 'data loading',
-                  department: 'data loading',
-                  mobileId: 'data loading',
-                  role: 'data loading',
-                  departmentId: 00,
-                  branch: 'data loading',
-                  branchId: 00,
-                  imageUrl: 'data loading',
-                  shiftName: 'data loading',
-                  shiftEndTime: 'data loading',
-                  shiftStartTime: 'data loading',
-                  name: 'data loading',
-                  position: 'data loading',
-                  onDelete: () {},
+                  userItemEntity: UserItemEntity(
+                    userId: ' ',
+                    userName: 'data loading',
+                    department: 'data loading',
+                    mobileId: 'data loading',
+                    role: 'data loading',
+                    departmentId: 00,
+                    branch: 'data loading',
+                    branchId: 00,
+                    imageUrl: 'data loading',
+                    shiftName: 'data loading',
+                    shiftEndTime: 'data loading',
+                    shiftStartTime: 'data loading',
+                    name: 'data loading',
+                    position: 'data loading',
+                    onDelete: () {},
+                  ),
                 ),
               );
             },

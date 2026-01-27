@@ -12,6 +12,7 @@ import '../../features/intro/presentation/views/screen/on_boarding_screen.dart';
 import '../../features/intro/presentation/views/screen/user_role_screen.dart';
 import '../../features/splash/presentation/view/screen/splash_screen.dart';
 import '../../features/user_role/admin/admin_auth/ui/view/views/admin_login_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_home_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_notification_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_screen.dart';
@@ -92,7 +93,7 @@ abstract class AppRouter {
             child: const SupervisorAddTasksScreen(),
           ),
         );
-        case Routes.ClientDetailsScreen:
+      case Routes.ClientDetailsScreen:
         return BaseRoute(
           page: const ClientDetailsScreen(),
         );
@@ -356,16 +357,7 @@ abstract class AppRouter {
       case Routes.editUser:
         return BaseRoute(
           page: EditUser(
-            branchId: settings.arguments! as int,
-            branch: settings.arguments! as String,
-            departmentId: settings.arguments! as int,
-            role: settings.arguments! as String,
-            mobileId: settings.arguments! as String,
-            id: settings.arguments! as String,
-            name: settings.arguments! as String,
-            userName: settings.arguments! as String,
-            position: settings.arguments! as String,
-            department: settings.arguments! as String,
+            userItemEntity: settings.arguments as UserItemEntity,
           ),
         );
       case Routes.supervisorPermission:
@@ -453,7 +445,7 @@ abstract class AppRouter {
             child: const CompanyBranchesScreen(),
           ),
         );
-      case Routes.addBranchsToShiftScreen:
+      case Routes.addBranchesToShiftScreen:
         return BaseRoute(
           page: MultiBlocProvider(
             providers: [

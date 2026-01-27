@@ -51,7 +51,7 @@ class GetShiftsBlocBuilder extends StatelessWidget {
                                 child: ShiftItem(
                                   onAdd: () {
                                     context.pushName(
-                                        Routes.addBranchsToShiftScreen,
+                                        Routes.addBranchesToShiftScreen,
                                         arguments: state
                                             .shiftModel.value!.data![index].id);
                                   },

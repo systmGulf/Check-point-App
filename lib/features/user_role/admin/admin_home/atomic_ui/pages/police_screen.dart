@@ -18,7 +18,6 @@ class PoliceScreen extends StatefulWidget {
 
 class _PoliceScreenState extends State<PoliceScreen> {
   @override
-  @override
   void initState() {
     super.initState();
     context

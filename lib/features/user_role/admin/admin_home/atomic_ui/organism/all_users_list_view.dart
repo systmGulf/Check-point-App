@@ -1,15 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
-import '../../../../../../core/widgets/build_snake_bar.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/user_item_list_view.dart';
@@ -93,8 +92,58 @@ class _AllUsersListViewState extends State<AllUsersListView> {
           listener: _handleStateChanges,
           child: Stack(
             children: [
-              _buildUsersList(),
-              _buildSearchBar(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CustomScrollView(
+                  slivers: [
+                    const SliverToBoxAdapter(child: UsersListHeader()),
+                    PagingListener(
+                      controller: _pagingController,
+                      builder: (context, state, fetchNextPage) {
+                        return PagedSliverList<int, EmployeeData>(
+                          state: state,
+                          fetchNextPage: fetchNextPage,
+                          builderDelegate:
+                              PagedChildBuilderDelegate<EmployeeData>(
+                            itemBuilder: (context, user, index) =>
+                                _buildUserItem(user),
+                            firstPageProgressIndicatorBuilder: (_) =>
+                                _buildLoadingSkeleton(10),
+                            newPageProgressIndicatorBuilder: (_) =>
+                                _buildLoadingSkeleton(3),
+                            firstPageErrorIndicatorBuilder: (_) =>
+                                NoInternetConnectionWidget(
+                                    onPressed: _refreshList),
+                            newPageErrorIndicatorBuilder: (_) => Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Center(
+                                child: TextButton(
+                                  onPressed: () => _refreshList(),
+                                  child: Text(
+                                    'Retry'.tr(context: context),
+                                    style: TextStyle(
+                                        color: ColorsManger.primaryColor),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            noItemsFoundIndicatorBuilder: (_) =>
+                                const Center(child: NoDataFound()),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
+              CustomSearchBar(
+                onQueryChanged: (query) {
+                  BlocProvider.of<EmployeeCubit>(context)
+                      .searchEmployee(name: query);
+                },
+                searchText: 'Please enter user name'.tr(context: context),
+                child: UserSearchResultsList(onNavigateBack: _refreshList),
+              ),
             ],
           ),
         ),
@@ -102,68 +151,29 @@ class _AllUsersListViewState extends State<AllUsersListView> {
     );
   }
 
-  void _handleStateChanges(BuildContext context, EmployeeState state) {
-    if (state is GetAllEmployeesPaginationFailure) {
-      buildSnackBar(
-        context,
-        customSnackBar: CustomSnackBar.error(message: state.error),
-      );
-    }
-  }
-
-  Widget _buildUsersList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(child: UsersListHeader()),
-          _buildPagedList(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPagedList() {
-    return PagingListener(
-      controller: _pagingController,
-      builder: (context, state, fetchNextPage) {
-        return PagedSliverList<int, EmployeeData>(
-          state: state,
-          fetchNextPage: fetchNextPage,
-          builderDelegate: PagedChildBuilderDelegate<EmployeeData>(
-            itemBuilder: (context, user, index) => _buildUserItem(user),
-            firstPageProgressIndicatorBuilder: (_) => _buildLoadingSkeleton(10),
-            newPageProgressIndicatorBuilder: (_) => _buildLoadingSkeleton(3),
-            firstPageErrorIndicatorBuilder: (_) => _buildErrorIndicator(),
-            newPageErrorIndicatorBuilder: (_) =>
-                _buildRetryButton(fetchNextPage),
-            noItemsFoundIndicatorBuilder: (_) =>
-                const Center(child: NoDataFound()),
-          ),
-        );
-      },
-    );
-  }
+  void _handleStateChanges(BuildContext context, EmployeeState state) {}
 
   Widget _buildUserItem(EmployeeData user) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
       child: UserItemListView(
-        imageUrl: user.imageUrl ?? '',
-        onDelete: () => _deleteUser(user),
-        branchId: user.branchId ?? 0,
-        branch: user.branchName ?? "",
-        departmentId: user.departmentId ?? 0,
-        role: user.role ?? "",
-        mobileId: user.mobileId ?? "",
-        userName: user.userName ?? "",
-        department: user.departmentName ?? "",
-        userId: user.id ?? "",
-        name: user.name ?? "",
-        position: user.position ?? "",
-        shiftEndTime: user.clockOutTime ?? "",
-        shiftName: user.shiftName ?? "",
-        shiftStartTime: user.clockInTime ?? "",
+        userItemEntity: UserItemEntity(
+          imageUrl: user.imageUrl ?? '',
+          onDelete: () => _deleteUser(user),
+          branchId: user.branchId ?? 0,
+          branch: user.branchName ?? "",
+          departmentId: user.departmentId ?? 0,
+          role: user.role ?? "",
+          mobileId: user.mobileId ?? "",
+          userName: user.userName ?? "",
+          department: user.departmentName ?? "",
+          userId: user.id ?? "",
+          name: user.name ?? "",
+          position: user.position ?? "",
+          shiftEndTime: user.clockOutTime ?? "",
+          shiftName: user.shiftName ?? "",
+          shiftStartTime: user.clockInTime ?? "",
+        ),
       ),
     );
   }
@@ -177,35 +187,6 @@ class _AllUsersListViewState extends State<AllUsersListView> {
           child: const UserItemLoad(),
         ),
       ),
-    );
-  }
-
-  Widget _buildErrorIndicator() {
-    return NoInternetConnectionWidget(onPressed: _refreshList);
-  }
-
-  Widget _buildRetryButton(VoidCallback onRetry) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: TextButton(
-          onPressed: onRetry,
-          child: Text(
-            'Retry'.tr(context: context),
-            style: TextStyle(color: ColorsManger.primaryColor),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return CustomSearchBar(
-      onQueryChanged: (query) {
-        BlocProvider.of<EmployeeCubit>(context).searchEmployee(name: query);
-      },
-      searchText: 'Please enter user name'.tr(context: context),
-      child: UserSearchResultsList(onNavigateBack: _refreshList),
     );
   }
 }

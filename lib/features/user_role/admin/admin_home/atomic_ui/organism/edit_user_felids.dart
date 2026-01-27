@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,19 +18,9 @@ import 'edit_user_data_bloc_listener.dart';
 class EditUserFelids extends StatefulWidget {
   const EditUserFelids({
     super.key,
-    required this.name,
-    required this.userName,
-    required this.position,
-    required this.department,
-    required this.id,
-    required this.mobileId,
-    required this.role,
-    required this.departmentId,
-    required this.branch,
-    required this.branchId,
+    required this.userItemEntity,
   });
-  final String name, userName, position, department, id, mobileId, role, branch;
-  final int departmentId, branchId;
+  final UserItemEntity userItemEntity;
   @override
   State<EditUserFelids> createState() => _EditUserFelidsState();
 }
@@ -60,11 +51,12 @@ class _EditUserFelidsState extends State<EditUserFelids> {
     passwordController =
         BlocProvider.of<EmployeeCubit>(context).editPasswordController;
     super.initState();
-    BlocProvider.of<EmployeeCubit>(context).role = widget.role;
-    BlocProvider.of<EmployeeCubit>(context).branchId = widget.branchId;
-    branch = widget.branch;
-    branchId = widget.branchId;
-    role = widget.role;
+    BlocProvider.of<EmployeeCubit>(context).role = widget.userItemEntity.role;
+    BlocProvider.of<EmployeeCubit>(context).branchId =
+        widget.userItemEntity.branchId;
+    branch = widget.userItemEntity.branch;
+    branchId = widget.userItemEntity.branchId;
+    role = widget.userItemEntity.role;
   }
 
   @override
@@ -88,21 +80,23 @@ class _EditUserFelidsState extends State<EditUserFelids> {
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
-            controller: editNameController..text = widget.name,
+            controller: editNameController..text = widget.userItemEntity.name,
             hint: 'Edit Name'.tr(context: context)),
         Text(' User name'.tr(context: context),
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
             readOnly: true,
-            controller: editUsernameController..text = widget.userName,
+            controller: editUsernameController
+              ..text = widget.userItemEntity.userName,
             hint: 'Edit User Name'.tr(context: context)),
         verticalSpace(10),
         Text('Edit Position'.tr(context: context),
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
-            controller: editPositionController..text = widget.position,
+            controller: editPositionController
+              ..text = widget.userItemEntity.position,
             hint: 'Edit User Position'.tr(context: context)),
         verticalSpace(10),
         Row(
@@ -115,8 +109,8 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                     style: AppStylesManger.font15BoldBlack),
                 verticalSpace(10),
                 SelectDepartment(
-                  department: widget.department,
-                  departmentId: widget.departmentId,
+                  department: widget.userItemEntity.department,
+                  departmentId: widget.userItemEntity.departmentId,
                 ),
               ],
             )),
@@ -150,7 +144,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                               border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(10)),
                           child: DropdownButton(
-                            value: branch ?? widget.department,
+                            value: branch ?? widget.userItemEntity.department,
                             hint: Text(
                               'Select Branch'.tr(context: context),
                             ),
@@ -215,7 +209,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
                   child: DropdownButton(
-                    value: role ?? widget.role,
+                    value: role ?? widget.userItemEntity.role,
                     isExpanded: true,
                     hint: Text(
                       'Select Role'.tr(context: context),
@@ -272,7 +266,8 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                     }
                     return null;
                   },
-                  controller: mobileIdController..text = widget.mobileId,
+                  controller: mobileIdController
+                    ..text = widget.userItemEntity.mobileId,
                   hint: 'MobileID'.tr(context: context),
                 ),
               ],
@@ -287,7 +282,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
               context
                   .read<EmployeeCubit>()
                   .editEmployee(
-                    id: widget.id,
+                    id: widget.userItemEntity.userId,
                   )
                   .then((value) {
                 Navigator.pop(context);

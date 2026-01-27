@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -111,20 +111,38 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemGridView(
-                              userImage:
-                                  state.value.data![index].imageUrl ?? '',
-                              branchId: state.value.data![index].branchId ?? 0,
-                              branch: state.value.data![index].branchName ?? "",
-                              departmentId:
-                                  state.value.data![index].departmentId ?? 0,
-                              mobileId: state.value.data![index].mobileId ?? "",
-                              role: state.value.data![index].role ?? "",
-                              userName: state.value.data![index].userName ?? "",
-                              department:
-                                  state.value.data![index].departmentName ?? "",
-                              userId: state.value.data![index].id ?? "",
-                              name: state.value.data![index].name ?? "",
-                              position: state.value.data![index].position ?? "",
+                              userItemEntity: UserItemEntity(
+                                imageUrl:
+                                    state.value.data![index].imageUrl ?? '',
+                                branchId:
+                                    state.value.data![index].branchId ?? 0,
+                                branch:
+                                    state.value.data![index].branchName ?? "",
+                                departmentId:
+                                    state.value.data![index].departmentId ?? 0,
+                                mobileId:
+                                    state.value.data![index].mobileId ?? "",
+                                role: state.value.data![index].role ?? "",
+                                userName:
+                                    state.value.data![index].userName ?? "",
+                                department:
+                                    state.value.data![index].departmentName ??
+                                        "",
+                                userId: state.value.data![index].id ?? "",
+                                name: state.value.data![index].name ?? "",
+                                position:
+                                    state.value.data![index].position ?? "",
+                                onDelete: () {
+                                  ValidateAndDeleteUser(
+                                      state.value.data![index].id.toString());
+                                },
+                                shiftName:
+                                    state.value.data![index].shiftName ?? "",
+                                shiftStartTime:
+                                    state.value.data![index].clockInTime ?? "",
+                                shiftEndTime:
+                                    state.value.data![index].clockOutTime ?? "",
+                              ),
                             ),
                           );
                         })
@@ -138,38 +156,38 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: UserItemListView(
-                              shiftEndTime:
-                                  state.value.data![index].clockOutTime ?? "",
-                              shiftName:
-                                  state.value.data![index].shiftName ?? "",
-                              shiftStartTime:
-                                  state.value.data![index].clockInTime ?? "",
-                              imageUrl: state.value.data![index].imageUrl ?? '',
-                              onDelete: () {
-                                buildDeleteAlertDialog(context,
-                                    title: 'Delete User'.tr(context: context),
-                                    message:
-                                        'Are you sure you want to delete this User?'
-                                            .tr(context: context), onYes: () {
-                                  context.pop();
-
-                                  context.read<TasksCubit>().deleteTask(
-                                      id: int.parse(state.value.data![index].id
-                                          .toString()));
-                                });
-                              },
-                              branchId: state.value.data![index].branchId ?? 0,
-                              branch: state.value.data![index].branchName ?? "",
-                              departmentId:
-                                  state.value.data![index].departmentId ?? 0,
-                              mobileId: state.value.data![index].mobileId ?? "",
-                              role: state.value.data![index].role ?? "",
-                              userName: state.value.data![index].userName ?? "",
-                              department:
-                                  state.value.data![index].departmentName ?? "",
-                              userId: state.value.data![index].id ?? "",
-                              name: state.value.data![index].name ?? "",
-                              position: state.value.data![index].position ?? "",
+                              userItemEntity: UserItemEntity(
+                                shiftEndTime:
+                                    state.value.data![index].clockOutTime ?? "",
+                                shiftName:
+                                    state.value.data![index].shiftName ?? "",
+                                shiftStartTime:
+                                    state.value.data![index].clockInTime ?? "",
+                                imageUrl:
+                                    state.value.data![index].imageUrl ?? '',
+                                onDelete: () {
+                                  ValidateAndDeleteUser(
+                                      state.value.data![index].id.toString());
+                                },
+                                branchId:
+                                    state.value.data![index].branchId ?? 0,
+                                branch:
+                                    state.value.data![index].branchName ?? "",
+                                departmentId:
+                                    state.value.data![index].departmentId ?? 0,
+                                mobileId:
+                                    state.value.data![index].mobileId ?? "",
+                                role: state.value.data![index].role ?? "",
+                                userName:
+                                    state.value.data![index].userName ?? "",
+                                department:
+                                    state.value.data![index].departmentName ??
+                                        "",
+                                userId: state.value.data![index].id ?? "",
+                                name: state.value.data![index].name ?? "",
+                                position:
+                                    state.value.data![index].position ?? "",
+                              ),
                             ),
                           );
                         }),
@@ -196,5 +214,16 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
             return Container();
           }
         });
+  }
+
+  void ValidateAndDeleteUser(String userId) {
+    buildDeleteAlertDialog(context,
+        title: 'Delete User'.tr(context: context),
+        message: 'Are you sure you want to delete this User?'
+            .tr(context: context), onYes: () {
+      context.pop();
+
+      context.read<TasksCubit>().deleteTask(id: int.parse(userId));
+    });
   }
 }

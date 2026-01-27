@@ -1,3 +1,4 @@
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
@@ -63,16 +64,23 @@ class UserSearchResultsList extends StatelessWidget {
             builder: (context) => BlocProvider(
               create: (context) => getIt<EmployeeCubit>(),
               child: EditUser(
-                branchId: employee.branchId ?? 0,
-                branch: employee.branchName ?? "",
-                departmentId: employee.departmentId ?? 0,
-                mobileId: employee.mobileId ?? "",
-                role: employee.role ?? "",
-                id: employee.id ?? "",
-                name: employee.name ?? "",
-                userName: employee.userName ?? "",
-                position: employee.position ?? "",
-                department: employee.departmentName ?? "",
+                userItemEntity: UserItemEntity(
+                  branchId: employee.branchId ?? 0,
+                  branch: employee.branchName ?? "",
+                  departmentId: employee.departmentId ?? 0,
+                  mobileId: employee.mobileId ?? "",
+                  role: employee.role ?? "",
+                  userId: employee.id ?? "",
+                  name: employee.name ?? "",
+                  userName: employee.userName ?? "",
+                  position: employee.position ?? "",
+                  department: employee.departmentName ?? "",
+                  shiftName: employee.shiftName ?? "",
+                  shiftStartTime: employee.clockInTime ?? "",
+                  shiftEndTime: employee.clockOutTime ?? "",
+                  imageUrl: employee.imageUrl ?? "",
+                  onDelete: () {},
+                ),
               ),
             ),
           ),

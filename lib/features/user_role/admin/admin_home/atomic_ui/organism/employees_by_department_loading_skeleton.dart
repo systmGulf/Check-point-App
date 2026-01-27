@@ -18,17 +18,14 @@ class EmployeesByDepartmentLoadingSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-      child: ListView.builder(
-        itemCount: itemCount,
-        shrinkWrap: true,
-        itemBuilder: (_, index) {
-          return MembersInDepartmentListView(
-            manger: [],
-            role: role ?? 'Data Loading',
-            departmentId: departmentId ?? 0,
-          );
-        },
-      ),
-    );
+        child: Column(
+      children: List.generate(
+          itemCount,
+          (index) => MembersInDepartmentListView(
+                manger: [],
+                role: role ?? 'Data Loading',
+                departmentId: departmentId ?? 0,
+              )),
+    ));
   }
 }

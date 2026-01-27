@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,29 +18,12 @@ import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../pages/edit_user_screen.dart';
 
 class UserItemGridView extends StatelessWidget {
-  const UserItemGridView(
-      {super.key,
-      required this.name,
-      required this.position,
-      required this.userId,
-      required this.department,
-      required this.userName,
-      required this.mobileId,
-      required this.role,
-      required this.branch,
-      required this.departmentId,
-      required this.branchId,
-      required this.userImage});
-  final String name,
-      position,
-      userId,
-      department,
-      userName,
-      mobileId,
-      role,
-      branch;
-  final int departmentId, branchId;
-  final String userImage;
+  const UserItemGridView({
+    super.key,
+    required this.userItemEntity,
+  });
+  final UserItemEntity userItemEntity;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,18 +34,18 @@ class UserItemGridView extends StatelessWidget {
         height: 120.h,
         decoration: AppConatinerDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          UserImage(height: 50, imageUrl: userImage),
+          UserImage(height: 50, imageUrl: userItemEntity.imageUrl),
           verticalSpace(20),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(userName,
+                Text(userItemEntity.userName,
                     style: AppStylesManger.font15BoldBlue
                         .copyWith(color: ColorsManger.primaryColor)),
                 Text(
-                  position,
+                  userItemEntity.position,
                   style: AppStylesManger.font14RegularBlack.copyWith(
                       color: const Color.fromARGB(255, 122, 121, 121)),
                   overflow: TextOverflow.ellipsis,
@@ -73,7 +58,7 @@ class UserItemGridView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
-                      text: department,
+                      text: userItemEntity.department,
                       style: AppStylesManger.font14RegularBlack
                           .copyWith(color: Colors.grey))
                 ]))
@@ -94,16 +79,7 @@ class UserItemGridView extends StatelessWidget {
                           return BlocProvider(
                             create: (context) => getIt<EmployeeCubit>(),
                             child: EditUser(
-                              branchId: branchId,
-                              branch: branch,
-                              departmentId: departmentId,
-                              mobileId: mobileId,
-                              role: role,
-                              id: userId,
-                              name: name,
-                              userName: userName,
-                              position: position,
-                              department: department,
+                              userItemEntity: userItemEntity,
                             ),
                           );
                         },
@@ -130,7 +106,7 @@ class UserItemGridView extends StatelessWidget {
                             .tr(context: context), onYes: () {
                       context.pop();
                       BlocProvider.of<EmployeeCubit>(context)
-                          .deleteUserAccount(userId: userId);
+                          .deleteUserAccount(userId: userItemEntity.userId);
                     });
                   },
                   icon: SizedBox(
@@ -138,7 +114,8 @@ class UserItemGridView extends StatelessWidget {
                       width: 24,
                       child: Center(
                           child: SvgPicture.asset(
-                              'assets/images/delete_icon.svg'))),
+                       Assets.DeleteIconImage,
+                        color: Colors.red,))),
                 ),
               ],
             ),

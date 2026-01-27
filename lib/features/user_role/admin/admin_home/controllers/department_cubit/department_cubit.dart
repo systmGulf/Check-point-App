@@ -28,7 +28,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> getAllDepartments() async {
     if (isClosed) return;
     emit(GetDepartmentLoading());
-    final result = await departmentRepo.getAllDepartments();
+    final result = await departmentRepo.getAllDepartments(
+      pageKey: 0,
+      pageSize: 10,
+    );
 
     result.fold(
       (error) {
@@ -38,6 +41,24 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       (departmentList) {
         if (isClosed) return;
         emit(GetDepartmentSuccess(departmentList));
+      },
+    );
+  }
+
+  Future<DepartmentValue?> fetchDepartmentsPage(
+      {required int pageKey, required int pageSize}) async {
+    final result = await departmentRepo.getAllDepartments(
+      pageKey: pageKey,
+      pageSize: pageSize,
+    );
+    return result.fold(
+      (error) {
+        emit(GetDepartmentError(error.message));
+        return null;
+      },
+      (departmentList) {
+        // we don't emit new state here
+        return departmentList;
       },
     );
   }

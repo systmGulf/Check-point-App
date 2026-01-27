@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,10 +79,10 @@ class DepartmentScreen extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
-                                  leading: const Icon(Icons.bar_chart,
-                                      color: Colors.blue),
-                                  trailing: const Icon(Icons.chevron_right,
-                                      color: Colors.blue),
+                                  leading: Icon(Icons.bar_chart,
+                                      color: ColorsManger.primaryColor),
+                                  trailing: Icon(Icons.chevron_right,
+                                      color: ColorsManger.primaryColor),
                                   title: Text(state.departmentList.data![index]
                                           .departmentName ??
                                       ''),

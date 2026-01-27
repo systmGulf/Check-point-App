@@ -13,17 +13,16 @@ class DepartmentLoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: itemCount,
-      itemBuilder: (context, index) {
-        return Skeletonizer(
-          child: DepartmentItem(
-            departmentId: 00,
-            onTap: () {},
-            departmentName: 'Loading...',
-          ),
-        );
-      },
-    );
+    return Skeletonizer(
+        child: Column(
+      children: List.generate(
+        4,
+        (index) => DepartmentItem(
+          departmentId: 00,
+          onTap: () {},
+          departmentName: 'Loading...',
+        ),
+      ),
+    ));
   }
 }

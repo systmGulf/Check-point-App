@@ -11,41 +11,15 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/utils/assets_manager.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import '../enitities/user_item_entity.dart';
 import '../pages/edit_user_screen.dart';
 
 class UserItemListView extends StatelessWidget {
-  const UserItemListView(
-      {super.key,
-      required this.name,
-      required this.position,
-      required this.userId,
-      required this.department,
-      required this.userName,
-      required this.mobileId,
-      required this.role,
-      required this.departmentId,
-      required this.branch,
-      required this.branchId,
-      required this.onDelete,
-      required this.imageUrl,
-      required this.shiftName,
-      required this.shiftStartTime,
-      required this.shiftEndTime});
-  final String name,
-      position,
-      userId,
-      department,
-      userName,
-      mobileId,
-      role,
-      branch,
-      shiftName,
-      shiftStartTime,
-      shiftEndTime;
-  final int departmentId, branchId;
-  final VoidCallback onDelete;
-  final String imageUrl;
-
+  const UserItemListView({
+    super.key,
+    required this.userItemEntity,
+  });
+  final UserItemEntity userItemEntity;
   @override
   Widget build(BuildContext context) {
     return AnimatedCardWidget(
@@ -55,7 +29,7 @@ class UserItemListView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
-          UserImage(height: 50, imageUrl: imageUrl),
+          UserImage(height: 50, imageUrl: userItemEntity.imageUrl),
           horizontalSpace(20),
           Expanded(
             flex: 4,
@@ -63,11 +37,11 @@ class UserItemListView extends StatelessWidget {
               spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(userName,
+                Text(userItemEntity.userName,
                     style: AppStylesManger.font15BoldBlue
                         .copyWith(color: ColorsManger.primaryColor)),
                 Text(
-                  position,
+                  userItemEntity.position,
                   style: AppStylesManger.font14RegularBlack.copyWith(
                       color: const Color.fromARGB(255, 122, 121, 121)),
                   overflow: TextOverflow.ellipsis,
@@ -80,7 +54,7 @@ class UserItemListView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
-                      text: department,
+                      text: userItemEntity.department,
                       style: AppStylesManger.font14RegularBlack
                           .copyWith(color: Colors.grey))
                 ])),
@@ -92,9 +66,9 @@ class UserItemListView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
-                      text: shiftName.tr(context: context),
+                      text: userItemEntity.shiftName.tr(context: context),
                       style: AppStylesManger.font14RegularBlack.copyWith(
-                          color: shiftName == 'No Shift Assigned'
+                          color: userItemEntity.shiftName == 'No Shift Assigned'
                               ? Colors.blueAccent
                               : Colors.grey))
                 ])),
@@ -110,16 +84,7 @@ class UserItemListView extends StatelessWidget {
                     return BlocProvider(
                       create: (context) => getIt<EmployeeCubit>(),
                       child: EditUser(
-                        branchId: branchId,
-                        branch: branch,
-                        departmentId: departmentId,
-                        mobileId: mobileId,
-                        role: role,
-                        id: userId,
-                        name: name,
-                        userName: userName,
-                        position: position,
-                        department: department,
+                        userItemEntity: userItemEntity,
                       ),
                     );
                   },
@@ -144,7 +109,7 @@ class UserItemListView extends StatelessWidget {
           ),
           horizontalSpace(0),
           IconButton(
-            onPressed: onDelete,
+            onPressed: userItemEntity.onDelete,
             icon: SizedBox(
                 height: 24,
                 width: 24,

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
@@ -10,33 +11,22 @@ import '../../controllers/department_cubit/department_cubit.dart';
 import '../organism/edit_user_felids.dart';
 
 class EditUser extends StatefulWidget {
-  const EditUser(
-      {super.key,
-      required this.name,
-      required this.userName,
-      required this.position,
-      required this.department,
-      required this.id,
-      required this.mobileId,
-      required this.role,
-      required this.departmentId,
-      required this.branch,
-      required this.branchId});
-  final String name, userName, position, department, id, mobileId, role, branch;
-  final int departmentId, branchId;
- 
+  const EditUser({
+    super.key,
+    required this.userItemEntity,
+  });
+  final UserItemEntity userItemEntity;
 
   @override
   State<EditUser> createState() => _EditUserState();
 }
 
 class _EditUserState extends State<EditUser> {
-  
   @override
   initState() {
     super.initState();
-    
   }
+
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -61,16 +51,7 @@ class _EditUserState extends State<EditUser> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: EditUserFelids(
-              branchId: widget.branchId,
-              branch: widget.branch,
-              departmentId: widget.departmentId,
-              name: widget.name,
-              userName: widget.userName,
-              position: widget.position,
-              department: widget.department,
-              id: widget.id,
-              mobileId: widget.mobileId,
-              role: widget.role,
+              userItemEntity: widget.userItemEntity,
             ),
           ),
         ),
