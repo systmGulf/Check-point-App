@@ -18,7 +18,7 @@ class AddTaskError extends TasksState {
 class GetTasksLoading extends TasksState {}
 
 class GetTasksSuccess extends TasksState {
-  final  List<GetTasData> tasks;
+  final List<GetTasData> tasks;
 
   GetTasksSuccess({required this.tasks});
 }
@@ -28,7 +28,9 @@ class GetTasksError extends TasksState {
 
   GetTasksError({required this.errorMessage});
 }
+
 class GetTaskPaginationLoading extends TasksState {}
+
 class GetTaskPaginationFailure extends TasksState {
   final String errorMessage;
   GetTaskPaginationFailure({required this.errorMessage});
@@ -42,17 +44,31 @@ class DeleteTaskError extends TasksState {
 }
 
 class DeleteTaskLoading extends TasksState {}
+
 class AssignTaskLoading extends TasksState {}
+
 class AssignTaskSuccess extends TasksState {}
+
 class AssignTaskError extends TasksState {
   final String errorMessage;
 
-  AssignTaskError({required this.errorMessage});  
+  AssignTaskError({required this.errorMessage});
 }
 
 class ChangeTaskStatusLoading extends TasksState {}
+
 class ChangeTaskStatusSuccess extends TasksState {}
+
 class ChangeTaskStatusError extends TasksState {
   final String errorMessage;
   ChangeTaskStatusError({required this.errorMessage});
+}
+
+class RemoveEmployeeFromTaskLoading extends TasksState {}
+
+class RemoveEmployeeFromTaskSuccess extends TasksState {}
+
+class RemoveEmployeeFromTaskError extends TasksState {
+  final String errorMessage;
+  RemoveEmployeeFromTaskError({required this.errorMessage});
 }

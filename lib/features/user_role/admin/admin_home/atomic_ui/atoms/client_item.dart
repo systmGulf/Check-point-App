@@ -37,7 +37,7 @@ class ClientItem extends StatelessWidget {
           leading: CircleAvatar(
               radius: 30,
               backgroundColor: Colors.grey.shade100,
-              child: Icon(Icons.person, color: ColorsManger.primaryColor)),
+              child: Icon(Icons.person, color: ColorsManger.darkblue)),
           title: Text(
             name,
             style: const TextStyle(

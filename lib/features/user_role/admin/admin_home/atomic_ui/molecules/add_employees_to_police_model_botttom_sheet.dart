@@ -15,18 +15,18 @@ import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import './assign_police_to_employees_loading_skeleton.dart';
 
-class AddEmployeesToPoliceyModelBottomSheet extends StatelessWidget {
-  const AddEmployeesToPoliceyModelBottomSheet(
+class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
+  const AddEmployeesToPoliceModelBottomSheet(
       {super.key, required this.policeId});
   final int policeId;
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(20),
-        child: Column(
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
           children: [
             Align(
               alignment: Alignment.centerRight,
@@ -156,7 +156,6 @@ class AddEmployeesToPoliceyModelBottomSheet extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

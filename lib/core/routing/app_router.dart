@@ -262,11 +262,7 @@ abstract class AppRouter {
       case Routes.clientsScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) {
-              return getIt<CustomerCubit>()
-                ..getCustomersByType(
-                    customerType: CustomerType.Customer, isLoading: true);
-            },
+            create: (context) => getIt<CustomerCubit>(),
             child: const ClientsScreen(),
           ),
         );

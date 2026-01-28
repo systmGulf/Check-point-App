@@ -1,18 +1,19 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/enums/customer_type.dart';
-import 'package:employee_mangement/core/widgets/build_snake_bar.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/routing/routes.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
+import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
-import 'package:excel/excel.dart';
-// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/customers_model/get_customer_model.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/widgets/error_widget.dart';
-import '../molecules/clients_body.dart';
-import '../molecules/customer_loading_widget.dart';
+import '../../../../../../core/styles/colors.dart';
+import '../atoms/client_item.dart';
+import '../molecules/custom_admin_app_bar.dart';
 
 class ClientsBodyScreen extends StatefulWidget {
   const ClientsBodyScreen({Key? key}) : super(key: key);
@@ -22,133 +23,163 @@ class ClientsBodyScreen extends StatefulWidget {
 }
 
 class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
+  static const _pageSize = 10;
+
+  late final PagingController<int, CustomerData> _pagingController;
+  late final ScrollController _scrollController;
+  bool _hasNextPage = true;
+  bool _isFirstPageLoaded = false;
+
   List<Map<String, dynamic>> _excelData = [];
   bool isLoading = false;
-  double loadingProgress = 0.0;
   Set<String> selectedClients = {};
 
-  Future<void> pickAndParseExcel() async {
-    setLoadingState(true);
-    try {
-      // final result = await FilePicker.platform.pickFiles(
-      //   type: FileType.custom,
-      //   allowedExtensions: ['xlsx'],
-      // );
-
-      // if (result != null) {
-      //   final file = File(result.files.single.path!);
-      //   await parseExcelFile(file);
-      // } else {
-      //   showErrorSnackbar("No file selected".tr());
-      // }
-    } catch (e) {
-      showErrorSnackbar(e.toString());
-    } finally {
-      setLoadingState(false);
-    }
-  }
-
-  Future<void> parseExcelFile(File file) async {
-    final bytes = file.readAsBytesSync();
-    final excel = Excel.decodeBytes(bytes);
-    final parsedData = <Map<String, dynamic>>[];
-
-    for (var table in excel.tables.keys) {
-      final sheet = excel.tables[table];
-      if (sheet != null) {
-        for (var rowIndex = 1; rowIndex < sheet.rows.length; rowIndex++) {
-          final row = sheet.rows[rowIndex];
-          parsedData.add({
-            "customer_name": row[0]?.value?.toString() ?? "",
-            "works_as": row[1]?.value?.toString() ?? "",
-            "location_in_map": row[2]?.value?.toString() ?? "",
-            "location": row[3]?.value?.toString() ?? "",
-          });
-        }
-      }
-    }
-
-    setState(() => _excelData = parsedData);
-
-    for (var item in _excelData) {
-      context.read<CustomerCubit>()
-        ..nameController.text = item['customer_name']!
-        ..workedAsController.text = item['works_as']!
-        ..locationController.text = item['location']!
-        ..addCustomer(customerType: CustomerType.Customer);
-    }
-  }
-
-  void toggleSelection(String clientId) {
-    setState(() {
-      selectedClients.contains(clientId)
-          ? selectedClients.remove(clientId)
-          : selectedClients.add(clientId);
-    });
-  }
-
-  Future<void> deleteSelectedClients() async {
-    for (final clientId in selectedClients) {
-      context.read<CustomerCubit>().deleteCustomer(
-            id: clientId,
-            customerType: CustomerType.Customer,
-          );
-    }
-    setState(() => selectedClients.clear());
-    showSuccessSnackbar("Clients deleted".tr());
-  }
-
-  void setLoadingState(bool value) {
-    setState(() => isLoading = value);
-  }
-
-  void showErrorSnackbar(String message) {
-    buildSnackBar(
-      context,
-      customSnackBar: CustomSnackBar.error(message: message),
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _pagingController = PagingController<int, CustomerData>(
+      getNextPageKey: (state) {
+        if (!_hasNextPage) return null;
+        if (state.keys?.isEmpty ?? true) return 0;
+        // Block auto-fetch after first page - scroll listener handles it
+        if (!_isFirstPageLoaded) return null;
+        return state.keys!.last + 1;
+      },
+      fetchPage: (pageKey) async {
+        final cubit = context.read<CustomerCubit>();
+        final result = await cubit.fetchCustomersPage(
+          customerType: CustomerType.Customer,
+          pageKey: pageKey,
+          pageSize: _pageSize,
+        );
+        if (result == null) throw Exception('Failed to load data');
+        _hasNextPage = result.hasNextPage ?? false;
+        if (pageKey == 0) _isFirstPageLoaded = true;
+        return result.data ?? [];
+      },
     );
+    _scrollController.addListener(_onScroll);
   }
 
-  void showSuccessSnackbar(String message) {
-    buildSnackBar(
-      context,
-      customSnackBar: CustomSnackBar.success(message: message),
-    );
+  void _onScroll() {
+    if (!_hasNextPage || !_isFirstPageLoaded) return;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    // Fetch next page when scrolled to 80% of list
+    if (currentScroll >= maxScroll * 0.8) {
+      _pagingController.fetchNextPage();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  void _refreshList() {
+    _hasNextPage = true;
+    _isFirstPageLoaded = false;
+    _pagingController.refresh();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomerCubit, CustomerState>(
-      buildWhen: (previous, current) =>
-          current is GetAllCustomersSuccess ||
-          current is GetAllCustomersError ||
-          current is GetAllCustomersLoading,
-      builder: (context, state) {
-        if (state is GetAllCustomersSuccess) {
-          return ClientsBody(
-            customerData: state.customers,
-            selectedClients: selectedClients,
-            isLoading: isLoading,
-            onPickExcel: pickAndParseExcel,
-            onDeleteSelected: deleteSelectedClients,
-            onToggleSelection: toggleSelection,
-          );
-        } else if (state is GetAllCustomersLoading) {
-          return CustomerLoadingSkeleton(onPickExcel: pickAndParseExcel);
-        } else if (state is GetAllCustomersError) {
-          return CustomErrorWidget(
-            error: state.error,
-            onRetry: () => context.read<CustomerCubit>().getCustomersByType(
-                  customerType: CustomerType.Customer,
-                  isLoading: true,
-                ),
-          );
-        } else {
-          return const SizedBox.shrink();
+    return BlocListener<CustomerCubit, CustomerState>(
+      listener: (context, state) {
+        if (state is DeleteCustomerSuccess) {
+          _refreshList();
         }
       },
+      child: Stack(
+        children: [
+          RefreshIndicator(
+            color: ColorsManger.primaryColor,
+            onRefresh: () async => _refreshList(),
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                CustomAdminAppBar(
+                  onPickExcel: () {},
+                  appBarName: 'Clients',
+                ),
+                PagingListener(
+                  controller: _pagingController,
+                  builder: (context, state, fetchNextPage) {
+                    return PagedSliverList<int, CustomerData>(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      builderDelegate: PagedChildBuilderDelegate<CustomerData>(
+                        itemBuilder: (context, client, index) =>
+                            _buildClientItem(client),
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            _buildLoadingSkeleton(10),
+                        newPageProgressIndicatorBuilder: (_) =>
+                            _buildLoadingSkeleton(3),
+                        firstPageErrorIndicatorBuilder: (_) =>
+                            NoInternetConnectionWidget(
+                          onPressed: _refreshList,
+                        ),
+                        newPageErrorIndicatorBuilder: (_) => Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(
+                            child: TextButton(
+                              onPressed: _refreshList,
+                              child: Text(
+                                'Retry'.tr(context: context),
+                                style:
+                                    TextStyle(color: ColorsManger.primaryColor),
+                              ),
+                            ),
+                          ),
+                        ),
+                        noItemsFoundIndicatorBuilder: (_) =>
+                            const Center(child: NoDataFound()),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClientItem(CustomerData client) {
+    return ClientItem(
+      onTap: () {
+        context.pushName(Routes.ClientDetailsScreen);
+      },
+      color: selectedClients.contains(client.id)
+          ? Colors.grey.shade300
+          : Colors.white,
+      id: client.id!,
+      name: client.name!,
+      workedAs: client.workesAs!,
+      location: client.location!,
+    );
+  }
+
+  Widget _buildLoadingSkeleton(int count) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(
+        count,
+        (index) => Skeletonizer(
+          child: ClientItem(
+            onTap: () {},
+            color: Colors.white,
+            id: '',
+            name: 'Load Data',
+            workedAs: 'Load Data',
+            location: 'Load Data',
+          ),
+        ),
+      ),
     );
   }
 }
-
-

@@ -114,4 +114,25 @@ class TasksCubit extends Cubit<TasksState> {
       emit(ChangeTaskStatusSuccess());
     });
   }
+
+  Future<void> deleteEmployeeFromTask(
+      {required int taskId, required String employeeIds}) async {
+    emit(RemoveEmployeeFromTaskLoading());
+
+    final result = await supervisorRepo.removeSomeEmployeesFromTask(
+        taskId: taskId, employeeIds: employeeIds);
+    result.fold((l) {
+      emit(RemoveEmployeeFromTaskError(errorMessage: l.message));
+    }, (r) {
+      getTasks();
+      emit(RemoveEmployeeFromTaskSuccess());
+    });
+  }
+
+  @override
+  Future<void> close() async {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.close();
+  }
 }

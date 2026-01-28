@@ -75,7 +75,7 @@ class CustomerCubit extends Cubit<CustomerState> {
           ),
         ),
         (r) {
-          getCustomersByType(customerType: customerType,isLoading: false );
+          getCustomersByType(customerType: customerType, isLoading: false);
           emit(DeleteCustomerSuccess());
         },
       );
@@ -88,7 +88,8 @@ class CustomerCubit extends Cubit<CustomerState> {
     }
   }
 
-  Future<void> getCustomersByType({required CustomerType customerType, required bool isLoading}) async {
+  Future<void> getCustomersByType(
+      {required CustomerType customerType, required bool isLoading}) async {
     if (isLoading) emit(GetAllCustomersLoading());
     final result =
         await customerRepo.getCustomersByType(type: customerType.name);
@@ -106,6 +107,25 @@ class CustomerCubit extends Cubit<CustomerState> {
         emit(
           GetAllCustomersSuccess(customers: r),
         );
+      },
+    );
+  }
+
+  Future<CustomerValue?> fetchCustomersPage({
+    required CustomerType customerType,
+    required int pageKey,
+    required int pageSize,
+  }) async {
+    final result = await customerRepo.getCustomersByType(
+      type: customerType.name,
+    );
+    return result.fold(
+      (error) {
+        emit(GetAllCustomersError(error: error.message));
+        return null;
+      },
+      (customers) {
+        return customers;
       },
     );
   }

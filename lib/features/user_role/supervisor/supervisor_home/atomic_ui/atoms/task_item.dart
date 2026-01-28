@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/employee_assigned_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../molecules/todo_flag_and_data.dart';
 import '../molecules/todo_title_and_state.dart';
 
@@ -89,19 +91,35 @@ class _TaskItemState extends State<TaskItem> {
             ),
             verticalSpace(8),
             ExpansionTile(
-              
-              leading: const Icon(Icons.person, size: 20 ,),
+              leading: const Icon(
+                Icons.person,
+                size: 20,
+              ),
               iconColor: Colors.red,
               collapsedIconColor: Colors.black,
               tilePadding: const EdgeInsets.all(0),
               childrenPadding: const EdgeInsets.all(0),
-              title: Text('Assigned to'.tr(context: context) + ' (${widget.employeeName.length})', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),),
-              children: List.generate(widget.employeeName.length,
+              title: Text(
+                'Assigned to'.tr(context: context) +
+                    ' (${widget.employeeName.length})',
+                style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+              ),
+              children: List.generate(
+                  widget.employeeName.length,
                   (index) => EmployeeAssignedWidget(
-                    departmentName: widget.employeeName[index].departmentName ?? '',
-                    name: widget.employeeName[index].name ?? '' , imageUrl: widget.employeeName[index].branchName ?? '',  position: widget.employeeName[index].position ?? '' ,)),
+                        onDelete: () {
+                          context.read<TasksCubit>().deleteEmployeeFromTask(
+                              taskId: int.parse(widget.id),
+                              employeeIds:
+                                  widget.employeeName[index].id.toString());
+                        },
+                        departmentName:
+                            widget.employeeName[index].departmentName ?? '',
+                        name: widget.employeeName[index].name ?? '',
+                        imageUrl: widget.employeeName[index].branchName ?? '',
+                        position: widget.employeeName[index].position ?? '',
+                      )),
             ),
-        
             Divider(
               thickness: 1,
             )

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +14,8 @@ import 'package:hr_management_system_package/core/dependecy_injection/service_lo
 import 'package:hr_management_system_package/env/env.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'core/common/bloc_observer.dart';
 import 'check_point_app.dart';
+import 'core/common/bloc_observer.dart';
 
 Future<void> initializeServices() async {
   // await Firebase.initializeApp(
@@ -28,7 +29,7 @@ Future<void> initializeServices() async {
   await initializeServiceBackground();
   setUpServiceLocator();
   registerFactory();
-  Bloc.observer = AppBlocObserver();
+  if(!kReleaseMode)Bloc.observer = AppBlocObserver();
   await Permission.manageExternalStorage.request();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

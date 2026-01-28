@@ -57,7 +57,7 @@ class PoliceItem extends StatelessWidget {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      builder: (_) {
+                      builder: (bottomSheetContext) {
                         return MultiBlocProvider(
                           providers: [
                             BlocProvider(
@@ -70,10 +70,12 @@ class PoliceItem extends StatelessWidget {
                           ],
                           child: Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                              bottom: MediaQuery.of(bottomSheetContext)
+                                  .viewInsets
+                                  .bottom,
                             ),
                             child: SingleChildScrollView(
-                              child: AddEmployeesToPoliceyModelBottomSheet(
+                              child: AddEmployeesToPoliceModelBottomSheet(
                                   policeId: policeId),
                             ),
                           ),
