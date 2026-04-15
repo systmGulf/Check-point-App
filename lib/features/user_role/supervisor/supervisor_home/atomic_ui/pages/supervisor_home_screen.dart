@@ -52,7 +52,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
     return Stack(
       children: [
         Image.asset(
-          Assets.BannerHomeImage,
+          Assets.assetsImagesBannerHome,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

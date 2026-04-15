@@ -39,6 +39,11 @@ class AppStylesManger {
     color: Color(0xFF6E6A7C),
   );
 
+  static TextStyle font14regulargray = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManger.grey9c,
+  );
   // ============== Font Size 13 ==============
   static TextStyle font13RegularBlue = TextStyle(
     fontSize: 13.sp,
@@ -75,6 +80,12 @@ class AppStylesManger {
     fontSize: 14.sp,
     fontWeight: FontWeight.bold,
     color: Colors.green,
+  );
+
+  static TextStyle font14BoldBlack = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
   );
 
   // ============== Font Size 15 ==============
@@ -248,7 +259,6 @@ class AppStylesManger {
     color: Colors.black,
   );
 
-  
   static TextStyle get font19reguleWhite => font19RegularWhite;
   static TextStyle get font13regulerBlue => font13RegularBlue;
   static TextStyle get font13DarkBlueMedium => font11RegularBlack;

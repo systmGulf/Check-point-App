@@ -52,7 +52,7 @@ class ManagementScreen extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          Assets.BannerHomeImage,
+          Assets.assetsImagesBannerHome,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

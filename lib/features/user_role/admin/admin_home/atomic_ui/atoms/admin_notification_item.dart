@@ -134,7 +134,7 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                             ),
                           ),
                           SvgPicture.asset(
-                            Assets.CalenderAttendanceImage,
+                            Assets.assetsImagesCalenderAttendance,
                             height: 12.h,
                             width: 12.w,
                             colorFilter: ColorFilter.mode(

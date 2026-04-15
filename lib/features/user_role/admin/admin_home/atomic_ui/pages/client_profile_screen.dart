@@ -100,7 +100,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage:
-                            const AssetImage(Assets.IconDefaultUserImage),
+                            const AssetImage(Assets.assetsImagesIconDefaultUser),
                         backgroundColor: Colors.grey[200],
                       ),
                       const SizedBox(height: 16),

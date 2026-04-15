@@ -7,7 +7,7 @@ class SupervisorHomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      Assets.BannerHomeImage,
+      Assets.assetsImagesBannerHome,
     );
   }
 }

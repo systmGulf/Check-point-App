@@ -51,7 +51,7 @@ class DepartmentScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: [
                 verticalSpace(MediaQuery.sizeOf(context).height * 0.1),
-                Image.asset(Assets.DepartmentImage, height: 150),
+                Image.asset(Assets.assetsImagesDepartment, height: 150),
                 verticalSpace(20),
                 const Expanded(
                   child: GetDepartmentBlocBuilder(),

@@ -20,7 +20,7 @@ class AdminHomeScreenBody extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Image.asset(
-          Assets.BannerHomeImage,
+          Assets.assetsImagesBannerHome,
         ),
         SafeArea(
           child: RefreshIndicator(

@@ -24,7 +24,8 @@ class UserRoleScreenBody extends StatelessWidget {
               verticalSpace(MediaQuery.sizeOf(context).height * 0.05),
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.3,
-                child: const Image(image: AssetImage(Assets.NetworkingImage)),
+                child: const Image(
+                    image: AssetImage(Assets.assetsImagesNetworking)),
               ),
               verticalSpace(40),
               AnimatedListItemWidget(
@@ -35,7 +36,7 @@ class UserRoleScreenBody extends StatelessWidget {
                     context.pushName(Routes.employeeLoginScreen);
                   },
                   roleOptionText: 'Employee'.tr(),
-                  roleImage: Assets.EmployeeImage,
+                  roleImage: Assets.assetsImagesEmployeeImage,
                 ),
               ),
               verticalSpace(10),
@@ -47,7 +48,7 @@ class UserRoleScreenBody extends StatelessWidget {
                     context.pushName(Routes.supervisorLoginScreen);
                   },
                   roleOptionText: 'Supervisor'.tr(),
-                  roleImage: Assets.MangerImage,
+                  roleImage: Assets.assetsImagesManger,
                 ),
               ),
               verticalSpace(10),
@@ -59,14 +60,14 @@ class UserRoleScreenBody extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.adminLoginScreen);
                   },
                   roleOptionText: 'Admin'.tr(),
-                  roleImage: Assets.AdminImage,
+                  roleImage: Assets.assetsImagesAdmin,
                 ),
               ),
               verticalSpace(40),
               Align(
                 alignment: Alignment.center,
                 child: AnimatedImageWidget(
-                  imagePath: Assets.VodafoneImage,
+                  imagePath: Assets.assetsImagesVodaphone,
                   width: 60.r,
                   height: 60.r,
                 ),

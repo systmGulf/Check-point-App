@@ -32,7 +32,7 @@ class CustomFilterFloatingActionButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             spacing: 8,
             children: [
-              SvgPicture.asset(Assets.FilterButtonImage),
+              SvgPicture.asset(Assets.assetsImagesFilterButton),
               Text(
                 "Filter".tr(context: context),
                 style: AppStylesManger.font14Medium,

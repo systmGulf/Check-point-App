@@ -488,5 +488,6 @@
   "Filter": "Filter",
   "Police assigned successfully": "Police assigned successfully",
   "clockInTime": "Clock In Time",
-  "clockOutTime": "Clock Out Time"
+  "clockOutTime": "Clock Out Time",
+  "Assets": "Assets"
 }

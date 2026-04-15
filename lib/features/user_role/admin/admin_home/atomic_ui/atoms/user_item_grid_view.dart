@@ -114,7 +114,7 @@ class UserItemGridView extends StatelessWidget {
                       width: 24,
                       child: Center(
                           child: SvgPicture.asset(
-                       Assets.DeleteIconImage,
+                       Assets.assetsImagesDeleteIcon,
                         color: Colors.red,))),
                 ),
               ],

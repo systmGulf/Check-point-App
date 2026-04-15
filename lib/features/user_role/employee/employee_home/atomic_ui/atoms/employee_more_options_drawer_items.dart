@@ -88,6 +88,19 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
     ),
     verticalSpace(10),
     GestureDetector(
+      onTap: () {},
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 19.w),
+        child: Text(
+          'Assets'.tr(
+            context: context,
+          ),
+          style: AppStylesManger.font18RegulerBlack,
+        ),
+      ),
+    ),
+    verticalSpace(10),
+    GestureDetector(
       onTap: () {
         context.pushName(Routes.employeeAddNewCustomerScreen);
       },

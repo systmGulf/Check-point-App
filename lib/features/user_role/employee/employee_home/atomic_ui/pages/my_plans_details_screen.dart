@@ -17,7 +17,6 @@ class MyPlansDetailsScreen extends StatefulWidget {
 }
 
 class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
-
   Map<String, int> _itemColors = {};
 
   @override
@@ -26,7 +25,6 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     _loadSavedColors();
   }
 
- 
   Future<void> _loadSavedColors() async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString('saved_plan_colors');
@@ -37,7 +35,6 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     }
   }
 
- 
   Future<void> _saveColor(int index, Color color) async {
     final prefs = await SharedPreferences.getInstance();
     _itemColors[index.toString()] = color.value;
@@ -45,26 +42,27 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
     setState(() {});
   }
 
-
   void _pickColor(int index) {
     showDialog(
-    barrierColor: Colors.black26 ,
-     
+      barrierColor: Colors.black26,
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
-        title:  Text("Choose Item Color", style: AppStylesManger.font14RegularBlack.copyWith(fontWeight: FontWeight.bold),),
+        title: Text(
+          "Choose Item Color",
+          style: AppStylesManger.font14RegularBlack
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
         content: Wrap(
           spacing: 10,
           runSpacing: 10,
           children: [
-            _colorOption(index, Colors.red!),
-            _colorOption(index, Colors.green!),
-            _colorOption(index, Colors.blue!),
-            _colorOption(index, Colors.orange!),
-            _colorOption(index, Colors.purple!),
+            _colorOption(index, Colors.red),
+            _colorOption(index, Colors.green),
+            _colorOption(index, Colors.blue),
+            _colorOption(index, Colors.orange),
+            _colorOption(index, Colors.purple),
             _colorOption(index, Colors.white), // Reset option
-
           ],
         ),
       ),
@@ -78,9 +76,9 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
         Navigator.pop(context);
       },
       child: CircleAvatar(
-        backgroundColor: Colors.grey[300],
-        radius: 22,
-        child: CircleAvatar(backgroundColor: color, radius: 20)),
+          backgroundColor: Colors.grey[300],
+          radius: 22,
+          child: CircleAvatar(backgroundColor: color, radius: 20)),
     );
   }
 
@@ -98,21 +96,32 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
                 itemBuilder: (context, index) {
                   // Get the saved color or default to transparent/white
                   int? colorValue = _itemColors[index.toString()];
-                  Color bgColor = colorValue != null ? Color(colorValue) : Colors.transparent;
+                  Color bgColor = colorValue != null
+                      ? Color(colorValue)
+                      : Colors.transparent;
 
                   return GestureDetector(
-                    onLongPress: () => _pickColor(index), // Long press to pick color
+                    onLongPress: () =>
+                        _pickColor(index), // Long press to pick color
                     child: TimeLineTile(
                       color: bgColor,
                       date: state.plansById.planDate ?? '',
-                      visitType: state.plansById.customerPlans![index].customer!.customerType!,
+                      visitType: state.plansById.customerPlans![index].customer!
+                          .customerType!,
                       visited: state.plansById.customerPlans![index].visited!,
                       isFirst: index == 0,
-                      isLast: index == state.plansById.customerPlans!.length - 1,
-                      name: state.plansById.customerPlans![index].customer!.name ?? '',
+                      isLast:
+                          index == state.plansById.customerPlans!.length - 1,
+                      name: state
+                              .plansById.customerPlans![index].customer!.name ??
+                          '',
                       notes: state.plansById.customerPlans![index].note ?? '',
-                      workesAs: state.plansById.customerPlans![index].customer!.workesAs ?? '',
-                      location: state.plansById.customerPlans![index].customer!.location ?? '',
+                      workesAs: state.plansById.customerPlans![index].customer!
+                              .workesAs ??
+                          '',
+                      location: state.plansById.customerPlans![index].customer!
+                              .location ??
+                          '',
                     ),
                   );
                 },

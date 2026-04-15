@@ -57,4 +57,8 @@ class Routes {
   static const String policeScreen = '/policeScreen';
   static const String addBranchesToShiftScreen = '/addBranchsToShiftScreen';
   static const String gamficationRoute = '/gamficationRoute';
+  static const String attachReceiptScreen = "/attachReceiptScreen";
+  static const String employeeAssetsAllRequestsScreen =
+      "/employeeAssetsAllRequestsScreen";
+  static const String receiptDetailsScreen = "/receiptDetailsScreen";
 }

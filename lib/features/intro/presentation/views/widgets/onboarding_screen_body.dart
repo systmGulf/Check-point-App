@@ -23,7 +23,7 @@ class OnboardingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(Assets.OnboardingBgImageImage, fit: BoxFit.cover),
+        Image.asset(Assets.assetsImagesOnboardingBgImage, fit: BoxFit.cover),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35),
             child: SafeArea(
@@ -43,7 +43,7 @@ class OnboardingScreenBody extends StatelessWidget {
                   ),
                   const Spacer(),
                   AnimatedImageWidget(
-                    imagePath: Assets.VodafoneImage,
+                    imagePath: Assets.assetsImagesVodaphone,
                     width: 60.r,
                     height: 60.r,
                   ),

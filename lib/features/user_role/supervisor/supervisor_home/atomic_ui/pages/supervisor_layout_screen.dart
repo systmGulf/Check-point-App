@@ -72,7 +72,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 child: Row(children: [
                   horizontalSpace(5),
                   Image.asset(
-                    Assets.CupImage,
+                    Assets.assetsImagesCup,
                     width: 30.w,
                     height: 30.h,
                   ),
@@ -121,18 +121,18 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
             items: [
               BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(
-                  Assets.HomeIconImage,
+                  Assets.assetsImagesHomeIcon,
                   color: ColorsManger.primaryColor,
                 ),
                 icon: SvgPicture.asset(
-                  Assets.HomeIconImage,
+                  Assets.assetsImagesHomeIcon,
                 ),
                 label: 'Home'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.AttendanceIconImage,
+                activeIcon: SvgPicture.asset(Assets.assetsImagesAttendanceIcon,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.AttendanceIconImage),
+                icon: SvgPicture.asset(Assets.assetsImagesAttendanceIcon),
                 label: 'Attendance'.tr(context: context),
               ),
               BottomNavigationBarItem(
@@ -142,15 +142,15 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 label: 'Tasks'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.RequestsImage,
+                activeIcon: SvgPicture.asset(Assets.assetsImagesRequests,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.RequestsImage),
+                icon: SvgPicture.asset(Assets.assetsImagesRequests),
                 label: 'Requests'.tr(context: context),
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.PlansIconImage,
+                activeIcon: SvgPicture.asset(Assets.assetsImagesPlansIcon,
                     color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.PlansIconImage),
+                icon: SvgPicture.asset(Assets.assetsImagesPlansIcon),
                 label: 'Plans'.tr(context: context),
               ),
             ],

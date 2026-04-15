@@ -100,7 +100,7 @@ class UserItemListView extends StatelessWidget {
               width: 26,
               child: Center(
                 child: SvgPicture.asset(
-                  Assets.EditImage,
+                  Assets.assetsImagesEdit,
                   color: ColorsManger.primaryColor,
                 ),
               ),
@@ -113,7 +113,8 @@ class UserItemListView extends StatelessWidget {
             icon: SizedBox(
                 height: 24,
                 width: 24,
-                child: Center(child: SvgPicture.asset(Assets.DeleteIconImage))),
+                child: Center(
+                    child: SvgPicture.asset(Assets.assetsImagesDeleteIcon))),
             color: Colors.red,
           ),
         ],

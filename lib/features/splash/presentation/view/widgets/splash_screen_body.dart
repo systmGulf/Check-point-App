@@ -36,7 +36,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           child: CircleAvatar(
               radius: 70.r,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage(Assets.VodafoneImage)),
+              backgroundImage: AssetImage(Assets.assetsImagesVodaphone)),
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),
