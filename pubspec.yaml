@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   flutter:
-    
     sdk: flutter
 
   #Localization & Internationalization
@@ -105,11 +104,9 @@ dependencies:
   share_plus: ^11.0.0
   dotted_border: ^3.1.0
 
-  
-
   # Firebase
-  # firebase_core: ^4.3.0
-  # firebase_messaging: ^16.1.0
+  firebase_core: ^4.3.0
+  firebase_messaging: ^16.1.0
 
 dev_dependencies:
   flutter_test:
@@ -128,7 +125,6 @@ flutter:
     - assets/animated_images/Alert.json
     - assets/translations/
     - assets/animated_images/empty.json
-
 
   fonts:
     - family: Cairo

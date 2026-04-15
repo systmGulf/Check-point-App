@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
+import 'package:employee_mangement/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +31,11 @@ Future<void> initializeServices() async {
   await initializeServiceBackground();
   setUpServiceLocator();
   registerFactory();
-  if(!kReleaseMode)Bloc.observer = AppBlocObserver();
+  if (!kReleaseMode) Bloc.observer = AppBlocObserver();
   await Permission.manageExternalStorage.request();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 }
-
 Future<void> runMainApp() async {
   runApp(
     EasyLocalization(
@@ -48,7 +49,9 @@ Future<void> runMainApp() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Permission.ignoreBatteryOptimizations.request();
   PermissionStatus locationStatus =
       await Permission.locationWhenInUse.request();
