@@ -19,7 +19,13 @@ class CustomUploadedImageContainerItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(Assets.assetsImagesInvoiceContainer),
+          SvgPicture.asset(
+            Assets.assetsImagesInvoiceContainer,
+            colorFilter: ColorFilter.mode(
+              ColorsManger.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
           horizontalSpace(12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

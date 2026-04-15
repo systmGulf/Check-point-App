@@ -22,9 +22,15 @@ class CustomUploadImageContainer extends StatelessWidget {
           child: Column(
             spacing: 4,
             children: [
-              SvgPicture.asset(Assets.assetsImagesUploadImage),
+              SvgPicture.asset(
+                Assets.assetsImagesUploadImage,
+                colorFilter: ColorFilter.mode(
+                  ColorsManger.primaryColor,
+                  BlendMode.srcIn,
+                ),
+              ),
               Text(
-                "Attach a Receipt".tr(context: context),
+                "Attach Receipt".tr(context: context),
                 style: AppStylesManger.font16BoldBlack.copyWith(
                   fontWeight: FontWeight.w500,
                 ),

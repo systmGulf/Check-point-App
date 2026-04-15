@@ -2,6 +2,9 @@ import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_us
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/add_branches_to_shift_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/clients_details_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/attach_receipt_screen.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_screen.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/receipt_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
@@ -458,6 +461,18 @@ abstract class AppRouter {
           ),
         );
 
+      case Routes.employeeAssetsManagerScreen:
+        return BaseRoute(
+          page: EmployeeAssetsScreen(),
+        );
+      case Routes.attachReceiptScreen:
+        return BaseRoute(
+          page: AttachReceiptScreen(),
+        );
+      case Routes.receiptDetailsScreen:
+        return BaseRoute(
+          page: ReceiptDetailsScreen(),
+        );
       default:
         return BaseRoute(
           page: const NoRouteScreen(),

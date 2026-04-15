@@ -88,7 +88,9 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
     ),
     verticalSpace(10),
     GestureDetector(
-      onTap: () {},
+      onTap: () {
+        context.pushName(Routes.employeeAssetsManagerScreen);
+      },
       child: Padding(
         padding: EdgeInsetsDirectional.only(start: 19.w),
         child: Text(

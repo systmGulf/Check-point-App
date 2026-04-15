@@ -10,8 +10,6 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/ato
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/atoms/custom_uploaded_image_container_item.dart';
 import 'package:flutter/material.dart';
 
-
-
 class CustomAttachReceiptViewBody extends StatelessWidget {
   const CustomAttachReceiptViewBody({super.key});
 
@@ -21,7 +19,6 @@ class CustomAttachReceiptViewBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
           Text(
             "Amount".tr(context: context),
@@ -47,7 +44,6 @@ class CustomAttachReceiptViewBody extends StatelessWidget {
                   bottomLeft: context.locale.languageCode == 'en'
                       ? const Radius.circular(16)
                       : Radius.zero,
-
                   topRight: context.locale.languageCode == 'ar'
                       ? const Radius.circular(16)
                       : Radius.zero,
@@ -72,7 +68,7 @@ class CustomAttachReceiptViewBody extends StatelessWidget {
           ),
           verticalSpace(8),
           CustomAppTextFormField(
-            hint: "Enter details here...",
+            hint: "Enter details here".tr(context: context),
             maxLines: 5,
             hintStyle: AppStylesManger.font14regulargray.copyWith(
               color: const Color(0xffA7A7A7),

@@ -489,5 +489,20 @@
   "Police assigned successfully": "Police assigned successfully",
   "clockInTime": "Clock In Time",
   "clockOutTime": "Clock Out Time",
-  "Assets": "Assets"
+  "Assets": "Assets",
+  "MyAssets": "My Assets",
+  "TotalAssigned": "Total Assigned",
+  "PendingRequests": "Pending Requests",
+  "AmountSpent": "Amount Spent",
+  "RemainingBalance": "Remaining Balance",
+  "Recent History": "Recent History",
+  "Attach Receipt": "Attach Receipt",
+  "Amount": "Amount",
+  "Description / Notes": "Description / Notes",
+  "Tap to attach file here": "Tap to attach file here",
+  "Receipt Details": "Receipt Details",
+  "Total Amount": "Total Amount",
+  "Date of Request": "Date of Request",
+  "Invoices": "Invoices",
+  "Enter details here": "Enter details here..."
 }

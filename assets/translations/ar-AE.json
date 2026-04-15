@@ -488,5 +488,20 @@
   "Filter": "تصفية",
   "clockInTime": "وقت التسجيل",
   "clockOutTime": "وقت الخروج",
-  "Assets": "العهده"
+  "Assets": "العهده",
+  "MyAssets": "عهدتي",
+  "TotalAssigned": "إجمالي المخصص",
+  "PendingRequests": "الطلبات المعلقة",
+  "AmountSpent": "المبلغ المنفق",
+  "RemainingBalance": "الرصيد المتبقي",
+  "Recent History": "السجل الاخير",
+  "Attach Receipt": "ارفاق الفاتورة",
+  "Amount": "المبلغ",
+  "Description / Notes": "الوصف / الملاحظات",
+  "Tap to attach file here": "انقر هنا لارفاق الملف",
+  "Receipt Details": "تفاصيل الفاتورة",
+  "Total Amount": "المبلغ الكلي",
+  "Date of Request": "تاريخ الطلب",
+  "Invoices": "الفواتير",
+  "Enter details here": "ادخل التفاصيل هنا"
 }

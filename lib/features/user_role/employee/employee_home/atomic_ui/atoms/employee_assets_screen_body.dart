@@ -8,7 +8,6 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/ato
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/molecules/custom_employee_recent_history_list_view_container.dart';
 import 'package:flutter/material.dart';
 
-
 class EmployeeAssetsScreenBody extends StatelessWidget {
   const EmployeeAssetsScreenBody({super.key});
 
@@ -32,7 +31,7 @@ class EmployeeAssetsScreenBody extends StatelessWidget {
                   context.pushName(Routes.employeeAssetsAllRequestsScreen);
                 },
                 child: Text(
-                  "See all".tr(context: context),
+                  "see all".tr(context: context),
                   style: AppStylesManger.font14BoldBlack.copyWith(
                     color: ColorsManger.grey9c,
                   ),

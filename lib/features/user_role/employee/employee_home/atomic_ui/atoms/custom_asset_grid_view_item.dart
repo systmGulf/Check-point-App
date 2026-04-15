@@ -26,7 +26,13 @@ class CustomAssetGridViewItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SvgPicture.asset(image),
+          SvgPicture.asset(
+            image,
+            colorFilter: ColorFilter.mode(
+              ColorsManger.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
           verticalSpace(8),
           Expanded(
             child: Text(

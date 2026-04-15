@@ -23,10 +23,10 @@ class _CustomEmployeeAssetGridViewContainerState
   ];
 
   List<String> titles(BuildContext context) => [
-        "Total Assigned".tr(context: context),
-        "Pending Requests".tr(context: context),
-        "Amount Spent".tr(context: context),
-        "Remaining Balance".tr(context: context),
+        "TotalAssigned".tr(context: context),
+        "PendingRequests".tr(context: context),
+        "AmountSpent".tr(context: context),
+        "RemainingBalance".tr(context: context),
       ];
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _CustomEmployeeAssetGridViewContainerState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "My Assets".tr(context: context),
+              "MyAssets".tr(context: context),
               style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(16),
