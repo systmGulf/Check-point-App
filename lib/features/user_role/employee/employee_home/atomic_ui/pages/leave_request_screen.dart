@@ -15,33 +15,44 @@ import '../../controller/leave_application/leave_application_cubit.dart';
 import '../atoms/date_button_leave_request.dart';
 import '../organism/create_leave_application_bloc_listiner.dart';
 
-class RequestClaimApplicationScreen extends StatefulWidget {
-  const RequestClaimApplicationScreen({super.key});
+class LeaveRequestScreen extends StatefulWidget {
+  const LeaveRequestScreen({
+    super.key,
+    required this.leaveTypeId,
+  });
+  final String leaveTypeId;
 
   @override
-  State<RequestClaimApplicationScreen> createState() =>
-      _RequestClaimApplicationScreenState();
+  State<LeaveRequestScreen> createState() => _LeaveRequestScreenState();
 }
 
-class _RequestClaimApplicationScreenState
-    extends State<RequestClaimApplicationScreen> {
+class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   late TextEditingController reasonController;
-  late TextEditingController remarkController;
+  late TextEditingController numberController;
+  late TextEditingController emergencyEmailController;
+  late TextEditingController emergencyPhoneController;
   GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   void initState() {
     reasonController =
         BlocProvider.of<LeaveApplicationCubit>(context).reasonController;
-    remarkController =
-        BlocProvider.of<LeaveApplicationCubit>(context).remarkController;
+    numberController =
+        BlocProvider.of<LeaveApplicationCubit>(context).numberController;
+    emergencyEmailController = BlocProvider.of<LeaveApplicationCubit>(context)
+        .emergencyEmailController;
+    emergencyPhoneController = BlocProvider.of<LeaveApplicationCubit>(context)
+        .emergencyPhoneController;
+
     super.initState();
   }
 
   @override
   void dispose() {
     reasonController.dispose();
-    remarkController.dispose();
+    numberController.dispose();
+    emergencyEmailController.dispose();
+    emergencyPhoneController.dispose();
     super.dispose();
   }
 
@@ -50,12 +61,12 @@ class _RequestClaimApplicationScreenState
     return Scaffold(
         appBar: buildCustomAppBar(
           context,
-          'Request Claim'.tr(context: context),
+          'Leave Request'.tr(context: context),
           [
             IconButton(
                 onPressed: () {
                   context.pushName(Routes.myLeaveRequestsScreen,
-                      arguments: 'RequestClaim');
+                      arguments: widget.leaveTypeId);
                 },
                 icon: const Icon(Icons.explore))
           ],
@@ -106,19 +117,60 @@ class _RequestClaimApplicationScreenState
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Remark'.tr(context: context),
+                  child: Text('Number of days'.tr(context: context),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
                 CustomAppTextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Remark Required'.tr(context: context);
-                      }
-                      return null;
-                    },
-                    controller: remarkController,
-                    hint: 'Remark'.tr(context: context)),
+                  controller: numberController,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Number Required'.tr(context: context);
+                    }
+                    return null;
+                  },
+                  hint: 'Enter Number'.tr(context: context),
+                ),
+                verticalSpace(10),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Emergency Email'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
+                verticalSpace(10),
+                CustomAppTextFormField(
+                  controller: emergencyEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Emergency Email Required'.tr(context: context);
+                    }
+                    if (!value.contains('@')) {
+                      return 'Please enter a valid email'.tr(context: context);
+                    }
+                    return null;
+                  },
+                  hint: 'Enter Emergency Email'.tr(context: context),
+                ),
+                verticalSpace(10),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Emergency Phone'.tr(context: context),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
+                verticalSpace(10),
+                CustomAppTextFormField(
+                  controller: emergencyPhoneController,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Emergency Phone Required'.tr(context: context);
+                    }
+                    return null;
+                  },
+                  hint: 'Enter Emergency Phone'.tr(context: context),
+                ),
                 verticalSpace(10),
                 verticalSpace(20),
                 CustomAppButton(
@@ -140,7 +192,7 @@ class _RequestClaimApplicationScreenState
   validateAndSubmitLeaveRequest() {
     if (formKey.currentState!.validate()) {
       BlocProvider.of<LeaveApplicationCubit>(context)
-          .sendRequestToSupervisor(type: "RequestClaim");
+          .sendRequestToSupervisor(leaveTypeId: widget.leaveTypeId);
     }
   }
 }

@@ -1,6 +1,6 @@
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 
+import '../common/app_container_decoration.dart';
 import 'animated_widget.dart';
 import 'base_animation.dart';
 
@@ -64,7 +64,7 @@ class AnimatedCardWidget extends StatelessWidget {
       widgetType: WidgetAnimationType.card,
       delayDuration: delayDuration,
       child: Container(
-        decoration: AppConatinerDecoration(),
+        decoration: AppContainerDecoration(),
         child: Padding(
           padding: padding,
           child: child,

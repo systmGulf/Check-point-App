@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../core/common/app_container_decoration.dart';
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -32,7 +33,7 @@ class UserItemGridView extends StatelessWidget {
           horizontal: 10,
         ),
         height: 120.h,
-        decoration: AppConatinerDecoration(),
+        decoration: AppContainerDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           UserImage(height: 50, imageUrl: userItemEntity.imageUrl),
           verticalSpace(20),

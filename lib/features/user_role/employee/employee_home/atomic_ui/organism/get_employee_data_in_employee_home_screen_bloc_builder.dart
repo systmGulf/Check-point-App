@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
@@ -12,6 +13,10 @@ class GetEmployeeDataInEmployeeHomeScreenBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return UserNameAndTimeAndCheckInAndOutItem(
+      image: '',
+      name: "${ApiConstant.username}",
+    );
     return BlocBuilder<LoginCubit, LoginState>(
         buildWhen: (previous, current) =>
             current is GetEmployeeLoading ||

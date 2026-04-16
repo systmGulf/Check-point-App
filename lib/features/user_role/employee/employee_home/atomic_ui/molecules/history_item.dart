@@ -31,7 +31,7 @@ class HistoryItem extends StatelessWidget {
 
     return Container(
         child: Container(
-            decoration: AppConatinerDecoration(),
+            // decoration: AppConatinerDecoration(),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

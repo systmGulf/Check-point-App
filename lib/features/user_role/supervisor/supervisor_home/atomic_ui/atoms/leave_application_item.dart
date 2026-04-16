@@ -61,7 +61,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
     return IntrinsicHeight(
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: AppConatinerDecoration(),
+        // decoration: AppConatinerDecoration(),
         child: Column(
           children: [
             Padding(

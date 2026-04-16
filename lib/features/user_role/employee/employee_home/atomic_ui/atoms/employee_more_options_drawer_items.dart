@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -11,80 +14,38 @@ import 'option_drawer_item.dart';
 
 List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
   return [
-    MoreOptionDrawerItem(
-      title: 'Request Claim'.tr(
-        context: context,
-      ),
-      children: [
-        OptionDrawerItem(
-          title: 'Application'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.requestClaimApplicationScreen);
-          },
-        ),
-        verticalSpace(10),
-      ],
-    ),
-    MoreOptionDrawerItem(
-      title: 'Leave'.tr(
-        context: context,
-      ),
-      children: [
-        OptionDrawerItem(
-          title: 'Application'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.leaveApplicationScreen);
-          },
-        ),
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'Planner'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.leavePlanner);
-          },
-        ),
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'Schedule'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.leaveSchedule);
-          },
-        ),
-        verticalSpace(10),
-      ],
-    ),
-    MoreOptionDrawerItem(
-      title: 'accident'.tr(
-        context: context,
-      ),
-      children: [
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'MySelf'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.incidentMyself);
-          },
-        ),
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'Team'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.incidentTeam);
-          },
-        ),
-      ],
+    BlocBuilder<LeaveApplicationCubit, LeaveApplicationState>(
+      buildWhen: (previous, current) =>
+          current is GetLeaveTypesFailure ||
+          current is GetLeaveTypesSuccess ||
+          current is GetLeaveTypesLoading,
+      builder: (context, state) {
+        if (state is GetLeaveTypesSuccess) {
+          return MoreOptionDrawerItem(
+              title: 'Leave Requests'.tr(
+                context: context,
+              ),
+              children: List.generate(
+                  state.leaveTypeResponse.value!.length,
+                  (index) => OptionDrawerItem(
+                      title: state.leaveTypeResponse.value![index].type!,
+                      onPressed: () {
+                        context.pushName(Routes.requestClaimApplicationScreen, arguments: state.leaveTypeResponse.value![index].id);
+                      })));
+        } else if (state is GetLeaveTypesFailure) {
+          return Text(state.error);
+        } else if (state is GetLeaveTypesLoading) {
+          return Skeletonizer(
+              child: MoreOptionDrawerItem(
+            title: 'Leave Requests'.tr(
+              context: context,
+            ),
+            children: [],
+          ));
+        } else {
+          return Container();
+        }
+      },
     ),
     verticalSpace(10),
     GestureDetector(
