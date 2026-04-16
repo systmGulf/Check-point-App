@@ -21,39 +21,37 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
   DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            widget.text ??
-                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
-            style: const TextStyle(
-              color: Color(0xFF7F7F7F),
-              fontSize: 14,
-              fontFamily: 'DM Sans',
-              fontWeight: FontWeight.w400,
-              height: 0.10,
-              letterSpacing: 0.20,
+    return GestureDetector(
+      onTap: pickDate,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              widget.text ??
+                  '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
+              style: const TextStyle(
+                color: Color(0xFF7F7F7F),
+                fontSize: 14,
+                fontFamily: 'DM Sans',
+                fontWeight: FontWeight.w400,
+                height: 0.10,
+                letterSpacing: 0.20,
+              ),
             ),
-          ),
-          const Spacer(),
-          GestureDetector(
-            onTap: () async {
-              pickDate();
-            },
-            child: SizedBox(
+            const Spacer(),
+            SizedBox(
                 height: 24,
                 width: 24,
                 child: Center(
-                    child: SvgPicture.asset('assets/images/calendar.svg'))),
-          )
-        ],
+                    child: SvgPicture.asset('assets/images/calendar.svg')))
+          ],
+        ),
       ),
     );
   }

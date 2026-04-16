@@ -24,6 +24,13 @@ class EmployeeLeaveRequestsHistoryScreen extends StatefulWidget {
 
 class _EmployeeLeaveRequestsHistoryScreenState
     extends State<EmployeeLeaveRequestsHistoryScreen> {
+  String _formatDate(DateFormat dateFormat, String? raw) {
+    if (raw == null || raw.trim().isEmpty) return '--';
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) return raw;
+    return dateFormat.format(parsed);
+  }
+
   @override
   void initState() {
     BlocProvider.of<LeaveApplicationCubit>(context)
@@ -66,70 +73,57 @@ class _EmployeeLeaveRequestsHistoryScreenState
                           );
                   }
                   if (state is GetLeaveApplicationSuccess) {
-                    // 
-                    return state.employeeLeaveRequests.data!.isEmpty
+                    final leaveRequests =
+                        state.employeeLeaveRequests.value ?? [];
+                    return leaveRequests.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Center(
                                   child: Column(
-                                children: [
-                                 NoDataFound()
-                                ],
+                                children: [NoDataFound()],
                               )),
                             ],
                           )
                         : ListView.builder(
                             shrinkWrap: true,
-                            itemCount: state.employeeLeaveRequests.data!.length,
+                            itemCount: leaveRequests.length,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+                              final item = leaveRequests[index];
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 3),
                                 child: EmployeeLeaveRequestItem(
                                   type: widget.type,
-                                  id: state.employeeLeaveRequests.data![index]
-                                          .id ??
-                                      0,
-                                  from: dateFormat
-                                      .format(DateTime.parse(state
-                                          .employeeLeaveRequests
-                                          .data![index]
-                                          .startDate
-                                          .toString()))
-                                      .toString(),
-                                  to: dateFormat
-                                      .format(DateTime.parse(state
-                                          .employeeLeaveRequests
-                                          .data![index]
-                                          .endDate
-                                          .toString()))
-                                      .toString(),
-                                  reason: state.employeeLeaveRequests
-                                          .data![index].reason ??
-                                      "",
-                                  status: state.employeeLeaveRequests
-                                          .data![index].status
-                                          ?.tr(context: context) ??
-                                      "",
+                                  id: item.id ?? '',
+                                  from: _formatDate(
+                                    dateFormat,
+                                    item.leavePeriod?.startDate,
+                                  ),
+                                  to: _formatDate(
+                                    dateFormat,
+                                    item.leavePeriod?.endDate,
+                                  ),
+                                  reason: item.reason ?? '',
+                                  status: item.status ?? 0,
                                 ),
                               );
                             });
                   }
                   return Padding(
-                    padding:  EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       top: MediaQuery.sizeOf(context).height * 0.45,
                     ),
                     child: Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorsManger.primaryColor,
-                                  strokeWidth: 2,
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                  );;
+                      child: CircularProgressIndicator(
+                        color: ColorsManger.primaryColor,
+                        strokeWidth: 2,
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  );
                 },
               )
             ]),

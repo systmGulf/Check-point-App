@@ -2,7 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/core/networking/api_constant.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_leave_requests_models/employee_leave_requests.dart'
+    show EmployeeLeaveRequestsModel;
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_leave_requests_models/leave_request_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_leave_requests_models/leave_types_response.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_leave_requests_repo/employee_action_repo.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/employee_model/all_employees_model.dart';
 
 part 'leave_application_state.dart';
 
@@ -10,31 +16,73 @@ class LeaveApplicationCubit extends Cubit<LeaveApplicationState> {
   final EmployeeActionRepo employeeRepo;
   LeaveApplicationCubit(this.employeeRepo) : super(LeaveApplicationInitial());
   TextEditingController reasonController = TextEditingController();
-  TextEditingController remarkController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController emergencyEmailController = TextEditingController();
+  TextEditingController emergencyPhoneController = TextEditingController();
   String? employeeId;
 
   String from = '';
   String to = '';
-  Future<void> sendRequestToSupervisor({required String type}) async {
+
+  Future<void> getLeaveTypes() async {
+    emit(GetLeaveTypesLoading());
+    final result = await employeeRepo.getLeaveTypes();
+    result.fold((l) {
+      emit(GetLeaveTypesFailure(error: l.message));
+    }, (r) {
+      emit(GetLeaveTypesSuccess(leaveTypeResponse: r));
+    });
+  }
+
+  Future<void> sendRequestToSupervisor({required String leaveTypeId}) async {
     emit(AddLeaveApplicationLoading());
     if (from == '' || to == '') {
       emit(const AddLeaveApplicationFailure('please select date'));
       return;
     }
-    final result = await employeeRepo.createLeaveRequest(
+    if (numberController.text.trim().isEmpty ||
+        emergencyEmailController.text.trim().isEmpty ||
+        emergencyPhoneController.text.trim().isEmpty) {
+      emit(
+        const AddLeaveApplicationFailure(
+          'Please fill all required contact fields',
+        ),
+      );
+      return;
+    }
+    try {
+      final requestor = employeeId ?? ApiConstant.employeeId;
+      final result = await employeeRepo.createLeaveRequest(
         LeaveRequestRequestBody(
-            leaveRequestType: type,
-            employeeId: employeeId ?? ApiConstant.employeeId,
+          requestorId: requestor,
+          requestorName: ApiConstant.username,
+          number: numberController.text.trim(),
+          reason: reasonController.text.trim(),
+          leavePeriod: LeavePeriod(
             startDate: from,
             endDate: to,
-            reason: reasonController.text,
-            remark: remarkController.text));
+          ),
+          emergencyInfo: EmergencyInfo(
+            email: emergencyEmailController.text.trim(),
+            phone: emergencyPhoneController.text.trim(),
+          ),
+          leaveTypeId: leaveTypeId,
+          status: 1,
+        ),
+      );
 
-    result.fold((l) {
-      emit(AddLeaveApplicationFailure(l.message));
-    }, (r) {
-      emit(AddLeaveApplicationSuccess());
-    });
+      result.fold((l) {
+        emit(AddLeaveApplicationFailure(l.message));
+      }, (r) {
+        emit(AddLeaveApplicationSuccess());
+      });
+    } catch (_) {
+      emit(
+        const AddLeaveApplicationFailure(
+          'Unexpected server response while creating leave request',
+        ),
+      );
+    }
   }
 
   Future<void> GetLeaveRequestByType({required String type}) async {

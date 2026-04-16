@@ -20,7 +20,7 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
       emit(GetMyTasksError(l.message));
     }, (r) {
       print(r);
-      emit(GetMyTasksSuccess(r.value!.employeeTasks!));
+      emit(GetMyTasksSuccess(r.value!));
     });
   }
 
