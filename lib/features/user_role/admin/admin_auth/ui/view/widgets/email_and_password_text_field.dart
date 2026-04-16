@@ -126,7 +126,9 @@ class _AdminEmailAndPasswordTextFieldState
 
   validateAndLogin(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      BlocProvider.of<LoginCubit>(context).doLogin();
+      BlocProvider.of<LoginCubit>(context).doLogin(
+        role: 'Admin',
+      );
     }
   }
 }
