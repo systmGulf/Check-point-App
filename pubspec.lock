@@ -936,11 +936,9 @@ packages:
   hr_management_system_package:
     dependency: "direct main"
     description:
-      path: "."
-      ref: TOT
-      resolved-ref: "2e140674b1ea459f4860c66c3fa3ed40d3130b30"
-      url: "https://github.com/systmGulf/Check-point-package"
-    source: git
+      path: "D:/Projects/tot_projects/HR_old_version/Check-point-package"
+      relative: false
+    source: path
     version: "1.0.0+1"
   html:
     dependency: transitive

@@ -11,7 +11,9 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
 
-  Future<void> doLogin() async {
+  Future<void> doLogin({
+    required String role,
+  }) async {
     emit(LoginLoading());
 
     final result = await employeeLoginRepo.roleLogin(RoleLoginRequestBody(
