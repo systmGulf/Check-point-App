@@ -60,7 +60,7 @@ class RecentLeaveApplication extends StatelessWidget {
                           });
                     }
                     if (state is GetLeaveApplicationSuccess) {
-                      return state.getLeaveRequestModel.value!.data!.isEmpty
+                      return state.getLeaveRequestModel.value!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
                               child: NoDataFound())
@@ -70,13 +70,12 @@ class RecentLeaveApplication extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.data!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
+                                        '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.red,
-                                      count: state
-                                          .getLeaveRequestModel.value!.data!
+                                      count: state.getLeaveRequestModel.value!
                                           .where((e) => e.status == 'Pending')
                                           .length,
                                       child: Icon(Icons.notifications_on,
@@ -88,67 +87,33 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: state
-                                      .getLeaveRequestModel.value!.data!.length,
+                                  itemCount:
+                                      state.getLeaveRequestModel.value!.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: ElasticInUp(
                                         child: LeaveApplicationItem(
-                                          userToken: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee!
-                                                  .deviceTokens!
-                                                  .isNotEmpty
-                                              ? state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee!
-                                                  .deviceTokens!
-                                                  .first
-                                              : '',
-                                          employeeId: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee
-                                                  ?.id ??
-                                              '',
-                                          type: type,
-                                          createdBy: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .createdBy ??
-                                              "",
-                                          status: state.getLeaveRequestModel
-                                                  .value!.data![index].status ??
-                                              "",
-                                          name: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee
-                                                  ?.name ??
-                                              "",
-                                          from: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .startDate ??
-                                              "",
-                                          to: state.getLeaveRequestModel.value!
-                                                  .data![index].endDate ??
-                                              "",
                                           reason: state.getLeaveRequestModel
-                                                  .value!.data![index].reason ??
-                                              "",
-                                          id: state.getLeaveRequestModel.value!
-                                                  .data![index].id ??
+                                                  .value?[index].reason ??
+                                              '',
+                                          to: state
+                                              .getLeaveRequestModel
+                                              .value?[index]
+                                              .leavePeriod
+                                              ?.endDate,
+                                          from: state
+                                              .getLeaveRequestModel
+                                              .value?[index]
+                                              .leavePeriod
+                                              ?.startDate,
+                                          name: state.getLeaveRequestModel
+                                              .value?[index].requestorName,
+                                          id: int.tryParse(state
+                                                  .getLeaveRequestModel
+                                                  .value![index]
+                                                  .id!) ??
                                               0,
                                         ),
                                       ),
