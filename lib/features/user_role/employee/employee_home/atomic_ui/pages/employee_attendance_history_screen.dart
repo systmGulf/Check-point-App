@@ -68,6 +68,7 @@ class _EmployeeAttendanceHistoryScreenState
             if (state is GetEmployeeHistorySuccess) {
               attendance.addAll(state.attendanceHistory.data!);
            
+            //  maxScrollExtent = !state.attendanceHistory.hasNextPage!;
             } else if (state is GetEmployeeHistoryPaginationFailure) {
               buildSnackBar(
                 context,
