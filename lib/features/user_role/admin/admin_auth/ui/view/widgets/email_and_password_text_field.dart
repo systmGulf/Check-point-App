@@ -3,10 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
-import '../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../core/helpers/app_regex.dart';
 import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
@@ -128,10 +126,7 @@ class _AdminEmailAndPasswordTextFieldState
 
   validateAndLogin(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      String? mobileId = await getId();
-      if (!context.mounted) return;
-      BlocProvider.of<LoginCubit>(context)
-          .doLogin(role: Role.Admin, mobileId: mobileId!);
+      BlocProvider.of<LoginCubit>(context).doLogin();
     }
   }
 }

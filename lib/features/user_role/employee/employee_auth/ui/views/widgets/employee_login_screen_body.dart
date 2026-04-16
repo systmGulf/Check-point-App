@@ -2,11 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
 import '../../../../../../../core/animations/animations.dart';
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
-import '../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/custom_app_button.dart';
@@ -68,11 +66,9 @@ class EmployeeLoginScreenBody extends StatelessWidget {
 
   validateAndLogin(BuildContext context) async {
     if (BlocProvider.of<LoginCubit>(context).formKey.currentState!.validate()) {
-      String? mobileId = await getId();
       if (!context.mounted) return;
 
-      BlocProvider.of<LoginCubit>(context)
-          .doLogin(role: Role.Employee, mobileId: mobileId!);
+      BlocProvider.of<LoginCubit>(context).doLogin();
     }
   }
 }
