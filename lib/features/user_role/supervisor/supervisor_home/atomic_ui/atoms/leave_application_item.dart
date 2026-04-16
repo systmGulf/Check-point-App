@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
@@ -29,12 +28,12 @@ class LeaveApplicationItem extends StatefulWidget {
       from,
       to,
       reason,
-      status,
       createdBy,
       type,
       employeeId,
       userToken;
-  final int id;
+  final int status;
+  final String id;
 
   @override
   _LeaveApplicationItemState createState() => _LeaveApplicationItemState();
@@ -44,12 +43,32 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
   bool isApproved = false;
   bool isCancelled = false;
 
+  String _statusText(BuildContext context) {
+    if (isApproved) return 'Approved'.tr(context: context);
+    if (isCancelled) return 'Cancelled'.tr(context: context);
+    switch (widget.status) {
+      case 0:
+        return 'Pending'.tr(context: context);
+      case 1:
+        return 'Approved'.tr(context: context);
+      case 2:
+        return 'Rejected'.tr(context: context);
+      case 3:
+        return 'Cancelled'.tr(context: context);
+      default:
+        return '--';
+    }
+  }
+
+  bool _isPending(BuildContext context) =>
+      _statusText(context) == 'Pending'.tr(context: context);
+
   @override
   void initState() {
     super.initState();
-    if (widget.status == 'Approved') {
+    if (widget.status == 1) {
       isApproved = true;
-    } else if (widget.status == 'Cancelled') {
+    } else if (widget.status == 3 || widget.status == 2) {
       isCancelled = true;
     }
   }
@@ -86,7 +105,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     ],
                   ),
                   const Spacer(),
-                  if (widget.status == 'Cancelled' || isCancelled)
+                  if (_statusText(context) == 'Cancelled'.tr(context: context))
                     Row(
                       children: [
                         const Icon(Icons.close, color: Colors.red),
@@ -96,7 +115,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Approved' || isApproved)
+                  if (_statusText(context) == 'Approved'.tr(context: context))
                     Row(
                       children: [
                         const Icon(Icons.check, color: Colors.green),
@@ -106,7 +125,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                  if (widget.status == 'Pending' && !isCancelled && !isApproved)
+                  if (_isPending(context))
                     Row(
                       children: [
                         const Icon(Icons.watch_later, color: Colors.orange),
@@ -123,8 +142,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(children: [
-                Text(
-                    '${"From".tr(context: context)}: ${dateFormat.format(DateTime.parse(widget.from))}\n${"To".tr(context: context)}: ${dateFormat.format(DateTime.parse(widget.to))}',
+                Text(_formatRange(dateFormat, context),
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
@@ -149,7 +167,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       'Request Created By Anther Employee'.tr(context: context),
                       style: AppStylesManger.font15regulerGrey),
             verticalSpace(5),
-            if (widget.status == 'Pending' && !isCancelled && !isApproved)
+            if (_isPending(context))
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -208,12 +226,26 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
       });
     }
 
+    final parsedId = int.tryParse(widget.id);
+    if (parsedId == null) return;
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
-        .approveOrRejectLeaveRequest(status: action, id: widget.id);
+        .approveOrRejectLeaveRequest(status: action, id: parsedId);
     getIt<NotificationRepo>().sendSingleNotification(
         token: userToken,
         title: 'Hi, $userName'.tr(context: context),
         body: 'your leave request has been $action'.tr(context: context));
+  }
+
+  String _formatRange(DateFormat dateFormat, BuildContext context) {
+    String parse(String value) {
+      final parsed = DateTime.tryParse(value);
+      if (parsed == null) return value;
+      return dateFormat.format(parsed);
+    }
+
+    final from = widget.from.isEmpty ? '--' : parse(widget.from);
+    final to = widget.to.isEmpty ? '--' : parse(widget.to);
+    return '${"From".tr(context: context)}: $from\n${"To".tr(context: context)}: $to';
   }
 }
 

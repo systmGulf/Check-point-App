@@ -126,12 +126,12 @@ class TaskCard extends StatelessWidget {
             style: AppStylesManger.font16BoldBlack,
           ),
           const SizedBox(height: 6),
-          Text(
-            '${'Code'.tr()}: ${task.taskCode ?? '--'}',
-            style:
-                AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey),
-          ),
-          const SizedBox(height: 4),
+          // Text(
+          //   '${'Code'.tr()}: ${task.taskCode ?? '--'}',
+          //   style:
+          //       AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey),
+          // ),
+          // const SizedBox(height: 4),
           Text(
             '${'Deadline'.tr()}: ${_formatDeadline(task.deadLine)}',
             style:

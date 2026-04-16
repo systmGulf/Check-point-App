@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:multi_dropdown/multi_dropdown.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
@@ -18,7 +15,7 @@ class AssignEmployeesForTask extends StatefulWidget {
 }
 
 class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
-  final controller = MultiSelectController<DropdownItemModel>();
+  String? selectedEmployeeId;
 
   @override
   Widget build(BuildContext context) {
@@ -29,48 +26,53 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
             current is GetAllEmployeesLoading,
         builder: (context, state) {
           if (state is GetAllEmployeesSuccess) {
-            List<DropdownItem<DropdownItemModel>> dropdownItems = List.generate(
-                state.allEmployeesValue.data!.length,
-                (index) => DropdownItem<DropdownItemModel>(
-                    label: state.allEmployeesValue.data![index].name!,
-                    value: DropdownItemModel(
-                        state.allEmployeesValue.data![index].deviceTokens!,
-                        name: state.allEmployeesValue.data![index].name!,
-                        id: state.allEmployeesValue.data![index].id!)));
-            log(dropdownItems.toString());
-            return MultiDropdown<DropdownItemModel>(
-              items: dropdownItems,
-              controller: controller,
-              enabled: true,
-              fieldDecoration: FieldDecoration(
+            final byId = <String, DropdownItemModel>{};
+            for (final employee in state.allEmployeesValue.data ?? []) {
+              final id = employee.id?.trim() ?? '';
+              if (id.isEmpty) continue;
+              byId[id] = DropdownItemModel(
+                employee.deviceTokens ?? const <String>[],
+                name: employee.name?.trim().isNotEmpty == true
+                    ? employee.name!.trim()
+                    : '--',
+                id: id,
+              );
+            }
+            final dropdownItems = byId.values.toList();
+
+            if (selectedEmployeeId != null &&
+                !byId.containsKey(selectedEmployeeId)) {
+              selectedEmployeeId = null;
+            }
+
+            return DropdownButtonFormField<String>(
+              initialValue: selectedEmployeeId,
+              isExpanded: true,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: 'select employees'.tr(context: context),
+                hintText: 'Select employee'.tr(context: context),
               ),
-              searchEnabled: true,
-              searchDecoration: SearchFieldDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Search'.tr(context: context),
-              ),
-              chipDecoration: ChipDecoration(
-                backgroundColor: ColorsManger.primaryColor,
-                wrap: true,
-                runSpacing: 2,
-                labelStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-                deleteIcon: const Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                  size: 16,
-                ),
-                spacing: 10,
-              ),
-              onSelectionChange: (selectedItems) {
-                context.read<TasksCubit>().dropdownItems.addAll(selectedItems);
+              items: dropdownItems
+                  .map(
+                    (item) => DropdownMenuItem<String>(
+                      value: item.id,
+                      child: Text(item.name),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedEmployeeId = value;
+                });
+                if (value != null) {
+                  final selected = byId[value];
+                  if (selected == null) return;
+                  context.read<TasksCubit>().selectedEmployeeId = selected.id;
+                  context.read<TasksCubit>().selectedEmployeeTokens =
+                      selected.employeesDeviceTokens;
+                }
               },
             );
           } else if (state is GetAllEmployeesFailure) {

@@ -18,6 +18,16 @@ class RecentLeaveApplication extends StatelessWidget {
   });
   final String type;
 
+  String _extractUserToken(dynamic requestor) {
+    if (requestor is Map<String, dynamic>) {
+      final tokens = requestor['deviceTokens'];
+      if (tokens is List && tokens.isNotEmpty) {
+        return tokens.first?.toString() ?? '';
+      }
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
@@ -60,7 +70,8 @@ class RecentLeaveApplication extends StatelessWidget {
                           });
                     }
                     if (state is GetLeaveApplicationSuccess) {
-                      return state.getLeaveRequestModel.value!.data!.isEmpty
+                      final leaveRequests = state.getLeaveRequestModel.value ?? [];
+                      return leaveRequests.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
                               child: NoDataFound())
@@ -70,14 +81,13 @@ class RecentLeaveApplication extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.data!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
+                                        '${"There are".tr(context: context)} ${leaveRequests.where((e) => e.status == 0).length} ${"Pending Leave Requests".tr(context: context)}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.red,
-                                      count: state
-                                          .getLeaveRequestModel.value!.data!
-                                          .where((e) => e.status == 'Pending')
+                                      count: leaveRequests
+                                          .where((e) => e.status == 0)
                                           .length,
                                       child: Icon(Icons.notifications_on,
                                           color: Colors.grey.shade400),
@@ -88,68 +98,25 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: state
-                                      .getLeaveRequestModel.value!.data!.length,
+                                  itemCount: leaveRequests.length,
                                   itemBuilder: (context, index) {
+                                    final item = leaveRequests[index];
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: ElasticInUp(
                                         child: LeaveApplicationItem(
-                                          userToken: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee!
-                                                  .deviceTokens!
-                                                  .isNotEmpty
-                                              ? state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee!
-                                                  .deviceTokens!
-                                                  .first
-                                              : '',
-                                          employeeId: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee
-                                                  ?.id ??
-                                              '',
+                                          userToken:
+                                              _extractUserToken(item.requestor),
+                                          employeeId: item.requestorId ?? '',
                                           type: type,
-                                          createdBy: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .createdBy ??
-                                              "",
-                                          status: state.getLeaveRequestModel
-                                                  .value!.data![index].status ??
-                                              "",
-                                          name: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .employee
-                                                  ?.name ??
-                                              "",
-                                          from: state
-                                                  .getLeaveRequestModel
-                                                  .value!
-                                                  .data![index]
-                                                  .startDate ??
-                                              "",
-                                          to: state.getLeaveRequestModel.value!
-                                                  .data![index].endDate ??
-                                              "",
-                                          reason: state.getLeaveRequestModel
-                                                  .value!.data![index].reason ??
-                                              "",
-                                          id: state.getLeaveRequestModel.value!
-                                                  .data![index].id ??
-                                              0,
+                                          createdBy: item.requestorId ?? "",
+                                          status: item.status ?? 0,
+                                          name: item.requestorName ?? "",
+                                          from: item.leavePeriod?.startDate ?? "",
+                                          to: item.leavePeriod?.endDate ?? "",
+                                          reason: item.reason ?? "",
+                                          id: item.id ?? '',
                                         ),
                                       ),
                                     );

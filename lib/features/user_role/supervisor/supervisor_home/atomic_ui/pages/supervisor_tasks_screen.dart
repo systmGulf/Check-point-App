@@ -1,26 +1,19 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/enums/task_status.dart';
 import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
+import '../../../../../../core/common/show_menu_position.dart';
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
-import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/widgets/build_alart_message.dart';
-import '../../../../../../core/widgets/build_snake_bar.dart';
-import '../../../../../../core/widgets/custom_filter_container.dart';
-import '../../../../../../core/widgets/custom_filter_floating_action_button.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
-import '../atoms/task_item.dart';
 import '../pages/supervisor_tasks_loading_skeleton.dart';
 import 'assign_task_screen.dart';
 
@@ -32,73 +25,10 @@ class SupervisorTasksScreen extends StatefulWidget {
 }
 
 class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
-  final ScrollController _scrollController = ScrollController();
-  int nextPageNumber = 1;
-  bool isLoading = false;
-  bool maxScrollExtent = false;
-  String? selectedStatus;
-
   @override
   void initState() {
     super.initState();
-    context.read<TasksCubit>().tasks = [];
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() async {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent * 0.7 &&
-        !isLoading &&
-        !maxScrollExtent) {
-      setState(() {
-        isLoading = true;
-      });
-      await context.read<TasksCubit>().getTasks(pageNumber: nextPageNumber++);
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  void _deleteTask(int index) {
-    final taskId =
-        int.parse(context.read<TasksCubit>().tasks[index].id.toString());
-    buildDeleteAlertDialog(context,
-        title: 'Delete Task'.tr(context: context),
-        message: 'Are you sure you want to delete this Task?'
-            .tr(context: context), onYes: () {
-      context.pop();
-
-      context.read<TasksCubit>().deleteTask(id: taskId).then((isSuccess) {
-        try {
-          setState(() {
-            context.read<TasksCubit>().tasks.removeAt(index);
-          });
-        } catch (e) {
-          buildSnackBar(
-            context,
-            customSnackBar: CustomSnackBar.error(
-              message: 'Failed to delete task.'.tr(context: context),
-            ),
-          );
-        }
-      });
-    });
-  }
-
-  List<GetTasData> _filterTasks(List<GetTasData> tasks) {
-    return tasks.where((task) {
-      final matchesStatus = selectedStatus == null ||
-          (task.status?.toLowerCase() == selectedStatus!.toLowerCase());
-
-      return matchesStatus;
-    }).toList();
+    context.read<TasksCubit>().getTasks();
   }
 
   @override
@@ -106,52 +36,8 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
     return Scaffold(
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: 8,
+        spacing: 12,
         children: [
-          CustomFilterFloatingActionButton(
-            onPressed: () async {
-              final filterData =
-                  await showModalBottomSheet<Map<String, dynamic>>(
-                backgroundColor: Colors.white,
-                isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                ),
-                context: context,
-                builder: (ctx) {
-                  return CustomFilterContainer(
-                    statusOne: "InProgress".tr(
-                      context: context,
-                    ),
-                    statusTwo: "Done".tr(
-                      context: context,
-                    ),
-                    statusThree: "Pending".tr(
-                      context: context,
-                    ),
-                  );
-                },
-              );
-
-              if (filterData != null) {
-                setState(() {
-                  if (filterData['statusOne'] == true) {
-                    selectedStatus = TaskStatus.InProgress.name;
-                  } else if (filterData['statusTwo'] == true) {
-                    selectedStatus = TaskStatus.Done.name;
-                    ;
-                  } else if (filterData['statusThree'] == true) {
-                    selectedStatus = TaskStatus.Pending.name;
-                    ;
-                  } else {
-                    selectedStatus = null;
-                  }
-                });
-              }
-            },
-          ),
           CustomFloatingActionButton(
             text: 'Add Task'.tr(context: context),
             onTap: () {
@@ -164,35 +50,19 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
       ),
       body: BlocConsumer<TasksCubit, TasksState>(
         listener: (context, state) {
-          if (state is GetTasksSuccess) {
-            setState(() {
-              context.read<TasksCubit>().tasks.clear();
-              final newTasks = state.tasks;
-              for (var newTask in newTasks) {
-                if (!context
-                    .read<TasksCubit>()
-                    .tasks
-                    .any((task) => task.id == newTask.id)) {
-                  context.read<TasksCubit>().tasks.add(newTask);
-                }
-              }
-            });
-          } else if (state is GetTaskPaginationFailure) {
-            buildSnackBar(
-              context,
-              customSnackBar: CustomSnackBar.error(
-                message: state.errorMessage,
-              ),
-            );
+          if (state is DeleteTaskSuccess) {
+            context.read<TasksCubit>().getTasks();
           }
         },
         buildWhen: (previous, current) =>
             current is GetTasksLoading ||
-            current is GetTasksError ||
             current is GetTasksSuccess ||
-            current is GetTaskPaginationLoading,
+            current is GetTasksError ||
+            current is DeleteTaskSuccess ||
+            current is DeleteTaskLoading ||
+            current is DeleteTaskError,
         builder: (context, state) {
-          if (state is GetTasksLoading) {
+          if (state is GetTasksLoading || state is DeleteTaskLoading) {
             return const SupervisorTasksLoadingSkeleton();
           }
           if (state is GetTasksError) {
@@ -203,90 +73,157 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                 : Column(
                     children: [
                       const Icon(Icons.error, color: Colors.red),
-                      verticalSpace(20),
+                      const SizedBox(height: 20),
                       Text(state.errorMessage)
                     ],
                   );
           }
-          if (state is GetTasksSuccess || state is GetTaskPaginationLoading) {
-            final allTasks = context.read<TasksCubit>().tasks;
-            final tasks = _filterTasks(allTasks);
-            return context.read<TasksCubit>().tasks.isEmpty
+          if (state is DeleteTaskError) {
+            return Center(child: Text(state.errorMessage));
+          }
+          if (state is GetTasksSuccess) {
+            return state.tasks.isEmpty
                 ? const NoDataFound()
                 : RefreshIndicator(
                     onRefresh: () => context.read<TasksCubit>().getTasks(),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        ListView.builder(
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: tasks.length,
-                          itemBuilder: (_, index) {
-                            return BounceInUp(
-                              child: TaskItem(
-                                onSelected: (status) {
-                                  context.read<TasksCubit>().taskStatus =
-                                      status;
-                                  context.read<TasksCubit>().changeTaskStatus(
-                                      taskId: context
-                                          .read<TasksCubit>()
-                                          .tasks[index]
-                                          .id!);
-                                },
-                                employeeName: tasks[index].employees!,
-                                onEdit: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => MultiBlocProvider(
-                                          providers: [
-                                            BlocProvider.value(
-                                              value: context.read<TasksCubit>(),
-                                            ),
-                                            BlocProvider(
-                                              create: (context) => getIt<
-                                                  GetEmployeesDataCubit>()
-                                                ..getEmployeesByDepartmentId(),
-                                            ),
-                                          ],
-                                          child: AssignTaskScreen(
-                                            taskId: tasks[index].id!,
-                                          ),
-                                        ),
-                                      )).then((value) {
-                                    context.read<TasksCubit>().getTasks();
-                                  });
-                                },
-                                onDelete: () => _deleteTask(index),
-                                tasks: [],
-                                id: tasks[index].id.toString(),
-                                priority: tasks[index].priorityStatus ?? '',
-                                state: tasks[index].status ?? '',
-                                title: tasks[index].title ?? '',
-                                description: tasks[index].description ?? '',
-                                date: DateFormat('yyyy-MM-dd')
-                                    .format(DateTime.parse(
-                                  tasks[index].dueDate ?? '',
-                                )),
-                              ),
-                            );
-                          },
-                        ),
-                        if (state is GetTaskPaginationLoading &&
-                            !maxScrollExtent)
-                          Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: CircularProgressIndicator(
-                                color: ColorsManger.primaryColor),
-                          ),
-                      ],
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 12),
+                      itemCount: state.tasks.length,
+                      itemBuilder: (_, index) {
+                        final task = state.tasks[index];
+                        return BounceInUp(child: _TaskListCard(task: task));
+                      },
                     ),
                   );
           }
           return const SizedBox.shrink();
         },
+      ),
+    );
+  }
+}
+
+class _TaskListCard extends StatelessWidget {
+  const _TaskListCard({required this.task});
+
+  final GetTasData task;
+
+  void _openAssignScreen(BuildContext context) {
+    if ((task.id ?? '').isEmpty) return;
+    context.read<TasksCubit>().selectedEmployeeId = '';
+    context.read<TasksCubit>().selectedEmployeeTokens = [];
+    context.read<TasksCubit>().assignDeadline = '';
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(
+              value: context.read<TasksCubit>(),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  getIt<GetEmployeesDataCubit>()..getEmployeesByDepartmentId(),
+            ),
+          ],
+          child: AssignTaskScreen(taskId: task.id!),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onActionPressed(BuildContext context) async {
+    final selected = await showMenu<String>(
+      context: context,
+      position: showMenuPosition(context: context),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      items: [
+        const PopupMenuItem<String>(
+          value: 'assign',
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: Text(
+              'من سيعمل عليها',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+        const PopupMenuItem<String>(
+          value: 'delete',
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              'حذف',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
+    if (selected == 'assign') {
+      _openAssignScreen(context);
+    } else if (selected == 'delete') {
+      if ((task.id ?? '').isEmpty) return;
+      context.read<TasksCubit>().deleteTask(id: task.id!);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.h),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  "Title : ${task.title ?? '--'}",
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+              ),
+              Builder(
+                builder: (iconContext) => InkWell(
+                  onTap: () => _onActionPressed(iconContext),
+                  child: const Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Icon(Icons.more_vert),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          // Text(
+          //   '${'Code'.tr(context: context)}: ${task.code ?? '--'}',
+          //   style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+          // ),
+          const SizedBox(height: 6),
+          Text(
+            task.description ?? '--',
+            style: TextStyle(fontSize: 13, color: Colors.grey.shade800),
+          ),
+        ],
       ),
     );
   }

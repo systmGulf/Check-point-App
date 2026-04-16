@@ -17,14 +17,24 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildCustomAppBar(context, 'Tasks'.tr()),
       body: SafeArea(
-        child: BlocBuilder<EmployeeTasksCubit, EmployeeTasksState>(
-          bloc: context.read<EmployeeTasksCubit>(),
+        child: BlocConsumer<EmployeeTasksCubit, EmployeeTasksState>(
+          listener: (context, state) {
+            if (state is DeleteEmployeeTaskError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+            }
+          },
           buildWhen: (previous, current) =>
               current is GetMyTasksLoading ||
               current is GetMyTasksSuccess ||
-              current is GetMyTasksError,
+              current is GetMyTasksError ||
+              current is DeleteEmployeeTaskLoading ||
+              current is DeleteEmployeeTaskSuccess ||
+              current is DeleteEmployeeTaskError,
           builder: (context, state) {
-            if (state is GetMyTasksLoading) {
+            if (state is GetMyTasksLoading ||
+                state is DeleteEmployeeTaskLoading) {
               return const MyTasksLoadingSkeleton();
             }
 
@@ -45,13 +55,37 @@ class TasksScreen extends StatelessWidget {
                 itemCount: state.getTaskResponse.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
+                  final task = state.getTaskResponse[index];
                   return ElasticInUp(
-                    child: TaskCard(
-                      task: state.getTaskResponse[index],
+                    child: Stack(
+                      children: [
+                        TaskCard(task: task),
+                        PositionedDirectional(
+                          top: 8,
+                          end: 8,
+                          child: IconButton(
+                            onPressed: () {
+                              final employeeTaskId = task.id?.trim() ?? '';
+                              if (employeeTaskId.isEmpty) return;
+                              context
+                                  .read<EmployeeTasksCubit>()
+                                  .deleteTask(employeeTaskId: employeeTaskId);
+                            },
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
               );
+            }
+
+            if (state is DeleteEmployeeTaskSuccess) {
+              return const MyTasksLoadingSkeleton();
             }
             return const MyTasksLoadingSkeleton();
           },

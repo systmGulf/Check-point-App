@@ -15,21 +15,27 @@ class TasksCubit extends Cubit<TasksState> {
   TasksCubit(this.supervisorRepo) : super(TasksInitial());
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  String dueDate = '';
+  String assignDeadline = '';
+  // Backward-compatible alias for old references.
+  String get assignDeadLine => assignDeadline;
+  set assignDeadLine(String value) => assignDeadline = value;
+  int assignPriority = 0;
+  int assignState = 0;
+  String selectedEmployeeId = '';
+  List<String> selectedEmployeeTokens = [];
+  // Backward-compatible field used by existing priority UI.
   String priorityStatus = 'high';
   String taskStatus = 'Pending';
   List<DropdownItemModel> dropdownItems = [];
   List<GetTasData> tasks = [];
   Future<void> addTask() async {
     emit(AddTaskLoading());
-    if (dueDate != '') {
+    if (titleController.text.trim().isNotEmpty &&
+        descriptionController.text.trim().isNotEmpty) {
       final result = await supervisorRepo.addTask(
         addTaskRequestBody: AddTaskRequestBody(
-          title: titleController.text,
-          description: descriptionController.text,
-          dueDate: dueDate,
-          priorityStatus: priorityStatus,
-          status: 'Pending',
+          title: titleController.text.trim(),
+          description: descriptionController.text.trim(),
         ),
       );
       result.fold((l) {
@@ -67,9 +73,9 @@ class TasksCubit extends Cubit<TasksState> {
     });
   }
 
-  Future<void> deleteTask({required int id}) async {
+  Future<void> deleteTask({required Object id}) async {
     emit(DeleteTaskLoading());
-    final result = await supervisorRepo.deleteTaskById(id: id);
+    final result = await supervisorRepo.deleteTaskById(id: id.toString());
     result.fold((l) {
       emit(DeleteTaskError(errorMessage: l.message));
     }, (r) {
@@ -77,33 +83,34 @@ class TasksCubit extends Cubit<TasksState> {
     });
   }
 
-  Future<void> assignTasks({required int taskId}) async {
+  Future<void> assignTasks({required String taskId}) async {
     emit(AssignTaskLoading());
-    if (dropdownItems.isNotEmpty) {
+    if (selectedEmployeeId.isNotEmpty && assignDeadline.isNotEmpty) {
       final result = await supervisorRepo.assignTask(
-        employeeIds: dropdownItems.map((e) => e.id).toList(),
+        employeeId: selectedEmployeeId,
         taskId: taskId,
+        deadLine: assignDeadline,
+        priority: assignPriority,
+        state: assignState,
       );
       result.fold((l) {
         emit(AssignTaskError(errorMessage: l.message));
       }, (r) {
-        for (var element in dropdownItems) {
-          for (var token in element.employeesDeviceTokens) {
-            getIt<NotificationRepo>().sendSingleNotification(
-                title: 'Task Assign',
-                body: 'You have been assigned a new task',
-                token: token);
-          }
+        for (var token in selectedEmployeeTokens) {
+          getIt<NotificationRepo>().sendSingleNotification(
+              title: 'Task Assign',
+              body: 'You have been assigned a new task',
+              token: token);
         }
         emit(AssignTaskSuccess());
       });
     } else {
-      emit(AssignTaskError(errorMessage: 'Select Employee'));
+      emit(AssignTaskError(errorMessage: 'Select employee and deadline'));
     }
   }
 
   // change task Status
-  Future<void> changeTaskStatus({required int taskId}) async {
+  Future<void> changeTaskStatus({required String taskId}) async {
     emit(ChangeTaskStatusLoading());
     final result = await supervisorRepo.changeTaskStatus(
         taskId: taskId, status: taskStatus);
@@ -116,7 +123,7 @@ class TasksCubit extends Cubit<TasksState> {
   }
 
   Future<void> deleteEmployeeFromTask(
-      {required int taskId, required String employeeIds}) async {
+      {required String taskId, required String employeeIds}) async {
     emit(RemoveEmployeeFromTaskLoading());
 
     final result = await supervisorRepo.removeSomeEmployeesFromTask(
