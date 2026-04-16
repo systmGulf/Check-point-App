@@ -44,13 +44,8 @@ import '../../features/user_role/employee/employee_home/atomic_ui/pages/employee
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/employee_check_in_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/employee_check_out_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/employee_home_screen.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/incident_myself.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/incident_team.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_application.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_planner.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_schedule.dart';
+import '../../features/user_role/employee/employee_home/atomic_ui/pages/leave_request_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/my_plans.screen.dart';
-import '../../features/user_role/employee/employee_home/atomic_ui/pages/request_claim_application_screen.dart';
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/workflow_submission.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
@@ -100,13 +95,13 @@ abstract class AppRouter {
         return BaseRoute(
           page: const ClientDetailsScreen(),
         );
-      case Routes.leaveApplicationScreen:
-        return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<LeaveApplicationCubit>(),
-            child: const LeaveApplication(),
-          ),
-        );
+      // case Routes.leaveApplicationScreen:
+      //   return BaseRoute(
+      //     page: BlocProvider(
+      //       create: (context) => getIt<LeaveApplicationCubit>(),
+      //       child: const LeaveApplication(),
+      //     ),
+      //   );
       case Routes.onboardingscreen:
         return BaseRoute(
           page: BlocProvider(
@@ -202,11 +197,12 @@ abstract class AppRouter {
           ),
         );
       case Routes.requestClaimApplicationScreen:
+        final leaveTypeId = settings.arguments as String? ?? 'RequestClaim';
         return BaseRoute(
           page: BlocProvider(
             create: (context) => getIt<LeaveApplicationCubit>()
               ..GetLeaveRequestByType(type: 'RequestClaim'),
-            child: const RequestClaimApplicationScreen(),
+            child: LeaveRequestScreen(leaveTypeId: leaveTypeId),
           ),
         );
       case Routes.supervisorHomeScreen:
@@ -248,20 +244,20 @@ abstract class AppRouter {
             ),
           ),
         );
-      case Routes.leavePlanner:
-        return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<LeaveApplicationCubit>(),
-            child: const LeavePlanner(),
-          ),
-        );
-      case Routes.leaveSchedule:
-        return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<LeaveApplicationCubit>(),
-            child: const LeaveSchedule(),
-          ),
-        );
+      // case Routes.leavePlanner:
+      //   return BaseRoute(
+      //     page: BlocProvider(
+      //       create: (context) => getIt<LeaveApplicationCubit>(),
+      //       child: const LeavePlanner(),
+      //     ),
+      //   );
+      // case Routes.leaveSchedule:
+      //   return BaseRoute(
+      //     page: BlocProvider(
+      //       create: (context) => getIt<LeaveApplicationCubit>(),
+      //       child: const LeaveSchedule(),
+      //     ),
+      //   );
       case Routes.clientsScreen:
         return BaseRoute(
           page: BlocProvider(
@@ -287,13 +283,13 @@ abstract class AppRouter {
           ),
         );
 
-      case Routes.incidentMyself:
-        return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<LeaveApplicationCubit>(),
-            child: const IncidentMyself(),
-          ),
-        );
+      // case Routes.incidentMyself:
+      //   return BaseRoute(
+      //     page: BlocProvider(
+      //       create: (context) => getIt<LeaveApplicationCubit>(),
+      //       child: const IncidentMyself(),
+      //     ),
+      //   );
       case Routes.supervisorAttendSomeEmployeeScreen:
         return BaseRoute(
           page: BlocProvider(
@@ -323,14 +319,14 @@ abstract class AppRouter {
           ),
         );
 
-      case Routes.incidentTeam:
-        return BaseRoute(
-          page: BlocProvider(
-            create: (context) =>
-                getIt<LeaveApplicationCubit>()..getEmployeesByDepartmentId(),
-            child: const IncidentTeam(),
-          ),
-        );
+      // case Routes.incidentTeam:
+      //   return BaseRoute(
+      //     page: BlocProvider(
+      //       create: (context) =>
+      //           getIt<LeaveApplicationCubit>()..getEmployeesByDepartmentId(),
+      //       child: const IncidentTeam(),
+      //     ),
+      //   );
       case Routes.adminLoginScreen:
         return BaseRoute(
           page: BlocProvider(

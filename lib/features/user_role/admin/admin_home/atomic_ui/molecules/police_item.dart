@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 
+import '../../../../../../core/common/app_container_decoration.dart';
 import '../../../../../../core/common/formate_hours.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -35,7 +36,7 @@ class PoliceItem extends StatelessWidget {
     return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16.0),
-        decoration: AppConatinerDecoration(),
+        decoration: AppContainerDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: [

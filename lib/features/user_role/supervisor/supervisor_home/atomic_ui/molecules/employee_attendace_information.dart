@@ -25,25 +25,25 @@ class EmployeeAttendanceInformation extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(1),
-          decoration: AppConatinerDecoration(),
-          child: Container(
-              height: 28.h,
-              width: 114.w,
-              child: Center(
-                child: Text(
-                  days,
-                  style: AppStylesManger.font14RegularBlack.copyWith(
-                    color: ColorsManger.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )),
-        )
+        // Container(
+        //   padding: const EdgeInsets.all(1),
+        //   decoration: AppConatinerDecoration(),
+        //   child: Container(
+        //       height: 28.h,
+        //       width: 114.w,
+        //       child: Center(
+        //         child: Text(
+        //           days,
+        //           style: AppStylesManger.font14RegularBlack.copyWith(
+        //             color: ColorsManger.primaryColor,
+        //             fontWeight: FontWeight.bold,
+        //             fontSize: 12.sp,
+        //           ),
+        //           maxLines: 1,
+        //           overflow: TextOverflow.ellipsis,
+        //         ),
+        //       )),
+        // )
       ],
     );
   }

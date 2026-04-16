@@ -16,8 +16,48 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
     required this.id,
     required this.type,
   });
-  final String from, to, reason, status, type;
-  final int id;
+  final String from, to, reason, type;
+  final int status;
+  final String id;
+
+  String _statusText(BuildContext context) {
+    switch (status) {
+      case 0:
+        return 'Pending'.tr(context: context);
+      case 1:
+        return 'Approved'.tr(context: context);
+      case 2:
+        return 'Rejected'.tr(context: context);
+      case 3:
+        return 'Cancelled'.tr(context: context);
+      default:
+        return '--';
+    }
+  }
+
+  Color _statusColor() {
+    switch (status) {
+      case 1:
+        return Colors.green;
+      case 2:
+      case 3:
+        return Colors.red;
+      default:
+        return Colors.orange;
+    }
+  }
+
+  IconData _statusIcon() {
+    switch (status) {
+      case 1:
+        return Icons.check_circle;
+      case 2:
+      case 3:
+        return Icons.cancel;
+      default:
+        return Icons.hourglass_empty;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,28 +90,15 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(status,
-                    style: status == 'Approved'.tr(context: context)
-                        ? const TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold)
-                        : status == 'Cancelled'.tr(context: context)
-                            ? const TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold)
-                            : const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold)),
+                Text(
+                  _statusText(context),
+                  style:
+                      TextStyle(color: _statusColor(), fontWeight: FontWeight.bold),
+                ),
                 horizontalSpace(4),
                 Icon(
-                  status == 'Approved'.tr(context: context)
-                      ? Icons.check_circle
-                      : status == 'Cancelled'.tr(context: context)
-                          ? Icons.cancel
-                          : Icons.hourglass_empty,
-                  color: status == 'Approved'.tr(context: context)
-                      ? Colors.green
-                      : status == 'Cancelled'.tr(context: context)
-                          ? Colors.red
-                          : Colors.orange,
+                  _statusIcon(),
+                  color: _statusColor(),
                 )
               ],
             ),
@@ -89,10 +116,12 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                       )),
                   child: const Icon(Icons.close, color: Colors.red)),
               onPressed: () {
+                final parsedId = int.tryParse(id);
+                if (parsedId == null) return;
                 BlocProvider.of<LeaveApplicationCubit>(context)
                     .deleteLeaveRequest(
                   type: type,
-                  id: id,
+                  id: parsedId,
                 );
               },
             ),

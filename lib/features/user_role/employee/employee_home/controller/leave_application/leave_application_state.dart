@@ -9,6 +9,19 @@ abstract class LeaveApplicationState extends Equatable {
 
 class LeaveApplicationInitial extends LeaveApplicationState {}
 
+class GetLeaveTypesLoading extends LeaveApplicationState {}
+
+class GetLeaveTypesSuccess extends LeaveApplicationState {
+  final LeaveTypeResponse leaveTypeResponse;
+  const GetLeaveTypesSuccess({required this.leaveTypeResponse});
+}
+
+class GetLeaveTypesFailure extends LeaveApplicationState {
+  final String error;
+
+  GetLeaveTypesFailure({required this.error});
+}
+
 class AddLeaveApplicationLoading extends LeaveApplicationState {}
 
 class AddLeaveApplicationSuccess extends LeaveApplicationState {}
@@ -21,7 +34,7 @@ class AddLeaveApplicationFailure extends LeaveApplicationState {
 class GetLeaveApplicationLoading extends LeaveApplicationState {}
 
 class GetLeaveApplicationSuccess extends LeaveApplicationState {
-  final EmployeeLeaveRequestsValue employeeLeaveRequests;
+  final EmployeeLeaveRequestsModel employeeLeaveRequests;
 
   const GetLeaveApplicationSuccess({required this.employeeLeaveRequests});
 }
