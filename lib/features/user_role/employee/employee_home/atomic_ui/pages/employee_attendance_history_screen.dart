@@ -67,6 +67,7 @@ class _EmployeeAttendanceHistoryScreenState
           listener: (context, state) {
             if (state is GetEmployeeHistorySuccess) {
               attendance.addAll(state.attendanceHistory.data!);
+           
             //  maxScrollExtent = !state.attendanceHistory.hasNextPage!;
             } else if (state is GetEmployeeHistoryPaginationFailure) {
               buildSnackBar(
@@ -96,13 +97,13 @@ class _EmployeeAttendanceHistoryScreenState
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10, top: 10),
                           child: HistoryItem(
-                            isLate: attendance[index].isLate ?? false,
-                            isEarly: attendance[index].isEarly ?? false,
-                            totalhours: attendance[index].totalHours.toString(),
-                            area: attendance[index].area ?? '',
-                            clockInTime: attendance[index].clockInTime ?? '',
-                            clockOutTime: attendance[index].clockOutTime ?? '',
-                            date: attendance[index].attendanceDate ?? '',
+                            // isLate: attendance[index].isLate ?? false,
+                            // isEarly: attendance[index].isEarly ?? false,
+                            // totalhours: attendance[index].totalHours.toString(),
+                            // area: attendance[index].area ?? '',
+                            // clockInTime: attendance[index].clockInTime ?? '',
+                            // clockOutTime: attendance[index].clockOutTime ?? '',
+                            // date: attendance[index].attendanceDate ?? '',
                           ),
                         );
                       },

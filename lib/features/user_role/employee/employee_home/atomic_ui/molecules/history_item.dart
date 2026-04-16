@@ -1,6 +1,5 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import 'package:flutter/material.dart';
 
@@ -12,22 +11,22 @@ import '../../../../../../core/styles/styles.dart';
 class HistoryItem extends StatelessWidget {
   const HistoryItem({
     super.key,
-    required this.date,
-    required this.area,
-    required this.clockInTime,
-    required this.clockOutTime,
-    required this.totalhours,
-    required this.isEarly,
-    required this.isLate,
+    this.date,
+    this.area,
+    this.clockInTime,
+    this.clockOutTime,
+    this.totalhours,
+    this.isEarly,
+    this.isLate,
   });
-  final String date, area, clockInTime, clockOutTime, totalhours;
-  final bool isEarly, isLate;
+  final String? date, area, clockInTime, clockOutTime, totalhours;
+  final bool? isEarly, isLate;
   @override
   Widget build(BuildContext context) {
     DateTime clockIn =
-        DateTime.parse('2000-01-01 ${clockInTime.substring(0, 5)}:00');
+        DateTime.parse('2000-01-01 ${clockInTime?.substring(0, 5)}:00');
     DateTime clockOut =
-        DateTime.parse('2000-01-01 ${clockOutTime.substring(0, 5)}:00');
+        DateTime.parse('2000-01-01 ${clockOutTime?.substring(0, 5)}:00');
 
     return Container(
         child: Container(
@@ -41,14 +40,15 @@ class HistoryItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        date,
+                        date ?? "",
                         style: AppStylesManger.font15BoldrBlue
                             .copyWith(color: Colors.grey),
                       ),
                       Text(
-                        area.tr(
-                          context: context,
-                        ),
+                        area?.tr(
+                              context: context,
+                            ) ??
+                            "",
                         style: AppStylesManger.font15BoldrBlue
                             .copyWith(color: Colors.black),
                       ),
@@ -78,14 +78,15 @@ class HistoryItem extends StatelessWidget {
                           ),
                           Text(
                             convertTo12HourFormat(
-                              clockInTime.substring(0, 5),
+                              clockInTime?.substring(0, 5) ?? "",
                             ),
                             style: TextStyle(
-                              color: isLate
+                              color: isLate ?? false
                                   ? Colors.red
                                   : ColorsManger.primaryColor,
-                              fontWeight:
-                                  isLate ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: (isLate ?? false)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                               fontSize: 15,
                             ),
                           ),
@@ -104,13 +105,13 @@ class HistoryItem extends StatelessWidget {
                               ? Text('--')
                               : Text(
                                   convertTo12HourFormat(
-                                    clockOutTime.substring(0, 5),
+                                    clockOutTime?.substring(0, 5) ?? "",
                                   ),
                                   style: TextStyle(
-                                    color: isEarly
+                                    color: isEarly ?? false
                                         ? Colors.red
                                         : ColorsManger.primaryColor,
-                                    fontWeight: isEarly
+                                    fontWeight: isEarly ?? false
                                         ? FontWeight.bold
                                         : FontWeight.normal,
                                     fontSize: 15,
@@ -131,12 +132,12 @@ class HistoryItem extends StatelessWidget {
                               ? Text('--')
                               : Text(
                                   formatTotalHoursWorked(
-                                      double.parse(totalhours)),
+                                      double.parse(totalhours ?? "")),
                                   style: TextStyle(
-                                    color: isEarly
+                                    color: isEarly ?? false
                                         ? Colors.red
                                         : ColorsManger.primaryColor,
-                                    fontWeight: isEarly
+                                    fontWeight: isEarly ?? false
                                         ? FontWeight.bold
                                         : FontWeight.normal,
                                     fontSize: 15,
