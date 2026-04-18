@@ -70,9 +70,9 @@ class RecentLeaveApplication extends StatelessWidget {
                           });
                     }
                     if (state is GetLeaveApplicationSuccess) {
-                      final leaveRequests = state.getLeaveRequestModel.value ?? [];
+                      final leaveRequests =
+                          state.getLeaveRequestModel.value ?? [];
                       return leaveRequests.isEmpty
-                      return state.getLeaveRequestModel.value!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
                               child: NoDataFound())
@@ -83,15 +83,12 @@ class RecentLeaveApplication extends StatelessWidget {
                                   children: [
                                     Text(
                                         '${"There are".tr(context: context)} ${leaveRequests.where((e) => e.status == 0).length} ${"Pending Leave Requests".tr(context: context)}',
-                                        '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.red,
                                       count: leaveRequests
                                           .where((e) => e.status == 0)
-                                      count: state.getLeaveRequestModel.value!
-                                          .where((e) => e.status == 'Pending')
                                           .length,
                                       child: Icon(Icons.notifications_on,
                                           color: Colors.grey.shade400),
@@ -103,8 +100,6 @@ class RecentLeaveApplication extends StatelessWidget {
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: leaveRequests.length,
-                                  itemCount:
-                                      state.getLeaveRequestModel.value!.length,
                                   itemBuilder: (context, index) {
                                     final item = leaveRequests[index];
                                     return Padding(
@@ -119,30 +114,11 @@ class RecentLeaveApplication extends StatelessWidget {
                                           createdBy: item.requestorId ?? "",
                                           status: item.status ?? 0,
                                           name: item.requestorName ?? "",
-                                          from: item.leavePeriod?.startDate ?? "",
+                                          from:
+                                              item.leavePeriod?.startDate ?? "",
                                           to: item.leavePeriod?.endDate ?? "",
                                           reason: item.reason ?? "",
                                           id: item.id ?? '',
-                                          reason: state.getLeaveRequestModel
-                                                  .value?[index].reason ??
-                                              '',
-                                          to: state
-                                              .getLeaveRequestModel
-                                              .value?[index]
-                                              .leavePeriod
-                                              ?.endDate,
-                                          from: state
-                                              .getLeaveRequestModel
-                                              .value?[index]
-                                              .leavePeriod
-                                              ?.startDate,
-                                          name: state.getLeaveRequestModel
-                                              .value?[index].requestorName,
-                                          id: int.tryParse(state
-                                                  .getLeaveRequestModel
-                                                  .value![index]
-                                                  .id!) ??
-                                              0,
                                         ),
                                       ),
                                     );

@@ -13,8 +13,6 @@ class TaskCard extends StatelessWidget {
 
   final EmployeeTaskItem task;
   final VoidCallback? onStateTap;
-  });
-
 
   String _priorityText(int? value) {
     switch (value) {
@@ -163,6 +161,7 @@ class TaskCard extends StatelessWidget {
                   textColor: _stateTextColor(task.state),
                   bgColor: _stateBgColor(task.state),
                 ),
+              ),
               _InfoChip(
                 label: '${'State'.tr()}: ${_stateText(task.state)}',
                 textColor: _stateTextColor(task.state),

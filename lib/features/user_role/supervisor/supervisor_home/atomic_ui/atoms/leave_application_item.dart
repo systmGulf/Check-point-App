@@ -17,21 +17,14 @@ class LeaveApplicationItem extends StatefulWidget {
     this.to,
     this.reason,
     required this.id,
-    this.status,
+    required this.status,
     this.createdBy,
     this.type,
     this.employeeId,
     this.userToken,
   });
 
-  final String? name,
-      from,
-      to,
-      reason,
-      createdBy,
-      type,
-      employeeId,
-      userToken;
+  final String? name, from, to, reason, createdBy, type, employeeId, userToken;
   final int status;
   final String id;
 
@@ -140,7 +133,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(children: [
-                Text(_formatRange(dateFormat, context),
+                // Text(_formatRange(dateFormat, context)),
                 Text(
                     '${"From".tr(context: context)}: ${widget.from} \n${"To".tr(context: context)}: ${widget.to}',
                     style: AppStylesManger.font15regulerGrey
@@ -243,8 +236,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
       return dateFormat.format(parsed);
     }
 
-    final from = widget.from.isEmpty ? '--' : parse(widget.from);
-    final to = widget.to.isEmpty ? '--' : parse(widget.to);
+    final from = widget.from?.isEmpty ?? true ? '--' : parse(widget.from ?? "");
+    final to = widget.to?.isEmpty ?? true ? '--' : parse(widget.to ?? "");
     return '${"From".tr(context: context)}: $from\n${"To".tr(context: context)}: $to';
   }
 }
