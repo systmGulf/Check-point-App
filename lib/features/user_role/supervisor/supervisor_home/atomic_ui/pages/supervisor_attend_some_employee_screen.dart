@@ -90,12 +90,7 @@ class _SupervisorAttendSomeEmployeeScreenState
                     context
                         .read<GetEmployeesDataCubit>()
                         .supervisorAttendSomeEmployeeCheckIn(
-                            EmployeeCheckInRequestBody(
-                              
-                          date: DateFormat('yyyy-MM-dd').format(now),
-                          checkIn: DateFormat('HH:mm:ss').format(now),
-                          checkOut: DateFormat('HH:mm:ss').format(now),
-                        ));
+                            EmployeeCheckInRequestBody());
                   },
                   child: CheckingHomeContainer(
                     time: widget.getEmployeesValue.clockInTime ?? '09:00 AM',
