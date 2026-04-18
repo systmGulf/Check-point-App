@@ -91,6 +91,7 @@ class _SupervisorAttendSomeEmployeeScreenState
                         .read<GetEmployeesDataCubit>()
                         .supervisorAttendSomeEmployeeCheckIn(
                             EmployeeCheckInRequestBody(
+                              
                           date: DateFormat('yyyy-MM-dd').format(now),
                           checkIn: DateFormat('HH:mm:ss').format(now),
                           checkOut: DateFormat('HH:mm:ss').format(now),
