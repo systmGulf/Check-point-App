@@ -503,5 +503,17 @@
   "Total Amount": "المبلغ الكلي",
   "Date of Request": "تاريخ الطلب",
   "Invoices": "الفواتير",
-  "Enter details here": "ادخل التفاصيل هنا"
+  "Enter details here": "ادخل التفاصيل هنا",
+  "Complaints": "الشكاوى",
+  "No complaints yet": "لا توجد شكاوى بعد",
+  "Add your first complaint to get started": "أضف أول شكوى للبدء",
+  "Add Complaint": "إضافة شكوى",
+  "Subject": "الموضوع",
+  "Description": "الوصف",
+  "Enter subject": "أدخل الموضوع",
+  "Enter description": "أدخل الوصف",
+  "Please enter subject": "يرجى إدخال الموضوع",
+  "Submit Complaint": "إرسال الشكوى",
+  "Complaint added successfully": "تمت إضافة الشكوى بنجاح",
+  "Resolution Note": "ملاحظة المعالجة"
 }

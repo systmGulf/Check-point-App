@@ -70,7 +70,8 @@ class RecentLeaveApplication extends StatelessWidget {
                           });
                     }
                     if (state is GetLeaveApplicationSuccess) {
-                      final leaveRequests = state.getLeaveRequestModel.value ?? [];
+                      final leaveRequests =
+                          state.getLeaveRequestModel.value ?? [];
                       return leaveRequests.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
@@ -113,7 +114,8 @@ class RecentLeaveApplication extends StatelessWidget {
                                           createdBy: item.requestorId ?? "",
                                           status: item.status ?? 0,
                                           name: item.requestorName ?? "",
-                                          from: item.leavePeriod?.startDate ?? "",
+                                          from:
+                                              item.leavePeriod?.startDate ?? "",
                                           to: item.leavePeriod?.endDate ?? "",
                                           reason: item.reason ?? "",
                                           id: item.id ?? '',

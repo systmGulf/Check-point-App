@@ -3,6 +3,7 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/clients_details_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/attach_receipt_screen.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/complaints_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/receipt_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ import '../../features/user_role/employee/employee_home/atomic_ui/pages/my_plans
 import '../../features/user_role/employee/employee_home/atomic_ui/pages/workflow_submission.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
+import '../../features/user_role/employee/employee_home/controller/complaints/complaints_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
@@ -82,6 +84,13 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
             child: const TasksScreen(),
+          ),
+        );
+      case Routes.complaintsScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<ComplaintsCubit>()..getComplaints(),
+            child: const ComplaintsScreen(),
           ),
         );
       case Routes.supervisorAddTasksScreen:

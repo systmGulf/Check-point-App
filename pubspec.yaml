@@ -33,13 +33,13 @@ dependencies:
 
   hr_management_system_package:
     # Local Path ✅
-    path:  /home/osama/Desktop/Check-point-package
+    path: D:/Projects/tot_projects/HR_old_version/Check-point-package
     # Remote path ✅
     # git:
     #   url: https://github.com/systmGulf/Check-point-package
     #   ref: TOT
 
-  #UI / Animation
+    #UI / Animation
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.16
   lottie: ^3.3.0
@@ -151,3 +151,5 @@ flutter_assets:
   assets_path: assets/images
   output_path: lib/core/utils
   filename: assets_manager.dart
+
+# /D:/Projects/tot_projects/HR_old_version/Check-point-package

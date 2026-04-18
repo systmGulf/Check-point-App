@@ -11,27 +11,45 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
 
-  Future<void> doLogin() async {
+  Future<void> doLogin({
+    required String role,
+  }) async {
     emit(LoginLoading());
-
-    final result = await employeeLoginRepo.roleLogin(RoleLoginRequestBody(
-      emailOrPhone: emailController.text,
-      password: passwordTextController.text,
-    ));
-    result.fold((failure) {
-      emit(LoginFailure(error: failure.message));
-    }, (employeeLoginModel) {
-      emit(LoginSuccess(employeeLoginModel: employeeLoginModel));
-    });
+    try {
+      final result = await employeeLoginRepo.roleLogin(RoleLoginRequestBody(
+        emailOrPhone: emailController.text,
+        password: passwordTextController.text,
+      ));
+      result.fold((failure) {
+        emit(LoginFailure(error: failure.message));
+      }, (employeeLoginModel) {
+        emit(LoginSuccess(employeeLoginModel: employeeLoginModel));
+      });
+    } catch (e) {
+      final message = e.toString();
+      if (message.contains('Status: 302') ||
+          message.contains('DioExceptionType.badResponse')) {
+        emit(LoginFailure(
+            error:
+                'Login request failed (302). Please check API base URL, endpoint/proxy config, and backend redirect rules.'));
+        return;
+      }
+      emit(LoginFailure(error: 'Unexpected login error. Please try again.'));
+    }
   }
 
   Future<void> getEmployeeById() async {
     emit(GetEmployeeLoading());
-    final result = await employeeLoginRepo.getEmployeeById();
-    result.fold((failure) {
-      emit(GetEmployeeFailure(error: failure.message));
-    }, (employeeLoginModel) {
-      emit(GetEmployeeSuccess(employeeLoginModel: employeeLoginModel));
-    });
+    try {
+      final result = await employeeLoginRepo.getEmployeeById();
+      result.fold((failure) {
+        emit(GetEmployeeFailure(error: failure.message));
+      }, (employeeLoginModel) {
+        emit(GetEmployeeSuccess(employeeLoginModel: employeeLoginModel));
+      });
+    } catch (_) {
+      emit(GetEmployeeFailure(
+          error: 'Unexpected error while loading employee profile.'));
+    }
   }
 }

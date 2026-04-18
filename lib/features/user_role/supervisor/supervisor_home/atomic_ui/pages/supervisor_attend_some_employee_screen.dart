@@ -82,6 +82,8 @@ class _SupervisorAttendSomeEmployeeScreenState
                     final image = await ImagePickerHelper.pickImageBase64(
                       source: ImagePickSource.camera,
                     );
+                    final now = DateTime.now().toUtc();
+
                     setState(() {
                       isloading = false;
                     });
@@ -89,11 +91,10 @@ class _SupervisorAttendSomeEmployeeScreenState
                         .read<GetEmployeesDataCubit>()
                         .supervisorAttendSomeEmployeeCheckIn(
                             EmployeeCheckInRequestBody(
-                          null,
-                          image,
-                          employeeIdd: widget.getEmployeesValue.id!,
-                          area: 'office',
-                          location: 'Office',
+                              
+                          date: DateFormat('yyyy-MM-dd').format(now),
+                          checkIn: DateFormat('HH:mm:ss').format(now),
+                          checkOut: DateFormat('HH:mm:ss').format(now),
                         ));
                   },
                   child: CheckingHomeContainer(

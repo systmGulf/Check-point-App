@@ -12,26 +12,19 @@ import '../../contoller/leave_application/leave_application_cubit.dart';
 class LeaveApplicationItem extends StatefulWidget {
   const LeaveApplicationItem({
     super.key,
-    required this.name,
-    required this.from,
-    required this.to,
-    required this.reason,
+    this.name,
+    this.from,
+    this.to,
+    this.reason,
     required this.id,
     required this.status,
-    required this.createdBy,
-    required this.type,
-    required this.employeeId,
-    required this.userToken,
+    this.createdBy,
+    this.type,
+    this.employeeId,
+    this.userToken,
   });
 
-  final String name,
-      from,
-      to,
-      reason,
-      createdBy,
-      type,
-      employeeId,
-      userToken;
+  final String? name, from, to, reason, createdBy, type, employeeId, userToken;
   final int status;
   final String id;
 
@@ -75,8 +68,6 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat dateFormat = DateFormat(
-        tr('date_format', context: context), context.locale.toString());
     return IntrinsicHeight(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -94,7 +85,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.name,
+                        widget.name ?? "",
                         style: AppStylesManger.font15BoldBlack,
                       ),
                       Text(
@@ -142,7 +133,9 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(children: [
-                Text(_formatRange(dateFormat, context),
+                // Text(_formatRange(dateFormat, context)),
+                Text(
+                    '${"From".tr(context: context)}: ${widget.from} \n${"To".tr(context: context)}: ${widget.to}',
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
@@ -181,8 +174,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       ),
                       color: Colors.green[200]!,
                       onPressed: () {
-                        approveOrCancelLeaveRequest(
-                            'Approved', context, widget.userToken, widget.name);
+                        approveOrCancelLeaveRequest('Approved', context,
+                            widget.userToken ?? "", widget.name ?? "");
                       },
                     ),
                   ),
@@ -196,7 +189,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                       color: Colors.red[200]!,
                       onPressed: () {
                         approveOrCancelLeaveRequest('Cancelled', context,
-                            widget.userToken, widget.name);
+                            widget.userToken ?? "", widget.name ?? "");
                       },
                     ),
                   ),
@@ -243,8 +236,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
       return dateFormat.format(parsed);
     }
 
-    final from = widget.from.isEmpty ? '--' : parse(widget.from);
-    final to = widget.to.isEmpty ? '--' : parse(widget.to);
+    final from = widget.from?.isEmpty ?? true ? '--' : parse(widget.from ?? "");
+    final to = widget.to?.isEmpty ?? true ? '--' : parse(widget.to ?? "");
     return '${"From".tr(context: context)}: $from\n${"To".tr(context: context)}: $to';
   }
 }

@@ -32,3 +32,15 @@ class ApproveOrRejectLeaveApplicationFailure extends LeaveApplicationState {
 
   const ApproveOrRejectLeaveApplicationFailure({required this.error});
 }
+
+class GetLeaveTypeLoadingState extends LeaveApplicationState {}
+
+class GetLeaveTypeSuccessState extends LeaveApplicationState {
+  final GetLeaveTypeModel getLeaveTypeModel;
+  const GetLeaveTypeSuccessState({required this.getLeaveTypeModel});
+}
+
+class GetLeaveTypeFailureState extends LeaveApplicationState {
+  final String error;
+  const GetLeaveTypeFailureState({required this.error});
+}

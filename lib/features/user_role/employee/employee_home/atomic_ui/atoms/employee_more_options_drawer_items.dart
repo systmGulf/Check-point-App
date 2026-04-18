@@ -12,6 +12,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
 
@@ -139,6 +140,21 @@ List<Widget> employeeMoreOptionsDrawerItems(
         padding: EdgeInsetsDirectional.only(start: 19.w),
         child: Text(
           'My Tasks'.tr(
+            context: context,
+          ),
+          style: AppStylesManger.font18RegulerBlack,
+        ),
+      ),
+    ),
+    verticalSpace(20),
+    InkWell(
+      onTap: () {
+        context.pushName(Routes.complaintsScreen);
+      },
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 19.w),
+        child: Text(
+          'Complaints'.tr(
             context: context,
           ),
           style: AppStylesManger.font18RegulerBlack,
