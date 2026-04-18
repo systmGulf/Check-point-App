@@ -19,8 +19,10 @@ class LeaveRequestScreen extends StatefulWidget {
   const LeaveRequestScreen({
     super.key,
     required this.leaveTypeId,
+    this.leaveTypeName,
   });
   final String leaveTypeId;
+  final String? leaveTypeName;
 
   @override
   State<LeaveRequestScreen> createState() => _LeaveRequestScreenState();
@@ -77,6 +79,36 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(children: [
+                if ((widget.leaveTypeName ?? '').trim().isNotEmpty) ...[
+                  Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF3F8FE),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(
+                        color: ColorsManger.primaryColor.withValues(alpha: .2),
+                      ),
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        style: AppStylesManger.font12RegularGrey,
+                        children: [
+                          TextSpan(
+                              text: '${'Leave Type'.tr(context: context)}: '),
+                          TextSpan(
+                            text: widget.leaveTypeName!.trim(),
+                            style: AppStylesManger.font14BoldBlack.copyWith(
+                              color: ColorsManger.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalSpace(10),
+                ],
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('For a while'.tr(context: context),

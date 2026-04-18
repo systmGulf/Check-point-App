@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/dependencyـinjection/registerـfactory.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/news_cubit/supervisor_news_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_announcement_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +15,34 @@ import '../../../../../../core/styles/styles.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
 
-List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
+List<Widget> employeeMoreOptionsDrawerItems(
+  BuildContext context, {
+  bool isSupervisor = false,
+}) {
   return [
+    if (isSupervisor) ...[
+      GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (context) =>
+                    getIt<SupervisorNewsCubit>()..getAnnouncement(),
+                child: const SupervisorAnnouncementScreen(),
+              ),
+            ),
+          );
+        },
+        child: Padding(
+          padding: EdgeInsetsDirectional.only(start: 19.w),
+          child: Text(
+            'Announcements'.tr(context: context),
+            style: AppStylesManger.font18RegulerBlack,
+          ),
+        ),
+      ),
+      verticalSpace(10),
+    ],
     BlocBuilder<LeaveApplicationCubit, LeaveApplicationState>(
       buildWhen: (previous, current) =>
           current is GetLeaveTypesFailure ||
@@ -30,7 +59,15 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
                   (index) => OptionDrawerItem(
                       title: state.leaveTypeResponse.value![index].type!,
                       onPressed: () {
-                        context.pushName(Routes.requestClaimApplicationScreen, arguments: state.leaveTypeResponse.value![index].id);
+                        context.pushName(
+                          Routes.requestClaimApplicationScreen,
+                          arguments: {
+                            'leaveTypeId':
+                                state.leaveTypeResponse.value![index].id,
+                            'leaveTypeName':
+                                state.leaveTypeResponse.value![index].type,
+                          },
+                        );
                       })));
         } else if (state is GetLeaveTypesFailure) {
           return Text(state.error);
