@@ -13,8 +13,7 @@ part 'shareattendance_state.dart';
 class ShareattendanceCubit extends Cubit<ShareattendanceState> {
   ShareattendanceCubit() : super(ShareAttAndanceInitial());
 
-  Future<void> exportAndShareExcel(
-      List<SupervisorGetAllEmployeesAttendanceData> data) async {
+  Future<void> exportAndShareExcel(List<AttendanceItem> data) async {
     emit(ShareAttAndanceLoading());
     try {
       var excel = Excel.createExcel();

@@ -190,8 +190,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
       child: SupervisorHomeScreenBody(),
     ),
     BlocProvider(
-      create: (context) => getIt<SupervisorGetEmployeeAttendanceCubit>()
-        ..supervisorGetEmployeesAttendanceByDepartmentId(),
+      create: (context) => getIt<SupervisorGetEmployeeAttendanceCubit>(),
       child: const EmployeeAttendance(),
     ),
     BlocProvider(

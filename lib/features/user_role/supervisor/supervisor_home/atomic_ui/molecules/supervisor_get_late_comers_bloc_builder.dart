@@ -24,33 +24,34 @@ class SupervisorGetLateComersBlocBuilder extends StatelessWidget {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: state.employeeAllAttendance.data!.length,
+            itemCount: state.employeeAllAttendance.value!.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: EmployeeAttendance(
-                  isEarly:
-                      state.employeeAllAttendance.data![index].isEarly ?? false,
-                  isLate:
-                      state.employeeAllAttendance.data![index].isLate ?? false,
-                  employeeId: state
-                      .employeeAllAttendance.data![index].employeeId
-                      .toString(),
-                  totalHours: state
-                      .employeeAllAttendance.data![index].totalHours
-                      .toString(),
-                  id: state.employeeAllAttendance.data![index].id.toString(),
-                  employeeName:
-                      state.employeeAllAttendance.data![index].employeeName ??
-                          '',
-                  location: state.employeeAllAttendance.data![index].area ?? '',
-                  inTime:
-                      state.employeeAllAttendance.data![index].clockInTime ??
-                          '',
-                  outTime:
-                      state.employeeAllAttendance.data![index].clockOutTime ??
-                          '',
-                ),
+                    // isEarly: state.employeeAllAttendance.value![index].isEarly ??
+                    //     false,
+                    // isLate:
+                    //     state.employeeAllAttendance.value![index].isLate ?? false,
+                    // employeeId: state
+                    //     .employeeAllAttendance.value![index].employeeId
+                    //     .toString(),
+                    // totalHours: state
+                    //     .employeeAllAttendance.value![index].totalHours
+                    //     .toString(),
+                    // id: state.employeeAllAttendance.value![index].id.toString(),
+                    // employeeName:
+                    //     state.employeeAllAttendance.value![index].employeeName ??
+                    //         '',
+                    // location:
+                    //     state.employeeAllAttendance.value![index].area ?? '',
+                    // inTime:
+                    //     state.employeeAllAttendance.value![index].clockInTime ??
+                    //         '',
+                    // outTime:
+                    //     state.employeeAllAttendance.value![index].clockOutTime ??
+                    //         '',
+                    ),
               );
             },
           );
