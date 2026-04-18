@@ -13,6 +13,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
 
@@ -26,7 +27,10 @@ List<Widget> employeeMoreOptionsDrawerItems(
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const SupervisorProfileScreen(),
+              builder: (_) => BlocProvider(
+                create: (context) => getIt<PayslipCubit>()..getPayslipById(),
+                child: const SupervisorProfileScreen(),
+              ),
             ),
           );
         },

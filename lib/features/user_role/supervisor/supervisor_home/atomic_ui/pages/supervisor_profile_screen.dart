@@ -1,4 +1,9 @@
+
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/widgets/payslip_card.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
+
 import 'package:animate_do/animate_do.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -151,6 +156,33 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                         }
                         return const SizedBox.shrink();
                       },
+                    ),
+                  if (selectedIndex == 3)
+                    BlocBuilder<PayslipCubit, PayslipState>(
+                      builder: (context, state) {
+                        return switch (state) {
+                          GetPayslipByIdLoadingState() => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          GetPayslipByIdFailureState(:final msg) => Center(
+                              child: Text(
+                                msg,
+                                style: AppStylesManger.font14BoldRed,
+                              ),
+                            ),
+                          GetPayslipByIdSuccessState(:final paySlipModelList) =>
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: paySlipModelList.length,
+                              itemBuilder: (context, index) {
+                                final pasyslip = paySlipModelList[index];
+                                return PayslipCard(payslip: pasyslip);
+                              },
+                            ),
+                          _ => const SizedBox.shrink(),
+                        };
+                      },
                     )
                   else
                     AnimatedSwitcher(
@@ -182,3 +214,4 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
     );
   }
 }
+ 
