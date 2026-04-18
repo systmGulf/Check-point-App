@@ -1,5 +1,6 @@
 import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,11 +12,10 @@ import 'package:hr_management_system_package/employee_infrastructure/data/repo/e
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_payslip_repo/employee_payslip_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
-
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/complaints/complaints_repo_impl.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
-
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/employee_summary_repo/employee_summary_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/feedback/feedback_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/feedback/feedback_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo.dart';
@@ -84,6 +84,7 @@ void registerFactory() {
       getIt<EmployeeActionRepo>(),
     ),
   );
+
   getIt.registerLazySingleton<ComplaintsRepo>(
     () => ComplaintsRepoImpl(
       apiService: service_locator.getIt<ApiService>(),
@@ -160,4 +161,9 @@ void registerFactory() {
       repo: getIt<EmployeePayslipRepo>(),
     ),
   );
+
+  getIt.registerSingleton<FeedbackRepository>(
+      FeedbackRepositoryImpl(getIt<ApiService>()));
+  getIt.registerFactory<FeedbackCubit>(
+      () => FeedbackCubit(getIt<FeedbackRepository>()));
 }

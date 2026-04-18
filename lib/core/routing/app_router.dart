@@ -6,10 +6,14 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/ato
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/complaints_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/receipt_details_screen.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/add_feedback_screen.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/feedback_screen.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/feedback/feedback_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/intro/presentation/views/screen/on_boarding_screen.dart';
@@ -491,6 +495,19 @@ abstract class AppRouter {
         return BaseRoute(
           page: ReceiptDetailsScreen(),
         );
+
+      case Routes.feedback:
+        return BaseRoute(
+            page: BlocProvider(
+          create: (context) => FeedbackCubit(getIt<FeedbackRepository>()),
+          child: FeedbackScreen(),
+        ));
+      case Routes.addFeedback:
+        return BaseRoute(
+            page: BlocProvider(
+          create: (context) => FeedbackCubit(getIt<FeedbackRepository>()),
+          child: AddFeedbackScreen(),
+        ));
       default:
         return BaseRoute(
           page: const NoRouteScreen(),

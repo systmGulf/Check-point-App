@@ -131,6 +131,14 @@ List<Widget> employeeMoreOptionsDrawerItems(
         context.pushName(Routes.complaintsScreen);
       },
     ),
+    _DrawerActionTile(
+      title: 'Feedback'.tr(
+        context: context,
+      ),
+      onTap: () {
+        context.pushName(Routes.feedback);
+      },
+    ),
   ];
 }
 
