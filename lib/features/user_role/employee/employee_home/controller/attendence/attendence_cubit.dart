@@ -145,12 +145,15 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       checkIn = DateFormat('HH:mm:ss').format(DateTime.now());
 
       final checkInId = userattendanceModel.value?.id;
+      final checkinTime = userattendanceModel.value?.checkIn;
 
       if (checkInId != null) {
         await SecureCache.insertToCache(
           key: 'checkInId',
           value: checkInId,
         );
+        await SecureCache.insertToCache(
+            key: "checkinTime", value: checkinTime ?? "");
       }
 
       emit(AttendanceIneDone(userattendanceModel));
@@ -160,10 +163,26 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   void doCheckOut() async {
     emit(AttendanceOutLoading());
     final attendanceId = await SecureCache.getFromCache(key: 'checkInId');
+    final checkinTime = await SecureCache.getFromCache(key: 'checkinTime');
+    final now = DateTime.now();
+
+    final formattedDate = DateFormat('yyyy-MM-dd', 'en').format(now);
+    final formattedTime = DateFormat('HH:mm:ss', 'en').format(now);
 
     final result = await employeeAttendanceRepo.employeeCheckOut(
-        attendanceId: attendanceId,
-        employeeCheckInRequestBody: EmployeeCheckInRequestBody());
+      attendanceId: attendanceId,
+      employeeCheckInRequestBody: EmployeeCheckInRequestBody(
+        attendeeData: AttendeeData(
+          attendeeId: ApiConstant.employeeId,
+          name: ApiConstant.username,
+        ),
+        attendanceRecord: AttendanceRecord(
+          checkIn: checkinTime,
+          checkOut: formattedTime,
+          date: formattedDate,
+        ),
+      ),
+    );
     result.fold((l) {
       if (isClosed) return;
       emit(AttendanceOutError(l.message));
