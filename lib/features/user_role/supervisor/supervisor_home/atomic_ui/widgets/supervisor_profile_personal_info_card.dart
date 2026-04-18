@@ -9,9 +9,11 @@ class SupervisorProfilePersonalInfoCard extends StatelessWidget {
   const SupervisorProfilePersonalInfoCard({
     super.key,
     required this.profile,
+    required this.onEdit,
   });
 
   final EmployeeProfileValue profile;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,23 @@ class SupervisorProfilePersonalInfoCard extends StatelessWidget {
               Text(
                 'Personal Information',
                 style: AppStylesManger.font16BoldBlack,
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: onEdit,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    'Edit',
+                    style: AppStylesManger.font14BoldBlack.copyWith(
+                      color: ColorsManger.primaryColor,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
