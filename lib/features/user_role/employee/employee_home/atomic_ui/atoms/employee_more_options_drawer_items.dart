@@ -30,6 +30,7 @@ List<Widget> employeeMoreOptionsDrawerItems(
                     getIt<SupervisorNewsCubit>()..getAnnouncement(),
                 child: const SupervisorAnnouncementScreen(),
               ),
+              
             ),
           );
         },
