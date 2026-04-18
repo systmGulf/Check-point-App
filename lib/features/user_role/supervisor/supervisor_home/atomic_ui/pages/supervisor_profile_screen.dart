@@ -1,9 +1,6 @@
-
+import 'package:animate_do/animate_do.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/widgets/payslip_card.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
-
-import 'package:animate_do/animate_do.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +10,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_cubit.dart';
 import '../widgets/profile_section_switcher.dart';
+import '../widgets/supervisor_profile_benefits_card.dart';
 import '../widgets/supervisor_profile_edit_bottom_sheet.dart';
 import '../widgets/supervisor_profile_loading_skeleton.dart';
 import '../widgets/supervisor_profile_personal_info_card.dart';
@@ -68,7 +66,8 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                   verticalSpace(12),
                   if (selectedIndex == 0 ||
                       selectedIndex == 1 ||
-                      selectedIndex == 2)
+                      selectedIndex == 2 ||
+                      selectedIndex == 3)
                     BlocBuilder<EmployeeProfileCubit, EmployeeProfileState>(
                       builder: (context, state) {
                         if (state is GetEmployeeProfileLoading) {
@@ -140,6 +139,20 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                               ),
                             );
                           }
+                          if (selectedIndex == 3) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 320),
+                              switchInCurve: Curves.easeOutCubic,
+                              switchOutCurve: Curves.easeInCubic,
+                              child: FadeInUp(
+                                key: const ValueKey('benefits_card'),
+                                duration: const Duration(milliseconds: 320),
+                                child: SupervisorProfileBenefitsCard(
+                                  benefits: state.benefits,
+                                ),
+                              ),
+                            );
+                          }
 
                           return AnimatedSwitcher(
                             duration: const Duration(milliseconds: 320),
@@ -157,7 +170,7 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                         return const SizedBox.shrink();
                       },
                     ),
-                  if (selectedIndex == 3)
+                  if (selectedIndex == 4)
                     BlocBuilder<PayslipCubit, PayslipState>(
                       builder: (context, state) {
                         return switch (state) {
@@ -184,27 +197,27 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                         };
                       },
                     )
-                  else
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: FadeInUp(
-                        key: ValueKey('placeholder_$selectedIndex'),
-                        duration: const Duration(milliseconds: 280),
-                        child: Container(
-                          height: 220,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: const Color(0xffE5E7EB)),
-                          ),
-                          child: Text(
-                            'UI Section: ${sections[selectedIndex]}',
-                            style: AppStylesManger.font16BoldBlack,
-                          ),
-                        ),
-                      ),
-                    ),
+                  // else
+                  //   AnimatedSwitcher(
+                  //     duration: const Duration(milliseconds: 300),
+                  //     child: FadeInUp(
+                  //       key: ValueKey('placeholder_$selectedIndex'),
+                  //       duration: const Duration(milliseconds: 280),
+                  //       child: Container(
+                  //         height: 220,
+                  //         alignment: Alignment.center,
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.white,
+                  //           borderRadius: BorderRadius.circular(14),
+                  //           border: Border.all(color: const Color(0xffE5E7EB)),
+                  //         ),
+                  //         child: Text(
+                  //           'UI Section: ${sections[selectedIndex]}',
+                  //           style: AppStylesManger.font16BoldBlack,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
                 ],
               ),
             ),
@@ -214,4 +227,3 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
     );
   }
 }
- 

@@ -14,8 +14,22 @@ import '../../contoller/share_attendace_cubit/shareattendance_cubit.dart';
 import '../organism/employee_attendace.dart';
 import 'supervisor_employees_attendance_loading_skeleton.dart';
 
-class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
+class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatefulWidget {
   const SupervisorGetAllEmployeesAttendanceBlocBuilder({super.key});
+
+  @override
+  State<SupervisorGetAllEmployeesAttendanceBlocBuilder> createState() =>
+      _SupervisorGetAllEmployeesAttendanceBlocBuilderState();
+}
+
+class _SupervisorGetAllEmployeesAttendanceBlocBuilderState
+    extends State<SupervisorGetAllEmployeesAttendanceBlocBuilder> {
+  initState() {
+    context
+        .read<SupervisorGetEmployeeAttendanceCubit>()
+        .supervisorGetEmployeesAttendanceByDepartmentId();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +55,14 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                   ],
                 );
         } else if (state is SupervisorGetEmployeeAttendanceSuccess) {
-          final List<SupervisorGetAllEmployeesAttendanceData> filteredList =
-              state.employeeAllAttendance.data!
-                  .where((attendance) =>
-                      attendance.attendanceDate ==
-                      state.selectedDate.toString().substring(0, 10))
-                  .toList();
+          final allAttendance =
+              state.employeeAllAttendance.value ?? <AttendanceItem>[];
+          final List<AttendanceItem> filteredList = allAttendance
+              .where(
+                (attendance) =>
+                    _matchesSelectedDate(attendance, state.selectedDate),
+              )
+              .toList();
 
           return filteredList.isNotEmpty
               ? Column(
@@ -81,29 +97,29 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: filteredList.length,
                         itemBuilder: (context, index) {
+                          final item = filteredList[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             child: EmployeeAttendance(
-                              feedbacks: filteredList[index]
-                                  .customerPlans!
-                                  .expand((plan) => plan.feedbacks ?? [])
-                                  .cast<FeedbackModel>()
-                                  .toList(),
-                              isEarly: filteredList[index].isEarly ?? false,
-                              isLate: filteredList[index].isLate ?? false,
-                              employeeId: filteredList[index].employeeId ?? '',
-                              customerId:
-                                  filteredList[index].customerId.toString(),
-                              employeeImage: filteredList[index].employeeImage,
-                              totalHours:
-                                  filteredList[index].totalHours.toString(),
-                              id: filteredList[index].employeeId ?? '',
-                              employeeName:
-                                  filteredList[index].employeeName ?? '',
-                              location: filteredList[index].area ?? '',
-                              inTime: filteredList[index].clockInTime ?? '',
-                              outTime: filteredList[index].clockOutTime ?? '',
+                              // feedbacks: filteredList[index]
+                              //     .customerPlans!
+                              //     .expand((plan) => plan.feedbacks ?? [])
+                              //     .cast<FeedbackModel>()
+                              //     .toList(),
+                              // isEarly: filteredList[index].isEarly ?? false,
+                              // isLate: filteredList[index].isLate ?? false,
+                              // employeeId: filteredList[index].employeeId ?? '',
+                              // customerId:
+                              //     filteredList[index].customerId.toString(),
+                              // employeeImage: filteredList[index].employeeImage,
+                              // totalHours:
+                              //     filteredList[index].totalHours.toString(),
+                              // id: filteredList[index].employeeId ?? '',
+                              employeeName: item.attendeeData?.name ?? '',
+                              // location: filteredList[index].area ?? '',
+                              inTime: item.checkIn ?? '',
+                              outTime: item.checkOut ?? '',
                             ),
                           );
                         },
@@ -119,5 +135,35 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
         }
       },
     );
+  }
+
+  bool _matchesSelectedDate(AttendanceItem attendance, DateTime selectedDate) {
+    final selectedDay = DateFormat('yyyy-MM-dd').format(selectedDate);
+
+    // Try normalized API date first (usually yyyy-MM-dd).
+    if ((attendance.attendanceDate ?? '').startsWith(selectedDay)) {
+      return true;
+    }
+
+    // Fallback to timestamp fields.
+    for (final raw in <String?>[
+      attendance.createdDate,
+      attendance.checkIn,
+      attendance.checkOut,
+    ]) {
+      if (raw == null || raw.trim().isEmpty) continue;
+      final parsed = DateTime.tryParse(raw.trim());
+      if (parsed != null &&
+          parsed.year == selectedDate.year &&
+          parsed.month == selectedDate.month &&
+          parsed.day == selectedDate.day) {
+        return true;
+      }
+      if (raw.length >= 10 && raw.substring(0, 10) == selectedDay) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

@@ -1,26 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-
-import '../../controller/leave_application/leave_application_cubit.dart';
 
 class DateButtonLeaveRequest extends StatefulWidget {
   const DateButtonLeaveRequest({
     super.key,
     this.text,
+    this.onDateSelected,
+    this.initialDate,
+    this.firstDate,
+    this.lastDate,
   });
   final String? text;
+  final ValueChanged<DateTime>? onDateSelected;
+  final DateTime? initialDate;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
 
   @override
   State<DateButtonLeaveRequest> createState() => _DateButtonLeaveRequestState();
 }
 
 class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
-  DateTime selectedDate = DateTime.now();
+  DateTime? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = widget.initialDate;
+  }
+
+  @override
+  void didUpdateWidget(covariant DateButtonLeaveRequest oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialDate != oldWidget.initialDate) {
+      selectedDate = widget.initialDate;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final displayText = selectedDate == null
+        ? (widget.text ?? 'Select Date')
+        : DateFormat('dd MMM yyyy').format(selectedDate!);
+
     return GestureDetector(
       onTap: pickDate,
       child: Container(
@@ -33,8 +57,7 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              widget.text ??
-                  '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
+              displayText,
               style: const TextStyle(
                 color: Color(0xFF7F7F7F),
                 fontSize: 14,
@@ -57,23 +80,22 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
   }
 
   pickDate() async {
+    final now = DateTime.now();
+    final initial = selectedDate ?? widget.initialDate ?? now;
+    final first = widget.firstDate ?? now;
+    final last = widget.lastDate ?? DateTime(2101);
+
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101));
+      context: context,
+      initialDate: initial.isBefore(first) ? first : initial,
+      firstDate: first,
+      lastDate: last,
+    );
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        DateFormat('yyyy-MM-dd').format(selectedDate);
-        if (widget.text == 'From' || widget.text == 'من') {
-          BlocProvider.of<LeaveApplicationCubit>(context).from =
-              selectedDate.toString().substring(0, 10);
-        } else {
-          BlocProvider.of<LeaveApplicationCubit>(context).to =
-              selectedDate.toString().substring(0, 10);
-        }
       });
+      widget.onDateSelected?.call(picked);
     }
   }
 }

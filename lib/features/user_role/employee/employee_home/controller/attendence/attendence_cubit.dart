@@ -3,12 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
-    hide Value;
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
@@ -119,32 +117,43 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     });
   }
 
-  void doCheckIn({required String area}) async {
+  void doCheckIn() async {
     emit(AttendanceIneLoading());
-    final now = DateTime.now().toUtc();
 
+    final now = DateTime.now();
+
+    final formattedDate = DateFormat('yyyy-MM-dd', 'en').format(now);
+    final formattedTime = DateFormat('HH:mm:ss', 'en').format(now);
     final result = await employeeAttendanceRepo.employeeCheckIn(
       EmployeeCheckInRequestBody(
-        date: DateFormat('yyyy-MM-dd').format(now),
-        checkIn: DateFormat('HH:mm:ss').format(now),
-        checkOut: DateFormat('HH:mm:ss').format(now),
+        attendeeData: AttendeeData(
+          attendeeId: ApiConstant.employeeId,
+          name: ApiConstant.username,
+        ),
+        attendanceRecord: AttendanceRecord(
+          checkIn: formattedTime,
+          checkOut: formattedTime,
+          date: formattedDate,
+        ),
       ),
     );
+
     result.fold((l) {
       if (isClosed) return;
-
       emit(AttendanceInError(l.message));
     }, (userattendanceModel) async {
-      // get location from shared preferences
+      checkIn = DateFormat('HH:mm:ss').format(DateTime.now());
 
-      checkIn = DateFormat('hh:mm').format(DateTime.now());
       final checkInId = userattendanceModel.value?.id;
+      final checkinTime = userattendanceModel.value?.checkIn;
 
       if (checkInId != null) {
         await SecureCache.insertToCache(
           key: 'checkInId',
           value: checkInId,
         );
+        await SecureCache.insertToCache(
+            key: "checkinTime", value: checkinTime ?? "");
       }
 
       emit(AttendanceIneDone(userattendanceModel));
@@ -154,9 +163,26 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   void doCheckOut() async {
     emit(AttendanceOutLoading());
     final attendanceId = await SecureCache.getFromCache(key: 'checkInId');
+    final checkinTime = await SecureCache.getFromCache(key: 'checkinTime');
+    final now = DateTime.now();
+
+    final formattedDate = DateFormat('yyyy-MM-dd', 'en').format(now);
+    final formattedTime = DateFormat('HH:mm:ss', 'en').format(now);
 
     final result = await employeeAttendanceRepo.employeeCheckOut(
-        attendanceId: attendanceId);
+      attendanceId: attendanceId,
+      employeeCheckInRequestBody: EmployeeCheckInRequestBody(
+        attendeeData: AttendeeData(
+          attendeeId: ApiConstant.employeeId,
+          name: ApiConstant.username,
+        ),
+        attendanceRecord: AttendanceRecord(
+          checkIn: checkinTime,
+          checkOut: formattedTime,
+          date: formattedDate,
+        ),
+      ),
+    );
     result.fold((l) {
       if (isClosed) return;
       emit(AttendanceOutError(l.message));
@@ -167,22 +193,12 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   void attend({required String typeAttendance, required String area}) async {
-    var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
-    if (hasBiometrics) {
-      if (isClosed) return;
-      emit(AuthenticationSuccess());
-      if (typeAttendance == 'check_in') {
-        doCheckIn(area: area);
-      } else {
-        doCheckOut();
-      }
+    if (isClosed) return;
+    emit(AuthenticationSuccess());
+    if (typeAttendance == 'check_in') {
+      doCheckIn();
     } else {
-      if (isClosed) return;
-      if (typeAttendance == 'check_in') {
-        doCheckIn(area: area);
-      } else {
-        doCheckOut();
-      }
+      doCheckOut();
     }
   }
 

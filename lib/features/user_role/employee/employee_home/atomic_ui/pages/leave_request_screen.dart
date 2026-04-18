@@ -34,6 +34,8 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   late TextEditingController emergencyEmailController;
   late TextEditingController emergencyPhoneController;
   GlobalKey<FormState> formKey = GlobalKey();
+  DateTime? fromDate;
+  DateTime? toDate;
 
   @override
   void initState() {
@@ -120,14 +122,41 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                     Expanded(
                         child: DateButtonLeaveRequest(
                       text: 'From'.tr(context: context),
+                      initialDate: fromDate,
+                      onDateSelected: (picked) {
+                        setState(() {
+                          fromDate = picked;
+                          if (toDate != null && toDate!.isBefore(picked)) {
+                            toDate = null;
+                          }
+                        });
+                        BlocProvider.of<LeaveApplicationCubit>(context).from =
+                            DateFormat('yyyy-MM-dd').format(picked);
+                      },
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
                       text: 'To'.tr(context: context),
+                      initialDate: toDate,
+                      firstDate: fromDate ?? DateTime.now(),
+                      onDateSelected: (picked) {
+                        setState(() {
+                          toDate = picked;
+                        });
+                        BlocProvider.of<LeaveApplicationCubit>(context).to =
+                            DateFormat('yyyy-MM-dd').format(picked);
+                      },
                     )),
                   ],
                 ),
+                if (fromDate != null || toDate != null) ...[
+                  verticalSpace(10),
+                  _SelectedPeriodCard(
+                    fromDate: fromDate,
+                    toDate: toDate,
+                  ),
+                ],
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
@@ -226,5 +255,59 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
       BlocProvider.of<LeaveApplicationCubit>(context)
           .sendRequestToSupervisor(leaveTypeId: widget.leaveTypeId);
     }
+  }
+}
+
+class _SelectedPeriodCard extends StatelessWidget {
+  const _SelectedPeriodCard({
+    required this.fromDate,
+    required this.toDate,
+  });
+
+  final DateTime? fromDate;
+  final DateTime? toDate;
+
+  @override
+  Widget build(BuildContext context) {
+    final readableFrom =
+        fromDate == null ? '--' : DateFormat('dd MMM yyyy').format(fromDate!);
+    final readableTo =
+        toDate == null ? '--' : DateFormat('dd MMM yyyy').format(toDate!);
+
+    int? totalDays;
+    if (fromDate != null && toDate != null) {
+      totalDays = toDate!.difference(fromDate!).inDays + 1;
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        color: const Color(0xffF8FAFC),
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: const Color(0xffE5E7EB)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Selected Period'.tr(context: context),
+            style: AppStylesManger.font14BoldBlack,
+          ),
+          verticalSpace(4),
+          Text(
+            '$readableFrom  →  $readableTo',
+            style: AppStylesManger.font14RegularBlack,
+          ),
+          if (totalDays != null) ...[
+            verticalSpace(4),
+            Text(
+              '${'Total Days'.tr(context: context)}: $totalDays',
+              style: AppStylesManger.font12RegularGrey,
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }

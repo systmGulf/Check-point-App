@@ -64,6 +64,11 @@ class Routes {
   static const String employeeAssetsManagerScreen =
       "/employeeAssetsManagerScreen";
   static const String complaintsScreen = "/complaintsScreen";
+
   static const String assesmentsScreen = "/assesmentsScreen";
   static const String assesmentScreen = "/assesmentScreen";
+
+  static const String feedback = "/feedback";
+  static const String addFeedback = "/addFeedback";
+
 }

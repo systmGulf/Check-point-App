@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../organism/employee_more_option_list_view.dart';
@@ -19,9 +18,7 @@ class EmployeeMoreOptionDrawer extends StatelessWidget {
               child: Column(
             children: [
               verticalSpace(50),
-              SizedBox(
-                  height: 100.h,
-                  child: Image.asset('assets/images/vodaphone.png')),
+              Image.asset('assets/images/tot_image.png'),
               MoreOptionDrawerListView(isSupervisor: isSupervisor),
             ],
           )),

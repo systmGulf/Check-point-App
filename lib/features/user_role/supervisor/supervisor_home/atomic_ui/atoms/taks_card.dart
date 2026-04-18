@@ -146,14 +146,15 @@ class TaskCard extends StatelessWidget {
                 AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 10),
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
               _InfoChip(
                 label: '${'Priority'.tr()}: ${_priorityText(task.priority)}',
                 textColor: _priorityTextColor(task.priority),
                 bgColor: _priorityBgColor(task.priority),
               ),
-              const SizedBox(width: 8),
               GestureDetector(
                 onTap: onStateTap,
                 child: _InfoChip(
@@ -161,11 +162,6 @@ class TaskCard extends StatelessWidget {
                   textColor: _stateTextColor(task.state),
                   bgColor: _stateBgColor(task.state),
                 ),
-              ),
-              _InfoChip(
-                label: '${'State'.tr()}: ${_stateText(task.state)}',
-                textColor: _stateTextColor(task.state),
-                bgColor: _stateBgColor(task.state),
               ),
             ],
           ),
