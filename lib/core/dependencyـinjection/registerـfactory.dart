@@ -1,5 +1,6 @@
 import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
@@ -7,11 +8,15 @@ import 'package:hr_management_system_package/core/dependecy_injection/service_lo
     as service_locator;
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_payslip_repo/employee_payslip_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
+
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/complaints/complaints_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/employee_summary_repo/employee_summary_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
@@ -29,8 +34,8 @@ import '../../features/user_role/employee/employee_home/controller/get_employee_
 import '../../features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
-import '../../features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/employee_profile_cubit/employee_profile_cubit.dart';
+import '../../features/user_role/supervisor/supervisor_home/contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/leave_application/leave_application_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/news_cubit/supervisor_news_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/plan_cubit/plan_cubit.dart';
@@ -148,6 +153,11 @@ void registerFactory() {
   getIt.registerFactory<PlanCubit>(
     () => PlanCubit(
       getIt<SupervisorPlanRepo>(),
+    ),
+  );
+  getIt.registerFactory<PayslipCubit>(
+    () => PayslipCubit(
+      repo: getIt<EmployeePayslipRepo>(),
     ),
   );
 }
