@@ -1,19 +1,13 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
-import 'package:employee_mangement/core/animations/animations.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/core.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:slide_switcher/slide_switcher.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
-import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/office_checking_in.dart';
@@ -82,36 +76,36 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
               //         ));
               //       }
               //     }),
-              verticalSpace(20),
-              FadeInLeft(
-                delay: const Duration(milliseconds: 300),
-                child: Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: SlideSwitcher(
-                    initialIndex: selectedIndex,
-                    onSelect: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                    containerColor: ColorsManger.primaryColor,
-                    slidersBorder: Border.all(color: ColorsManger.primaryColor),
-                    containerHeight: 40.h,
-                    containerWight: 350.w,
-                    children: List.generate(3, (index) {
-                      return AnimatedTextWidget(
-                        text: checkingText[index],
-                        style: AppStylesManger.font18BoldBlack.copyWith(
-                          color: selectedIndex == index
-                              ? ColorsManger.primaryColor
-                              : Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      );
-                    }),
-                  ),
-                ),
-              ),
+              // verticalSpace(20),
+              // FadeInLeft(
+              //   delay: const Duration(milliseconds: 300),
+              //   child: Directionality(
+              //     textDirection: TextDirection.ltr,
+              //     child: SlideSwitcher(
+              //       initialIndex: selectedIndex,
+              //       onSelect: (index) {
+              //         setState(() {
+              //           selectedIndex = index;
+              //         });
+              //       },
+              //       containerColor: ColorsManger.primaryColor,
+              //       slidersBorder: Border.all(color: ColorsManger.primaryColor),
+              //       containerHeight: 40.h,
+              //       containerWight: 350.w,
+              //       children: List.generate(3, (index) {
+              //         return AnimatedTextWidget(
+              //           text: checkingText[index],
+              //           style: AppStylesManger.font18BoldBlack.copyWith(
+              //             color: selectedIndex == index
+              //                 ? ColorsManger.primaryColor
+              //                 : Colors.white,
+              //           ),
+              //           textAlign: TextAlign.center,
+              //         );
+              //       }),
+              //     ),
+              //   ),
+              // ),
               verticalSpace(15),
               checkingSites[selectedIndex],
               verticalSpace(5),

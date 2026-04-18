@@ -22,14 +22,29 @@ class LeaveApplicationItem extends StatefulWidget {
     this.type,
     this.employeeId,
     this.userToken,
+    this.requestNumber,
+    this.leaveTypeName,
+    this.emergencyEmail,
+    this.emergencyPhone,
   });
 
-  final String? name, from, to, reason, createdBy, type, employeeId, userToken;
+  final String? name;
+  final String? from;
+  final String? to;
+  final String? reason;
+  final String? createdBy;
+  final String? type;
+  final String? employeeId;
+  final String? userToken;
+  final String? requestNumber;
+  final String? leaveTypeName;
+  final String? emergencyEmail;
+  final String? emergencyPhone;
   final int status;
   final String id;
 
   @override
-  _LeaveApplicationItemState createState() => _LeaveApplicationItemState();
+  State<LeaveApplicationItem> createState() => _LeaveApplicationItemState();
 }
 
 class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
@@ -68,135 +83,114 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        // decoration: AppConatinerDecoration(),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  UserImage(imageUrl: '', height: 40),
-                  horizontalSpace(10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.name ?? "",
-                        style: AppStylesManger.font15BoldBlack,
-                      ),
-                      Text(
-                        'Flutter Developer',
-                        style: AppStylesManger.font15BoldBlack
-                            .copyWith(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  if (_statusText(context) == 'Cancelled'.tr(context: context))
-                    Row(
-                      children: [
-                        const Icon(Icons.close, color: Colors.red),
-                        Text('Cancelled'.tr(context: context),
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold)),
-                      ],
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xffE5E7EB)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UserImage(imageUrl: '', height: 42),
+              horizontalSpace(10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.name ?? '--',
+                      style: AppStylesManger.font15BoldBlack,
                     ),
-                  if (_statusText(context) == 'Approved'.tr(context: context))
-                    Row(
-                      children: [
-                        const Icon(Icons.check, color: Colors.green),
-                        Text('Approved'.tr(context: context),
-                            style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold)),
-                      ],
+                    verticalSpace(2),
+                    Text(
+                      '${"Request No".tr(context: context)}: ${widget.requestNumber ?? '--'}',
+                      style: AppStylesManger.font12RegularGrey,
                     ),
-                  if (_isPending(context))
-                    Row(
-                      children: [
-                        const Icon(Icons.watch_later, color: Colors.orange),
-                        Text('Pending'.tr(context: context),
-                            style: const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                ],
+                  ],
+                ),
               ),
+              _StatusBadge(
+                text: _statusText(context),
+                status: _statusText(context),
+              ),
+            ],
+          ),
+          verticalSpace(10),
+          _InfoRow(
+            label: 'Type'.tr(context: context),
+            value: widget.leaveTypeName ?? '--',
+          ),
+          _InfoRow(
+            label: 'From'.tr(context: context),
+            value: widget.from ?? '--',
+          ),
+          _InfoRow(
+            label: 'To'.tr(context: context),
+            value: widget.to ?? '--',
+          ),
+          _InfoRow(
+            label: 'Reason'.tr(context: context),
+            value: widget.reason ?? '--',
+          ),
+          _InfoRow(
+            label: 'Emergency Email'.tr(context: context),
+            value: widget.emergencyEmail ?? '--',
+          ),
+          _InfoRow(
+            label: 'Emergency Phone'.tr(context: context),
+            value: widget.emergencyPhone ?? '--',
+          ),
+          if (widget.type == 'Icident') ...[
+            verticalSpace(4),
+            Text(
+              widget.employeeId == widget.createdBy
+                  ? 'He is Created This Request'.tr(context: context)
+                  : 'Request Created By Anther Employee'.tr(context: context),
+              style: AppStylesManger.font12RegularGrey,
             ),
+          ],
+          if (_isPending(context)) ...[
             verticalSpace(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(children: [
-                // Text(_formatRange(dateFormat, context)),
-                Text(
-                    '${"From".tr(context: context)}: ${widget.from} \n${"To".tr(context: context)}: ${widget.to}',
-                    style: AppStylesManger.font15regulerGrey
-                        .copyWith(height: 1.5, color: Colors.black54)),
-                const Spacer(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Text(
-                    '${"Reason".tr(context: context)}: ${widget.reason}',
-                    style: AppStylesManger.font15regulerGrey
-                      ..copyWith(height: 1.5, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+            Row(
+              children: [
+                Expanded(
+                  child: RequestButton(
+                    text: Text(
+                      'Approve'.tr(context: context),
+                      style: AppStylesManger.font14regularWhite.copyWith(
+                        color: Colors.green[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    color: Colors.green[200]!,
+                    onPressed: () {
+                      approveOrCancelLeaveRequest('Approved', context,
+                          widget.userToken ?? '', widget.name ?? '');
+                    },
                   ),
                 ),
-              ]),
+                horizontalSpace(10),
+                Expanded(
+                  child: RequestButton(
+                    text: Text(
+                      'Reject'.tr(context: context),
+                      style: AppStylesManger.font14RedularRed,
+                    ),
+                    color: Colors.red[200]!,
+                    onPressed: () {
+                      approveOrCancelLeaveRequest('Cancelled', context,
+                          widget.userToken ?? '', widget.name ?? '');
+                    },
+                  ),
+                ),
+              ],
             ),
-            verticalSpace(9),
-            if (widget.type == 'Icident')
-              widget.employeeId == widget.createdBy
-                  ? Text('He is Created This Request'.tr(context: context),
-                      style: AppStylesManger.font15regulerGrey)
-                  : Text(
-                      'Request Created By Anther Employee'.tr(context: context),
-                      style: AppStylesManger.font15regulerGrey),
-            verticalSpace(5),
-            if (_isPending(context))
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: RequestButton(
-                      text: Text(
-                        'Approve'.tr(context: context),
-                        style: AppStylesManger.font14regularWhite.copyWith(
-                            color: Colors.green[900],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      color: Colors.green[200]!,
-                      onPressed: () {
-                        approveOrCancelLeaveRequest('Approved', context,
-                            widget.userToken ?? "", widget.name ?? "");
-                      },
-                    ),
-                  ),
-                  horizontalSpace(10),
-                  Expanded(
-                    child: RequestButton(
-                      text: Text(
-                        'Reject'.tr(context: context),
-                        style: AppStylesManger.font14RedularRed,
-                      ),
-                      color: Colors.red[200]!,
-                      onPressed: () {
-                        approveOrCancelLeaveRequest('Cancelled', context,
-                            widget.userToken ?? "", widget.name ?? "");
-                      },
-                    ),
-                  ),
-                ],
-              )
           ],
-        ),
+        ],
       ),
     );
   }
@@ -224,27 +218,92 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
         .approveOrRejectLeaveRequest(status: action, id: parsedId);
     getIt<NotificationRepo>().sendSingleNotification(
-        token: userToken,
-        title: 'Hi, $userName'.tr(context: context),
-        body: 'your leave request has been $action'.tr(context: context));
+      token: userToken,
+      title: 'Hi, $userName'.tr(context: context),
+      body: 'your leave request has been $action'.tr(context: context),
+    );
   }
+}
 
-  String _formatRange(DateFormat dateFormat, BuildContext context) {
-    String parse(String value) {
-      final parsed = DateTime.tryParse(value);
-      if (parsed == null) return value;
-      return dateFormat.format(parsed);
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({
+    required this.label,
+    required this.value,
+  });
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(
+              label,
+              style: AppStylesManger.font12RegularGrey,
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: Text(
+              value,
+              style: AppStylesManger.font14RegularBlack,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({
+    required this.text,
+    required this.status,
+  });
+
+  final String text;
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    Color color = Colors.orange;
+    if (status.toLowerCase().contains('approved')) color = Colors.green;
+    if (status.toLowerCase().contains('cancelled') ||
+        status.toLowerCase().contains('rejected')) {
+      color = Colors.red;
     }
 
-    final from = widget.from?.isEmpty ?? true ? '--' : parse(widget.from ?? "");
-    final to = widget.to?.isEmpty ?? true ? '--' : parse(widget.to ?? "");
-    return '${"From".tr(context: context)}: $from\n${"To".tr(context: context)}: $to';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        text,
+        style: AppStylesManger.font12RegularBlack.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
   }
 }
 
 class RequestButton extends StatelessWidget {
-  const RequestButton(
-      {super.key, this.onPressed, required this.text, required this.color});
+  const RequestButton({
+    super.key,
+    this.onPressed,
+    required this.text,
+    required this.color,
+  });
+
   final void Function()? onPressed;
   final Widget text;
   final Color color;
@@ -252,13 +311,15 @@ class RequestButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
           Radius.circular(10),
-        )),
-        color: color,
-        onPressed: onPressed,
-        child: text);
+        ),
+      ),
+      color: color,
+      onPressed: onPressed,
+      child: text,
+    );
   }
 }

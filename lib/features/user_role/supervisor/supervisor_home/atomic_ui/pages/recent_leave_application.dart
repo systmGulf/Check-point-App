@@ -28,6 +28,17 @@ class RecentLeaveApplication extends StatelessWidget {
     return '';
   }
 
+  String _normalizeType(String? value) {
+    if (value == null) return '';
+    return value.trim().toLowerCase().replaceAll(' ', '');
+  }
+
+  bool _matchesSelectedType(String selectedType, String? requestType) {
+    final normalizedSelected = _normalizeType(selectedType);
+    if (normalizedSelected.isEmpty) return true;
+    return _normalizeType(requestType) == normalizedSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
@@ -72,7 +83,12 @@ class RecentLeaveApplication extends StatelessWidget {
                     if (state is GetLeaveApplicationSuccess) {
                       final leaveRequests =
                           state.getLeaveRequestModel.value ?? [];
-                      return leaveRequests.isEmpty
+                      final filteredByType = leaveRequests
+                          .where((e) =>
+                              _matchesSelectedType(type, e.leaveType?.type))
+                          .toList();
+
+                      return filteredByType.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
                               child: NoDataFound())
@@ -82,12 +98,12 @@ class RecentLeaveApplication extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        '${"There are".tr(context: context)} ${leaveRequests.where((e) => e.status == 0).length} ${"Pending Leave Requests".tr(context: context)}',
+                                        '${"There are".tr(context: context)} ${filteredByType.where((e) => e.status == 0).length} ${"Pending Leave Requests".tr(context: context)}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.red,
-                                      count: leaveRequests
+                                      count: filteredByType
                                           .where((e) => e.status == 0)
                                           .length,
                                       child: Icon(Icons.notifications_on,
@@ -99,9 +115,9 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: leaveRequests.length,
+                                  itemCount: filteredByType.length,
                                   itemBuilder: (context, index) {
-                                    final item = leaveRequests[index];
+                                    final item = filteredByType[index];
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
@@ -114,10 +130,17 @@ class RecentLeaveApplication extends StatelessWidget {
                                           createdBy: item.requestorId ?? "",
                                           status: item.status ?? 0,
                                           name: item.requestorName ?? "",
+                                          requestNumber: item.number ?? "",
+                                          leaveTypeName:
+                                              item.leaveType?.type ?? "",
                                           from:
                                               item.leavePeriod?.startDate ?? "",
                                           to: item.leavePeriod?.endDate ?? "",
                                           reason: item.reason ?? "",
+                                          emergencyEmail:
+                                              item.emergencyInfo?.email ?? "",
+                                          emergencyPhone:
+                                              item.emergencyInfo?.phone ?? "",
                                           id: item.id ?? '',
                                         ),
                                       ),

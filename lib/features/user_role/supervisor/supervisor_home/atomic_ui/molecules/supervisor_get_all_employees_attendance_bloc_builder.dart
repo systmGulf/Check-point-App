@@ -55,16 +55,16 @@ class _SupervisorGetAllEmployeesAttendanceBlocBuilderState
                   ],
                 );
         } else if (state is SupervisorGetEmployeeAttendanceSuccess) {
-          final formattedSelectedDate =
-              DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", "en")
-                  .format(state.selectedDate);
-          final List<AttendanceItem> filteredList = state
-              .employeeAllAttendance.value!
-              .where((attendance) =>
-                  attendance.createdDate == formattedSelectedDate)
+          final allAttendance =
+              state.employeeAllAttendance.value ?? <AttendanceItem>[];
+          final List<AttendanceItem> filteredList = allAttendance
+              .where(
+                (attendance) =>
+                    _matchesSelectedDate(attendance, state.selectedDate),
+              )
               .toList();
 
-          return state.employeeAllAttendance.value?.isNotEmpty ?? true
+          return filteredList.isNotEmpty
               ? Column(
                   children: [
                     Padding(
@@ -95,9 +95,9 @@ class _SupervisorGetAllEmployeesAttendanceBlocBuilderState
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount:
-                            state.employeeAllAttendance.value?.length ?? 0,
+                        itemCount: filteredList.length,
                         itemBuilder: (context, index) {
+                          final item = filteredList[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
@@ -116,16 +116,10 @@ class _SupervisorGetAllEmployeesAttendanceBlocBuilderState
                               // totalHours:
                               //     filteredList[index].totalHours.toString(),
                               // id: filteredList[index].employeeId ?? '',
-                              employeeName: state.employeeAllAttendance
-                                      .value?[index].attendeeData?.name ??
-                                  '',
+                              employeeName: item.attendeeData?.name ?? '',
                               // location: filteredList[index].area ?? '',
-                              inTime: state.employeeAllAttendance.value?[index]
-                                      .checkIn ??
-                                  '',
-                              outTime: state.employeeAllAttendance.value?[index]
-                                      .checkIn ??
-                                  '',
+                              inTime: item.checkIn ?? '',
+                              outTime: item.checkOut ?? '',
                             ),
                           );
                         },
@@ -141,5 +135,35 @@ class _SupervisorGetAllEmployeesAttendanceBlocBuilderState
         }
       },
     );
+  }
+
+  bool _matchesSelectedDate(AttendanceItem attendance, DateTime selectedDate) {
+    final selectedDay = DateFormat('yyyy-MM-dd').format(selectedDate);
+
+    // Try normalized API date first (usually yyyy-MM-dd).
+    if ((attendance.attendanceDate ?? '').startsWith(selectedDay)) {
+      return true;
+    }
+
+    // Fallback to timestamp fields.
+    for (final raw in <String?>[
+      attendance.createdDate,
+      attendance.checkIn,
+      attendance.checkOut,
+    ]) {
+      if (raw == null || raw.trim().isEmpty) continue;
+      final parsed = DateTime.tryParse(raw.trim());
+      if (parsed != null &&
+          parsed.year == selectedDate.year &&
+          parsed.month == selectedDate.month &&
+          parsed.day == selectedDate.day) {
+        return true;
+      }
+      if (raw.length >= 10 && raw.substring(0, 10) == selectedDay) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
