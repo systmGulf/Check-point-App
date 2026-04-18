@@ -27,22 +27,22 @@ class EmployeeAttendanceBlocBuilder extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: HistoryItem(
-                      isLate: state.attendanceHistory.data![index].isLate ?? false,
-                      isEarly: state.attendanceHistory.data![index].isEarly ?? false,
-                      totalhours: state
-                          .attendanceHistory.data![index].totalHours
-                          .toString(),
-                      area: state.attendanceHistory.data![index].area ?? '',
-                      clockInTime:
-                          state.attendanceHistory.data![index].clockInTime ??
-                              '',
-                      clockOutTime:
-                          state.attendanceHistory.data![index].clockOutTime ??
-                              '',
-                      date:
-                          state.attendanceHistory.data![index].attendanceDate ??
-                              '',
-                    ),
+                        // isLate: state.attendanceHistory.data![index].isLate ?? false,
+                        // isEarly: state.attendanceHistory.data![index].isEarly ?? false,
+                        // totalhours: state
+                        //     .attendanceHistory.data![index].totalHours
+                        //     .toString(),
+                        // area: state.attendanceHistory.data![index].area ?? '',
+                        // clockInTime:
+                        //     state.attendanceHistory.data![index].clockInTime ??
+                        //         '',
+                        // clockOutTime:
+                        //     state.attendanceHistory.data![index].clockOutTime ??
+                        //         '',
+                        // date:
+                        //     state.attendanceHistory.data![index].attendanceDate ??
+                        //         '',
+                        ),
                   );
                 })
             : Center(

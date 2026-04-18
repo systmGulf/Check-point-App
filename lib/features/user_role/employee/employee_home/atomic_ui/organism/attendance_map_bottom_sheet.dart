@@ -74,91 +74,91 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                         current is GetFeedBackStatusFailureState ||
                         current is GetFeedBackStatusSuccessState,
                     builder: (context, state) {
-                      if (state is AccessAbleAreaState) {
-                        return Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade100,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                      '${"You are in".tr(context: context)} ${"range".tr(context: context)} ${widget.tr(context: context)}',
-                                      textAlign: TextAlign.center,
-                                      style: AppStylesManger.font16blackMedium),
-                                  const Spacer(),
-                                  const Icon(Icons.location_on,
-                                      color: Colors.green)
-                                ],
-                              ),
+                      // if (state is AccessAbleAreaState) {
+                      return Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade100,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            verticalSpace(20),
-                            attendanceType.name == "checkIn"
-                                ? CheckInBlocBuilder(
-                                    area: area,
-                                  )
-                                : CheckOutBlocBuilder(
-                                    area: area,
-                                    customerPlans: customerPlans,
-                                  ),
-                          ],
-                        );
-                      } else {
-                        return Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: Colors.red
-                                    .shade100, // Red background color for "out of range"
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '${"You are not in".tr(context: context)}  ${"range".tr(context: context)} ${widget.tr(context: context)}',
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  const Icon(Icons.location_off,
-                                      color: Colors.red)
-                                ],
-                              ),
-                            ),
-                            verticalSpace(30),
-                            Row(
+                            child: Row(
                               children: [
-                                const Icon(
-                                  Icons.warning_amber_rounded,
-                                  color: Colors.red,
-                                  size: 32,
-                                ),
-                                horizontalSpace(10),
-                                Expanded(
-                                  child: Text(
-                                    '${"تحذير: أنت الآن خارج نطاق,  لا يمكنك ".tr()} ${attendanceType.name.tr(context: context)}.',
-                                    style: TextStyle(
-                                      color: Colors.red.shade900,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
+                                Text(
+                                    '${"You are in".tr(context: context)} ${"range".tr(context: context)} ${widget.tr(context: context)}',
+                                    textAlign: TextAlign.center,
+                                    style: AppStylesManger.font16blackMedium),
+                                const Spacer(),
+                                const Icon(Icons.location_on,
+                                    color: Colors.green)
                               ],
                             ),
-                          ],
-                        );
-                      }
+                          ),
+                          verticalSpace(20),
+                          attendanceType.name == "checkIn"
+                              ? CheckInBlocBuilder(
+                                  area: area,
+                                )
+                              : CheckOutBlocBuilder(
+                                  area: area,
+                                  customerPlans: customerPlans,
+                                ),
+                        ],
+                      );
+                      // } else {
+                      //   return Column(
+                      //     children: [
+                      //       Container(
+                      //         padding: const EdgeInsets.symmetric(
+                      //             vertical: 12, horizontal: 16),
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.red
+                      //               .shade100, // Red background color for "out of range"
+                      //           borderRadius: BorderRadius.circular(8),
+                      //         ),
+                      //         child: Row(
+                      //           children: [
+                      //             Text(
+                      //               '${"You are not in".tr(context: context)}  ${"range".tr(context: context)} ${widget.tr(context: context)}',
+                      //               textAlign: TextAlign.center,
+                      //               style: const TextStyle(
+                      //                 color: Colors.black,
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.w500,
+                      //               ),
+                      //             ),
+                      //             const Spacer(),
+                      //             const Icon(Icons.location_off,
+                      //                 color: Colors.red)
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       verticalSpace(30),
+                      //       Row(
+                      //         children: [
+                      //           const Icon(
+                      //             Icons.warning_amber_rounded,
+                      //             color: Colors.red,
+                      //             size: 32,
+                      //           ),
+                      //           horizontalSpace(10),
+                      //           Expanded(
+                      //             child: Text(
+                      //               '${"تحذير: أنت الآن خارج نطاق,  لا يمكنك ".tr()} ${attendanceType.name.tr(context: context)}.',
+                      //               style: TextStyle(
+                      //                 color: Colors.red.shade900,
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.w600,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   );
+                      // }
                     },
                   ),
                 ],

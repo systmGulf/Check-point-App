@@ -68,7 +68,9 @@ class EmployeeLoginScreenBody extends StatelessWidget {
     if (BlocProvider.of<LoginCubit>(context).formKey.currentState!.validate()) {
       if (!context.mounted) return;
 
-      BlocProvider.of<LoginCubit>(context).doLogin();
+      BlocProvider.of<LoginCubit>(context).doLogin(
+        role: 'Employee',
+      );
     }
   }
 }

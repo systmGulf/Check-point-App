@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
@@ -55,7 +54,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   Future<void> getCustomerArea() async {
     emit(GetCustomerAreaLoading());
     final result = await employeeAttendanceRepo.getCustomerPlanForEmployee();
-  
+
     result.fold((l) {
       if (isClosed) return;
 
@@ -64,7 +63,6 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       if (isClosed) return;
 
       emit(GetCustomerAreaDone(customerArea));
-   
     });
   }
 
@@ -123,11 +121,15 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void doCheckIn({required String area}) async {
     emit(AttendanceIneLoading());
+    final now = DateTime.now().toUtc();
+
     final result = await employeeAttendanceRepo.employeeCheckIn(
-        EmployeeCheckInRequestBody(customerId, null,
-            employeeIdd: ApiConstant.employeeId,
-            area: area,
-            location: 'location'));
+      EmployeeCheckInRequestBody(
+        date: DateFormat('yyyy-MM-dd').format(now),
+        checkIn: DateFormat('HH:mm:ss').format(now),
+        checkOut: DateFormat('HH:mm:ss').format(now),
+      ),
+    );
     result.fold((l) {
       if (isClosed) return;
 
@@ -136,27 +138,36 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       // get location from shared preferences
 
       checkIn = DateFormat('hh:mm').format(DateTime.now());
+      final checkInId = userattendanceModel.value?.id;
+
+      if (checkInId != null) {
+        await SecureCache.insertToCache(
+          key: 'checkInId',
+          value: checkInId,
+        );
+      }
+
       emit(AttendanceIneDone(userattendanceModel));
     });
   }
 
   void doCheckOut() async {
     emit(AttendanceOutLoading());
+    final attendanceId = await SecureCache.getFromCache(key: 'checkInId');
+
     final result = await employeeAttendanceRepo.employeeCheckOut(
-        employeeId: ApiConstant.employeeId);
+        attendanceId: attendanceId);
     result.fold((l) {
       if (isClosed) return;
       emit(AttendanceOutError(l.message));
     }, (userattendanceModel) async {
       checkOut = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceOutedDone(userattendanceModel));
-     
     });
   }
 
   void attend({required String typeAttendance, required String area}) async {
     var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
-
     if (hasBiometrics) {
       if (isClosed) return;
       emit(AuthenticationSuccess());

@@ -129,7 +129,9 @@ class _SupervisorEmailAndPasswordTextFieldState
 
   validateAndLogin() async {
     if (formKey.currentState!.validate()) {
-      BlocProvider.of<LoginCubit>(context).doLogin();
+      BlocProvider.of<LoginCubit>(context).doLogin(
+        role: 'Supervisor',
+      );
     }
   }
 }

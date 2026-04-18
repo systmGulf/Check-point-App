@@ -13,6 +13,8 @@ class TaskCard extends StatelessWidget {
 
   final EmployeeTaskItem task;
   final VoidCallback? onStateTap;
+  });
+
 
   String _priorityText(int? value) {
     switch (value) {
@@ -135,6 +137,12 @@ class TaskCard extends StatelessWidget {
           // ),
           // const SizedBox(height: 4),
           Text(
+            '${'Code'.tr()}: ${task.taskCode ?? '--'}',
+            style:
+                AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey),
+          ),
+          const SizedBox(height: 4),
+          Text(
             '${'Deadline'.tr()}: ${_formatDeadline(task.deadLine)}',
             style:
                 AppStylesManger.font14RegularBlack.copyWith(color: Colors.grey),
@@ -155,6 +163,10 @@ class TaskCard extends StatelessWidget {
                   textColor: _stateTextColor(task.state),
                   bgColor: _stateBgColor(task.state),
                 ),
+              _InfoChip(
+                label: '${'State'.tr()}: ${_stateText(task.state)}',
+                textColor: _stateTextColor(task.state),
+                bgColor: _stateBgColor(task.state),
               ),
             ],
           ),
