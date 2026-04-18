@@ -17,6 +17,7 @@ import '../../../../employee/employee_home/atomic_ui/organism/employee_custom_dr
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
+import '../../contoller/news_cubit/supervisor_news_cubit.dart';
 import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../molecules/supervisor_set_plan_screen_body.dart';
@@ -24,6 +25,7 @@ import 'attandace_screen.dart';
 import 'supervisor_home_screen.dart';
 import 'supervisor_requests_screen.dart';
 import 'supervisor_tasks_screen.dart';
+import 'supervisor_user_news_screen.dart';
 
 class SupervisorLayoutScreen extends StatefulWidget {
   const SupervisorLayoutScreen({super.key});
@@ -46,6 +48,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
       'Tasks'.tr(context: context),
       'Requests'.tr(context: context),
       'Plans'.tr(context: context),
+      'User News'.tr(context: context),
     ];
     return Scaffold(
         key: scaffoldkey,
@@ -56,8 +59,8 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
           child: BlocProvider(
             create: (context) => LeaveApplicationCubit(
               getIt<EmployeeActionRepo>(),
-            ),
-            child: const EmployeeMoreOptionDrawer(),
+            )..getLeaveTypes(),
+            child: const EmployeeMoreOptionDrawer(isSupervisor: true),
           ),
         ),
         appBar: AppBar(
@@ -110,7 +113,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 selectedIndex,
               );
             },
-            iconSize: 30.h,
+            iconSize: 25.h,
             selectedItemColor: ColorsManger.primaryColor,
             unselectedItemColor: Colors.grey,
             selectedLabelStyle: AppStylesManger.font12RegularGrey.copyWith(
@@ -153,6 +156,19 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 icon: SvgPicture.asset(Assets.assetsImagesPlansIcon),
                 label: 'Plans'.tr(context: context),
               ),
+              BottomNavigationBarItem(
+                activeIcon: Icon(
+                  Icons.newspaper,
+                  color: ColorsManger.primaryColor,
+                  size: 25.sp,
+                ),
+                icon: Icon(
+                  Icons.newspaper_outlined,
+                  color: Colors.grey,
+                  size: 25.sp,
+                ),
+                label: 'User News'.tr(context: context),
+              ),
             ],
           ),
         ),
@@ -189,6 +205,10 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
     BlocProvider(
       create: (context) => getIt<PlanCubit>()..getPlan(),
       child: const SetPlanScreen(),
+    ),
+    BlocProvider(
+      create: (context) => getIt<SupervisorNewsCubit>()..getUserNews(),
+      child: const SupervisorUserNewsScreen(),
     ),
   ];
 }

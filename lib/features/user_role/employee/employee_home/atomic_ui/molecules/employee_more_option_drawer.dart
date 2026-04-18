@@ -5,7 +5,9 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../organism/employee_more_option_list_view.dart';
 
 class EmployeeMoreOptionDrawer extends StatelessWidget {
-  const EmployeeMoreOptionDrawer({super.key});
+  const EmployeeMoreOptionDrawer({super.key, this.isSupervisor = false});
+
+  final bool isSupervisor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class EmployeeMoreOptionDrawer extends StatelessWidget {
               SizedBox(
                   height: 100.h,
                   child: Image.asset('assets/images/vodaphone.png')),
-              const MoreOptionDrawerListView(),
+              MoreOptionDrawerListView(isSupervisor: isSupervisor),
             ],
           )),
         ],

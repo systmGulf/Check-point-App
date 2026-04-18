@@ -197,12 +197,25 @@ abstract class AppRouter {
           ),
         );
       case Routes.requestClaimApplicationScreen:
-        final leaveTypeId = settings.arguments as String? ?? 'RequestClaim';
+        final args = settings.arguments;
+        String leaveTypeId = 'RequestClaim';
+        String? leaveTypeName;
+
+        if (args is String) {
+          leaveTypeId = args;
+        } else if (args is Map) {
+          leaveTypeId = (args['leaveTypeId'] as String?) ?? leaveTypeId;
+          leaveTypeName = args['leaveTypeName'] as String?;
+        }
+
         return BaseRoute(
           page: BlocProvider(
             create: (context) => getIt<LeaveApplicationCubit>()
               ..GetLeaveRequestByType(type: 'RequestClaim'),
-            child: LeaveRequestScreen(leaveTypeId: leaveTypeId),
+            child: LeaveRequestScreen(
+              leaveTypeId: leaveTypeId,
+              leaveTypeName: leaveTypeName,
+            ),
           ),
         );
       case Routes.supervisorHomeScreen:

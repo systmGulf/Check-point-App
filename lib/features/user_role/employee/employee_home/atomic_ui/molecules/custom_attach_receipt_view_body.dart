@@ -24,7 +24,7 @@ class CustomAttachReceiptViewBody extends StatelessWidget {
             "Amount".tr(context: context),
             style: AppStylesManger.font16BoldBlack,
           ),
-          verticalSpace(8),
+        verticalSpace(8),
 
           /// Edit Prefix Icon Container
           CustomAppTextFormField(
