@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/core/networking/api_constant.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_profile_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/update_employee_profile_request_body.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -207,8 +208,12 @@ class _SupervisorProfileEditBottomSheetState
         organizationUnitName: spec?.organizationUnitName,
         hiringDate: spec?.hiringDate,
         managerName: spec?.managerName,
+        department: ApiConstant.departmentId.trim().isNotEmpty
+            ? ApiConstant.departmentId.trim()
+            : (spec?.organizationUnitName ?? ''),
       ),
       gradeDetails: null,
+      historyDto: const EmployeeHistoryDtoRequest(),
     );
 
     final error =

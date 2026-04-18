@@ -199,7 +199,8 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
       child: SupervisorTasksScreen(),
     ),
     BlocProvider(
-      create: (context) => getIt<LeaveApplicationCubitSupervisor>()..getLeaveType(),
+      create: (context) =>
+          getIt<LeaveApplicationCubitSupervisor>()..getLeaveType(),
       child: const SupervisorRequestsScreen(),
     ),
     BlocProvider(

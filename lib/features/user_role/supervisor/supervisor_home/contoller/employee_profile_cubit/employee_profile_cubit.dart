@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/core/networking/api_constant.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_beneficiary_benefits_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_profile_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/update_employee_profile_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/user_skills_response.dart';
@@ -28,6 +29,8 @@ class EmployeeProfileCubit extends Cubit<EmployeeProfileState> {
     );
     final skillsResult =
         await employeeSummaryRepo.getUserSkills(employeeId: id);
+    final benefitsResult =
+        await employeeSummaryRepo.getBeneficiaryBenefits(employeeId: id);
 
     profileResult.fold(
       (failure) {
@@ -40,7 +43,18 @@ class EmployeeProfileCubit extends Cubit<EmployeeProfileState> {
           (_) => <UserSkillItem>[],
           (items) => items,
         );
-        emit(GetEmployeeProfileSuccess(profile: profile, userSkills: skills));
+        final benefits =
+            benefitsResult.fold<List<EmployeeBeneficiaryBenefitItem>>(
+          (_) => <EmployeeBeneficiaryBenefitItem>[],
+          (items) => items,
+        );
+        emit(
+          GetEmployeeProfileSuccess(
+            profile: profile,
+            userSkills: skills,
+            benefits: benefits,
+          ),
+        );
       },
     );
   }

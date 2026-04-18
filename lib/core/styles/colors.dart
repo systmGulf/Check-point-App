@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ColorsManger {
   static Color scaffoldBackgroundColor = Color(0XFFFFFFFF);
-  static Color primaryColor = Color(0XFFe60000);
-  static Color primaryColorLight = Color.fromARGB(255, 209, 112, 112);
+  static Color primaryColor = Color(0XFF0f0b95);
+  static Color primaryColorLight = Color.fromARGB(255, 119, 112, 209);
   static const lightGreen = Color(0XFFf5f9ef);
   static Color lighorage = const Color(0xFFcfcdc9);
   static Color darkGreen = Color.fromARGB(255, 170, 236, 192);

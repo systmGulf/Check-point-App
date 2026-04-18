@@ -6,12 +6,11 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/news_cubit/supervisor_news_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
@@ -22,7 +21,8 @@ List<Widget> employeeMoreOptionsDrawerItems(
 }) {
   return [
     if (isSupervisor) ...[
-      GestureDetector(
+      _DrawerActionTile(
+        title: 'Profile'.tr(context: context),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -30,16 +30,9 @@ List<Widget> employeeMoreOptionsDrawerItems(
             ),
           );
         },
-        child: Padding(
-          padding: EdgeInsetsDirectional.only(start: 19.w),
-          child: Text(
-            'Profile'.tr(context: context),
-            style: AppStylesManger.font18RegulerBlack,
-          ),
-        ),
       ),
-      verticalSpace(10),
-      GestureDetector(
+      _DrawerActionTile(
+        title: 'Announcements'.tr(context: context),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -51,15 +44,7 @@ List<Widget> employeeMoreOptionsDrawerItems(
             ),
           );
         },
-        child: Padding(
-          padding: EdgeInsetsDirectional.only(start: 19.w),
-          child: Text(
-            'Announcements'.tr(context: context),
-            style: AppStylesManger.font18RegulerBlack,
-          ),
-        ),
       ),
-      verticalSpace(10),
     ],
     BlocBuilder<LeaveApplicationCubit, LeaveApplicationState>(
       buildWhen: (previous, current) =>
@@ -102,80 +87,91 @@ List<Widget> employeeMoreOptionsDrawerItems(
         }
       },
     ),
-    verticalSpace(10),
-    GestureDetector(
+    _DrawerActionTile(
+      title: 'Assets'.tr(
+        context: context,
+      ),
       onTap: () {
         context.pushName(Routes.employeeAssetsManagerScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'Assets'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-      ),
     ),
-    verticalSpace(10),
-    GestureDetector(
+    _DrawerActionTile(
+      title: 'Add New Customer'.tr(
+        context: context,
+      ),
       onTap: () {
         context.pushName(Routes.employeeAddNewCustomerScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'Add New Customer'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-      ),
     ),
-    verticalSpace(22),
-    GestureDetector(
+    _DrawerActionTile(
+      title: 'My Plans'.tr(
+        context: context,
+      ),
       onTap: () {
         context.pushName(Routes.myPlansScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'My Plans'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-      ),
     ),
-    verticalSpace(20),
-    InkWell(
+    _DrawerActionTile(
+      title: 'My Tasks'.tr(
+        context: context,
+      ),
       onTap: () {
         context.pushName(Routes.myTasksScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'My Tasks'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-      ),
     ),
-    verticalSpace(20),
-    InkWell(
+    _DrawerActionTile(
+      title: 'Complaints'.tr(
+        context: context,
+      ),
       onTap: () {
         context.pushName(Routes.complaintsScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'Complaints'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-      ),
     ),
   ];
+}
+
+class _DrawerActionTile extends StatelessWidget {
+  const _DrawerActionTile({
+    required this.title,
+    required this.onTap,
+  });
+
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: ColorsManger.borderColor),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppStylesManger.font16BoldBlack,
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: ColorsManger.grey9c,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -9,6 +9,7 @@ import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_cubit.dart';
 import '../widgets/profile_section_switcher.dart';
 import '../widgets/supervisor_profile_edit_bottom_sheet.dart';
+import '../widgets/supervisor_profile_benefits_card.dart';
 import '../widgets/supervisor_profile_loading_skeleton.dart';
 import '../widgets/supervisor_profile_personal_info_card.dart';
 import '../widgets/supervisor_profile_skills_card.dart';
@@ -63,7 +64,8 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                   verticalSpace(12),
                   if (selectedIndex == 0 ||
                       selectedIndex == 1 ||
-                      selectedIndex == 2)
+                      selectedIndex == 2 ||
+                      selectedIndex == 3)
                     BlocBuilder<EmployeeProfileCubit, EmployeeProfileState>(
                       builder: (context, state) {
                         if (state is GetEmployeeProfileLoading) {
@@ -131,6 +133,20 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                                       },
                                     );
                                   },
+                                ),
+                              ),
+                            );
+                          }
+                          if (selectedIndex == 3) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 320),
+                              switchInCurve: Curves.easeOutCubic,
+                              switchOutCurve: Curves.easeInCubic,
+                              child: FadeInUp(
+                                key: const ValueKey('benefits_card'),
+                                duration: const Duration(milliseconds: 320),
+                                child: SupervisorProfileBenefitsCard(
+                                  benefits: state.benefits,
                                 ),
                               ),
                             );
