@@ -1,5 +1,9 @@
+
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/widgets/payslip_card.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
+
+import 'package:animate_do/animate_do.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +13,10 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_cubit.dart';
 import '../widgets/profile_section_switcher.dart';
+import '../widgets/supervisor_profile_edit_bottom_sheet.dart';
+import '../widgets/supervisor_profile_loading_skeleton.dart';
 import '../widgets/supervisor_profile_personal_info_card.dart';
+import '../widgets/supervisor_profile_skills_card.dart';
 import '../widgets/supervisor_profile_summary_card.dart';
 
 class SupervisorProfileScreen extends StatefulWidget {
@@ -26,14 +33,9 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
   final List<String> sections = const [
     'Summary',
     'Personal',
-    'Employment',
+    'Skills',
+    "Benefits",
     'Payroll',
-    'Leave',
-    'Performance',
-    'Documents',
-    'Transfer',
-    'Record',
-    'BENEFIT',
   ];
 
   @override
@@ -44,36 +46,39 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
         builder: (context) {
           final cubit = context.read<EmployeeProfileCubit>();
           return Scaffold(
-            appBar: buildCustomAppBar(context, 'Employee Details'),
+            appBar: buildCustomAppBar(context, 'Profile'),
             body: RefreshIndicator(
               onRefresh: cubit.getEmployeeProfile,
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(12),
                 children: [
-                  ProfileSectionSwitcher(
-                    sections: sections,
-                    selectedIndex: selectedIndex,
-                    onSectionTap: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
+                  FadeInDown(
+                    duration: const Duration(milliseconds: 320),
+                    child: ProfileSectionSwitcher(
+                      sections: sections,
+                      selectedIndex: selectedIndex,
+                      onSectionTap: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                    ),
                   ),
                   verticalSpace(12),
-                  if (selectedIndex == 0 || selectedIndex == 1)
+                  if (selectedIndex == 0 ||
+                      selectedIndex == 1 ||
+                      selectedIndex == 2)
                     BlocBuilder<EmployeeProfileCubit, EmployeeProfileState>(
                       builder: (context, state) {
                         if (state is GetEmployeeProfileLoading) {
-                          return SizedBox(
-                            height: 240,
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          return SupervisorProfileLoadingSkeleton(
+                            selectedIndex: selectedIndex,
                           );
                         }
                         if (state is GetEmployeeProfileFailure) {
                           return SizedBox(
+                            key: const ValueKey('profile_failure'),
                             height: 240,
                             child: Center(
                               child: Text(
@@ -86,12 +91,67 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                         }
                         if (state is GetEmployeeProfileSuccess) {
                           if (selectedIndex == 0) {
-                            return SupervisorProfileSummaryCard(
-                              profile: state.profile,
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 320),
+                              switchInCurve: Curves.easeOutCubic,
+                              switchOutCurve: Curves.easeInCubic,
+                              child: FadeInUp(
+                                key: const ValueKey('summary_card'),
+                                duration: const Duration(milliseconds: 320),
+                                child: SupervisorProfileSummaryCard(
+                                  profile: state.profile,
+                                ),
+                              ),
                             );
                           }
-                          return SupervisorProfilePersonalInfoCard(
-                            profile: state.profile,
+                          if (selectedIndex == 1) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 320),
+                              switchInCurve: Curves.easeOutCubic,
+                              switchOutCurve: Curves.easeInCubic,
+                              child: FadeInUp(
+                                key: const ValueKey('personal_card'),
+                                duration: const Duration(milliseconds: 320),
+                                child: SupervisorProfilePersonalInfoCard(
+                                  profile: state.profile,
+                                  onEdit: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(20),
+                                        ),
+                                      ),
+                                      builder: (_) {
+                                        return BlocProvider.value(
+                                          value: context
+                                              .read<EmployeeProfileCubit>(),
+                                          child:
+                                              SupervisorProfileEditBottomSheet(
+                                            profile: state.profile,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          }
+
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 320),
+                            switchInCurve: Curves.easeOutCubic,
+                            switchOutCurve: Curves.easeInCubic,
+                            child: FadeInUp(
+                              key: const ValueKey('skills_card'),
+                              duration: const Duration(milliseconds: 320),
+                              child: SupervisorProfileSkillsCard(
+                                skills: state.userSkills,
+                              ),
+                            ),
                           );
                         }
                         return const SizedBox.shrink();
@@ -125,17 +185,24 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                       },
                     )
                   else
-                    Container(
-                      height: 220,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xffE5E7EB)),
-                      ),
-                      child: Text(
-                        'UI Section: ${sections[selectedIndex]}',
-                        style: AppStylesManger.font16BoldBlack,
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: FadeInUp(
+                        key: ValueKey('placeholder_$selectedIndex'),
+                        duration: const Duration(milliseconds: 280),
+                        child: Container(
+                          height: 220,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: const Color(0xffE5E7EB)),
+                          ),
+                          child: Text(
+                            'UI Section: ${sections[selectedIndex]}',
+                            style: AppStylesManger.font16BoldBlack,
+                          ),
+                        ),
                       ),
                     ),
                 ],

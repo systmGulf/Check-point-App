@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/supervisor_news_response.dart';
 
 import 'announcement_card.dart';
@@ -21,7 +22,11 @@ class AnnouncementListView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: announcements.length,
         itemBuilder: (context, index) {
-          return AnnouncementCard(item: announcements[index]);
+          return FadeInUp(
+            duration: const Duration(milliseconds: 360),
+            delay: Duration(milliseconds: index * 80),
+            child: AnnouncementCard(item: announcements[index]),
+          );
         },
       ),
     );

@@ -9,8 +9,12 @@ class GetEmployeeProfileLoading extends EmployeeProfileState {}
 
 class GetEmployeeProfileSuccess extends EmployeeProfileState {
   final EmployeeProfileValue profile;
+  final List<UserSkillItem> userSkills;
 
-  GetEmployeeProfileSuccess({required this.profile});
+  GetEmployeeProfileSuccess({
+    required this.profile,
+    required this.userSkills,
+  });
 }
 
 class GetEmployeeProfileFailure extends EmployeeProfileState {

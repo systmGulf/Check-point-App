@@ -504,5 +504,18 @@
   "Total Amount": "Total Amount",
   "Date of Request": "Date of Request",
   "Invoices": "Invoices",
-  "Enter details here": "Enter details here..."
+  "Enter details here": "Enter details here...",
+  "Complaints": "Complaints",
+  "No complaints yet": "No complaints yet",
+  "Add your first complaint to get started": "Add your first complaint to get started",
+  "Add Complaint": "Add Complaint",
+  "Subject": "Subject",
+  "Description": "Description",
+  "Enter subject": "Enter subject",
+  "Enter description": "Enter description",
+  "Please enter subject": "Please enter subject",
+  "Please enter description": "Please enter description",
+  "Submit Complaint": "Submit Complaint",
+  "Complaint added successfully": "Complaint added successfully",
+  "Resolution Note": "Resolution Note"
 }

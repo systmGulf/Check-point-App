@@ -61,5 +61,7 @@ class Routes {
   static const String employeeAssetsAllRequestsScreen =
       "/employeeAssetsAllRequestsScreen";
   static const String receiptDetailsScreen = "/receiptDetailsScreen";
-  static const String employeeAssetsManagerScreen = "/employeeAssetsManagerScreen";
+  static const String employeeAssetsManagerScreen =
+      "/employeeAssetsManagerScreen";
+  static const String complaintsScreen = "/complaintsScreen";
 }

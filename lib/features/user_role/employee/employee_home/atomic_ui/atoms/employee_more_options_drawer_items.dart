@@ -166,5 +166,20 @@ List<Widget> employeeMoreOptionsDrawerItems(
         ),
       ),
     ),
+    verticalSpace(20),
+    InkWell(
+      onTap: () {
+        context.pushName(Routes.complaintsScreen);
+      },
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 19.w),
+        child: Text(
+          'Complaints'.tr(
+            context: context,
+          ),
+          style: AppStylesManger.font18RegulerBlack,
+        ),
+      ),
+    ),
   ];
 }
