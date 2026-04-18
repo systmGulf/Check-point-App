@@ -8,9 +8,11 @@ class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.task,
+    this.onStateTap,
   });
 
   final EmployeeTaskItem task;
+  final VoidCallback? onStateTap;
 
   String _priorityText(int? value) {
     switch (value) {
@@ -146,10 +148,13 @@ class TaskCard extends StatelessWidget {
                 bgColor: _priorityBgColor(task.priority),
               ),
               const SizedBox(width: 8),
-              _InfoChip(
-                label: '${'State'.tr()}: ${_stateText(task.state)}',
-                textColor: _stateTextColor(task.state),
-                bgColor: _stateBgColor(task.state),
+              GestureDetector(
+                onTap: onStateTap,
+                child: _InfoChip(
+                  label: '${'State'.tr()}: ${_stateText(task.state)}',
+                  textColor: _stateTextColor(task.state),
+                  bgColor: _stateBgColor(task.state),
+                ),
               ),
             ],
           ),

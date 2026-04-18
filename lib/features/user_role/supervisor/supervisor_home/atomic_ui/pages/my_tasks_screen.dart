@@ -12,6 +12,47 @@ import '../pages/my_tasks_loading_skeleton.dart';
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
 
+  String _stateText(BuildContext context, int state) {
+    switch (state) {
+      case 0:
+        return 'Pending'.tr(context: context);
+      case 1:
+        return 'InProgress'.tr(context: context);
+      case 2:
+        return 'Completed'.tr(context: context);
+      case 3:
+        return 'OnHold'.tr(context: context);
+      case 4:
+        return 'Cancelled'.tr(context: context);
+      default:
+        return '--';
+    }
+  }
+
+  Future<void> _showUpdateStateMenu(
+      BuildContext context, String employeeTaskId) async {
+    final selected = await showModalBottomSheet<int>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+            5,
+            (index) => ListTile(
+              title: Text(_stateText(context, index)),
+              onTap: () => Navigator.of(ctx).pop(index),
+            ),
+          ),
+        ),
+      ),
+    );
+    if (selected == null) return;
+    context.read<EmployeeTasksCubit>().updateTaskStatus(
+          employeeTaskId: employeeTaskId,
+          state: selected,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +65,12 @@ class TasksScreen extends StatelessWidget {
                 SnackBar(content: Text(state.error)),
               );
             }
+            if (state is UpdateTaskStatusError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+            }
+            if (state is UpdateTaskStatusSuccess) {}
           },
           buildWhen: (previous, current) =>
               current is GetMyTasksLoading ||
@@ -31,10 +78,14 @@ class TasksScreen extends StatelessWidget {
               current is GetMyTasksError ||
               current is DeleteEmployeeTaskLoading ||
               current is DeleteEmployeeTaskSuccess ||
-              current is DeleteEmployeeTaskError,
+              current is DeleteEmployeeTaskError ||
+              current is UpdateTaskStatusLoading ||
+              current is UpdateTaskStatusSuccess ||
+              current is UpdateTaskStatusError,
           builder: (context, state) {
             if (state is GetMyTasksLoading ||
-                state is DeleteEmployeeTaskLoading) {
+                state is DeleteEmployeeTaskLoading ||
+                state is UpdateTaskStatusLoading) {
               return const MyTasksLoadingSkeleton();
             }
 
@@ -63,17 +114,32 @@ class TasksScreen extends StatelessWidget {
                         PositionedDirectional(
                           top: 8,
                           end: 8,
-                          child: IconButton(
-                            onPressed: () {
+                          child: PopupMenuButton<String>(
+                            color: Colors.white,
+                            onSelected: (value) {
                               final employeeTaskId = task.id?.trim() ?? '';
                               if (employeeTaskId.isEmpty) return;
-                              context
-                                  .read<EmployeeTasksCubit>()
-                                  .deleteTask(employeeTaskId: employeeTaskId);
+                              if (value == 'update') {
+                                _showUpdateStateMenu(context, employeeTaskId);
+                              } else if (value == 'delete') {
+                                context
+                                    .read<EmployeeTasksCubit>()
+                                    .deleteTask(employeeTaskId: employeeTaskId);
+                              }
                             },
+                            itemBuilder: (context) => [
+                              PopupMenuItem<String>(
+                                value: 'update',
+                                child: Text('Update State'.tr()),
+                              ),
+                              PopupMenuItem<String>(
+                                value: 'delete',
+                                child: Text('Delete'.tr()),
+                              ),
+                            ],
                             icon: const Icon(
-                              Icons.delete_outline,
-                              color: Colors.red,
+                              Icons.more_vert,
+                              color: Colors.black87,
                             ),
                           ),
                         ),

@@ -24,10 +24,12 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
 
   // update task Status
   Future<void> updateTaskStatus(
-      {required int taskId, required String taskStatus}) async {
+      {required String employeeTaskId, required int state}) async {
     emit(UpdateTaskStatusLoading());
     final result = await employeeRepo.changeEmployeeTaskStatus(
-        taskId: taskId, status: taskStatus);
+      employeeTaskId: employeeTaskId,
+      state: state,
+    );
     result.fold((l) {
       emit(UpdateTaskStatusError(l.message));
     }, (r) {
