@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_request_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/change_request_leave_status.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_request_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_type_model.dart';
@@ -34,6 +34,7 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
       (r) {
         if (isClosed) return;
         _isRequesting = false;
+        numOfLeaveRequest = (r.value ?? []).where((e) => e.status == 0).length;
         final filteredRequests = type.trim().isEmpty
             ? r.value
             : r.value

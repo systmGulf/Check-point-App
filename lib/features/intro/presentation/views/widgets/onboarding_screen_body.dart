@@ -55,7 +55,7 @@ class OnboardingScreenBody extends StatelessWidget {
                   verticalSpace(40),
                   CustomAppButton(
                     onPressed: () async {
-                      context.pushName(Routes.userRoleScreen);
+                      context.pushName(Routes.supervisorLoginScreen);
                     },
                     textButton: 'get_started'.tr(),
                     buttonColor: ColorsManger.primaryColor,

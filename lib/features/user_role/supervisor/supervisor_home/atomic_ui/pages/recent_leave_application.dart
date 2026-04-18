@@ -18,6 +18,16 @@ class RecentLeaveApplication extends StatelessWidget {
   });
   final String type;
 
+  String _extractUserToken(dynamic requestor) {
+    if (requestor is Map<String, dynamic>) {
+      final tokens = requestor['deviceTokens'];
+      if (tokens is List && tokens.isNotEmpty) {
+        return tokens.first?.toString() ?? '';
+      }
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
@@ -60,6 +70,8 @@ class RecentLeaveApplication extends StatelessWidget {
                           });
                     }
                     if (state is GetLeaveApplicationSuccess) {
+                      final leaveRequests = state.getLeaveRequestModel.value ?? [];
+                      return leaveRequests.isEmpty
                       return state.getLeaveRequestModel.value!.isEmpty
                           ? Align(
                               alignment: Alignment.topCenter,
@@ -70,11 +82,14 @@ class RecentLeaveApplication extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
+                                        '${"There are".tr(context: context)} ${leaveRequests.where((e) => e.status == 0).length} ${"Pending Leave Requests".tr(context: context)}',
                                         '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(
                                       backgroundColor: Colors.red,
+                                      count: leaveRequests
+                                          .where((e) => e.status == 0)
                                       count: state.getLeaveRequestModel.value!
                                           .where((e) => e.status == 'Pending')
                                           .length,
@@ -87,14 +102,27 @@ class RecentLeaveApplication extends StatelessWidget {
                                 ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
+                                  itemCount: leaveRequests.length,
                                   itemCount:
                                       state.getLeaveRequestModel.value!.length,
                                   itemBuilder: (context, index) {
+                                    final item = leaveRequests[index];
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 10),
                                       child: ElasticInUp(
                                         child: LeaveApplicationItem(
+                                          userToken:
+                                              _extractUserToken(item.requestor),
+                                          employeeId: item.requestorId ?? '',
+                                          type: type,
+                                          createdBy: item.requestorId ?? "",
+                                          status: item.status ?? 0,
+                                          name: item.requestorName ?? "",
+                                          from: item.leavePeriod?.startDate ?? "",
+                                          to: item.leavePeriod?.endDate ?? "",
+                                          reason: item.reason ?? "",
+                                          id: item.id ?? '',
                                           reason: state.getLeaveRequestModel
                                                   .value?[index].reason ??
                                               '',

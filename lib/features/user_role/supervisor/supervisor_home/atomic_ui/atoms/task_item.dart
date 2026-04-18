@@ -109,7 +109,7 @@ class _TaskItemState extends State<TaskItem> {
                   (index) => EmployeeAssignedWidget(
                         onDelete: () {
                           context.read<TasksCubit>().deleteEmployeeFromTask(
-                              taskId: int.parse(widget.id),
+                              taskId: widget.id,
                               employeeIds:
                                   widget.employeeName[index].id.toString());
                         },

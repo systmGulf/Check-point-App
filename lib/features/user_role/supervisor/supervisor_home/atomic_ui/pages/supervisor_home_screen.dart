@@ -5,10 +5,10 @@ import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/core/core.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_switcher/slide_switcher.dart';
 
-import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -59,28 +59,29 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
           child: ListView(
             children: [
               verticalSpace(15),
-              BlocBuilder<LoginCubit, LoginState>(
-                  buildWhen: (previous, current) =>
-                      current is GetEmployeeLoading ||
-                      current is GetEmployeeSuccess ||
-                      current is GetEmployeeFailure,
-                  builder: (context, state) {
-                    print(state);
-                    if (state is GetEmployeeSuccess) {
-                      return UserNameAndTimeAndCheckInAndOutItem(
-                        image: state.employeeLoginModel.imageUrl ?? '',
-                        name: "${state.employeeLoginModel.name}",
-                      );
-                    } else if (state is GetEmployeeFailure) {
-                      return Text(state.error);
-                    } else {
-                      return Skeletonizer(
-                          child: const UserNameAndTimeAndCheckInAndOutItem(
-                        image: '',
-                        name: "Data Loading",
-                      ));
-                    }
-                  }),
+              UserNameAndTimeAndCheckInAndOutItem(
+                image: '',
+                name: "${ApiConstant.username}",
+              ),
+              // BlocBuilder<LoginCubit, LoginState>(
+              //     buildWhen: (previous, current) =>
+              //         current is GetEmployeeLoading ||
+              //         current is GetEmployeeSuccess ||
+              //         current is GetEmployeeFailure,
+              //     builder: (context, state) {
+              //       print(state);
+              //       if (state is GetEmployeeSuccess) {
+
+              //       } else if (state is GetEmployeeFailure) {
+              //         return Text(state.error);
+              //       } else {
+              //         return Skeletonizer(
+              //             child: const UserNameAndTimeAndCheckInAndOutItem(
+              //           image: '',
+              //           name: "Data Loading",
+              //         ));
+              //       }
+              //     }),
               verticalSpace(20),
               FadeInLeft(
                 delay: const Duration(milliseconds: 300),
