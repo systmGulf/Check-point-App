@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/dependencyـinjection/registerـfactory.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_announcement_screen.dart';
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_profile_screen.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/news_cubit/supervisor_news_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
 
@@ -28,6 +26,8 @@ List<Widget> employeeMoreOptionsDrawerItems(
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => BlocProvider(
+
+
                 create: (context) => getIt<PayslipCubit>()..getPayslipById(),
                 child: const SupervisorProfileScreen(),
               ),
@@ -41,6 +41,7 @@ List<Widget> employeeMoreOptionsDrawerItems(
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => BlocProvider(
+
                 create: (context) =>
                     getIt<SupervisorNewsCubit>()..getAnnouncement(),
                 child: const SupervisorAnnouncementScreen(),
@@ -128,12 +129,22 @@ List<Widget> employeeMoreOptionsDrawerItems(
         context: context,
       ),
       onTap: () {
-        context.pushName(Routes.complaintsScreen);
+        context.pushName(Routes.assesmentsScreen);
       },
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 19.w),
+        child: Text(
+          'Assesments'.tr(
+            context: context,
+          ),
+          style: AppStylesManger.font18RegulerBlack,
+        ),
+
     ),
     _DrawerActionTile(
       title: 'Feedback'.tr(
         context: context,
+
       ),
       onTap: () {
         context.pushName(Routes.feedback);

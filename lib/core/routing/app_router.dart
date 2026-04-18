@@ -6,9 +6,13 @@ import 'package:employee_mangement/features/user_role/employee/employee_home/ato
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/complaints_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/receipt_details_screen.dart';
+
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
+
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/add_feedback_screen.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/feedback_screen.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
@@ -60,6 +64,7 @@ import '../../features/user_role/employee/employee_home/controller/leave_applica
 import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_auth/ui/views/widgets/screen/supervisor_login_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supervisor_add_tasks_screen.dart';
+import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/assesments_screen..dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/gamfication_screen.dart'
     show LeaderboardPage;
@@ -495,6 +500,27 @@ abstract class AppRouter {
         return BaseRoute(
           page: ReceiptDetailsScreen(),
         );
+      case Routes.assesmentsScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<AssesmentCubit>()..getAssesments(),
+            child: AssessmentsScreen(),
+          ),
+        );
+      case Routes.assesmentScreen:
+        final args = settings.arguments as Map;
+
+        return BaseRoute(
+          page: BlocProvider.value(
+            value: args["cubit"] as AssesmentCubit,
+            child: AssessmentDetailsScreen(
+              assessmentId: args["id"],
+              cubit: args["cubit"] as AssesmentCubit,
+              employeeAssessmentId: args["employeeAssessmentId"],
+            ),
+          ),
+        );
+
 
       case Routes.feedback:
         return BaseRoute(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/company_event_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/user_news_response.dart';
 
@@ -22,45 +21,27 @@ class UserNewsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int animationOrder = 0;
-
-    Widget buildAnimatedItem(Widget child) {
-      final item = FadeInUp(
-        duration: const Duration(milliseconds: 360),
-        delay: Duration(milliseconds: animationOrder * 80),
-        child: child,
-      );
-      animationOrder++;
-      return item;
-    }
-
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           if (userNews.isNotEmpty) ...[
-            buildAnimatedItem(
-              Text(
-                'User News (${userNews.length})',
-                style: AppStylesManger.font16BoldBlack,
-              ),
+            Text(
+              'User News (${userNews.length})',
+              style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(8),
-            ...userNews
-                .map((item) => buildAnimatedItem(UserNewsCard(item: item))),
+            ...userNews.map((item) => UserNewsCard(item: item)),
             verticalSpace(10),
           ],
           if (companyEvents.isNotEmpty) ...[
-            buildAnimatedItem(
-              Text(
-                'Company Events (${companyEvents.length})',
-                style: AppStylesManger.font16BoldBlack,
-              ),
+            Text(
+              'Company Events (${companyEvents.length})',
+              style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(8),
-            ...companyEvents
-                .map((item) => buildAnimatedItem(CompanyEventCard(item: item))),
+            ...companyEvents.map((item) => CompanyEventCard(item: item)),
           ],
         ],
       ),
