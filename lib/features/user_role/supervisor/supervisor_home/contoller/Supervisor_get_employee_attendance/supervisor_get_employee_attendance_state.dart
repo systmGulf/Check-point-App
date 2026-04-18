@@ -20,7 +20,7 @@ class SupervisorGetEmployeeAttendanceLoading
 
 class SupervisorGetEmployeeAttendanceSuccess
     extends SupervisorGetEmployeeAttendanceState {
-  final SupervisorGetAllEmployeesAttendanceValue employeeAllAttendance;
+  final SupervisorGetAllEmployeesAttendanceModel employeeAllAttendance;
 
   const SupervisorGetEmployeeAttendanceSuccess(
       super.selectedDate, this.employeeAllAttendance);
@@ -41,7 +41,7 @@ class SupervisorGetLateComersLoading
 
 class SupervisorGetLateComersSuccess
     extends SupervisorGetEmployeeAttendanceState {
-  final SupervisorGetAllEmployeesAttendanceValue employeeAllAttendance;
+  final SupervisorGetAllEmployeesAttendanceModel employeeAllAttendance;
 
   const SupervisorGetLateComersSuccess(
       super.selectedDate, this.employeeAllAttendance);
@@ -61,7 +61,7 @@ class SupervisorGetEarlyLeaversLoading
 
 class SupervisorGetEarlyLeaversSuccess
     extends SupervisorGetEmployeeAttendanceState {
-  final SupervisorGetAllEmployeesAttendanceValue employeeAllAttendance;
+  final SupervisorGetAllEmployeesAttendanceModel employeeAllAttendance;
 
   const SupervisorGetEarlyLeaversSuccess(
       super.selectedDate, this.employeeAllAttendance);

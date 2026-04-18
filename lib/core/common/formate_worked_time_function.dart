@@ -4,25 +4,31 @@ String formatWorkedTime({
   required String clockInTime,
   required String clockOutTime,
 }) {
-  final inTime = DateTime.parse("1970-01-01 $clockInTime");
-  final outTime = DateTime.parse("1970-01-01 $clockOutTime");
+  final inParts = clockInTime.split(':');
+  final outParts = clockOutTime.split(':');
 
-  final difference = outTime.difference(inTime);
+  final inMinutes = (int.parse(inParts[0]) * 60) +
+      int.parse(inParts[1]) +
+      (inParts.length > 2 ? int.parse(inParts[2]) / 60 : 0);
 
-  final totalMinutes = difference.inSeconds / 60;
+  final outMinutes = (int.parse(outParts[0]) * 60) +
+      int.parse(outParts[1]) +
+      (outParts.length > 2 ? int.parse(outParts[2]) / 60 : 0);
 
-  if (totalMinutes < 1) {
-    return "1 ${"minute".tr()}";
+  final totalMinutes = outMinutes - inMinutes;
+
+  if (totalMinutes <= 0) {
+    return "0 ${"minute".tr()}";
   }
 
   final hours = totalMinutes ~/ 60;
-  final minutes = totalMinutes.round() % 60;
+  final minutes = totalMinutes % 60;
 
   if (hours == 0) {
     return "$minutes ${"minute".tr()}";
   } else if (minutes == 0) {
     return "$hours ${"hour".tr()}";
   } else {
-    return "$hours ${hours == 1 ? "hour".tr() : "hours".tr()} و $minutes ${minutes == 1 ? "minute".tr() : "minutes".tr()}";
+    return "$hours ${"hour".tr()} و $minutes ${"minute".tr()}";
   }
 }

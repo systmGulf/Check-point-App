@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/employee_preview.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -77,9 +76,10 @@ class HistoryItem extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           Text(
-                            convertTo12HourFormat(
-                              clockInTime?.substring(0, 5) ?? "",
-                            ),
+                            clockInTime ?? "",
+                            // convertTo12HourFormat(
+                            //   clockInTime?.substring(0, 5) ?? "",
+                            // ),
                             style: TextStyle(
                               color: isLate ?? false
                                   ? Colors.red
@@ -104,9 +104,10 @@ class HistoryItem extends StatelessWidget {
                           clockOutTime == '00:00:00'
                               ? Text('--')
                               : Text(
-                                  convertTo12HourFormat(
-                                    clockOutTime?.substring(0, 5) ?? "",
-                                  ),
+                                  clockOutTime ?? "",
+                                  // convertTo12HourFormat(
+                                  //   clockOutTime?.substring(0, 5) ?? "",
+                                  // ),
                                   style: TextStyle(
                                     color: isEarly ?? false
                                         ? Colors.red
