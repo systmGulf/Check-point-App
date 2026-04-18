@@ -26,6 +26,18 @@ class GetPlanError extends PlanState {
   GetPlanError({required this.error});
 }
 
+class GetPlansV2Loading extends PlanState {}
+
+class GetPlansV2Success extends PlanState {
+  final List<PlanV2Item> plans;
+  GetPlansV2Success({required this.plans});
+}
+
+class GetPlansV2Error extends PlanState {
+  final String error;
+  GetPlansV2Error({required this.error});
+}
+
 class AddPlanLoading extends PlanState {}
 
 class AddPlanSuccess extends PlanState {}
