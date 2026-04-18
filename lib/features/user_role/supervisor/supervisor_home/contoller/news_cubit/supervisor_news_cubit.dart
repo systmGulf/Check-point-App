@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_management_system_package/core/networking/api_constant.dart'
+    show ApiConstant;
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/company_event_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/supervisor_news_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/supervisor_news_model/user_news_response.dart';
@@ -14,7 +16,8 @@ class SupervisorNewsCubit extends Cubit<SupervisorNewsState> {
 
   Future<void> getAnnouncement() async {
     emit(GetAnnouncementLoading());
-    final result = await supervisorNewsRepo.getAnnouncement();
+    final result = await supervisorNewsRepo.getAnnouncement(
+        employeeId: ApiConstant.employeeId.trim());
 
     result.fold(
       (failure) {
@@ -31,7 +34,8 @@ class SupervisorNewsCubit extends Cubit<SupervisorNewsState> {
   Future<void> getUserNews() async {
     emit(GetUserNewsLoading());
     final userNewsResult = await supervisorNewsRepo.getUserNews();
-    final companyEventResult = await supervisorNewsRepo.getCompanyEvents();
+    final companyEventResult = await supervisorNewsRepo.getCompanyEvents(
+        employeeId: ApiConstant.employeeId.trim());
 
     userNewsResult.fold(
       (failure) {
