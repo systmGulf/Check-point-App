@@ -28,8 +28,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       appBar: buildCustomAppBar(context, "Feedback"),
       floatingActionButton: CustomNewFloatingActionButton(
-        onPressed: () {
-          context.pushName(Routes.addFeedback);
+        onPressed: () async {
+          final result = await context.pushName(Routes.addFeedback);
+          if (!mounted) return;
+          if (result == true) {
+            context.read<FeedbackCubit>().getFeedback();
+          }
         },
       ),
       body: BlocBuilder<FeedbackCubit, FeedbackState>(

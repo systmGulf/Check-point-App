@@ -11,6 +11,8 @@ import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../supervisor/supervisor_home/atomic_ui/pages/supervisor_profile_screen.dart';
+import '../../../../supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
 
@@ -26,8 +28,6 @@ List<Widget> employeeMoreOptionsDrawerItems(
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => BlocProvider(
-
-
                 create: (context) => getIt<PayslipCubit>()..getPayslipById(),
                 child: const SupervisorProfileScreen(),
               ),
@@ -41,7 +41,6 @@ List<Widget> employeeMoreOptionsDrawerItems(
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => BlocProvider(
-
                 create: (context) =>
                     getIt<SupervisorNewsCubit>()..getAnnouncement(),
                 child: const SupervisorAnnouncementScreen(),
@@ -129,22 +128,29 @@ List<Widget> employeeMoreOptionsDrawerItems(
         context: context,
       ),
       onTap: () {
+        context.pushName(Routes.complaintsScreen);
+      },
+    ),
+    // Padding(
+    //   padding: EdgeInsetsDirectional.only(start: 19.w),
+    //   child: Text(
+    //     'Assesments'.tr(
+    //       context: context,
+    //     ),
+    //     style: AppStylesManger.font18RegulerBlack,
+    //   ),
+    // ),
+    _DrawerActionTile(
+      title: 'Assessments'.tr(
+        context: context,
+      ),
+      onTap: () {
         context.pushName(Routes.assesmentsScreen);
       },
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 19.w),
-        child: Text(
-          'Assesments'.tr(
-            context: context,
-          ),
-          style: AppStylesManger.font18RegulerBlack,
-        ),
-
     ),
     _DrawerActionTile(
       title: 'Feedback'.tr(
         context: context,
-
       ),
       onTap: () {
         context.pushName(Routes.feedback);

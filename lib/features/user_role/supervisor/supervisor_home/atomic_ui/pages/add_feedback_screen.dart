@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:employee_mangement/core/widgets/custom_app_text_form_field.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
@@ -28,11 +29,11 @@ class _AddFeedbackScreenState extends State<AddFeedbackScreen> {
     final cubit = context.read<FeedbackCubit>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Feedback")),
+      appBar: buildCustomAppBar(context, "Add Feedback"),
       body: BlocListener<FeedbackCubit, FeedbackState>(
         listener: (context, state) {
           if (state is AddFeedbackSuccessState) {
-            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop(true);
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.success(
