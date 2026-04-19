@@ -14,7 +14,6 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_assets_repo/employee_assets_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/feedback/feedback_repo.dart';
@@ -489,20 +488,55 @@ abstract class AppRouter {
         );
 
       case Routes.employeeAssetsManagerScreen:
+        final args = settings.arguments is Map<dynamic, dynamic>
+            ? settings.arguments as Map<dynamic, dynamic>
+            : <dynamic, dynamic>{};
+        final assetType = (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
         return BaseRoute(
           page: BlocProvider(
-            create: (context) =>
-                EmployeeAssetsCubit(getIt<EmployeeAssetsRepo>())
-                  ..loadDashboard(),
-            child: const EmployeeAssetsScreen(),
+            create: (context) {
+              final cubit = EmployeeAssetsCubit(
+                getIt<EmployeeAssetsRepo>(),
+                getIt<EmployeeAllowanceRepo>(),
+                getIt<EmployeeLoanRepo>(),
+              );
+              if (assetType != 'allowance' && assetType != 'loan') {
+                cubit.loadDashboard();
+              } else if (assetType == 'allowance') {
+                cubit.loadAllowances();
+              } else if (assetType == 'loan') {
+                cubit.loadLoans();
+              }
+              return cubit;
+            },
+            child: EmployeeAssetsScreen(
+              assetType: assetType,
+            ),
           ),
         );
       case Routes.employeeAssetsAllRequestsScreen:
+        final args = settings.arguments is Map<dynamic, dynamic>
+            ? settings.arguments as Map<dynamic, dynamic>
+            : <dynamic, dynamic>{};
+        final assetType = (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
         return BaseRoute(
           page: BlocProvider(
-            create: (context) =>
-                EmployeeAssetsCubit(getIt<EmployeeAssetsRepo>())..loadAssets(),
-            child: const EmployeeAssetsAllRequestsScreen(),
+            create: (context) {
+              final cubit = EmployeeAssetsCubit(
+                getIt<EmployeeAssetsRepo>(),
+                getIt<EmployeeAllowanceRepo>(),
+                getIt<EmployeeLoanRepo>(),
+              );
+              if (assetType == 'assets') {
+                cubit.loadAssets();
+              } else if (assetType == 'loan') {
+                cubit.loadInstallementTypes();
+              }
+              return cubit;
+            },
+            child: EmployeeAssetsAllRequestsScreen(
+              assetType: assetType,
+            ),
           ),
         );
       case Routes.attachReceiptScreen:

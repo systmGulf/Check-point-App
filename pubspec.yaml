@@ -114,6 +114,7 @@ dev_dependencies:
 
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.2
+  flutter_native_splash: ^2.4.4
 
 flutter:
   uses-material-design: true
@@ -139,13 +140,13 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/tot_image.png"
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/icon.png"
+  adaptive_icon_foreground: "assets/images/tot_image.png"
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/vodaphone.png
+  image: assets/images/tot_image.png
 
 flutter_assets:
   assets_path: assets/images

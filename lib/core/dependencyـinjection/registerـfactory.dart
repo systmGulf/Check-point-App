@@ -137,6 +137,8 @@ void registerFactory() {
   getIt.registerFactory<EmployeeAssetsCubit>(
     () => EmployeeAssetsCubit(
       getIt<EmployeeAssetsRepo>(),
+      getIt<EmployeeAllowanceRepo>(),
+      getIt<EmployeeLoanRepo>(),
     ),
   );
   getIt.registerFactory<BranchCubit>(
