@@ -1,0 +1,172 @@
+{
+  "title": "استعلام عن الرقم التأميني",
+  "secondTitle": "تُمكّنك هذه الخدمة من معرفة رقمك التأميني الخاص بك من مكانك.",
+  "showSteps": true,
+  "serviceSlug": "NOSI-01",
+  "GAName": "NOSI",
+  "wfId": "NOSI",
+  "steps": [
+    {
+      "label": "تأكيد البيانات",
+      "description": "",
+      "showNestedSteps": true,
+      "nestedSteps": [
+        {
+          "label": "بيانات مقدم الطلب",
+          "description": "",
+          "action": "NOSI_01_00",
+          "additionalData": {
+            "serviceSlug": "NOSI-01"
+          },
+          "formData": [
+            {
+              "stepTitle": "خطوة 1/2 ",
+              "label": "بيانات مقدم الطلب",
+              "description": "",
+              "type": "description"
+            },
+            {
+              "type": "container",
+              "id": "company",
+              "name": "container",
+              "layout": "card",
+              "data": "output",
+              "required": true,
+              "children": {
+                "details": {
+                  "formData": [
+                    {
+                      "type": "feedback",
+                      "id": "nosi-01",
+                      "headLabel": "بيانات مقدم الطلب",
+                      "color": "#54B6A7",
+                      "layout": "inquiry",
+                      "items": [
+                        {
+                          "id": "nidText",
+                          "label": "الرقم القومي",
+                          "value": "NATIONAL_ID"
+                        }
+                      ],
+                      "lg": 12
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "submition",
+              "type": "button",
+              "name": "التالي",
+              "bottom": true,
+              "arrow": true,
+              "lg": 12,
+              "color": "success",
+              "action": "submit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "نتيجة الإستعلام",
+      "formData": [
+        {
+          "stepTitle": "خطوة 2/2 ",
+          "label": "نتيجة الاستعلام",
+          "description": "اعرف نتيجة استعلامك من هنا",
+          "type": "description"
+        },
+        {
+          "type": "container",
+          "id": "company",
+          "name": "container",
+          "layout": "card",
+          "data": "output",
+          "required": true,
+          "children": {
+            "details": {
+              "formData": [
+                {
+                  "type": "feedback",
+                  "id": "nosi",
+                  "layout": "inquiry",
+                  "dynamicLabel": "output.GetInsuredDetailsRequestResult.responseMessage",
+                  "color": "#54B6A7",
+                  "items": [
+                    {
+                      "label": "الاسم",
+                      "value": "output.GetInsuredDetailsRequestResult.Full_Name"
+                    },
+                    {
+                      "label": "اسم العائلة",
+                      "value": "output.GetInsuredDetailsRequestResult.Family_Name"
+                    },
+                    {
+                      "label": "الرقم التأمينى",
+                      "value": "output.GetInsuredDetailsRequestResult.Insurance_No"
+                    },
+                    {
+                      "label": "الرقم القومي",
+                      "value": "output.GetInsuredDetailsRequestResult.National_ID"
+                    },
+                    {
+                      "label": "اسم الام",
+                      "value": "output.GetInsuredDetailsRequestResult.Mother_Name"
+                    },
+                    {
+                      "label": "محافظة الميلاد",
+                      "value": "output.GetInsuredDetailsRequestResult.GovernorateName"
+                    },
+                    {
+                      "label": "مركز الميلاد",
+                      "value": "output.GetInsuredDetailsRequestResult.ZoneName"
+                    },
+                    {
+                      "label": "القطاع",
+                      "value": "output.GetInsuredDetailsRequestResult.sector"
+                    },
+                    {
+                      "label": "النوع",
+                      "value": "output.GetInsuredDetailsRequestResult.Gender"
+                    }
+                  ],
+                  "lg": 12
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "backToServices",
+          "type": "button",
+          "name": "الرجوع للخدمات",
+          "underLine": true,
+          "lg": 7,
+          "theme": "text",
+          "arrow": false,
+          "mobileBottom": true,
+          "link": "categories",
+          "action": "navigate"
+        },
+        {
+          "id": "back",
+          "type": "button",
+          "name": "إنهاء وذهاب لمتابعة الطلبات",
+          "lg": 3,
+          "theme": "outline",
+          "color": "success",
+          "link": "myRequests",
+          "action": "navigate"
+        },
+        {
+          "id": "print",
+          "type": "button",
+          "name": "طباعة",
+          "lg": 2,
+          "action": "print"
+        }
+      ]
+    }
+  ]
+}
