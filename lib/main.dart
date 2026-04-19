@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/core/common_methods/track_user_in_background.dart';
 import 'package:hr_management_system_package/core/dependecy_injection/service_locator.dart';
 import 'package:hr_management_system_package/env/env.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'check_point_app.dart';
@@ -28,14 +28,16 @@ Future<void> initializeServices() async {
   await Permission.storage.request();
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
-  await initializeServiceBackground();
+  // await initializeServiceBackground();
   setUpServiceLocator();
   registerFactory();
   if (!kReleaseMode) Bloc.observer = AppBlocObserver();
   await Permission.manageExternalStorage.request();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  ApiConstant.token = await SecureCache.getFromCache(key: 'token');
 }
+
 Future<void> runMainApp() async {
   runApp(
     EasyLocalization(

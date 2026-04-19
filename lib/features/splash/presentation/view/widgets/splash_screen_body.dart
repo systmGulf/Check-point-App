@@ -3,6 +3,7 @@ import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -60,7 +61,12 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
     }, onSuccess: () {
       Future.delayed(const Duration(seconds: 2), () {
         if (context.mounted) {
-          context.pushReplacementName(Routes.onboardingscreen);
+          final token = ApiConstant.token.trim();
+          if (token.isNotEmpty) {
+            context.pushReplacementName(Routes.supervisorHomeScreen);
+          } else {
+            context.pushReplacementName(Routes.onboardingscreen);
+          }
         }
       });
     });

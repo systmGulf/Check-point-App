@@ -1,12 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/base/async_value.dart';
-import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_assesment_model/assesment_input_model/assesment_input_model.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../../core/routing/routes.dart';
 
@@ -193,13 +196,14 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
                 switch (value) {
                   case SubmitAssesmentSuccessState():
                     setState(() => _isSubmitting = false);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Submitted Successfully"),
-                        backgroundColor: Colors.green,
+                    showTopSnackBar(
+                      Overlay.of(context),
+                      CustomSnackBar.success(
+                        message: "Assessment submitted successfully"
+                            .tr(context: context),
                       ),
                     );
-                    context.pushName(Routes.employeeHomeScreen);
+                    context.pop();
                     break;
                   case SubmitAssesmentFailureState(:final msg):
                     setState(() => _isSubmitting = false);
