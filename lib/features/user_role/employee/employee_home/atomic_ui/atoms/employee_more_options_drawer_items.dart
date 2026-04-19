@@ -3,6 +3,7 @@ import 'package:employee_mangement/core/dependencyـinjection/registerـfactory.
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_announcement_screen.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/news_cubit/supervisor_news_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/surveys/surveys_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -27,8 +28,16 @@ List<Widget> employeeMoreOptionsDrawerItems(
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => BlocProvider(
-                create: (context) => getIt<PayslipCubit>()..getPayslipById(),
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        getIt<PayslipCubit>()..getPayslipById(),
+                  ),
+                  BlocProvider(
+                    create: (context) => getIt<SurveysCubit>(),
+                  ),
+                ],
                 child: const SupervisorProfileScreen(),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/controlle
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/surveys/surveys_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
@@ -23,6 +24,8 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/repo
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/surveys/surveys_repo.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/surveys/surveys_repo_impl.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
@@ -182,4 +185,10 @@ void registerFactory() {
       FeedbackRepositoryImpl(getIt<ApiService>()));
   getIt.registerFactory<FeedbackCubit>(
       () => FeedbackCubit(getIt<FeedbackRepository>()));
+
+  getIt.registerSingleton<SurveysRepo>(
+      SurveysRepoImpl(apiService: getIt<ApiService>()));
+
+  getIt.registerFactory<SurveysCubit>(
+      () => SurveysCubit(surveysRepo: getIt<SurveysRepo>()));
 }
