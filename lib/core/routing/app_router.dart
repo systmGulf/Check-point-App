@@ -4,17 +4,17 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/attach_receipt_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/complaints_screen.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_all_requests_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/employee_assets_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/pages/receipt_details_screen.dart';
-
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
-
+import 'package:employee_mangement/features/user_role/employee/employee_home/controller/assets/employee_assets_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/add_feedback_screen.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/pages/feedback_screen.dart';
+import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_assets_repo/employee_assets_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/feedback/feedback_repo.dart';
@@ -490,7 +490,20 @@ abstract class AppRouter {
 
       case Routes.employeeAssetsManagerScreen:
         return BaseRoute(
-          page: EmployeeAssetsScreen(),
+          page: BlocProvider(
+            create: (context) =>
+                EmployeeAssetsCubit(getIt<EmployeeAssetsRepo>())
+                  ..loadDashboard(),
+            child: const EmployeeAssetsScreen(),
+          ),
+        );
+      case Routes.employeeAssetsAllRequestsScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) =>
+                EmployeeAssetsCubit(getIt<EmployeeAssetsRepo>())..loadAssets(),
+            child: const EmployeeAssetsAllRequestsScreen(),
+          ),
         );
       case Routes.attachReceiptScreen:
         return BaseRoute(
@@ -520,7 +533,6 @@ abstract class AppRouter {
             ),
           ),
         );
-
 
       case Routes.feedback:
         return BaseRoute(

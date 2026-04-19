@@ -8,8 +8,11 @@ import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/custom_new_floating_action_button.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_cubit.dart';
+import '../../contoller/employee_profile_cubit/employee_profile_skill_cubit.dart';
 import '../widgets/profile_section_switcher.dart';
+import '../widgets/supervisor_profile_add_skill_bottom_sheet.dart';
 import '../widgets/supervisor_profile_benefits_card.dart';
 import '../widgets/supervisor_profile_edit_bottom_sheet.dart';
 import '../widgets/supervisor_profile_loading_skeleton.dart';
@@ -45,6 +48,44 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
           final cubit = context.read<EmployeeProfileCubit>();
           return Scaffold(
             appBar: buildCustomAppBar(context, 'Profile'),
+            floatingActionButton: selectedIndex == 2
+                ? BlocBuilder<EmployeeProfileCubit, EmployeeProfileState>(
+                    builder: (context, state) {
+                      if (state is! GetEmployeeProfileSuccess) {
+                        return const SizedBox.shrink();
+                      }
+                      final employeeId = (state.profile.id ?? '').trim();
+                      if (employeeId.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+                      return CustomNewFloatingActionButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
+                              ),
+                            ),
+                            builder: (_) {
+                              return BlocProvider(
+                                create: (context) => EmployeeProfileSkillCubit(
+                                  getIt(),
+                                )..loadAllSkills(),
+                                child: SupervisorProfileAddSkillBottomSheet(
+                                  employeeId: employeeId,
+                                  onSkillAdded: cubit.getEmployeeProfile,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  )
+                : null,
             body: RefreshIndicator(
               onRefresh: cubit.getEmployeeProfile,
               child: ListView(
@@ -197,27 +238,6 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                         };
                       },
                     )
-                  // else
-                  //   AnimatedSwitcher(
-                  //     duration: const Duration(milliseconds: 300),
-                  //     child: FadeInUp(
-                  //       key: ValueKey('placeholder_$selectedIndex'),
-                  //       duration: const Duration(milliseconds: 280),
-                  //       child: Container(
-                  //         height: 220,
-                  //         alignment: Alignment.center,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.white,
-                  //           borderRadius: BorderRadius.circular(14),
-                  //           border: Border.all(color: const Color(0xffE5E7EB)),
-                  //         ),
-                  //         child: Text(
-                  //           'UI Section: ${sections[selectedIndex]}',
-                  //           style: AppStylesManger.font16BoldBlack,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
                 ],
               ),
             ),

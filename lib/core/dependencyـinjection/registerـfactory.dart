@@ -1,10 +1,7 @@
 import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
-
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/assesment/cubit/assesment_cubit.dart';
-
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/feedback/feedback_cubit.dart';
-
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -32,6 +29,7 @@ import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branc
 import '../../features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/department_cubit/department_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/mange_employee_cubit/employee_cubit.dart';
+import '../../features/user_role/employee/employee_home/controller/assets/employee_assets_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/complaints/complaints_cubit.dart';
@@ -136,6 +134,11 @@ void registerFactory() {
       getIt<EmployeeAttendanceRepo>(),
     ),
   );
+  getIt.registerFactory<EmployeeAssetsCubit>(
+    () => EmployeeAssetsCubit(
+      getIt<EmployeeAssetsRepo>(),
+    ),
+  );
   getIt.registerFactory<BranchCubit>(
     () => BranchCubit(
       getIt<BranchesRepo>(),
@@ -173,10 +176,8 @@ void registerFactory() {
     ),
   );
 
-
   getIt.registerSingleton<FeedbackRepository>(
       FeedbackRepositoryImpl(getIt<ApiService>()));
   getIt.registerFactory<FeedbackCubit>(
       () => FeedbackCubit(getIt<FeedbackRepository>()));
-
 }

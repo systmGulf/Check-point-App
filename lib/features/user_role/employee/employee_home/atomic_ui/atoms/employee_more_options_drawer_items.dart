@@ -91,13 +91,37 @@ List<Widget> employeeMoreOptionsDrawerItems(
         }
       },
     ),
-    _DrawerActionTile(
-      title: 'Assets'.tr(
-        context: context,
-      ),
-      onTap: () {
-        context.pushName(Routes.employeeAssetsManagerScreen);
-      },
+    MoreOptionDrawerItem(
+      title: 'Assets'.tr(context: context),
+      children: [
+        OptionDrawerItem(
+          title: 'Loan'.tr(context: context),
+          onPressed: () {
+            context.pushName(
+              Routes.employeeAssetsManagerScreen,
+              arguments: {'assetType': 'loan'},
+            );
+          },
+        ),
+        OptionDrawerItem(
+          title: 'Allowance'.tr(context: context),
+          onPressed: () {
+            context.pushName(
+              Routes.employeeAssetsManagerScreen,
+              arguments: {'assetType': 'allowance'},
+            );
+          },
+        ),
+        OptionDrawerItem(
+          title: 'Assets'.tr(context: context),
+          onPressed: () {
+            context.pushName(
+              Routes.employeeAssetsManagerScreen,
+              arguments: {'assetType': 'assets'},
+            );
+          },
+        ),
+      ],
     ),
     _DrawerActionTile(
       title: 'Add New Customer'.tr(

@@ -36,6 +36,11 @@ Future<void> initializeServices() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   ApiConstant.token = await SecureCache.getFromCache(key: 'token');
+  ApiConstant.username = await SecureCache.getFromCache(key: 'username');
+  ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
+  ApiConstant.departmentId =
+      await SecureCache.getFromCache(key: 'departmentId');
+  ApiConstant.position = await SecureCache.getFromCache(key: 'position');
 }
 
 Future<void> runMainApp() async {
