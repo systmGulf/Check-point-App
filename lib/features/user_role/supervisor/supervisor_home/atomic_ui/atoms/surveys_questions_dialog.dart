@@ -72,7 +72,14 @@ class _SurveyQuestionsDialogState extends State<SurveyQuestionsDialog> {
                 },
               ),
             ),
-            BlocBuilder<SurveysCubit, GetSurveysState>(
+            BlocConsumer<SurveysCubit, GetSurveysState>(
+              listenWhen: (previous, current) =>
+                  current is SubmitSurveySuccessState,
+              listener: (context, state) {
+                if (state is SubmitSurveySuccessState && mounted) {
+                  Navigator.pop(context);
+                }
+              },
               builder: (context, state) {
                 final isLoading = state is SubmitSurveyLoadingState;
                 return CustomAppButton(
@@ -88,7 +95,7 @@ class _SurveyQuestionsDialogState extends State<SurveyQuestionsDialog> {
     );
   }
 
-  void _submitSurvey(BuildContext context) async {
+  void _submitSurvey(BuildContext context) {
     final answers = <SurveyAnswerModel>[];
 
     for (var entry in _selectedOptions.entries) {
@@ -106,7 +113,6 @@ class _SurveyQuestionsDialogState extends State<SurveyQuestionsDialog> {
       answers: answers,
     );
 
-    await context.read<SurveysCubit>().submitSurvey(requestBody: requestBody);
-    Navigator.pop(context);
+    context.read<SurveysCubit>().submitSurvey(requestBody: requestBody);
   }
 }

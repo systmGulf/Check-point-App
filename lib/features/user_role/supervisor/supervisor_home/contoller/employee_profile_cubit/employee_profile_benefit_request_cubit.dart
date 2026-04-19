@@ -137,7 +137,7 @@ class EmployeeProfileBenefitRequestState {
   const EmployeeProfileBenefitRequestState({
     this.isLoadingBenefits = false,
     this.isSubmitting = false,
-    this.benefits = const <EmployeeBenefitItem>[],
+  this.benefits = const <EmployeeBenefitItem>[],
     this.errorMessage,
     this.submitErrorMessage,
     this.isBenefitRequested = false,

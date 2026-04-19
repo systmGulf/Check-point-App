@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/surveys/surveys_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/surveys/surveys_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../atoms/available_surveys_tap.dart';
@@ -52,18 +55,19 @@ class _SurveysScreenState extends State<SurveysScreen> {
                   current is SubmitSurveyFailureState,
               listener: (context, state) {
                 if (state is SubmitSurveySuccessState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Survey submitted successfully!'),
-                      backgroundColor: Colors.green,
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    CustomSnackBar.success(
+                      message:
+                          "Survey submitted successfully".tr(context: context),
                     ),
                   );
                   context.read<SurveysCubit>().getEmployeeSurveys();
                 } else if (state is SubmitSurveyFailureState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.errorMessage),
-                      backgroundColor: Colors.red,
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    CustomSnackBar.error(
+                      message: state.errorMessage.tr(context: context),
                     ),
                   );
                 }

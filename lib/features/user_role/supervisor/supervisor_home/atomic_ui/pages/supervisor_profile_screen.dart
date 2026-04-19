@@ -4,12 +4,14 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/contoller/payslip/cubit/payslip_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../core/widgets/custom_new_floating_action_button.dart';
+import '../../contoller/employee_profile_cubit/employee_profile_benefit_request_cubit.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_cubit.dart';
 import '../../contoller/employee_profile_cubit/employee_profile_skill_cubit.dart';
 import '../widgets/profile_section_switcher.dart';
@@ -18,6 +20,7 @@ import '../widgets/supervisor_profile_benefits_card.dart';
 import '../widgets/supervisor_profile_edit_bottom_sheet.dart';
 import '../widgets/supervisor_profile_loading_skeleton.dart';
 import '../widgets/supervisor_profile_personal_info_card.dart';
+import '../widgets/supervisor_profile_request_benefit_bottom_sheet.dart';
 import '../widgets/supervisor_profile_skills_card.dart';
 import '../widgets/supervisor_profile_summary_card.dart';
 
@@ -50,18 +53,61 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
           final cubit = context.read<EmployeeProfileCubit>();
           return Scaffold(
               appBar: buildCustomAppBar(context, 'Profile'),
-              floatingActionButton: selectedIndex == 2
+              floatingActionButton: (selectedIndex == 2 || selectedIndex == 3)
                   ? BlocBuilder<EmployeeProfileCubit, EmployeeProfileState>(
                       builder: (context, state) {
                         if (state is! GetEmployeeProfileSuccess) {
                           return const SizedBox.shrink();
                         }
-                        final employeeId = (state.profile.id ?? '').trim();
+                        final employeeId =
+                            (state.profile.id ?? '').trim().isNotEmpty
+                                ? (state.profile.id ?? '').trim()
+                                : ApiConstant.employeeId.trim();
                         if (employeeId.isEmpty) {
                           return const SizedBox.shrink();
                         }
+
+                        final firstName =
+                            (state.profile.personalInfo?.firstName ?? '')
+                                .trim();
+                        final lastName =
+                            (state.profile.personalInfo?.lastName ?? '').trim();
+                        final profileName = [firstName, lastName]
+                            .where((e) => e.isNotEmpty)
+                            .join(' ')
+                            .trim();
+                        final employeeName = profileName.isNotEmpty
+                            ? profileName
+                            : ApiConstant.username.trim();
+
                         return CustomNewFloatingActionButton(
                           onPressed: () {
+                            if (selectedIndex == 2) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                builder: (_) {
+                                  return BlocProvider(
+                                    create: (context) =>
+                                        EmployeeProfileSkillCubit(
+                                      getIt(),
+                                    )..loadAllSkills(),
+                                    child: SupervisorProfileAddSkillBottomSheet(
+                                      employeeId: employeeId,
+                                      onSkillAdded: cubit.getEmployeeProfile,
+                                    ),
+                                  );
+                                },
+                              );
+                              return;
+                            }
+
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
@@ -74,12 +120,15 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                               builder: (_) {
                                 return BlocProvider(
                                   create: (context) =>
-                                      EmployeeProfileSkillCubit(
+                                      EmployeeProfileBenefitRequestCubit(
                                     getIt(),
-                                  )..loadAllSkills(),
-                                  child: SupervisorProfileAddSkillBottomSheet(
+                                  )..loadAllBenefits(),
+                                  child:
+                                      SupervisorProfileRequestBenefitBottomSheet(
                                     employeeId: employeeId,
-                                    onSkillAdded: cubit.getEmployeeProfile,
+                                    employeeName: employeeName,
+                                    onBenefitRequested:
+                                        cubit.getEmployeeProfile,
                                   ),
                                 );
                               },
