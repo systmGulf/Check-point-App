@@ -5,8 +5,8 @@ import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:employee_mangement/core/widgets/build_custom_app_bar.dart';
 import 'package:employee_mangement/core/widgets/custom_new_floating_action_button.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/widgets/assets/allowance/employee_allowance_dashboard_body.dart';
-import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/widgets/assets/loan/employee_loan_dashboard_body.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/widgets/assets/employee_assets_dashboard_body.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/widgets/assets/loan/employee_loan_dashboard_body.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/assets/employee_assets_cubit.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/assets/employee_assets_state.dart';
 import 'package:flutter/material.dart';
@@ -25,25 +25,30 @@ class EmployeeAssetsScreen extends StatelessWidget {
     final isAllowance = assetType.toLowerCase() == 'allowance';
     final isLoan = assetType.toLowerCase() == 'loan';
     return Scaffold(
-      floatingActionButton: isAllowance
-          ? null
-          : CustomNewFloatingActionButton(
-              onPressed: () async {
-                final result = await context.pushName(
-                  Routes.employeeAssetsAllRequestsScreen,
-                  arguments: {
-                    'assetType': isLoan ? 'loan' : 'assets',
-                  },
-                );
-                if (result == true && context.mounted) {
-                  if (isLoan) {
-                    context.read<EmployeeAssetsCubit>().loadLoans();
-                  } else {
-                    context.read<EmployeeAssetsCubit>().loadDashboard();
-                  }
-                }
-              },
-            ),
+      floatingActionButton: CustomNewFloatingActionButton(
+        onPressed: () async {
+          final result = await context.pushName(
+            Routes.employeeAssetsAllRequestsScreen,
+            arguments: {
+              'assetType': isAllowance
+                  ? 'allowance'
+                  : isLoan
+                      ? 'loan'
+                      : 'assets',
+            },
+          );
+          if (result == true && context.mounted) {
+            if (isAllowance) {
+              context.read<EmployeeAssetsCubit>().loadAllowances();
+            }
+            if (isLoan) {
+              context.read<EmployeeAssetsCubit>().loadLoans();
+            } else {
+              context.read<EmployeeAssetsCubit>().loadDashboard();
+            }
+          }
+        },
+      ),
       backgroundColor: ColorsManger.scaffoldBackgroundColor,
       appBar: buildCustomAppBar(
         context,
