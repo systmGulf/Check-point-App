@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_allowance_repo/employee_allowance_repo.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_loan_model/create_loan_request_body.dart';
+import 'package:hr_management_system_package/core/core.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_assets_model/request_asset_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_loan_model/create_loan_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_allowance_repo/employee_allowance_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_assets_repo/employee_assets_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_loan_repo/employee_loan_repo.dart';
 
@@ -12,8 +13,7 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
     this.employeeAssetsRepo,
     this.employeeAllowanceRepo,
     this.employeeLoanRepo,
-  )
-      : super(const EmployeeAssetsState());
+  ) : super(const EmployeeAssetsState());
 
   final EmployeeAssetsRepo employeeAssetsRepo;
   final EmployeeAllowanceRepo employeeAllowanceRepo;
@@ -93,6 +93,7 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
         isRequestSubmitted: false,
       ),
     );
+    employeeId = ApiConstant.employeeId;
 
     final result = await employeeAllowanceRepo.getBeneficiaryAllowances(
       employeeId: employeeId,
@@ -128,7 +129,10 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
       ),
     );
 
-    final result = await employeeLoanRepo.getAllLoans();
+    final employeeId = ApiConstant.employeeId;
+
+    final result =
+        await employeeLoanRepo.getAllLoans(targetEmployeeId: employeeId);
 
     result.fold(
       (failure) {
@@ -244,20 +248,13 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
     );
 
     final request = CreateLoanRequestBody(
-      code: code,
+      requesterId: requesterId,
       installementTypeId: installementTypeId,
-      amount: amount,
       period: LoanPeriodBody(
         startDate: startDate,
         endDate: endDate,
       ),
-      status: status,
-      loanRequester: LoanRequesterBody(
-        requesterId: requesterId,
-        requesterName: requesterName,
-      ),
-      requesterId: requesterId,
-      requesterName: requesterName,
+      amount: amount,
     );
 
     final result = await employeeLoanRepo.createLoanRequest(request);

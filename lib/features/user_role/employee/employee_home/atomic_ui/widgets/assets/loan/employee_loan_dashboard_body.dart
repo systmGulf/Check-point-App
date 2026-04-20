@@ -1,5 +1,5 @@
-import 'package:employee_mangement/features/user_role/employee/employee_home/controller/assets/employee_assets_state.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/atomic_ui/widgets/assets/employee_asset_summary_card.dart';
+import 'package:employee_mangement/features/user_role/employee/employee_home/controller/assets/employee_assets_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_loan_model/employee_loans_response.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -46,11 +46,11 @@ class EmployeeLoanDashboardBody extends StatelessWidget {
       );
     }
 
-    final totalAmount =
-        items.fold<double>(0, (sum, item) => sum + (item.amount?.toDouble() ?? 0));
+    final totalAmount = items.fold<double>(
+        0, (sum, item) => sum + (item.amount?.toDouble() ?? 0));
     final totalInstallements = items.fold<double>(
       0,
-      (sum, item) => sum + (item.loanInstallementAmount?.toDouble() ?? 0),
+      (sum, item) => sum + (item.amount?.toDouble() ?? 0),
     );
 
     return RefreshIndicator(
@@ -59,67 +59,69 @@ class EmployeeLoanDashboardBody extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
         children: [
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 1.5,
-          children: [
-            EmployeeAssetSummaryCard(
-              title: 'Loan Requests',
-              value: items.length.toString(),
-              icon: Icons.request_page_outlined,
-            ),
-            EmployeeAssetSummaryCard(
-              title: 'Total Amount',
-              value: _formatAmount(totalAmount),
-              icon: Icons.payments_outlined,
-            ),
-            EmployeeAssetSummaryCard(
-              title: 'Total Installements',
-              value: _formatAmount(totalInstallements),
-              icon: Icons.stacked_line_chart_outlined,
-            ),
-            EmployeeAssetSummaryCard(
-              title: 'Active',
-              value: items.isEmpty ? '0' : 'Yes',
-              icon: Icons.timeline_rounded,
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        const Text(
-          'Loan Requests',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 1.5,
+            children: [
+              EmployeeAssetSummaryCard(
+                title: 'Loan Requests',
+                value: items.length.toString(),
+                icon: Icons.request_page_outlined,
+              ),
+              EmployeeAssetSummaryCard(
+                title: 'Total Amount',
+                value: _formatAmount(totalAmount),
+                icon: Icons.payments_outlined,
+              ),
+              EmployeeAssetSummaryCard(
+                title: 'Total Installements',
+                value: _formatAmount(totalInstallements),
+                icon: Icons.stacked_line_chart_outlined,
+              ),
+              EmployeeAssetSummaryCard(
+                title: 'Active',
+                value: items.isEmpty ? '0' : 'Yes',
+                icon: Icons.timeline_rounded,
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 12),
-        if (items.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text('No loan data'),
-            ),
-          )
-        else
-          ...List<Widget>.generate(
-            items.length,
-            (index) => Padding(
-              padding: EdgeInsets.only(bottom: index == items.length - 1 ? 0 : 10),
-              child: _EmployeeLoanCard(item: items[index]),
+          const SizedBox(height: 16),
+          const Text(
+            'Loan Requests',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
             ),
           ),
-      ],
+          const SizedBox(height: 12),
+          if (items.isEmpty)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Text('No loan data'),
+              ),
+            )
+          else
+            ...List<Widget>.generate(
+              items.length,
+              (index) => Padding(
+                padding:
+                    EdgeInsets.only(bottom: index == items.length - 1 ? 0 : 10),
+                child: _EmployeeLoanCard(item: items[index]),
+              ),
+            ),
+        ],
       ),
     );
   }
 
   String _formatAmount(double value) {
-    final amount = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
+    final amount =
+        value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
     return '$amount EGP';
   }
 }
@@ -159,7 +161,7 @@ class _EmployeeLoanCard extends StatelessWidget {
           const SizedBox(height: 8),
           _MetaLine(
             title: 'Requester',
-            value: item.requester?.requesterName ?? '-',
+            value: '-',
           ),
           _MetaLine(
             title: 'Amount',
@@ -167,11 +169,11 @@ class _EmployeeLoanCard extends StatelessWidget {
           ),
           _MetaLine(
             title: 'Installement',
-            value: '${(item.loanInstallementAmount ?? 0).toStringAsFixed(0)} EGP',
+            value: '${(item.amount ?? 0).toStringAsFixed(0)} EGP',
           ),
           _MetaLine(
             title: 'Loan Request Id',
-            value: item.loanRequestId ?? '-',
+            value: item.id ?? '-',
           ),
           _MetaLine(
             title: 'Period',

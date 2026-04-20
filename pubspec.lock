@@ -968,7 +968,7 @@ packages:
   hr_management_system_package:
     dependency: "direct main"
     description:
-      path: "/home/osama/Desktop/Check-point-package"
+      path: "C:/Users/TOT/Documents/GitHub/Check-point-package"
       relative: false
     source: path
     version: "1.0.0+1"
