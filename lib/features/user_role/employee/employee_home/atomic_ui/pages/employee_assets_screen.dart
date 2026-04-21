@@ -40,8 +40,7 @@ class EmployeeAssetsScreen extends StatelessWidget {
           if (result == true && context.mounted) {
             if (isAllowance) {
               context.read<EmployeeAssetsCubit>().loadAllowances();
-            }
-            if (isLoan) {
+            } else if (isLoan) {
               context.read<EmployeeAssetsCubit>().loadLoans();
             } else {
               context.read<EmployeeAssetsCubit>().loadDashboard();

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/core.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_allowance_model/assign_allowance_to_employee_models.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_assets_model/request_asset_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_loan_model/create_loan_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_allowance_repo/employee_allowance_repo.dart';
@@ -155,6 +156,38 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
     );
   }
 
+  Future<void> loadAvailableAllowances() async {
+    emit(
+      state.copyWith(
+        isLoadingAvailableAllowances: true,
+        clearErrorMessage: true,
+        isRequestSubmitted: false,
+      ),
+    );
+
+    final result = await employeeAllowanceRepo.getAllAllowances();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoadingAvailableAllowances: false,
+            errorMessage: failure.message,
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            isLoadingAvailableAllowances: false,
+            availableAllowances: success.value,
+            clearErrorMessage: true,
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> loadInstallementTypes() async {
     emit(
       state.copyWith(
@@ -258,6 +291,48 @@ class EmployeeAssetsCubit extends Cubit<EmployeeAssetsState> {
     );
 
     final result = await employeeLoanRepo.createLoanRequest(request);
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            isSubmittingRequest: false,
+            submitErrorMessage: failure.message,
+          ),
+        );
+      },
+      (_) {
+        emit(
+          state.copyWith(
+            isSubmittingRequest: false,
+            clearSubmitErrorMessage: true,
+            isRequestSubmitted: true,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> submitAllowanceRequest({
+    required String allowanceId,
+    required String employeeId,
+  }) async {
+    emit(
+      state.copyWith(
+        isSubmittingRequest: true,
+        clearSubmitErrorMessage: true,
+        isRequestSubmitted: false,
+      ),
+    );
+
+    final request = AssignAllowanceToEmployeeRequestBody(
+      allowanceId: allowanceId,
+      employeeId: employeeId,
+    );
+
+    final result = await employeeAllowanceRepo.assignAllowanceToEmployee(
+      request,
+    );
 
     result.fold(
       (failure) {

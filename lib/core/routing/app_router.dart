@@ -491,7 +491,8 @@ abstract class AppRouter {
         final args = settings.arguments is Map<dynamic, dynamic>
             ? settings.arguments as Map<dynamic, dynamic>
             : <dynamic, dynamic>{};
-        final assetType = (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
+        final assetType =
+            (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
         return BaseRoute(
           page: BlocProvider(
             create: (context) {
@@ -518,7 +519,8 @@ abstract class AppRouter {
         final args = settings.arguments is Map<dynamic, dynamic>
             ? settings.arguments as Map<dynamic, dynamic>
             : <dynamic, dynamic>{};
-        final assetType = (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
+        final assetType =
+            (args['assetType'] as String?)?.toLowerCase() ?? 'assets';
         return BaseRoute(
           page: BlocProvider(
             create: (context) {
@@ -529,6 +531,8 @@ abstract class AppRouter {
               );
               if (assetType == 'assets') {
                 cubit.loadAssets();
+              } else if (assetType == 'allowance') {
+                cubit.loadAvailableAllowances();
               } else if (assetType == 'loan') {
                 cubit.loadInstallementTypes();
               }
