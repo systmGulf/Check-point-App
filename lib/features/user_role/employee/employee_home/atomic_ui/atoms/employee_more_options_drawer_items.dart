@@ -140,14 +140,14 @@ List<Widget> employeeMoreOptionsDrawerItems(
         context.pushName(Routes.employeeAddNewCustomerScreen);
       },
     ),
-    _DrawerActionTile(
-      title: 'My Plans'.tr(
-        context: context,
-      ),
-      onTap: () {
-        context.pushName(Routes.myPlansScreen);
-      },
-    ),
+    // _DrawerActionTile(
+    //   title: 'My Plans'.tr(
+    //     context: context,
+    //   ),
+    //   onTap: () {
+    //     context.pushName(Routes.myPlansScreen);
+    //   },
+    // ),
     _DrawerActionTile(
       title: 'My Tasks'.tr(
         context: context,

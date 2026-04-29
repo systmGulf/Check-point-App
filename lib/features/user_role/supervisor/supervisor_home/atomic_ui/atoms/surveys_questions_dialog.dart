@@ -3,7 +3,6 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/networking/api_constant.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/surveys/employee_survey_reponse_model.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/surveys/submit_survey_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/surveys/surveys_reponse_model.dart';
 
@@ -96,13 +95,22 @@ class _SurveyQuestionsDialogState extends State<SurveyQuestionsDialog> {
   }
 
   void _submitSurvey(BuildContext context) {
-    final answers = <SurveyAnswerModel>[];
+    final answers = <SurveyAnswerRequestModel>[];
 
-    for (var entry in _selectedOptions.entries) {
+    for (final question in widget.survey.questions) {
+      final answerText =
+          (_answerControllers[question.id]?.text ?? _selectedOptions[question.id] ?? '')
+              .trim();
+
+      if (answerText.isEmpty) {
+        continue;
+      }
+
       answers.add(
-        SurveyAnswerModel(
-          questionId: entry.key,
-          answerText: entry.value,
+        SurveyAnswerRequestModel(
+          questionId: question.id,
+          answerText: answerText,
+          questionText: question.text,
         ),
       );
     }
