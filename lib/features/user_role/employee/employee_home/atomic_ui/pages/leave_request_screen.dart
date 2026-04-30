@@ -131,7 +131,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                           }
                         });
                         BlocProvider.of<LeaveApplicationCubit>(context).from =
-                            DateFormat('yyyy-MM-dd').format(picked);
+                            DateFormat('yyyy-MM-dd', "en").format(picked);
                       },
                     )),
                     horizontalSpace(10),
@@ -145,7 +145,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                           toDate = picked;
                         });
                         BlocProvider.of<LeaveApplicationCubit>(context).to =
-                            DateFormat('yyyy-MM-dd').format(picked);
+                            DateFormat('yyyy-MM-dd' , "en").format(picked);
                       },
                     )),
                   ],
