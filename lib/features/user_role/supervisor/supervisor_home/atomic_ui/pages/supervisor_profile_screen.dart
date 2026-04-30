@@ -206,28 +206,28 @@ class _SupervisorProfileScreenState extends State<SupervisorProfileScreen> {
                                     duration: const Duration(milliseconds: 320),
                                     child: SupervisorProfilePersonalInfoCard(
                                       profile: state.profile,
-                                      onEdit: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.white,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20),
-                                            ),
-                                          ),
-                                          builder: (_) {
-                                            return BlocProvider.value(
-                                              value: context
-                                                  .read<EmployeeProfileCubit>(),
-                                              child:
-                                                  SupervisorProfileEditBottomSheet(
-                                                profile: state.profile,
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
+                                      // onEdit: () {
+                                      //   showModalBottomSheet(
+                                      //     context: context,
+                                      //     isScrollControlled: true,
+                                      //     backgroundColor: Colors.white,
+                                      //     shape: const RoundedRectangleBorder(
+                                      //       borderRadius: BorderRadius.vertical(
+                                      //         top: Radius.circular(20),
+                                      //       ),
+                                      //     ),
+                                      //     builder: (_) {
+                                      //       return BlocProvider.value(
+                                      //         value: context
+                                      //             .read<EmployeeProfileCubit>(),
+                                      //         child:
+                                      //             SupervisorProfileEditBottomSheet(
+                                      //           profile: state.profile,
+                                      //         ),
+                                      //       );
+                                      //     },
+                                      //   );
+                                      // },
                                     ),
                                   ),
                                 );
