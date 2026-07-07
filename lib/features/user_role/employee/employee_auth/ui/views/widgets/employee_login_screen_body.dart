@@ -11,68 +11,90 @@ import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../common/constants/auth_animation_constants.dart';
-import 'email_and_password_text_feild.dart';
+import '../../../../../common/widgets/auth_credentials_fields.dart';
+import '../../../../../common/widgets/auth_login_body.dart';
 import 'employee_login_bloc_listener.dart';
 import 'employee_login_image_and_text.dart';
 import 'text_terms_and_coditions.dart';
 
-class EmployeeLoginScreenBody extends StatelessWidget {
+class EmployeeLoginScreenBody extends StatefulWidget {
   const EmployeeLoginScreenBody({super.key});
 
   @override
+  State<EmployeeLoginScreenBody> createState() =>
+      _EmployeeLoginScreenBodyState();
+}
+
+class _EmployeeLoginScreenBodyState extends State<EmployeeLoginScreenBody> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Form(
-          key: BlocProvider.of<LoginCubit>(context).formKey,
-          child: Column(
-            children: [
-              verticalSpace(AuthAnimationConstants.verticalSpaceXLarge),
-              AnimatedHeaderWidget(
-                child: const EmployeeLoginImageAndText(),
+    return AuthLoginBody(
+      roleLabel: 'Employee'.tr(),
+      title: 'Welcome Back!'.tr(),
+      subtitle: 'Sign in to your account as Employee'.tr(),
+      imageAsset: 'assets/images/employee.png',
+      formChild: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            AnimatedHeaderWidget(
+              child: const EmployeeLoginImageAndText(),
+            ),
+            verticalSpace(30),
+            AnimatedByWidgetType(
+              widgetType: WidgetAnimationType.container,
+              delayDuration: AuthAnimationConstants.formDelay,
+              child: AuthCredentialsFields(
+                emailController: _emailController,
+                passwordController: _passwordController,
               ),
-              verticalSpace(30),
-              AnimatedByWidgetType(
-                widgetType: WidgetAnimationType.container,
-                delayDuration: AuthAnimationConstants.formDelay,
-                child: const EmailAndPasswordTextField(),
+            ),
+            verticalSpace(AuthAnimationConstants.verticalSpaceMedium),
+            AnimatedByWidgetType(
+              widgetType: WidgetAnimationType.button,
+              delayDuration: AuthAnimationConstants.buttonDelay,
+              child: CustomAppButton(
+                onPressed: () {
+                  TextInput.finishAutofillContext(shouldSave: true);
+                  _validateAndLogin(context);
+                },
+                textButton: 'Sign In'.tr(),
+                buttonColor: ColorsManger.primaryColor,
               ),
-              verticalSpace(1),
-              verticalSpace(AuthAnimationConstants.verticalSpaceMedium),
-              AnimatedByWidgetType(
-                widgetType: WidgetAnimationType.button,
-                delayDuration: AuthAnimationConstants.buttonDelay,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: CustomAppButton(
-                      onPressed: () {
-                        TextInput.finishAutofillContext(shouldSave: true);
-                        validateAndLogin(context);
-                      },
-                      textButton: 'Sign In'.tr(),
-                      buttonColor: ColorsManger.primaryColor),
-                ),
-              ),
-              const EmployeeLoginBlocListener(),
-              verticalSpace(20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                child: TextTermsAndCondition(),
-              )
-            ],
-          ),
+            ),
+            const EmployeeLoginBlocListener(),
+          ],
         ),
+      ),
+      footer: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: TextTermsAndCondition(),
       ),
     );
   }
 
-  validateAndLogin(BuildContext context) async {
-    if (BlocProvider.of<LoginCubit>(context).formKey.currentState!.validate()) {
-      String? mobileId = await getId();
+  Future<void> _validateAndLogin(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      final mobileId = await getId();
       if (!context.mounted) return;
 
-      BlocProvider.of<LoginCubit>(context)
-          .doLogin(role: Role.Employee, mobileId: mobileId!);
+      context.read<LoginCubit>().doLogin(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+            role: Role.Employee,
+            mobileId: mobileId!,
+          );
     }
   }
 }

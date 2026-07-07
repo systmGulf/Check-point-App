@@ -20,10 +20,13 @@ class RegisterAccountDialog extends StatefulWidget {
 }
 
 class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
+  final TextEditingController _nameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
-  initState() {
-    super.initState();
-    context.read<RegisterAccountCubit>().nameController.clear();
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,7 +37,7 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
           style: AppStylesManger.font15BoldBlack
               .copyWith(color: ColorsManger.primaryColor)),
       content: Form(
-        key: context.read<RegisterAccountCubit>().formKey,
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -50,7 +53,7 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
                   }
                   return null;
                 },
-                controller: context.read<RegisterAccountCubit>().nameController,
+                controller: _nameController,
                 hint: 'Please Enter your Name'.tr())
           ],
         ),
@@ -77,7 +80,7 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
                   side: BorderSide(color: ColorsManger.primaryColor)),
             ),
             onPressed: () {
-              validateAndRegister(context);
+              _validateAndRegister(context);
             },
             child: Text('Ok'.tr(),
                 style: AppStylesManger.font15BoldBlack
@@ -86,9 +89,12 @@ class _RegisterAccountDialogState extends State<RegisterAccountDialog> {
     );
   }
 
-  void validateAndRegister(BuildContext context) {
-    if (context.read<RegisterAccountCubit>().formKey.currentState!.validate()) {
-      context.read<RegisterAccountCubit>().registerAccount();
+  void _validateAndRegister(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      context.read<RegisterAccountCubit>().registerAccount(
+            name: _nameController.text.trim(),
+            deviceToken: '123',
+          );
     }
   }
 }

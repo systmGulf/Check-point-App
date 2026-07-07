@@ -9,6 +9,7 @@ class HeaderText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthHeaderWidget(
+      label: 'Admin'.tr(),
       title: 'Welcome Back!'.tr(),
       subtitle: 'Sign in to your account as Admin'.tr(),
     );

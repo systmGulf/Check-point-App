@@ -1,25 +1,30 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
 
 part 'register_account_state.dart';
 
 class RegisterAccountCubit extends Cubit<RegisterAccountState> {
-  final RegisterAccountRepo registerAccountRepo;
-  RegisterAccountCubit(this.registerAccountRepo)
+  RegisterAccountCubit({required this.registerAccountRepo})
       : super(RegisterAccountInitial());
-  TextEditingController nameController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  Future<void> registerAccount() async {
+  final RegisterAccountRepo registerAccountRepo;
+
+  Future<void> registerAccount({
+    required String name,
+    required String deviceToken,
+  }) async {
     emit(RegisterAccountLoading());
-   
-    var result = await registerAccountRepo.registerAccount(
-        name: nameController.text, deviceToken: '123');
-    result.fold((l) {
-      emit(RegisterAccountFailure(errorMessage: l.message));
-    }, (r) {
-      emit(RegisterAccountSuccess());
-    });
+    final result = await registerAccountRepo.registerAccount(
+      name: name,
+      deviceToken: deviceToken,
+    );
+    result.fold(
+      (l) {
+        if (!isClosed) emit(RegisterAccountFailure(errorMessage: l.message));
+      },
+      (r) {
+        if (!isClosed) emit(RegisterAccountSuccess());
+      },
+    );
   }
 }

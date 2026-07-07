@@ -27,25 +27,30 @@ class AdminEmailAndPasswordTextField extends StatefulWidget {
 
 class _AdminEmailAndPasswordTextFieldState
     extends State<AdminEmailAndPasswordTextField> {
-  late TextEditingController emailController;
-  late TextEditingController passwordTextController;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
   bool isObscure = true;
   bool hasLowercase = false;
   bool hasUppercase = false;
   bool hasSpecialCharacters = false;
   bool hasNumber = false;
   bool hasMinLength = false;
-  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   void initState() {
-    emailController = BlocProvider.of<LoginCubit>(context).emailController;
-    passwordTextController =
-        BlocProvider.of<LoginCubit>(context).passwordTextController;
-    setupPasswordControllerListener();
     super.initState();
+    _setupPasswordControllerListener();
   }
 
-  void setupPasswordControllerListener() {
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
+  }
+
+  void _setupPasswordControllerListener() {
     passwordTextController.addListener(() {
       setState(() {
         hasLowercase = AppRegex.hasLowerCase(passwordTextController.text);
@@ -116,7 +121,7 @@ class _AdminEmailAndPasswordTextFieldState
               CustomAppButton(
                   onPressed: () {
                     TextInput.finishAutofillContext(shouldSave: true);
-                    validateAndLogin(context);
+                    _validateAndLogin(context);
                   },
                   textButton: 'Sign In'.tr(),
                   buttonColor: ColorsManger.primaryColor),
@@ -126,12 +131,16 @@ class _AdminEmailAndPasswordTextFieldState
     );
   }
 
-  validateAndLogin(BuildContext context) async {
+  Future<void> _validateAndLogin(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      String? mobileId = await getId();
+      final mobileId = await getId();
       if (!context.mounted) return;
-      BlocProvider.of<LoginCubit>(context)
-          .doLogin(role: Role.Admin, mobileId: mobileId!);
+      context.read<LoginCubit>().doLogin(
+            email: emailController.text.trim(),
+            password: passwordTextController.text,
+            role: Role.Admin,
+            mobileId: mobileId!,
+          );
     }
   }
 }

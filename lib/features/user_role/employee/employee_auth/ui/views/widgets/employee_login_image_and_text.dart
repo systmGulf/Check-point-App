@@ -15,6 +15,7 @@ class EmployeeLoginImageAndText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AuthHeaderWidget(
+            label: 'Employee'.tr(),
             title: 'Welcome Back!'.tr(),
             subtitle: 'Sign in to your account as Employee'.tr(),
           ),
