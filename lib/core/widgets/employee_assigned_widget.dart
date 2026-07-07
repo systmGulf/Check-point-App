@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/core/styles/styles.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
@@ -59,14 +60,10 @@ class EmployeeAssignedWidget extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              GestureDetector(
-                onTap: onDelete,
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 20.sp,
-                ),
-              )
+              AppActionIconButton.delete(
+                onPressed: onDelete ?? () {},
+                size: 32,
+              ),
             ],
           ),
         ),

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -149,20 +149,13 @@ class _SelectCustomersForTheSubPLanDropButtonState
                       child: Image.asset('assets/images/icon-default-user.png'),
                     ),
                   ),
-                  trailing: IconButton(
+                  trailing: AppActionIconButton.delete(
                     onPressed: () {
                       setState(() {
                         context.read<PlanCubit>().customerId = '';
                       });
                     },
-                    icon: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Center(
-                        child:
-                            SvgPicture.asset('assets/images/delete_icon.svg'),
-                      ),
-                    ),
+                    size: 32,
                   ),
                   title: Text(widget.dropdownItems
                           .firstWhereOrNull((element) =>

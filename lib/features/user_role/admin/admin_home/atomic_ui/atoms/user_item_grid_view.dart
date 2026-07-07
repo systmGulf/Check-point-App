@@ -1,18 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../pages/edit_user_screen.dart';
@@ -71,7 +70,7 @@ class UserItemGridView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
+                AppActionIconButton.edit(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -90,15 +89,9 @@ class UserItemGridView extends StatelessWidget {
                           .getAllEmployees(pageNumber: 0, itemCount: 10);
                     });
                   },
-                  icon: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Center(
-                          child: SvgPicture.asset('assets/images/edit.svg'))),
-                  color: Colors.blue,
                 ),
                 horizontalSpace(0),
-                IconButton(
+                AppActionIconButton.delete(
                   onPressed: () {
                     buildDeleteAlertDialog(context,
                         title: 'Delete User'.tr(context: context),
@@ -109,13 +102,6 @@ class UserItemGridView extends StatelessWidget {
                           .deleteUserAccount(userId: userItemEntity.userId);
                     });
                   },
-                  icon: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Center(
-                          child: SvgPicture.asset(
-                       Assets.DeleteIconImage,
-                        color: Colors.red,))),
                 ),
               ],
             ),

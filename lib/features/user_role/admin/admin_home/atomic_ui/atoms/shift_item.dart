@@ -1,4 +1,5 @@
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +38,7 @@ class ShiftItem extends StatelessWidget {
                 Text(shiftName, style: AppStylesManger.font15BoldBlack)
               ]),
           Spacer(),
-          IconButton(onPressed: onDelete, icon: Icon(Icons.delete_outlined))
+          AppActionIconButton.delete(onPressed: onDelete, size: 34)
         ]),
       ),
     );

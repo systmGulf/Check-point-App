@@ -2,6 +2,7 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:employee_mangement/core/widgets/custom_app_button.dart';
@@ -152,24 +153,22 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
             IntrinsicWidth(
               child: Row(
                 children: [
-                  IconButton(
+                  AppActionIconButton.delete(
                     onPressed: () {
                       buildDeleteAlertDialog(
-                          message:
-                              "Are you sure you want to delete this request?"
-                                  .tr(context: context),
-                          context,
-                          title: "Delete Request".tr(context: context),
-                          onYes: () {
-                        context
-                            .read<EmployeeCubit>()
-                            .deleteAddAccountRequest(id: widget.id)
-                            .then((value) {
+                        context,
+                        title: 'Delete Request'.tr(context: context),
+                        message: 'Are you sure you want to delete this request?'
+                            .tr(context: context),
+                        onYes: () {
                           context.pop();
-                        });
-                      });
+                          context
+                              .read<EmployeeCubit>()
+                              .deleteAddAccountRequest(id: widget.id);
+                        },
+                      );
                     },
-                    icon: Icon(Icons.delete, color: ColorsManger.primaryColor),
+                    size: 34,
                   ),
                 ],
               ),

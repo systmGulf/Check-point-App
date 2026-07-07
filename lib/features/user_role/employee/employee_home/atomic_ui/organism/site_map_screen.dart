@@ -7,7 +7,7 @@ import 'package:hr_management_system_package/core/core.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart'
     show Data;
 import 'package:lottie/lottie.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/common/animate_camera_postion.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';

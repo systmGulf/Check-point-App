@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
 import 'package:employee_mangement/core/styles/colors.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,11 +49,10 @@ AppBar buildCustomAppBar(BuildContext context, String title,
                   const Duration(seconds: 2)) {
             _lastBackPressTime = now;
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Press again to exit'.tr(context: context)),
-                duration: Duration(seconds: 2),
-              ),
+            AppTopSnackBar.showInfo(
+              context,
+              message: 'Press again to exit'.tr(context: context),
+              duration: const Duration(seconds: 2),
             );
           } else {
             SystemNavigator.pop();

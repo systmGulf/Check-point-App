@@ -1,9 +1,9 @@
 import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/common/app_container_decoration.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 
 class CompanyBranchItem extends StatelessWidget {
   const CompanyBranchItem({
@@ -59,15 +59,7 @@ class CompanyBranchItem extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: onDelete,
-              icon: SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Center(
-                      child:
-                          SvgPicture.asset('assets/images/delete_icon.svg'))),
-            ),
+            AppActionIconButton.delete(onPressed: onDelete, size: 34),
           ],
         ),
       ),

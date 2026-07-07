@@ -3,11 +3,11 @@ import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../core/styles/colors.dart';
 import '../../../../../core/widgets/progress_loading_bar.dart';
 
 class SplashScreenBody extends StatefulWidget {
@@ -31,12 +31,25 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(),
-        Align(
-          alignment: Alignment.center,
-          child: CircleAvatar(
-              radius: 70.r,
-              backgroundColor: Colors.white,
-              backgroundImage: AssetImage(Assets.VodafoneImage)),
+        Container(
+          width: 220.w,
+          height: 120.h,
+          padding: EdgeInsets.all(18.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(28.r),
+            boxShadow: [
+              BoxShadow(
+                color: ColorsManger.primaryColor.withValues(alpha: 0.12),
+                blurRadius: 24,
+                offset: const Offset(0, 12),
+              ),
+            ],
+          ),
+          child: Image.asset(
+            Assets.VodafoneImage,
+            fit: BoxFit.contain,
+          ),
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),

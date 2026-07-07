@@ -1,4 +1,5 @@
 import '../../../../../../core/widgets/custom_loading_indicator.dart';
+import '../../../../../../core/widgets/app_top_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,11 +20,7 @@ class ShareExalFileBlocListener extends StatelessWidget {
           Navigator.pop(context);
         } else if (state is ShareAttAndanceFailure) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.er),
-            ),
-          );
+          AppTopSnackBar.showFailure(context, message: state.er);
         } else {
           customLoadingIndicator(context);
         }

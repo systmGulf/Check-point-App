@@ -1,10 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -71,8 +71,8 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: InkWell(
-                                onTap: () {
+                              child: AppActionIconButton.delete(
+                                onPressed: () {
                                   buildDeleteAlertDialog(context,
                                       title: 'Delete Sub Plan'
                                           .tr(context: context),
@@ -85,9 +85,7 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                                         id: subPlan[index].id!);
                                   });
                                 },
-                                child: SvgPicture.asset(
-                                    'assets/images/delete_icon.svg',
-                                    height: 24.h),
+                                size: 30,
                               ),
                             )
                           ],

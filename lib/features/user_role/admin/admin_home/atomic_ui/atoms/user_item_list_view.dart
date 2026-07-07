@@ -2,14 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../../../core/utils/assets_manager.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../enitities/user_item_entity.dart';
 import '../pages/edit_user_screen.dart';
@@ -76,7 +75,7 @@ class UserItemListView extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          IconButton(
+          AppActionIconButton.edit(
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -95,26 +94,10 @@ class UserItemListView extends StatelessWidget {
                     .getAllEmployees(pageNumber: 0, itemCount: 10);
               });
             },
-            icon: SizedBox(
-              height: 26,
-              width: 26,
-              child: Center(
-                child: SvgPicture.asset(
-                  Assets.EditImage,
-                  color: ColorsManger.primaryColor,
-                ),
-              ),
-            ),
-            color: Colors.blue,
           ),
           horizontalSpace(0),
-          IconButton(
+          AppActionIconButton.delete(
             onPressed: userItemEntity.onDelete,
-            icon: SizedBox(
-                height: 24,
-                width: 24,
-                child: Center(child: SvgPicture.asset(Assets.DeleteIconImage))),
-            color: Colors.red,
           ),
         ],
       ),

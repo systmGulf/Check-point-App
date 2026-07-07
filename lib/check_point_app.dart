@@ -6,6 +6,7 @@ import 'package:employee_mangement/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -50,6 +51,7 @@ class _CheckPointAppState extends State<CheckPointApp>
   }
 
   Future<void> _clearSharedPreferences() async {
+    FlutterBackgroundService().invoke('stop');
     SecureCache.deleteFromCacheByKey(key: 'token');
     SecureCache.deleteFromCacheByKey(key: 'username');
     SecureCache.deleteFromCacheByKey(key: 'departmentId');
@@ -112,8 +114,18 @@ class _CheckPointAppState extends State<CheckPointApp>
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: ThemeData(
-                fontFamily: 'Cairo',
-                scaffoldBackgroundColor: ColorsManger.scaffoldBackgroundColor),
+              fontFamily: 'Cairo',
+              scaffoldBackgroundColor: ColorsManger.scaffoldBackgroundColor,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: ColorsManger.primaryColor,
+                brightness: Brightness.light,
+              ),
+              appBarTheme: AppBarTheme(
+                backgroundColor: ColorsManger.scaffoldBackgroundColor,
+                foregroundColor: ColorsManger.lightblack,
+                surfaceTintColor: Colors.transparent,
+              ),
+            ),
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.splash,
             onGenerateRoute: AppRouter.onGenerateRoute,

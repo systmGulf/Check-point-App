@@ -43,7 +43,7 @@ class AppStylesManger {
   static TextStyle font13RegularBlue = TextStyle(
     fontSize: 13.sp,
     fontWeight: FontWeight.normal,
-    color: Colors.blue,
+    color: ColorsManger.primaryColor,
   );
 
   // ============== Font Size 14 ==============
@@ -99,7 +99,7 @@ class AppStylesManger {
   static TextStyle font15BoldBlue = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.bold,
-    color: Colors.blue,
+    color: ColorsManger.primaryColor,
   );
 
   static TextStyle font15BoldRed = TextStyle(
@@ -248,7 +248,6 @@ class AppStylesManger {
     color: Colors.black,
   );
 
-  
   static TextStyle get font19reguleWhite => font19RegularWhite;
   static TextStyle get font13regulerBlue => font13RegularBlue;
   static TextStyle get font13DarkBlueMedium => font11RegularBlack;

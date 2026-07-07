@@ -63,7 +63,7 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                   color: Colors.white,
                 ),
                 deleteIcon: const Icon(
-                  Icons.delete,
+                  Icons.close_rounded,
                   color: Colors.white,
                   size: 16,
                 ),

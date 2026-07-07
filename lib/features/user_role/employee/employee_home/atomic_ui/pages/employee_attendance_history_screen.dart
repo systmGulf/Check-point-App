@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';

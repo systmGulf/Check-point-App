@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 
@@ -60,7 +60,7 @@ class SitesItem extends StatelessWidget {
               ),
             ],
           ),
-          trailing: IconButton(
+          trailing: AppActionIconButton.delete(
             onPressed: () {
               buildDeleteAlertDialog(context,
                   title: 'Delete Site'.tr(context: context),
@@ -73,11 +73,7 @@ class SitesItem extends StatelessWidget {
                 context.pop();
               });
             },
-            icon: SizedBox(
-                height: 24,
-                width: 24,
-                child: Center(
-                    child: SvgPicture.asset('assets/images/delete_icon.svg'))),
+            size: 34,
           )),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:employee_mangement/core/widgets/employee_assigned_widget.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
@@ -88,22 +89,20 @@ class PoliceItem extends StatelessWidget {
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    buildDeleteAlertDialog(
-                        message: 'Are you sure you want to delete this Police?'
-                            .tr(context: context),
-                        context,
-                        title: 'Delete Police'.tr(context: context), onYes: () {
-                      context
-                          .read<ShiftsAndPolicesCubit>()
-                          .deletePolice(id: policeId);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ))
+              AppActionIconButton.delete(
+                onPressed: () {
+                  buildDeleteAlertDialog(
+                      message: 'Are you sure you want to delete this Police?'
+                          .tr(context: context),
+                      context,
+                      title: 'Delete Police'.tr(context: context), onYes: () {
+                    context
+                        .read<ShiftsAndPolicesCubit>()
+                        .deletePolice(id: policeId);
+                  });
+                },
+                size: 34,
+              )
             ],
           ),
           verticalSpace(10.h),

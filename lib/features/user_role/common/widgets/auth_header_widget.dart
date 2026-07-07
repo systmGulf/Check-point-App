@@ -23,6 +23,15 @@ class AuthHeaderWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          width: 44.w,
+          height: 4,
+          decoration: BoxDecoration(
+            color: ColorsManger.primaryColor,
+            borderRadius: BorderRadius.circular(999.r),
+          ),
+        ),
+        SizedBox(height: AuthAnimationConstants.verticalSpaceSmall),
         if (label != null) ...[
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -34,7 +43,7 @@ class AuthHeaderWidget extends StatelessWidget {
               label!,
               style: AppStylesManger.font12RegularBlack.copyWith(
                 color: ColorsManger.primaryColor,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -43,9 +52,10 @@ class AuthHeaderWidget extends StatelessWidget {
         AnimatedTextWidget(
           text: title,
           style: AppStylesManger.font24RegularBlack.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w800,
             fontSize: 24.sp,
-            height: 1.2,
+            height: 1.15,
+            letterSpacing: -0.2,
           ),
           textAlign: TextAlign.start,
           delayDuration: AuthAnimationConstants.headerDelay,
@@ -53,8 +63,11 @@ class AuthHeaderWidget extends StatelessWidget {
         SizedBox(height: AuthAnimationConstants.verticalSpaceSmall),
         AnimatedTextWidget(
           text: subtitle,
-          style: AppStylesManger.font14RegularBlack
-              .copyWith(color: Colors.black54, fontSize: 14.sp, height: 1.5),
+          style: AppStylesManger.font14RegularBlack.copyWith(
+            color: Colors.black54,
+            fontSize: 14.sp,
+            height: 1.55,
+          ),
           textAlign: TextAlign.start,
           delayDuration: AuthAnimationConstants.subtitleDelay,
         ),

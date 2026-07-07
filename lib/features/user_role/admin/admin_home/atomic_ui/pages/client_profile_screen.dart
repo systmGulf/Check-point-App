@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -73,10 +74,12 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                 _isEditEnabled = !_isEditEnabled;
               });
             },
-            icon: Icon(
-              _isEditEnabled ? null : Icons.edit,
-              color: Colors.black,
-              size: 20,
+            icon: SvgPicture.asset(
+              Assets.EditImage,
+              colorFilter: ColorFilter.mode(
+                Colors.black,
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ],

@@ -13,6 +13,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
+import '../../../../../../core/widgets/app_top_snack_bar.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/admin_notification_item.dart';
@@ -86,15 +87,11 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
 
   void _handleStateChanges(BuildContext context, EmployeeState state) {
     if (state is GetAccountRequestsPaginationFailure) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.error)),
-      );
+      AppTopSnackBar.showFailure(context, message: state.error);
     } else if (state is DeleteAddAccountRequestSuccess) {
       _refreshList();
     } else if (state is DeleteAddAccountRequestFailure) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.error)),
-      );
+      AppTopSnackBar.showFailure(context, message: state.error);
     }
   }
 

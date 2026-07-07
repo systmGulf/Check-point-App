@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/core/core.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -47,8 +48,9 @@ class AdminCustomDrawer extends StatelessWidget {
           }),
       AdminDrawerItem(
           onTap: () async {
+            FlutterBackgroundService().invoke('stop');
             await SecureCache.deleteFromCache();
-            ApiConstant.token = await SecureCache.getFromCache(key: 'username');
+            ApiConstant.token = await SecureCache.getFromCache(key: 'token');
             if (!context.mounted) return;
             context.pushReplacementName(Routes.userRoleScreen);
           },

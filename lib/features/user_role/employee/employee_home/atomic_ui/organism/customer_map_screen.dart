@@ -257,6 +257,11 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                       ),
                       onPressed: () async {
                         final service = FlutterBackgroundService();
+                        if (ApiConstant.token.isEmpty) {
+                          service.invoke('stop');
+                          setState(() => isServiceRunning = false);
+                          return;
+                        }
 
                         if (isServiceRunning) {
                           service.invoke('stop');
@@ -283,7 +288,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
           return Center(child: Text(state.error));
         }
 
-        return  Center(
+        return Center(
             child: CircularProgressIndicator(
                 color: ColorsManger.primaryColor,
                 strokeWidth: 2,

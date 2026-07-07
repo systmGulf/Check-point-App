@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,55 +22,68 @@ class OnboardingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Image.asset(
-            Assets.OnboardingBgImageImage,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned.fill(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: AlignmentDirectional.topCenter,
-                end: AlignmentDirectional.bottomCenter,
-                colors: [
-                  Colors.black.withValues(alpha: 0.18),
-                  Colors.black.withValues(alpha: 0.65),
-                ],
-              ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                ColorsManger.scaffoldBackgroundColor,
+                ColorsManger.lightGreen.withValues(alpha: 0.6),
+                Colors.white,
+              ],
             ),
           ),
         ),
+        const _OnboardingDecorativeBackdrop(),
         SafeArea(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(22.w, 16.h, 22.w, 20.h),
+            padding: EdgeInsetsDirectional.fromSTEB(22.w, 16.h, 22.w, 18.h),
             child: Column(
               children: [
                 Align(
                   alignment: AlignmentDirectional.topStart,
                   child: SizedBox(
-                    width: 118.w,
-                    child: CustomAppButton(
-                      height: 42.h,
-                      textButton: 'language'.tr(),
-                      buttonColor: ColorsManger.primaryColor,
-                      onPressed: () {
-                        buildChangeLanguageBottomSheet(context);
-                      },
+                    width: 108.w,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.92),
+                        borderRadius: BorderRadius.circular(18.r),
+                        border: Border.all(
+                          color: ColorsManger.primaryColor.withValues(
+                            alpha: 0.10,
+                          ),
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          buildChangeLanguageBottomSheet(context);
+                        },
+                        child: Text(
+                          'language'.tr(),
+                          style: AppStylesManger.font14RegularBlack.copyWith(
+                            color: ColorsManger.primaryColor,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 const Spacer(),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(24.r),
+                  padding: EdgeInsets.all(22.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.96),
-                    borderRadius: BorderRadius.circular(32.r),
+                    borderRadius: BorderRadius.circular(34.r),
+                    border: Border.all(
+                      color: ColorsManger.primaryColor.withValues(alpha: 0.08),
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.12),
+                        color:
+                            ColorsManger.primaryColor.withValues(alpha: 0.10),
                         blurRadius: 28,
                         offset: const Offset(0, 18),
                       ),
@@ -80,34 +92,51 @@ class OnboardingScreenBody extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 64.w,
-                        height: 64.w,
-                        padding: EdgeInsets.all(12.r),
-                        decoration: BoxDecoration(
-                          color:
-                              ColorsManger.primaryColor.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: AnimatedImageWidget(
-                          imagePath: Assets.VodafoneImage,
-                          width: 40.w,
-                          height: 40.w,
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 8.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: ColorsManger.primaryColor
+                                        .withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(999.r),
+                                  ),
+                                  child: Text(
+                                    'enlighten'.tr(),
+                                    style: AppStylesManger.font12RegularBlack
+                                        .copyWith(
+                                      color: ColorsManger.primaryColor,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                verticalSpace(12),
+                                Text(
+                                  'Workforce management made simple'.tr(),
+                                  style: AppStylesManger.font26RegularBlack
+                                      .copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.12,
+                                    letterSpacing: -0.2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      verticalSpace(18),
-                      AnimatedTextWidget(
-                        text: 'Workforce management made simple'.tr(),
-                        style: AppStylesManger.font26RegularBlack.copyWith(
-                          fontWeight: FontWeight.w700,
-                          height: 1.2,
-                        ),
-                      ),
-                      verticalSpace(10),
-                      AnimatedTextWidget(
-                        text:
-                            'Check in, coordinate teams, and manage daily operations from one secure workspace.'
-                                .tr(),
+                      verticalSpace(12),
+                      Text(
+                        'Check in, coordinate teams, and manage daily operations from one secure workspace.'
+                            .tr(),
                         style: AppStylesManger.font14RegularBlack.copyWith(
                           color: Colors.black54,
                           height: 1.6,
@@ -119,23 +148,34 @@ class OnboardingScreenBody extends StatelessWidget {
                         runSpacing: 10.h,
                         children: [
                           _OnboardingInfoChip(
-                            label: 'Daily attendance and task tracking'.tr(),
+                            label: 'Daily attendance'.tr(),
+                            icon: Icons.access_time_rounded,
                           ),
                           _OnboardingInfoChip(
-                            label:
-                                'Team leadership and assignment control'.tr(),
+                            label: 'Task tracking'.tr(),
+                            icon: Icons.check_circle_outline_rounded,
+                          ),
+                          _OnboardingInfoChip(
+                            label: 'Team control'.tr(),
+                            icon: Icons.groups_outlined,
                           ),
                         ],
                       ),
-                      verticalSpace(24),
-                      CustomAppButton(
-                        onPressed: () {
-                          context.pushName(Routes.userRoleScreen);
-                        },
-                        textButton: 'get_started'.tr(),
-                        buttonColor: ColorsManger.primaryColor,
+                      verticalSpace(22),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomAppButton(
+                              onPressed: () {
+                                context.pushName(Routes.userRoleScreen);
+                              },
+                              textButton: 'get_started'.tr(),
+                              buttonColor: ColorsManger.primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      verticalSpace(12),
+                      verticalSpace(10),
                       TextButton(
                         onPressed: () {
                           showDialog(
@@ -154,7 +194,9 @@ class OnboardingScreenBody extends StatelessWidget {
                         child: Text.rich(
                           TextSpan(
                             text: 'Ask Admin to Create Account  '.tr(),
-                            style: AppStylesManger.font14RegularBlack,
+                            style: AppStylesManger.font14RegularBlack.copyWith(
+                              color: Colors.black87,
+                            ),
                             children: [
                               TextSpan(
                                 text: 'register'.tr(),
@@ -167,7 +209,7 @@ class OnboardingScreenBody extends StatelessWidget {
                     ],
                   ),
                 ),
-                verticalSpace(10),
+                verticalSpace(12),
                 const RegisterAccountBlocListener(),
               ],
             ),
@@ -179,9 +221,13 @@ class OnboardingScreenBody extends StatelessWidget {
 }
 
 class _OnboardingInfoChip extends StatelessWidget {
-  const _OnboardingInfoChip({required this.label});
+  const _OnboardingInfoChip({
+    required this.label,
+    required this.icon,
+  });
 
   final String label;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -190,13 +236,85 @@ class _OnboardingInfoChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorsManger.primaryColor.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(999.r),
-      ),
-      child: Text(
-        label,
-        style: AppStylesManger.font12RegularBlack.copyWith(
-          color: ColorsManger.lightblack,
-          fontWeight: FontWeight.w600,
+        border: Border.all(
+          color: ColorsManger.primaryColor.withValues(alpha: 0.08),
         ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: ColorsManger.primaryColor,
+          ),
+          horizontalSpace(8),
+          Text(
+            label,
+            style: AppStylesManger.font12RegularBlack.copyWith(
+              color: ColorsManger.lightblack,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OnboardingDecorativeBackdrop extends StatelessWidget {
+  const _OnboardingDecorativeBackdrop();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: -90,
+          left: -60,
+          child: _Orb(
+            size: 180,
+            color: ColorsManger.primaryColorLight.withValues(alpha: 0.24),
+          ),
+        ),
+        Positioned(
+          top: 90,
+          right: -70,
+          child: _Orb(
+            size: 150,
+            color: ColorsManger.lightGreen.withValues(alpha: 0.7),
+          ),
+        ),
+        Positioned(
+          bottom: 150,
+          right: -80,
+          child: _Orb(
+            size: 210,
+            color: ColorsManger.lighorage.withValues(alpha: 0.48),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Orb extends StatelessWidget {
+  const _Orb({
+    required this.size,
+    required this.color,
+  });
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.w,
+      height: size.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
       ),
     );
   }

@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 import '../../../../../../core/enums/task_status.dart';
@@ -37,8 +37,8 @@ class TaskCard extends StatelessWidget {
                     Column(
                       children: [
                         TaskStatusMenu(task: task),
-                        InkWell(
-                          onTap: () {
+                        AppActionIconButton.delete(
+                          onPressed: () {
                             buildDeleteAlertDialog(context,
                                 message:
                                     'Are you sure you want to delete this Task?'
@@ -51,9 +51,7 @@ class TaskCard extends StatelessWidget {
                               context.pop();
                             });
                           },
-                          child: SvgPicture.asset(
-                              'assets/images/delete_icon.svg',
-                              height: 15.h),
+                          size: 28,
                         )
                       ],
                     ),

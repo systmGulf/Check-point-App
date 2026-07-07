@@ -1,16 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../core/widgets/feed_back_in_plan_widget.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../controller/attendence/attendence_cubit.dart';
@@ -214,8 +213,8 @@ class MyPlanWidget extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          GestureDetector(
-            onTap: () {
+          AppActionIconButton.delete(
+            onPressed: () {
               buildDeleteAlertDialog(
                   message: 'Are you sure you want to delete this plan?'
                       .tr(context: context),
@@ -226,15 +225,7 @@ class MyPlanWidget extends StatelessWidget {
                     );
               });
             },
-            child: SvgPicture.asset(
-              Assets.DeleteIconImage,
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                ColorsManger.primaryColor,
-                BlendMode.srcIn,
-              ),
-            ),
+            size: 34,
           )
         ],
       ),

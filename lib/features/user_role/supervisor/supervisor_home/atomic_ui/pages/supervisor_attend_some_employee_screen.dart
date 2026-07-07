@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -49,16 +51,26 @@ class _SupervisorAttendSomeEmployeeScreenState
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             verticalSpace(20),
-            CircleAvatar(
-                radius: 50,
-                backgroundColor: ColorsManger.grey.withValues(alpha: 0.4),
-                child: Align(
-                    alignment: Alignment.center,
-                    child: CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                            AssetImage('assets/images/app_logo.png')))),
+            Container(
+              width: 220.w,
+              height: 96.h,
+              padding: EdgeInsets.all(14.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorsManger.grey.withValues(alpha: 0.18),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                Assets.AppLogoImage,
+                fit: BoxFit.contain,
+              ),
+            ),
             verticalSpace(15),
             Text(widget.getEmployeesValue.name!,
                 style: AppStylesManger.font16BoldBlack),

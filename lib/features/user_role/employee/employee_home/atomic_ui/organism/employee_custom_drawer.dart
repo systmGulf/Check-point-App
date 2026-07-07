@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -68,6 +69,7 @@ class EmployeeCustomDrawer extends StatelessWidget {
                   const Spacer(),
                   GestureDetector(
                     onTap: () async {
+                      FlutterBackgroundService().invoke('stop');
                       await SecureCache.deleteFromCache();
                       ApiConstant.token =
                           await SecureCache.getFromCache(key: 'token');

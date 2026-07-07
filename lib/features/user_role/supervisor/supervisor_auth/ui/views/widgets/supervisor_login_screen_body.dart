@@ -9,10 +9,12 @@ import '../../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/custom_app_button.dart';
+import '../../../../../../../core/animations/animations.dart';
 import '../../../../../common/widgets/auth_credentials_fields.dart';
 import '../../../../../common/widgets/auth_login_body.dart';
 import '../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
 import 'supervisor_login_bloc_listener.dart';
+import 'supervisor_login_image_and_text.dart';
 
 class SupervisorLoginScreenBody extends StatefulWidget {
   const SupervisorLoginScreenBody({super.key});
@@ -45,6 +47,10 @@ class _SupervisorLoginScreenBodyState extends State<SupervisorLoginScreenBody> {
         key: _formKey,
         child: Column(
           children: [
+            AnimatedHeaderWidget(
+              child: const SupervisorLoginImageAndText(),
+            ),
+            verticalSpace(30),
             AuthCredentialsFields(
               emailController: _emailController,
               passwordController: _passwordController,

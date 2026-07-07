@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/core.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/common/animate_camera_postion.dart';
 import '../../../../../../core/enums/attendance_type_enum.dart';

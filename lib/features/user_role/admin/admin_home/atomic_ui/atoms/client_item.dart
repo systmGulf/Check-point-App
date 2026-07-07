@@ -3,12 +3,12 @@ import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:employee_mangement/core/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 import '../../../../../../core/widgets/build_alart_message.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 
@@ -71,28 +71,19 @@ class ClientItem extends StatelessWidget {
               ),
             ],
           ),
-          trailing: Column(children: [
-            IconButton(
-              onPressed: () {
-                buildDeleteAlertDialog(context,
-                    title: 'Delete Client'.tr(context: context),
-                    message: 'Are you sure you want to delete this client?'
-                        .tr(context: context), onYes: () {
-                  context.pop();
-                  BlocProvider.of<CustomerCubit>(context).deleteCustomer(
-                      customerType: CustomerType.Customer, id: id);
-                });
-              },
-              icon: SizedBox(
-                height: 24,
-                width: 24,
-                child: Center(
-                    child: SvgPicture.asset('assets/images/delete_icon.svg',
-                        colorFilter:
-                            ColorFilter.mode(Colors.red, BlendMode.srcIn))),
-              ),
-            )
-          ])),
+          trailing: AppActionIconButton.delete(
+            onPressed: () {
+              buildDeleteAlertDialog(context,
+                  title: 'Delete Client'.tr(context: context),
+                  message: 'Are you sure you want to delete this client?'
+                      .tr(context: context), onYes: () {
+                context.pop();
+                BlocProvider.of<CustomerCubit>(context).deleteCustomer(
+                    customerType: CustomerType.Customer, id: id);
+              });
+            },
+            size: 34,
+          )),
     );
   }
 }

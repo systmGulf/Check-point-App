@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/utils/assets_manager.dart';
 import '../organism/employee_more_option_list_view.dart';
 
 class EmployeeMoreOptionDrawer extends StatelessWidget {
@@ -18,8 +19,12 @@ class EmployeeMoreOptionDrawer extends StatelessWidget {
             children: [
               verticalSpace(50),
               SizedBox(
-                  height: 100.h,
-                  child: Image.asset('assets/images/vodaphone.png')),
+                height: 84.h,
+                child: Image.asset(
+                  Assets.AppLogoImage,
+                  fit: BoxFit.contain,
+                ),
+              ),
               const MoreOptionDrawerListView(),
             ],
           )),

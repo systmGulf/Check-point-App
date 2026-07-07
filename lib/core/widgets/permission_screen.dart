@@ -1,4 +1,5 @@
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
+import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,12 +28,26 @@ class PermissionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-                radius: 50.r,
-                child: Image.asset(
-                  'assets/images/vodaphone.png',
-                  fit: BoxFit.fill,
-                )),
+            Container(
+              width: 220.w,
+              height: 96.h,
+              padding: EdgeInsets.all(14.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorsManger.primaryColor.withValues(alpha: 0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                Assets.AppLogoImage,
+                fit: BoxFit.contain,
+              ),
+            ),
             verticalSpace(20),
             Text(
               'Please grant the following permissions for the app to work correctly:',

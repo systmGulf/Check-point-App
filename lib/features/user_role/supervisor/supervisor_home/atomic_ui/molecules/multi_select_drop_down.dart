@@ -62,7 +62,7 @@ class _MultiSelectEmployeesDropdownState
                   runSpacing: 2,
                   spacing: 10,
                   deleteIcon: Icon(
-                    Icons.delete,
+                    Icons.close_rounded,
                     color: Colors.white,
                     size: 15.h,
                   )),

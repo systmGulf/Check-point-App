@@ -6,6 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/widgets/app_action_icon_button.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../organism/customer_list.dart';
 import 'custom_admin_app_bar.dart';
@@ -68,7 +69,12 @@ class ClientsBody extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.delete, color: Colors.white),
+                    AppActionIconButton.delete(
+                      onPressed: onDeleteSelected,
+                      size: 30,
+                      backgroundColor: Colors.transparent,
+                      iconColor: Colors.white,
+                    ),
                     Text(
                       selectedClients.length.toString(),
                       style: AppStylesManger.font16BoldWhite,
