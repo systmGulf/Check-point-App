@@ -58,11 +58,11 @@ class _MyPlansDetailsScreenState extends State<MyPlansDetailsScreen> {
           spacing: 10,
           runSpacing: 10,
           children: [
-            _colorOption(index, Colors.red!),
-            _colorOption(index, Colors.green!),
-            _colorOption(index, Colors.blue!),
-            _colorOption(index, Colors.orange!),
-            _colorOption(index, Colors.purple!),
+            _colorOption(index, Colors.red),
+            _colorOption(index, Colors.green),
+            _colorOption(index, Colors.blue),
+            _colorOption(index, Colors.orange),
+            _colorOption(index, Colors.purple),
             _colorOption(index, Colors.white), // Reset option
 
           ],

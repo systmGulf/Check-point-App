@@ -15,7 +15,7 @@ class ProgressLoadingBar extends StatelessWidget {
       gradient: LinearGradient(
         colors: [ColorsManger.primaryColor, ColorsManger.lighorage],
       ),
-      backgroundColor: Colors.grey.withOpacity(0.4),
+      backgroundColor: Colors.grey.withValues(alpha: 0.4),
     );
   }
 }

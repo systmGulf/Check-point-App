@@ -10,7 +10,7 @@ part 'shifts_and_polices_state.dart';
 
 class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   final ShiftsAndPolicesRepo shiftsAndPolicesRepo;
-  ShiftsAndPolicesCubit(this.shiftsAndPolicesRepo)
+  ShiftsAndPolicesCubit({required this.shiftsAndPolicesRepo})
       : super(ShiftsAndPolicesInitial());
   final TextEditingController shiftNameController = TextEditingController();
   String mounth = '';
@@ -70,7 +70,6 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
         emit(GetPoliceByShiftIDSuccess(policeResponse: response));
       });
     } on Exception catch (e) {
-      print(e);
       emit(GetPoliceByShiftIDError(error: e.toString()));
     }
   }
@@ -148,25 +147,16 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
 
   // remove assign policy
   Future<void> removeAssignPolicy(
-    {
-      required int policeId,
-      required String employeeId
-    }
-  ) async {
+      {required int policeId, required String employeeId}) async {
     emit(RemoveAssignPolicyLoadingState());
     final result = await shiftsAndPolicesRepo.removeAssignPolice(
-      remove: RemoveAssignPolicyRequestBody (
-        policyId: policeId,
-        employeeId: employeeId
-      )
-    );
+        remove: RemoveAssignPolicyRequestBody(
+            policyId: policeId, employeeId: employeeId));
     result.fold((l) {
       emit(RemoveAssignPolicyFailureState(error: l.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      emit(RemoveAssignPolicySuccessState(
-        message: r
-      ));
+      emit(RemoveAssignPolicySuccessState(message: r));
     });
   }
 }

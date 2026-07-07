@@ -100,7 +100,7 @@ class _SiteMapScreenState extends State<SiteMapScreen> {
                               points: e.customer!.coordinates!
                                   .map((e) => LatLng(e.latitude!, e.longitude!))
                                   .toList(),
-                              fillColor: Colors.blue.withOpacity(0.5),
+                              fillColor: Colors.blue.withValues(alpha: 0.5),
                               strokeColor: Colors.blue,
                             ))
                         .toSet(),

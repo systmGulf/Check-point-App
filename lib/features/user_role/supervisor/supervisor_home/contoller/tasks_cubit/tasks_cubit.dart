@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:employee_mangement/core/dependency%D9%80injection/register%D9%80factory.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/add_task_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/task_model/get_task_response.dart';
@@ -11,37 +10,63 @@ import '../../model/drop_down_item.dart';
 part 'tasks_state.dart';
 
 class TasksCubit extends Cubit<TasksState> {
+  TasksCubit({
+    required this.supervisorRepo,
+    required this.notificationRepo,
+  }) : super(TasksInitial());
+
   final SupervisorTasksRepo supervisorRepo;
-  TasksCubit(this.supervisorRepo) : super(TasksInitial());
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  final NotificationRepo notificationRepo;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final List<DropdownItemModel> dropdownItems = [];
+  final List<GetTasData> tasks = [];
+  String priorityStatus = 'medium';
   String dueDate = '';
-  String priorityStatus = 'high';
-  String taskStatus = 'Pending';
-  List<DropdownItemModel> dropdownItems = [];
-  List<GetTasData> tasks = [];
-  Future<void> addTask() async {
+  String taskStatus = '';
+
+  Future<void> addTask({
+    String? title,
+    String? description,
+    String? dueDate,
+    String? priorityStatus,
+  }) async {
     emit(AddTaskLoading());
-    if (dueDate != '') {
-      final result = await supervisorRepo.addTask(
-        addTaskRequestBody: AddTaskRequestBody(
-          title: titleController.text,
-          description: descriptionController.text,
-          dueDate: dueDate,
-          priorityStatus: priorityStatus,
-          status: 'Pending',
-        ),
-      );
-      result.fold((l) {
-        emit(AddTaskError(errorMessage: l.message));
-      }, (r) {
-        if (isClosed) return;
-        emit(AddTaskSuccess());
-      });
-    } else {
-      if (isClosed) return;
-      emit(AddTaskError(errorMessage: 'Complete All Fields'));
+    final titleValue = title ?? titleController.text.trim();
+    final descriptionValue = description ?? descriptionController.text.trim();
+    final dueDateValue = dueDate ?? this.dueDate;
+    final priorityValue = priorityStatus ?? this.priorityStatus;
+    if (titleValue.isEmpty ||
+        descriptionValue.isEmpty ||
+        dueDateValue.isEmpty) {
+      if (!isClosed) {
+        emit(
+          AddTaskError(errorMessage: 'supervisor.tasks.completeAllFields'),
+        );
+      }
+      return;
     }
+    final result = await supervisorRepo.addTask(
+      addTaskRequestBody: AddTaskRequestBody(
+        title: titleValue,
+        description: descriptionValue,
+        dueDate: dueDateValue,
+        priorityStatus: priorityValue,
+        status: 'Pending',
+      ),
+    );
+    result.fold(
+      (l) {
+        if (!isClosed) emit(AddTaskError(errorMessage: l.message));
+      },
+      (r) {
+        if (!isClosed) emit(AddTaskSuccess());
+        titleController.clear();
+        descriptionController.clear();
+        this.dueDate = '';
+        this.priorityStatus = 'medium';
+      },
+    );
   }
 
   Future<void> getTasks({int pageNumber = 0}) async {
@@ -53,86 +78,132 @@ class TasksCubit extends Cubit<TasksState> {
     final result = await supervisorRepo.getAllTasksByDepartmentId(
       pageNumber: pageNumber,
     );
-    result.fold((l) {
-      if (pageNumber == 0) {
+    result.fold(
+      (l) {
         if (isClosed) return;
-        emit(GetTasksError(errorMessage: l.message));
-      } else {
-        if (isClosed) return;
-        emit(GetTaskPaginationFailure(errorMessage: l.message));
-      }
-    }, (r) {
-      if (isClosed) return;
-      emit(GetTasksSuccess(tasks: r));
-    });
+        if (pageNumber == 0) {
+          emit(GetTasksError(errorMessage: l.message));
+        } else {
+          emit(GetTaskPaginationFailure(errorMessage: l.message));
+        }
+      },
+      (r) {
+        if (pageNumber == 0) {
+          tasks
+            ..clear()
+            ..addAll(r);
+        } else {
+          for (final task in r) {
+            if (!tasks.any((existingTask) => existingTask.id == task.id)) {
+              tasks.add(task);
+            }
+          }
+        }
+        if (!isClosed) emit(GetTasksSuccess(tasks: r));
+      },
+    );
   }
 
   Future<void> deleteTask({required int id}) async {
     emit(DeleteTaskLoading());
     final result = await supervisorRepo.deleteTaskById(id: id);
-    result.fold((l) {
-      emit(DeleteTaskError(errorMessage: l.message));
-    }, (r) {
-      emit(DeleteTaskSuccess());
-    });
+    result.fold(
+      (l) {
+        if (!isClosed) emit(DeleteTaskError(errorMessage: l.message));
+      },
+      (r) {
+        if (!isClosed) emit(DeleteTaskSuccess());
+      },
+    );
   }
 
-  Future<void> assignTasks({required int taskId}) async {
+  Future<void> assignTasks({
+    required int taskId,
+    List<DropdownItemModel>? employees,
+  }) async {
+    final selectedEmployees = employees ?? dropdownItems;
     emit(AssignTaskLoading());
-    if (dropdownItems.isNotEmpty) {
-      final result = await supervisorRepo.assignTask(
-        employeeIds: dropdownItems.map((e) => e.id).toList(),
-        taskId: taskId,
-      );
-      result.fold((l) {
-        emit(AssignTaskError(errorMessage: l.message));
-      }, (r) {
-        for (var element in dropdownItems) {
-          for (var token in element.employeesDeviceTokens) {
-            getIt<NotificationRepo>().sendSingleNotification(
-                title: 'Task Assign',
-                body: 'You have been assigned a new task',
-                token: token);
-          }
+    if (selectedEmployees.isEmpty) {
+      emit(AssignTaskError(errorMessage: 'supervisor.tasks.selectEmployee'));
+      return;
+    }
+    final result = await supervisorRepo.assignTask(
+      employeeIds: selectedEmployees.map((e) => e.id).toList(),
+      taskId: taskId,
+    );
+    result.fold(
+      (l) {
+        if (!isClosed) emit(AssignTaskError(errorMessage: l.message));
+      },
+      (r) {
+        if (!isClosed) {
+          _notifyEmployees(employees: selectedEmployees);
+          dropdownItems.clear();
+          emit(AssignTaskSuccess());
         }
-        emit(AssignTaskSuccess());
-      });
-    } else {
-      emit(AssignTaskError(errorMessage: 'Select Employee'));
+      },
+    );
+  }
+
+  Future<void> changeTaskStatus({
+    required int taskId,
+    String? taskStatus,
+  }) async {
+    final selectedTaskStatus = taskStatus ?? this.taskStatus;
+    emit(ChangeTaskStatusLoading());
+    final result = await supervisorRepo.changeTaskStatus(
+      taskId: taskId,
+      status: selectedTaskStatus,
+    );
+    result.fold(
+      (l) {
+        if (!isClosed) emit(ChangeTaskStatusError(errorMessage: l.message));
+      },
+      (r) {
+        if (!isClosed) emit(ChangeTaskStatusSuccess());
+        getTasks();
+      },
+    );
+  }
+
+  Future<void> deleteEmployeeFromTask({
+    required int taskId,
+    required String employeeIds,
+  }) async {
+    emit(RemoveEmployeeFromTaskLoading());
+    final result = await supervisorRepo.removeSomeEmployeesFromTask(
+      taskId: taskId,
+      employeeIds: employeeIds,
+    );
+    result.fold(
+      (l) {
+        if (!isClosed) {
+          emit(RemoveEmployeeFromTaskError(errorMessage: l.message));
+        }
+      },
+      (r) {
+        if (!isClosed) emit(RemoveEmployeeFromTaskSuccess());
+        getTasks();
+      },
+    );
+  }
+
+  void _notifyEmployees({required List<DropdownItemModel> employees}) {
+    for (final employee in employees) {
+      for (final token in employee.employeesDeviceTokens) {
+        notificationRepo.sendSingleNotification(
+          title: 'Task Assign',
+          body: 'You have been assigned a new task',
+          token: token,
+        );
+      }
     }
   }
 
-  // change task Status
-  Future<void> changeTaskStatus({required int taskId}) async {
-    emit(ChangeTaskStatusLoading());
-    final result = await supervisorRepo.changeTaskStatus(
-        taskId: taskId, status: taskStatus);
-    result.fold((l) {
-      emit(ChangeTaskStatusError(errorMessage: l.message));
-    }, (r) {
-      getTasks();
-      emit(ChangeTaskStatusSuccess());
-    });
-  }
-
-  Future<void> deleteEmployeeFromTask(
-      {required int taskId, required String employeeIds}) async {
-    emit(RemoveEmployeeFromTaskLoading());
-
-    final result = await supervisorRepo.removeSomeEmployeesFromTask(
-        taskId: taskId, employeeIds: employeeIds);
-    result.fold((l) {
-      emit(RemoveEmployeeFromTaskError(errorMessage: l.message));
-    }, (r) {
-      getTasks();
-      emit(RemoveEmployeeFromTaskSuccess());
-    });
-  }
-
   @override
-  Future<void> close() async {
+  Future<void> close() {
     titleController.dispose();
     descriptionController.dispose();
-    super.close();
+    return super.close();
   }
 }

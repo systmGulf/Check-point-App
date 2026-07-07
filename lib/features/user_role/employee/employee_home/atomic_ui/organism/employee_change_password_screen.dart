@@ -21,18 +21,15 @@ class EmployeeChangePasswordScreen extends StatefulWidget {
 
 class _EmployeeChangePasswordScreenState
     extends State<EmployeeChangePasswordScreen> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late TextEditingController oldPasswordController;
-  late TextEditingController newPasswordController;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+
   @override
-  void initState() {
-    oldPasswordController =
-        BlocProvider.of<EmployeeChangePasswordCubit>(context)
-            .oldPasswordController;
-    newPasswordController =
-        BlocProvider.of<EmployeeChangePasswordCubit>(context)
-            .newPasswordController;
-    super.initState();
+  void dispose() {
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,7 +40,7 @@ class _EmployeeChangePasswordScreenState
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               children: [
                 CustomAppTextFormField(
@@ -60,7 +57,7 @@ class _EmployeeChangePasswordScreenState
                         }
                       }
                     },
-                    controller: oldPasswordController,
+                    controller: _oldPasswordController,
                     hint: 'Old Password'.tr(context: context)),
                 verticalSpace(10),
                 CustomAppTextFormField(
@@ -77,14 +74,14 @@ class _EmployeeChangePasswordScreenState
                         }
                       }
                     },
-                    controller: newPasswordController,
+                    controller: _newPasswordController,
                     hint: 'New Password'.tr(context: context)),
                 verticalSpace(20),
                 CustomAppButton(
                   textButton: 'Change Password'.tr(context: context),
                   buttonColor: ColorsManger.primaryColor,
                   onPressed: () {
-                    validateAndChangePassword();
+                    _validateAndChangePassword();
                   },
                 ),
                 const EmployeeChangePasswordBlocListener(),
@@ -94,9 +91,12 @@ class _EmployeeChangePasswordScreenState
         ));
   }
 
-  validateAndChangePassword() {
-    if (formKey.currentState!.validate()) {
-      BlocProvider.of<EmployeeChangePasswordCubit>(context).changePassword();
+  void _validateAndChangePassword() {
+    if (_formKey.currentState!.validate()) {
+      context.read<EmployeeChangePasswordCubit>().changePassword(
+            oldPassword: _oldPasswordController.text,
+            newPassword: _newPasswordController.text,
+          );
     }
   }
 }

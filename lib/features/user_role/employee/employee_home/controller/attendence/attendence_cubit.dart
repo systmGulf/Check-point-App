@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
@@ -23,7 +22,8 @@ part 'attendence_state.dart';
 
 class AttendanceCubit extends Cubit<AttendanceState> {
   final EmployeeAttendanceRepo employeeAttendanceRepo;
-  AttendanceCubit(this.employeeAttendanceRepo) : super(AuthenticationInitial());
+  AttendanceCubit({required this.employeeAttendanceRepo})
+      : super(AuthenticationInitial());
   String selectedImage = '';
 
   LatLng initialCameraPosition =
@@ -55,7 +55,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   Future<void> getCustomerArea() async {
     emit(GetCustomerAreaLoading());
     final result = await employeeAttendanceRepo.getCustomerPlanForEmployee();
-  
+
     result.fold((l) {
       if (isClosed) return;
 
@@ -64,7 +64,6 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       if (isClosed) return;
 
       emit(GetCustomerAreaDone(customerArea));
-   
     });
   }
 
@@ -150,7 +149,6 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     }, (userattendanceModel) async {
       checkOut = DateFormat('hh:mm').format(DateTime.now());
       emit(AttendanceOutedDone(userattendanceModel));
-     
     });
   }
 
@@ -177,8 +175,6 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void checkAssessableArea(
       LatLng pointLatNong, List<LatLng> area, Enum attendanceType) async {
-    print(
-        'pointLatNong: $pointLatNong, area: $area, attendanceType: $attendanceType');
     bool inRightArea = await employeeAttendanceRepo
         .checkAccessibleAreaForPolygon(pointLatNong, area);
 

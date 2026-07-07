@@ -24,11 +24,6 @@ class HistoryItem extends StatelessWidget {
   final bool isEarly, isLate;
   @override
   Widget build(BuildContext context) {
-    DateTime clockIn =
-        DateTime.parse('2000-01-01 ${clockInTime.substring(0, 5)}:00');
-    DateTime clockOut =
-        DateTime.parse('2000-01-01 ${clockOutTime.substring(0, 5)}:00');
-
     return Container(
         child: Container(
             decoration: AppConatinerDecoration(),

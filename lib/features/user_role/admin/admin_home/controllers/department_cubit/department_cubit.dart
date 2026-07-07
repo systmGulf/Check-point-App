@@ -6,7 +6,7 @@ part 'department_state.dart';
 
 class DepartmentCubit extends Cubit<DepartmentState> {
   final DepartmentRepo departmentRepo;
-  DepartmentCubit(this.departmentRepo) : super(DepartmentInitial());
+  DepartmentCubit({required this.departmentRepo}) : super(DepartmentInitial());
   TextEditingController addDepartmentController = TextEditingController();
   TextEditingController editDepartmentNameController = TextEditingController();
 

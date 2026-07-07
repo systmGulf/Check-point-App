@@ -22,7 +22,8 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
   @override
   initState() {
     super.initState();
-    context.read<PlanCubit>().noteController = TextEditingController();
+    context.read<PlanCubit>().noteController.clear();
+    context.read<PlanCubit>().planDate = '0';
   }
 
   @override

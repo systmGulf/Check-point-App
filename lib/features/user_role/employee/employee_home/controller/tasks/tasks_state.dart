@@ -1,6 +1,5 @@
 part of 'tasks_cubit.dart';
 
-@immutable
 abstract class EmployeeTasksState {}
 
 class TasksInitial extends EmployeeTasksState {}
@@ -25,6 +24,7 @@ class UpdateTaskStatusError extends EmployeeTasksState {
 }
 
 class UpdateTaskStatusSuccess extends EmployeeTasksState {}
+
 class DeleteEmployeeTaskSuccess extends EmployeeTasksState {}
 
 class DeleteEmployeeTaskError extends EmployeeTasksState {

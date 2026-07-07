@@ -30,7 +30,6 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
   bool _hasNextPage = true;
   bool _isFirstPageLoaded = false;
 
-  List<Map<String, dynamic>> _excelData = [];
   bool isLoading = false;
   Set<String> selectedClients = {};
 

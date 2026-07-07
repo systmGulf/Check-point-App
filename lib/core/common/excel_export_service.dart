@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:excel/excel.dart';
-import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ExcelExportService {
@@ -13,7 +12,7 @@ class ExcelExportService {
   }) {
     try {
       var excel = Excel.createExcel();
-      Sheet sheet = excel[sheetName];
+      excel[sheetName];
 
       // Add headers
       // sheet.appendRow(headers);
@@ -28,8 +27,7 @@ class ExcelExportService {
         throw Exception('Failed to generate Excel file.');
       }
       return Uint8List.fromList(bytesList);
-    } catch (e) {
-      debugPrint('Error generating Excel file: $e');
+    } catch (_) {
       return null;
     }
   }
@@ -41,19 +39,20 @@ class ExcelExportService {
     String? message,
   }) async {
     try {
-      await Share.shareXFiles(
-        [
-          XFile.fromData(
-            fileBytes,
-            mimeType:
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          )
-        ],
-        text: message,
-        fileNameOverrides: [fileName],
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [
+            XFile.fromData(
+              fileBytes,
+              mimeType:
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            )
+          ],
+          text: message,
+          fileNameOverrides: [fileName],
+        ),
       );
-    } catch (e) {
-      debugPrint('Error sharing Excel file: $e');
+    } catch (_) {
       throw Exception('Failed to share Excel file.');
     }
   }

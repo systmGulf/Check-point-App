@@ -8,7 +8,7 @@ part 'customer_state.dart';
 
 class CustomerCubit extends Cubit<CustomerState> {
   final CustomerRepo customerRepo;
-  CustomerCubit(this.customerRepo) : super(CustomerInitial());
+  CustomerCubit({required this.customerRepo}) : super(CustomerInitial());
   GlobalKey<FormState> formKey = GlobalKey();
   TextEditingController nameController = TextEditingController();
   TextEditingController workedAsController = TextEditingController();

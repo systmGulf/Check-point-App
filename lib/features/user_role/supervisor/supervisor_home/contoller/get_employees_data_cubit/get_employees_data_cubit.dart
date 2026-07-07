@@ -10,7 +10,7 @@ part 'get_employees_data_state.dart';
 
 class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
   final SupervisorAttendanceRepo supervisorRepo;
-  GetEmployeesDataCubit(this.supervisorRepo) : super(GetEmployeesDataInitial());
+  GetEmployeesDataCubit({required this.supervisorRepo}) : super(GetEmployeesDataInitial());
 
   Future<void> getEmployeesByDepartmentId() async {
     emit(GetAllEmployeesLoading());

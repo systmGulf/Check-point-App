@@ -11,7 +11,7 @@ class SupervisorGetEmployeeAttendanceCubit
     extends Cubit<SupervisorGetEmployeeAttendanceState> {
   final SupervisorAttendanceRepo supervisorRepo;
 
-  SupervisorGetEmployeeAttendanceCubit(this.supervisorRepo)
+  SupervisorGetEmployeeAttendanceCubit({required this.supervisorRepo})
       : super(SupervisorGetEmployeeAttendanceInitial(DateTime.now()));
   // SUPERVISOR GET EMPLOYEE ATTENDANCE
   Future<void> supervisorGetEmployeesAttendanceByDepartmentId() async {
@@ -78,9 +78,9 @@ class SupervisorGetEmployeeAttendanceCubit
 
   // get Customr in Attendance
   Future<void> supervisorGetCustomerInAttendance(
-      {required String CustomerId}) async {
+      {required String customerId}) async {
     emit(GetCustomerCustomerInAttendanceLoading(state.selectedDate));
-    final result = await supervisorRepo.getCustomerById(CustomerId: CustomerId);
+    final result = await supervisorRepo.getCustomerById(customerId: customerId);
     result.fold((error) {
       if (isClosed) return;
       emit(GetCustomerCustomerInAttendanceFailure(

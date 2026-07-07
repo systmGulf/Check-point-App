@@ -114,7 +114,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                                   borderSide: BorderSide(
                                     color: ColorsManger.primaryColor,
                                   ))),
-                          value: state.employees.data![0].id,
+                          initialValue: state.employees.data![0].id,
                           menuMaxHeight: 200.h,
                           padding: EdgeInsets.symmetric(horizontal: 0.w),
                           items: state.employees.data!
@@ -128,7 +128,6 @@ class _IncidentTeamState extends State<IncidentTeam> {
                             BlocProvider.of<LeaveApplicationCubit>(context)
                                 .employeeId = value.toString();
                             setState(() {});
-                            print(value);
                           });
                     } else if (state is GetEmployeesByDepartmentIdLoading) {
                       return Skeletonizer(
@@ -150,7 +149,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide())),
-                            value: null,
+                            initialValue: null,
                             items: const [],
                             onChanged: (value) {}),
                       );

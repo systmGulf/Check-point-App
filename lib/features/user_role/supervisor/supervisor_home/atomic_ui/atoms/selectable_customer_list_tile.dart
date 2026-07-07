@@ -104,7 +104,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
             'Select ${widget.planType}'.tr(context: context),
             style: AppStylesManger.font15BoldBlue.copyWith(color: Colors.black),
           ),
-          value: widget.dropdownItems.firstWhereOrNull(
+          initialValue: widget.dropdownItems.firstWhereOrNull(
               (item) => item.id == context.read<PlanCubit>().customerId),
           items: widget.dropdownItems.map((item) {
             return DropdownMenuItem<DropdownItemModel>(

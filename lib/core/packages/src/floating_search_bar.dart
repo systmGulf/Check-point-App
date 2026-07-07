@@ -360,7 +360,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// {@endtemplate}
   final bool autocorrect;
 
-  /// {@template floating_search_bar. contextMenuBuilder}
+  /// {@template floating_search_bar.contextMenuBuilder}
   /// The [EditableTextContextMenuBuilder] of the [TextField] of
   /// this `FloatingSearchBar`.
   /// {@endtemplate}
@@ -609,8 +609,13 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
     final SizedBox searchBar = SizedBox.expand(
       child: isAvailableSwipeBack
           ? _getSearchBarWidget()
-          : WillPopScope(
-              onWillPop: _onPop,
+          : PopScope(
+              canPop: !isOpen,
+              onPopInvokedWithResult: (didPop, result) {
+                if (!didPop) {
+                  close();
+                }
+              },
               child: _getSearchBarWidget(),
             ),
     );

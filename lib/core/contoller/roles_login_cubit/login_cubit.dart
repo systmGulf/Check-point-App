@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
@@ -7,34 +6,47 @@ import '../../enums/role_enum.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final LoginRepo employeeLoginRepo;
-  LoginCubit(this.employeeLoginRepo) : super(LoginInitial());
-  TextEditingController passwordTextController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey();
+  LoginCubit({required this.loginRepo}) : super(LoginInitial());
 
-  Future<void> doLogin({required Role role, required String mobileId}) async {
+  final LoginRepo loginRepo;
+
+  Future<void> doLogin({
+    required String email,
+    required String password,
+    required Role role,
+    required String mobileId,
+  }) async {
     emit(LoginLoading());
-
-    final result = await employeeLoginRepo.roleLogin(RoleLoginRequestBody(
-        email: emailController.text,
-        password: passwordTextController.text,
+    final result = await loginRepo.roleLogin(
+      RoleLoginRequestBody(
+        email: email,
+        password: password,
         mobileId: mobileId,
-        role: role.name));
-    result.fold((failure) {
-      emit(LoginFailure(error: failure.message));
-    }, (employeeLoginModel) {
-      emit(LoginSuccess(employeeLoginModel: employeeLoginModel));
-    });
+        role: role.name,
+      ),
+    );
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(LoginFailure(error: failure.message));
+      },
+      (employeeLoginModel) {
+        if (!isClosed) emit(LoginSuccess(employeeLoginModel: employeeLoginModel));
+      },
+    );
   }
 
   Future<void> getEmployeeById() async {
     emit(GetEmployeeLoading());
-    final result = await employeeLoginRepo.getEmployeeById();
-    result.fold((failure) {
-      emit(GetEmployeeFailure(error: failure.message));
-    }, (employeeLoginModel) {
-      emit(GetEmployeeSuccess(employeeLoginModel: employeeLoginModel));
-    });
+    final result = await loginRepo.getEmployeeById();
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(GetEmployeeFailure(error: failure.message));
+      },
+      (employeeLoginModel) {
+        if (!isClosed) {
+          emit(GetEmployeeSuccess(employeeLoginModel: employeeLoginModel));
+        }
+      },
+    );
   }
 }

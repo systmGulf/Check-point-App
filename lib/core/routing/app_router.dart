@@ -426,7 +426,7 @@ abstract class AppRouter {
         return BaseRoute(
           page: BlocProvider(
             create: (context) =>
-                GetEmployeeHistoryCubit(getIt<EmployeeAttendanceRepo>())
+                GetEmployeeHistoryCubit(employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>())
                   ..getEmployeeHistory(),
             child: const EmployeeAttendanceHistoryScreen(),
           ),

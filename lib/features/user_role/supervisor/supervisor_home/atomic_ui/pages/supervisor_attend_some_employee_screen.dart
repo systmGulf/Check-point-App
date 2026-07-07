@@ -51,7 +51,7 @@ class _SupervisorAttendSomeEmployeeScreenState
             verticalSpace(20),
             CircleAvatar(
                 radius: 50,
-                backgroundColor: ColorsManger.grey.withOpacity(0.4),
+                backgroundColor: ColorsManger.grey.withValues(alpha: 0.4),
                 child: Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
@@ -137,7 +137,7 @@ class _SupervisorAttendSomeEmployeeScreenState
               foregroundDecoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.white.withOpacity(0.2),
+                    Colors.white.withValues(alpha: 0.2),
                     Colors.white,
                   ],
                   stops: const [0.7, 1],

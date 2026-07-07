@@ -25,16 +25,12 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
 
   @override
   void initState() {
-    BlocProvider.of<BranchCubit>(context).nameController =
-        TextEditingController();
-
-    BlocProvider.of<BranchCubit>(context).locationController =
-        TextEditingController();
-
-    BlocProvider.of<BranchCubit>(context).descriptionController =
-        TextEditingController();
-    BlocProvider.of<BranchCubit>(context).locationFrame.clear();
     super.initState();
+    final branchCubit = context.read<BranchCubit>();
+    branchCubit.nameController.clear();
+    branchCubit.locationController.clear();
+    branchCubit.descriptionController.clear();
+    branchCubit.locationFrame.clear();
   }
 
   @override

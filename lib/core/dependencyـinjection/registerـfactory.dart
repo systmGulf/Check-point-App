@@ -3,6 +3,7 @@ import 'package:employee_mangement/features/user_role/admin/admin_home/controlle
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
+import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
@@ -31,95 +32,106 @@ import '../contoller/roles_login_cubit/login_cubit.dart';
 
 final getIt = GetIt.instance;
 void registerFactory() {
-  getIt.registerFactory<LeaveApplicationCubit>(
-    () => LeaveApplicationCubit(
-      getIt<EmployeeActionRepo>(),
-    ),
-  );
-  getIt.registerFactory<DepartmentCubit>(
-    () => DepartmentCubit(
-      getIt<DepartmentRepo>(),
-    ),
-  );
   final navigatorKey = GlobalKey<NavigatorState>();
   getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
-  getIt.registerFactory<TasksCubit>(
-    () => TasksCubit(
-      getIt<SupervisorTasksRepo>(),
+
+  // ── Employee cubits ──
+  getIt.registerFactory<LeaveApplicationCubit>(
+    () => LeaveApplicationCubit(
+      employeeRepo: getIt<EmployeeActionRepo>(),
     ),
   );
-  getIt.registerFactory<ShiftsAndPolicesCubit>(
-    () => ShiftsAndPolicesCubit(
-      getIt<ShiftsAndPolicesRepo>(),
-    ),
-  );
-  getIt.registerFactory<LeaveApplicationCubitSupervisor>(
-    () => LeaveApplicationCubitSupervisor(
-      getIt<SupervisorLeaveRequestsRepo>(),
-    ),
-  );
-  getIt.registerFactory<UploadUserImageCubit>(() => UploadUserImageCubit(
-        getIt<SharedRepo>(),
-      ));
   getIt.registerFactory<EmployeeTasksCubit>(
     () => EmployeeTasksCubit(
-      getIt<EmployeeActionRepo>(),
-    ),
-  );
-  getIt.registerFactory<EmployeeCubit>(
-    () => EmployeeCubit(
-      getIt<AdminManageEmployeeRepo>(),
-    ),
-  );
-
-  getIt.registerFactory<LoginCubit>(
-    () => LoginCubit(
-      getIt<LoginRepo>(),
-    ),
-  );
-  getIt.registerFactory<GetEmployeeHistoryCubit>(
-    () => GetEmployeeHistoryCubit(
-      getIt<EmployeeAttendanceRepo>(),
-    ),
-  );
-  getIt.registerFactory<CustomerCubit>(
-    () => CustomerCubit(
-      getIt<CustomerRepo>(),
-    ),
-  );
-  getIt.registerFactory<RegisterAccountCubit>(
-    () => RegisterAccountCubit(
-      getIt<RegisterAccountRepo>(),
+      employeeRepo: getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<EmployeeChangePasswordCubit>(
     () => EmployeeChangePasswordCubit(
-      getIt<EmployeeActionRepo>(),
+      employeeRepo: getIt<EmployeeActionRepo>(),
     ),
   );
   getIt.registerFactory<AttendanceCubit>(
     () => AttendanceCubit(
-      getIt<EmployeeAttendanceRepo>(),
+      employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>(),
+    ),
+  );
+  getIt.registerFactory<GetEmployeeHistoryCubit>(
+    () => GetEmployeeHistoryCubit(
+      employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>(),
+    ),
+  );
+
+  // ── Admin cubits ──
+  getIt.registerFactory<DepartmentCubit>(
+    () => DepartmentCubit(
+      departmentRepo: getIt<DepartmentRepo>(),
+    ),
+  );
+  getIt.registerFactory<EmployeeCubit>(
+    () => EmployeeCubit(
+      adminManageEmployeeRepo: getIt<AdminManageEmployeeRepo>(),
+    ),
+  );
+  getIt.registerFactory<CustomerCubit>(
+    () => CustomerCubit(
+      customerRepo: getIt<CustomerRepo>(),
     ),
   );
   getIt.registerFactory<BranchCubit>(
     () => BranchCubit(
-      getIt<BranchesRepo>(),
+      branchesRepo: getIt<BranchesRepo>(),
+    ),
+  );
+  getIt.registerFactory<ShiftsAndPolicesCubit>(
+    () => ShiftsAndPolicesCubit(
+      shiftsAndPolicesRepo: getIt<ShiftsAndPolicesRepo>(),
+    ),
+  );
+
+  // ── Supervisor cubits ──
+  getIt.registerFactory<TasksCubit>(
+    () => TasksCubit(
+      supervisorRepo: getIt<SupervisorTasksRepo>(),
+      notificationRepo: getIt<NotificationRepo>(),
+    ),
+  );
+  getIt.registerFactory<LeaveApplicationCubitSupervisor>(
+    () => LeaveApplicationCubitSupervisor(
+      supervisorRepo: getIt<SupervisorLeaveRequestsRepo>(),
     ),
   );
   getIt.registerFactory<SupervisorGetEmployeeAttendanceCubit>(
     () => SupervisorGetEmployeeAttendanceCubit(
-      getIt<SupervisorAttendanceRepo>(),
+      supervisorRepo: getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<GetEmployeesDataCubit>(
     () => GetEmployeesDataCubit(
-      getIt<SupervisorAttendanceRepo>(),
+      supervisorRepo: getIt<SupervisorAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<PlanCubit>(
     () => PlanCubit(
-      getIt<SupervisorPlanRepo>(),
+      supervisorPlanRepo: getIt<SupervisorPlanRepo>(),
+      notificationRepo: getIt<NotificationRepo>(),
+    ),
+  );
+
+  // ── Core/Shared cubits ──
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(
+      loginRepo: getIt<LoginRepo>(),
+    ),
+  );
+  getIt.registerFactory<UploadUserImageCubit>(
+    () => UploadUserImageCubit(
+      sharedRepo: getIt<SharedRepo>(),
+    ),
+  );
+  getIt.registerFactory<RegisterAccountCubit>(
+    () => RegisterAccountCubit(
+      registerAccountRepo: getIt<RegisterAccountRepo>(),
     ),
   );
 }

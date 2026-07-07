@@ -174,7 +174,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                           center: widget.mapLoaction,
                           radius: 250,
                           strokeWidth: 1,
-                          fillColor: Colors.blue.withOpacity(0.5),
+                          fillColor: Colors.blue.withValues(alpha: 0.5),
                         ),
                       },
                       initialCameraPosition: CameraPosition(

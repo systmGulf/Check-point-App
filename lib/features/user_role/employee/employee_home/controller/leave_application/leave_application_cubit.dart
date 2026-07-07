@@ -8,7 +8,7 @@ part 'leave_application_state.dart';
 
 class LeaveApplicationCubit extends Cubit<LeaveApplicationState> {
   final EmployeeActionRepo employeeRepo;
-  LeaveApplicationCubit(this.employeeRepo) : super(LeaveApplicationInitial());
+  LeaveApplicationCubit({required this.employeeRepo}) : super(LeaveApplicationInitial());
   TextEditingController reasonController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
   String? employeeId;

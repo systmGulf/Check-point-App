@@ -18,7 +18,7 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
     emit(ShareAttAndanceLoading());
     try {
       var excel = Excel.createExcel();
-      Sheet sheet = excel['Sheet1'];
+      excel['Sheet1'];
 
       // Add headers
       // sheet.appendRow([
@@ -56,8 +56,9 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
 
       String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-      await Share.shareXFiles(
-          [
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [
             XFile.fromData(
               bytes,
               mimeType:
@@ -65,7 +66,9 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
             )
           ],
           text: 'Here is the employee attendance file for $formattedDate.',
-          fileNameOverrides: ['Employee attendance $formattedDate.xlsx']);
+          fileNameOverrides: ['Employee attendance $formattedDate.xlsx'],
+        ),
+      );
 
       emit(ShareAttAndanceSuccess());
     } catch (e) {

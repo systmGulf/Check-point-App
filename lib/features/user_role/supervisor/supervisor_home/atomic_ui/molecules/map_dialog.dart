@@ -175,7 +175,7 @@ class _MapDialogState extends State<MapDialog> {
         points: points,
         strokeWidth: 2,
         strokeColor: Colors.blue,
-        fillColor: Colors.blue.withOpacity(0.3),
+        fillColor: Colors.blue.withValues(alpha: 0.3),
       ));
     });
     try {
@@ -186,8 +186,6 @@ class _MapDialogState extends State<MapDialog> {
         BlocProvider.of<BranchCubit>(context).locationController.text =
             ' ${address[0].name} ${address[0].subAdministrativeArea} ${address[0].administrativeArea} ${address[0].country}';
       });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    } catch (_) {}
   }
 }

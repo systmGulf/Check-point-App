@@ -15,7 +15,8 @@ class TimeLineTile extends StatelessWidget {
       required this.notes,
       required this.visited,
       required this.visitType,
-      required this.date, required this.color});
+      required this.date,
+      required this.color});
   final bool isFirst, isLast, visited;
   final String name, workesAs, location, notes, visitType, date;
   final Color? color;
@@ -50,12 +51,13 @@ class TimeLineTile extends StatelessWidget {
           color: Colors.grey,
         ),
         endChild: Card(
-            color:  Colors.white,
+            color: Colors.white,
             borderOnForeground: true,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.r),
-              side: const BorderSide(color: Colors.grey, ),
-              
+              side: const BorderSide(
+                color: Colors.grey,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -167,10 +169,10 @@ class TimeLineTile extends StatelessWidget {
                                 style: const TextStyle(color: Colors.grey),
                               ),
                             ),
-                              horizontalSpace(10),
+                            horizontalSpace(10),
                             Text(
-                             'Visited: ${visited ? "Yes" : "No"}',
-                              style:  TextStyle(
+                              'Visited: ${visited ? "Yes" : "No"}',
+                              style: TextStyle(
                                 color: visited ? Colors.green : Colors.red,
                                 fontSize: 12,
                                 fontFamily: 'DM Sans',
@@ -198,30 +200,4 @@ class TimeLineTile extends StatelessWidget {
               ],
             )));
   }
-}
-
-Widget _buildRow(String title, String value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "$title: ",
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }

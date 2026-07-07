@@ -66,18 +66,18 @@ class _EmployeeLeaveRequestsHistoryScreenState
                           );
                   }
                   if (state is GetLeaveApplicationSuccess) {
-                    // 
                     return state.employeeLeaveRequests.data!.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Center(
-                                  child: Column(
-                                children: [
-                                 NoDataFound()
-                                ],
-                              )),
+                                child: Column(
+                                  children: const [
+                                    NoDataFound(),
+                                  ],
+                                ),
+                              ),
                             ],
                           )
                         : ListView.builder(
@@ -119,17 +119,17 @@ class _EmployeeLeaveRequestsHistoryScreenState
                             });
                   }
                   return Padding(
-                    padding:  EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       top: MediaQuery.sizeOf(context).height * 0.45,
                     ),
                     child: Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorsManger.primaryColor,
-                                  strokeWidth: 2,
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                  );;
+                      child: CircularProgressIndicator(
+                        color: ColorsManger.primaryColor,
+                        strokeWidth: 2,
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  );
                 },
               )
             ]),

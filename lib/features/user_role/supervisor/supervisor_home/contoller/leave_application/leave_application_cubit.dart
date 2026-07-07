@@ -10,7 +10,7 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
   final SupervisorLeaveRequestsRepo supervisorRepo;
   bool _isRequesting = false;
   int numOfLeaveRequest = 0;
-  LeaveApplicationCubitSupervisor(this.supervisorRepo)
+  LeaveApplicationCubitSupervisor({required this.supervisorRepo})
       : super(LeaveApplicationInitial());
 
   Future<void> getLeaveApplication({

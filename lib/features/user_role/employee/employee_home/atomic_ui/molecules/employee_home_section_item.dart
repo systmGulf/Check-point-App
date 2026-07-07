@@ -39,7 +39,7 @@ class EmployeeHomeSectionItem extends StatelessWidget {
                 height: 20.h,
                 width: 20.w,
                 decoration: BoxDecoration(
-                  color: ColorsManger.primaryColor.withOpacity(0.5),
+                  color: ColorsManger.primaryColor.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(99),
                 ),
                 child: Center(
@@ -93,9 +93,8 @@ class EmployeeHomeSectionItem extends StatelessWidget {
                             toDoId: "",
                             title: getTaskResponse[index].title ?? '',
                             state: getTaskResponse[index]
-                                    .status!
-                                    .tr(context: context) ??
-                                '',
+                                .status!
+                                .tr(context: context),
                           ),
                           SizedBox(
                             width: 219.w,

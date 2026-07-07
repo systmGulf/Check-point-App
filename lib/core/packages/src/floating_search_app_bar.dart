@@ -182,7 +182,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
   /// {@macro floating_search_bar.autocorrect}
   final bool autocorrect;
 
-  /// {@macro floating_search_bar. contextMenuBuilder}
+  /// {@macro floating_search_bar.contextMenuBuilder}
   final EditableTextContextMenuBuilder? contextMenuBuilder;
 
   final ValueChanged<KeyEvent>? onKeyEvent;
@@ -505,13 +505,12 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     );
     return isAvailableSwipeBack
         ? _getBarWidget(bar)
-        : WillPopScope(
-            onWillPop: () async {
-              if (isOpen && !widget.alwaysOpened) {
+        : PopScope(
+            canPop: !(isOpen && !widget.alwaysOpened),
+            onPopInvokedWithResult: (didPop, result) {
+              if (!didPop && isOpen && !widget.alwaysOpened) {
                 isOpen = false;
-                return false;
               }
-              return true;
             },
             child: _getBarWidget(bar),
           );
@@ -573,8 +572,8 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                backgroundColor.withOpacity(0.0),
-                backgroundColor.withOpacity(1.0),
+                backgroundColor.withValues(alpha: 0.0),
+                backgroundColor.withValues(alpha: 1.0),
               ],
             ),
           ),
@@ -694,7 +693,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
       shadowColor: widget.shadowColor ?? Colors.black
       ,
       colorOnScroll:
-          widget.colorOnScroll ?? theme.colorScheme.surfaceVariant,
+          widget.colorOnScroll ?? theme.colorScheme.surfaceContainerHighest,
 
 elevation: 1 ,      height: widget.height ?? kToolbarHeight,
       accentColor: widget.accentColor ?? theme.colorScheme.secondary,

@@ -29,8 +29,8 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
   void initState() {
     super.initState();
     context.read<PlanCubit>().customerId = '';
-    context.read<PlanCubit>().dropdownItems = [];
-    context.read<PlanCubit>().noteController = TextEditingController();
+    context.read<PlanCubit>().dropdownItems.clear();
+    context.read<PlanCubit>().noteController.clear();
   }
 
   @override

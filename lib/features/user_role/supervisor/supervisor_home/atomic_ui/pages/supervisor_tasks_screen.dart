@@ -41,7 +41,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<TasksCubit>().tasks = [];
+    context.read<TasksCubit>().tasks.clear();
     _scrollController.addListener(_onScroll);
   }
 

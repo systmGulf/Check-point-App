@@ -99,7 +99,7 @@ class _priorityWidgetState extends State<priorityWidget> {
         ),
       ),
       icon: const SizedBox(),
-      value: context.read<TasksCubit>().priorityStatus,
+      initialValue: context.read<TasksCubit>().priorityStatus,
       style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,

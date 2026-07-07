@@ -1,19 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
-import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
-import '../../../../../../core/common/image_picker_base_64.dart';
-import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
-import '../../../../../../core/widgets/pick_image_from_gallary_or_camera_widget.dart';
 import '../../../../../../core/widgets/user_image_and_picking_image_button.dart';
 import 'employee_drawer_item_list_view.dart';
 import 'pick_image_bloc_listener.dart';

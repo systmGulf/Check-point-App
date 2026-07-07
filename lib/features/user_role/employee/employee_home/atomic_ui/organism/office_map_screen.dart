@@ -80,7 +80,7 @@ class _OfficeMapScreenState extends State<OfficeMapScreen> {
                   points: state.departmentModel.coordinates!
                       .map((e) => LatLng(e.latitude!, e.longitude!))
                       .toList(),
-                  fillColor: Colors.lightBlue.withOpacity(0.3),
+                  fillColor: Colors.lightBlue.withValues(alpha: 0.3),
                   strokeWidth: 1,
                 ),
               },

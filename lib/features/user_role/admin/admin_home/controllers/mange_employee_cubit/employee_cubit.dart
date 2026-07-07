@@ -6,7 +6,7 @@ part 'employee_state.dart';
 
 class EmployeeCubit extends Cubit<EmployeeState> {
   final AdminManageEmployeeRepo adminManageEmployeeRepo;
-  EmployeeCubit(this.adminManageEmployeeRepo) : super(EmployeeInitial());
+  EmployeeCubit({required this.adminManageEmployeeRepo}) : super(EmployeeInitial());
 
   TextEditingController nameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();

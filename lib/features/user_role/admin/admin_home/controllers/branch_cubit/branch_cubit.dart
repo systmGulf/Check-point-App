@@ -5,12 +5,13 @@ import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
 part 'branch_state.dart';
 
 class BranchCubit extends Cubit<BranchState> {
+  BranchCubit({required this.branchesRepo}) : super(BranchInitial());
+
   final BranchesRepo branchesRepo;
-  BranchCubit(this.branchesRepo) : super(BranchInitial());
-  TextEditingController nameController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  List<LocationFrameLatLng> locationFrame = [];
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final List<LocationFrameLatLng> locationFrame = [];
 
   Future<void> getBranches({required bool isLoading}) async {
     if (isLoading) emit(GetBranchLoading());
@@ -27,7 +28,7 @@ class BranchCubit extends Cubit<BranchState> {
   Future<void> addBranch() async {
     emit(AddBranchLoading());
     final result = await branchesRepo.addCompanyBranch(
-        AddBrachRequestBody: AddBrachRequestBody(
+        addBranchRequestBody: AddBrachRequestBody(
             name: nameController.text,
             location: locationController.text,
             description: descriptionController.text,
@@ -58,5 +59,13 @@ class BranchCubit extends Cubit<BranchState> {
       getBranches(isLoading: false);
       emit(DeleteBranchSuccess());
     });
+  }
+
+  @override
+  Future<void> close() {
+    nameController.dispose();
+    locationController.dispose();
+    descriptionController.dispose();
+    return super.close();
   }
 }

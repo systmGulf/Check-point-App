@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -25,7 +23,6 @@ class WorkflowSubmission extends StatefulWidget {
 }
 
 class _WorkflowSubmissionState extends State<WorkflowSubmission> {
-  bool _checked = false;
   File? file;
   List<File>? files;
 
@@ -33,27 +30,21 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
   @override
   void initState() {
     super.initState();
-
-    _controller.addListener(() {
-      setState(() {
-        if (_controller.value) {
-          _checked = true;
-        } else {
-          _checked = false;
-        }
-      });
-    });
   }
 
   bool loading = false;
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  Text('Workflow Submission'.tr(
-            context: context
-          )),
+          title: Text('Workflow Submission'.tr(context: context)),
           centerTitle: true,
           backgroundColor: Colors.white,
           leading: IconButton(
@@ -72,12 +63,12 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                   children: [
                     Row(
                       children: [
-                         Expanded(
+                        Expanded(
                             child: DateButtonLeaveRequest(
                           text: 'From'.tr(context: context),
                         )),
                         horizontalSpace(10),
-                         Expanded(
+                        Expanded(
                             child: DateButtonLeaveRequest(
                           text: 'To'.tr(context: context),
                         )),
@@ -95,7 +86,9 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                         Icons.attach_file_outlined,
                         color: ColorsManger.primaryColor,
                       ),
-                      title: Text('Pick Multiple Files'.tr(context: context)
+                      title: Text(
+                          'Pick Multiple Files'
+                              .tr(context: context)
                               .tr(context: context),
                           style: AppStylesManger.font16BoldBlack),
                       trailing: AdvancedSwitch(
@@ -110,7 +103,8 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                       ),
                     ),
                     verticalSpace(10),
-                    Text('Action'.tr(context: context), style: AppStylesManger.font16BoldBlack),
+                    Text('Action'.tr(context: context),
+                        style: AppStylesManger.font16BoldBlack),
                     verticalSpace(10),
                     MaterialButton(
                         height: MediaQuery.of(context).size.height * 0.06,
@@ -190,7 +184,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                                 Icons.file_open,
                               ),
                               horizontalSpace(10),
-                               Text('Pick File'.tr(context: context)),
+                              Text('Pick File'.tr(context: context)),
                             ],
                           ),
                         )),
@@ -213,7 +207,8 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                         : const SizedBox.shrink(),
                     verticalSpace(10),
                     CustomAppTextFormField(
-                        controller: TextEditingController(), hint: 'Remark'.tr(context: context)),
+                        controller: TextEditingController(),
+                        hint: 'Remark'.tr(context: context)),
                     verticalSpace(10),
                     const DateButtonLeaveRequest(),
                     verticalSpace(20),

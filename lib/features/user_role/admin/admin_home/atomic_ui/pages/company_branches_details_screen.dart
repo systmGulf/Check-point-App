@@ -65,7 +65,7 @@ class _CompanyBranchDetailsScreenState
                     points: polygonPoints,
                     strokeWidth: 2,
                     strokeColor: ColorsManger.primaryColor,
-                    fillColor: ColorsManger.primaryColor.withOpacity(0.4),
+                    fillColor: ColorsManger.primaryColor.withValues(alpha: 0.4),
                   ),
                 },
               ),
@@ -79,7 +79,7 @@ class _CompanyBranchDetailsScreenState
                       const BorderRadius.vertical(top: Radius.circular(24)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 10,
                       offset: const Offset(0, -2),
                     ),

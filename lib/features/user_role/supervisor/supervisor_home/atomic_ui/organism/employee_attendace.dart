@@ -94,7 +94,7 @@ class EmployeeAttendance extends StatelessWidget {
                               context
                                   .read<SupervisorGetEmployeeAttendanceCubit>()
                                   .supervisorGetCustomerInAttendance(
-                                      CustomerId: customerId!);
+                                      customerId: customerId!);
                               showDialog(
                                   context: context,
                                   builder: (_) {

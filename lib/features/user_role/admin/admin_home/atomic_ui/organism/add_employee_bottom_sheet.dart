@@ -68,12 +68,12 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
       providers: [
         BlocProvider(
           create: (context) => DepartmentCubit(
-            getIt<DepartmentRepo>(),
+            departmentRepo: getIt<DepartmentRepo>(),
           )..getAllDepartments(),
         ),
         BlocProvider(
             create: (context) => BranchCubit(
-                  getIt<BranchesRepo>(),
+                  branchesRepo: getIt<BranchesRepo>(),
                 )..getBranches(
                     isLoading: true,
                   )),

@@ -52,8 +52,8 @@ class _SelectLocationOfClientBottomSheetState
                     (e) => Circle(
                       circleId: const CircleId('1'),
                       center: LatLng(e.latitude, e.longitude),
-                      fillColor: Colors.blue.withOpacity(0.5),
-                      strokeColor: Colors.blue.withOpacity(0.5),
+                      fillColor: Colors.blue.withValues(alpha: 0.5),
+                      strokeColor: Colors.blue.withValues(alpha: 0.5),
                       radius: radius,
                     ),
                   )

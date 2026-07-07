@@ -55,7 +55,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
         drawer: Drawer(
           child: BlocProvider(
             create: (context) => LeaveApplicationCubit(
-              getIt<EmployeeActionRepo>(),
+              employeeRepo: getIt<EmployeeActionRepo>(),
             ),
             child: const EmployeeMoreOptionDrawer(),
           ),
