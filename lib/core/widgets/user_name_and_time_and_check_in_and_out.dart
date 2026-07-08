@@ -23,6 +23,7 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
   final String image;
   @override
   Widget build(BuildContext context) {
+    final authTap = checkInTap ?? checkOutTap;
     DateFormat dateFormat = DateFormat(
         tr('date_format', context: context), context.locale.toString());
     return Column(children: [
@@ -81,120 +82,137 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
         ),
       ),
       verticalSpace(10),
-      Container(
-          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withValues(alpha: 0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: Row(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.grey,
-                      ),
-                      horizontalSpace(5),
-                      Text(
-                          'Attendance'.tr(
-                            context: context,
-                          ),
-                          style: AppStylesManger.font15BoldrBlue),
-                    ],
-                  ),
-                  Text(
-                      'Set Attendance for'.tr(
-                        context: context,
-                      ),
-                      style: AppStylesManger.font15BoldBlack),
-                  ZoomIn(
-                    child: Text(
-                      dateFormat.format(DateTime.now()),
-                      style: AppStylesManger.font15BoldBlack,
-                    ),
-                  ),
-                  verticalSpace(10),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.timer_outlined,
-                        color: Colors.grey,
-                      ),
-                      horizontalSpace(5),
-                      Row(
-                        children: [
-                          Text(
-                              'Shift'.tr(
-                                context: context,
-                              ),
-                              style: AppStylesManger.font15BoldrBlue),
-                          horizontalSpace(10),
-                          ApiConstant.shiftName == '' ||
-                                  ApiConstant.shiftName == "null"
-                              ? SizedBox(
-                                  width: 150.w,
-                                  child: Text(
-                                    'you are not assigned to any shift'
-                                        .tr(context: context),
-                                    style: AppStylesManger.font15BoldBlack
-                                        .copyWith(
-                                      color: ColorsManger.primaryColor,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                )
-                              : Text(
-                                  '${ApiConstant.shiftName}'.tr(
-                                    context: context,
-                                  ),
-                                  style: AppStylesManger.font15BoldBlack,
-                                )
-                        ],
-                      ),
-                    ],
+      Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: authTap,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withValues(alpha: 0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: ColorsManger.primaryColor,
-                  border: Border.all(color: ColorsManger.primaryColor),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorsManger.primaryColor.withValues(alpha: 0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.fingerprint,
+                              color: Colors.grey,
+                            ),
+                            horizontalSpace(5),
+                            Text(
+                                'Authentication'.tr(
+                                  context: context,
+                                ),
+                                style: AppStylesManger.font15BoldrBlue),
+                          ],
+                        ),
+                        Text(
+                            'Authenticate attendance for'.tr(
+                              context: context,
+                            ),
+                            style: AppStylesManger.font15BoldBlack),
+                        ZoomIn(
+                          child: Text(
+                            dateFormat.format(DateTime.now()),
+                            style: AppStylesManger.font15BoldBlack,
+                          ),
+                        ),
+                        verticalSpace(10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.timer_outlined,
+                              color: Colors.grey,
+                            ),
+                            horizontalSpace(5),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Shift'.tr(
+                                        context: context,
+                                      ),
+                                      style: AppStylesManger.font15BoldrBlue),
+                                  horizontalSpace(10),
+                                  Expanded(
+                                    child: ApiConstant.shiftName == '' ||
+                                            ApiConstant.shiftName == "null"
+                                        ? Text(
+                                            'you are not assigned to any shift'
+                                                .tr(context: context),
+                                            style: AppStylesManger
+                                                .font15BoldBlack
+                                                .copyWith(
+                                              color: ColorsManger.primaryColor,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          )
+                                        : Text(
+                                            '${ApiConstant.shiftName}'.tr(
+                                              context: context,
+                                            ),
+                                            style:
+                                                AppStylesManger.font15BoldBlack,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Image.asset('assets/images/fingerprint.png',
-                    color: Colors.white,
-                    width: 58.w,
-                    height: 58.h,
-                    fit: BoxFit.fill),
-              )
-            ],
-          )),
+                  ),
+                  horizontalSpace(12),
+                  Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: ColorsManger.primaryColor,
+                      border: Border.all(color: ColorsManger.primaryColor),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              ColorsManger.primaryColor.withValues(alpha: 0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Image.asset('assets/images/fingerprint.png',
+                        color: Colors.white,
+                        width: 58.w,
+                        height: 58.h,
+                        fit: BoxFit.fill),
+                  )
+                ],
+              )),
+        ),
+      ),
       verticalSpace(10),
     ]);
   }

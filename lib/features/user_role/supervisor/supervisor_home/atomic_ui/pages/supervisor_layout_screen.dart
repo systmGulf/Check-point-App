@@ -8,8 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_leave_requests_repo/employee_action_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/employee_more_option_drawer.dart';
@@ -63,23 +61,6 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.gamficationRoute);
-                },
-                child: Row(children: [
-                  horizontalSpace(5),
-                  Image.asset(
-                    Assets.CupImage,
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                  Text('13', style: AppStylesManger.font18BoldBlack),
-                ]),
-              ),
-            ),
             IconButton(
                 onPressed: () {
                   scaffoldkey.currentState?.openEndDrawer();

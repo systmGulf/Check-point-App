@@ -66,9 +66,8 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
     }
   }
 
-  void _deleteTask(int index) {
-    final taskId =
-        int.parse(context.read<TasksCubit>().tasks[index].id.toString());
+  void _deleteTask(GetTasData task) {
+    final taskId = int.parse(task.id.toString());
     buildDeleteAlertDialog(context,
         title: 'Delete Task'.tr(context: context),
         message: 'Are you sure you want to delete this Task?'
@@ -78,7 +77,9 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
       context.read<TasksCubit>().deleteTask(id: taskId).then((isSuccess) {
         try {
           setState(() {
-            context.read<TasksCubit>().tasks.removeAt(index);
+            context.read<TasksCubit>().tasks.removeWhere(
+                  (item) => item.id == task.id,
+                );
           });
         } catch (e) {
           buildSnackBar(
@@ -224,18 +225,17 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: tasks.length,
                           itemBuilder: (_, index) {
+                            final currentTask = tasks[index];
                             return BounceInUp(
                               child: TaskItem(
                                 onSelected: (status) {
                                   context.read<TasksCubit>().taskStatus =
                                       status;
                                   context.read<TasksCubit>().changeTaskStatus(
-                                      taskId: context
-                                          .read<TasksCubit>()
-                                          .tasks[index]
-                                          .id!);
+                                        taskId: currentTask.id!,
+                                      );
                                 },
-                                employeeName: tasks[index].employees!,
+                                employeeName: currentTask.employees ?? [],
                                 onEdit: () {
                                   Navigator.push(
                                       context,
@@ -252,24 +252,21 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                                             ),
                                           ],
                                           child: AssignTaskScreen(
-                                            taskId: tasks[index].id!,
+                                            taskId: currentTask.id!,
                                           ),
                                         ),
                                       )).then((value) {
                                     context.read<TasksCubit>().getTasks();
                                   });
                                 },
-                                onDelete: () => _deleteTask(index),
+                                onDelete: () => _deleteTask(currentTask),
                                 tasks: [],
-                                id: tasks[index].id.toString(),
-                                priority: tasks[index].priorityStatus ?? '',
-                                state: tasks[index].status ?? '',
-                                title: tasks[index].title ?? '',
-                                description: tasks[index].description ?? '',
-                                date: DateFormat('yyyy-MM-dd')
-                                    .format(DateTime.parse(
-                                  tasks[index].dueDate ?? '',
-                                )),
+                                id: currentTask.id.toString(),
+                                priority: currentTask.priorityStatus ?? '',
+                                state: currentTask.status ?? '',
+                                title: currentTask.title ?? '',
+                                description: currentTask.description ?? '',
+                                date: currentTask.dueDate ?? '',
                               ),
                             );
                           },

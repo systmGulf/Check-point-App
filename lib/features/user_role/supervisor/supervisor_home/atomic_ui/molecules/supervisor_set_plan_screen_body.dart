@@ -78,16 +78,17 @@ class _PlansScreenState extends State<PlansScreen> {
                   );
           }
           if (state is GetPlanSuccess) {
+            final normalizedQuery = query.trim().toLowerCase();
             final filterList = state.planModel.data!
                 .where(
                   (element) => element.planDate!.toLowerCase().contains(
-                        query.toLowerCase(),
+                        normalizedQuery,
                       ),
                 )
                 .toList();
 
-            final plan =
-                filterList.isEmpty ? state.planModel.data! : filterList;
+            final hasQuery = normalizedQuery.isNotEmpty;
+            final plan = hasQuery ? filterList : state.planModel.data!;
             return state.planModel.data!.isNotEmpty
                 ? RefreshIndicator(
                     onRefresh: () async {
@@ -117,37 +118,47 @@ class _PlansScreenState extends State<PlansScreen> {
                         ),
                         Expanded(
                           child: ElasticInUp(
-                            child: ListView.builder(
-                                itemCount: plan.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    spacing: 16,
-                                    children: [
-                                      PlanItem(
-                                        planId: plan[index].id!,
-                                        planDate: plan[index].planDate ?? '',
-                                        note: plan[index].note ?? '',
+                            child: plan.isEmpty
+                                ? const NoDataFound()
+                                : ListView.separated(
+                                    padding: const EdgeInsets.only(
+                                      top: 8,
+                                      bottom: 100,
+                                    ),
+                                    itemCount: plan.length,
+                                    separatorBuilder: (_, __) =>
+                                        const SizedBox(height: 2),
+                                    itemBuilder: (context, index) {
+                                      final currentPlan = plan[index];
+                                      return PlanItem(
+                                        planId: currentPlan.id!,
+                                        planDate: currentPlan.planDate ?? '',
+                                        note: currentPlan.note ?? '',
                                         onTap: () {
                                           context.read<PlanCubit>().planId =
-                                              plan[index].id!;
-                                          log(state.planModel.data![index].id!
-                                              .toString());
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (_) {
-                                            return BlocProvider.value(
-                                              value: context.read<PlanCubit>()
-                                                ..getPlanById(
-                                                    id: plan[index].id!),
-                                              child: SubPlansScreen(
-                                                planId: plan[index].id!,
-                                              ),
-                                            );
-                                          }));
+                                              currentPlan.id!;
+                                          log(currentPlan.id!.toString());
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) {
+                                                return BlocProvider.value(
+                                                  value:
+                                                      context.read<PlanCubit>()
+                                                        ..getPlanById(
+                                                          id: currentPlan.id!,
+                                                        ),
+                                                  child: SubPlansScreen(
+                                                    planId: currentPlan.id!,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          );
                                         },
-                                      ),
-                                    ],
-                                  );
-                                }),
+                                      );
+                                    },
+                                  ),
                           ),
                         ),
                       ],
