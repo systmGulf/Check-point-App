@@ -5,11 +5,7 @@ abstract class AttendanceState {}
 
 class AuthenticationInitial extends AttendanceState {}
 
-class AuthenticationSuccess extends AttendanceState {}
-
-class AuthenticationFailed extends AttendanceState {}
-
-class AuthenticationLoading extends AttendanceState {}
+class NoShiftAssigned extends AttendanceState {}
 
 class PickImageSuccess extends AttendanceState {}
 

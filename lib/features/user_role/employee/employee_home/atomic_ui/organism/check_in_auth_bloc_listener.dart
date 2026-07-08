@@ -17,7 +17,7 @@ class CheckInAuthBlocListener extends StatelessWidget {
           current is AttendanceIneLoading ||
           current is AttendanceInError ||
           current is AttendanceIneDone ||
-          current is AuthenticationFailed,
+          current is NoShiftAssigned,
       listener: (context, state) {
         if (state is AttendanceInError) {
           context.pop();
@@ -41,15 +41,14 @@ class CheckInAuthBlocListener extends StatelessWidget {
             CustomSnackBar.success(
               message: 'Check In Success'.tr(context: context),
             ),
-         
           );
-           
-        } else if (state is AuthenticationFailed) {
-          context.pop();
+        } else if (state is NoShiftAssigned) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: 'Authentication Failed'.tr(context: context),
+              message:
+                  'No shift is assigned to this employee yet. Please contact your admin.'
+                      .tr(context: context),
             ),
           );
         }

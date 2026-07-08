@@ -18,7 +18,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
           current is AttendanceOutLoading ||
           current is AttendanceOutedDone ||
           current is AttendanceOutError ||
-          current is AuthenticationFailed,
+          current is NoShiftAssigned,
       listener: (context, state) {
         if (state is AttendanceOutLoading) {
           customLoadingIndicator(context);
@@ -32,7 +32,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
               message: 'Check Out Success'.tr(context: context),
             ),
           );
-            FlutterBackgroundService().invoke('stop');
+          FlutterBackgroundService().invoke('stop');
         }
 
         if (state is AttendanceOutError) {
@@ -43,12 +43,13 @@ class CheckOutAuthBlocListener extends StatelessWidget {
               message: state.error,
             ),
           );
-        } else if (state is AuthenticationFailed) {
-          context.pop();
+        } else if (state is NoShiftAssigned) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: 'Authentication Failed'.tr(context: context),
+              message:
+                  'No shift is assigned to this employee yet. Please contact your admin.'
+                      .tr(context: context),
             ),
           );
         }

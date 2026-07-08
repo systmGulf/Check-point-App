@@ -131,7 +131,9 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                             return EmployeeAssignedWidget(
                               departmentName:
                                   employee.departmentName ?? "Unknown",
-                              name: employee.name ?? "Unknown",
+                              name: employee.userName ??
+                                  employee.name ??
+                                  "Unknown",
                               position: employee.position ?? "Unknown",
                               imageUrl: employee.imageUrl ?? '',
                             );

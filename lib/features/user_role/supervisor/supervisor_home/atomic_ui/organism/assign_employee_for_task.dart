@@ -32,10 +32,12 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
             List<DropdownItem<DropdownItemModel>> dropdownItems = List.generate(
                 state.allEmployeesValue.data!.length,
                 (index) => DropdownItem<DropdownItemModel>(
-                    label: state.allEmployeesValue.data![index].name!,
+                    label: state.allEmployeesValue.data![index].userName ??
+                        state.allEmployeesValue.data![index].name!,
                     value: DropdownItemModel(
                         state.allEmployeesValue.data![index].deviceTokens!,
-                        name: state.allEmployeesValue.data![index].name!,
+                        name: state.allEmployeesValue.data![index].userName ??
+                            state.allEmployeesValue.data![index].name!,
                         id: state.allEmployeesValue.data![index].id!)));
             log(dropdownItems.toString());
             return MultiDropdown<DropdownItemModel>(

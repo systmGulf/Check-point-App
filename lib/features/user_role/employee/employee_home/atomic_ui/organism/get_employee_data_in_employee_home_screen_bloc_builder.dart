@@ -23,7 +23,10 @@ class GetEmployeeDataInEmployeeHomeScreenBlocBuilder extends StatelessWidget {
               children: [
                 UserNameAndTimeAndCheckInAndOutItem(
                   image: state.employeeLoginModel.imageUrl ?? '',
-                  name: "${state.employeeLoginModel.name}",
+                  name:
+                      state.employeeLoginModel.userName ??
+                      state.employeeLoginModel.name ??
+                      '',
                 ),
               ],
             );

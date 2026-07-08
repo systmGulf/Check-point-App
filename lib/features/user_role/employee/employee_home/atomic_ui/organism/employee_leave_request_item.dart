@@ -21,84 +21,120 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color statusColor = status == 'Approved'.tr(context: context)
+        ? Colors.green
+        : status == 'Cancelled'.tr(context: context)
+            ? Colors.red
+            : Colors.orange;
+    final IconData statusIcon = status == 'Approved'.tr(context: context)
+        ? Icons.check_circle
+        : status == 'Cancelled'.tr(context: context)
+            ? Icons.cancel
+            : Icons.hourglass_empty;
+
     return Container(
       decoration: AppContainerDecoration(),
-      child: ListTile(
-        title: Text(
-          '${"Request".tr(context: context)}  \n${"from".tr(context: context)}: $from\n${"To".tr(context: context)}: $to',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Column(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 5),
-            SizedBox(
-              child: Text(
-                '${"Reason".tr(context: context)}  : $reason',
-                style: TextStyle(color: Colors.grey[600]),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Request'.tr(context: context),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${"from".tr(context: context)}: $from',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${"To".tr(context: context)}: $to',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '${"Reason".tr(context: context)} : $reason',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        '${"Status".tr(context: context)}: ',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          status,
+                          style: TextStyle(
+                            color: statusColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      horizontalSpace(6),
+                      Icon(
+                        statusIcon,
+                        color: statusColor,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Text(
-                  '${"Status".tr(context: context)}: ',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(status,
-                    style: status == 'Approved'.tr(context: context)
-                        ? const TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold)
-                        : status == 'Cancelled'.tr(context: context)
-                            ? const TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold)
-                            : const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold)),
-                horizontalSpace(4),
-                Icon(
-                  status == 'Approved'.tr(context: context)
-                      ? Icons.check_circle
-                      : status == 'Cancelled'.tr(context: context)
-                          ? Icons.cancel
-                          : Icons.hourglass_empty,
-                  color: status == 'Approved'.tr(context: context)
-                      ? Colors.green
-                      : status == 'Cancelled'.tr(context: context)
-                          ? Colors.red
-                          : Colors.orange,
-                )
-              ],
-            ),
-          ],
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: Colors.red,
-                      )),
-                  child: const Icon(Icons.close, color: Colors.red)),
-              onPressed: () {
-                BlocProvider.of<LeaveApplicationCubit>(context)
-                    .deleteLeaveRequest(
+            const SizedBox(width: 12),
+            InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                BlocProvider.of<LeaveApplicationCubit>(context).deleteLeaveRequest(
                   type: type,
                   id: id,
                 );
               },
+              child: Container(
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.red,
+                  ),
+                ),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                  size: 22,
+                ),
+              ),
             ),
           ],
         ),
-        isThreeLine: true,
       ),
     );
   }

@@ -40,7 +40,9 @@ class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
         } else if (state is GetAllEmployeesSuccess) {
           final filterList = state.allEmployeesValue.data!
               .where(
-                (element) => element.name!.toLowerCase().contains(
+                (element) => (element.userName ?? element.name ?? '')
+                    .toLowerCase()
+                    .contains(
                       query?.toLowerCase() ?? "",
                     ),
               )
@@ -56,7 +58,9 @@ class SupervisorGetAllEmployeesBlocBuilder extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return ApiConstant.employeeId != employeeList[index].id
                         ? SupervisorGetEmployeesInTeamItem(
-                            name: employeeList[index].name ?? '',
+                            name: employeeList[index].userName ??
+                                employeeList[index].name ??
+                                '',
                             getAllEmployeesValue: employeeList[index],
                             id: employeeList[index].id ?? '',
                           )

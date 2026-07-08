@@ -63,12 +63,14 @@ class _IncidentTeamState extends State<IncidentTeam> {
                   children: [
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'From'.tr(context: context),
+                      placeholder: 'From'.tr(context: context),
+                      dateField: LeaveRequestDateField.from,
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'To'.tr(context: context),
+                      placeholder: 'To'.tr(context: context),
+                      dateField: LeaveRequestDateField.to,
                     )),
                   ],
                 ),
@@ -121,7 +123,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                               .map((e) => DropdownMenuItem(
                                     alignment: Alignment.centerLeft,
                                     value: e.id,
-                                    child: Text(e.name ?? ''),
+                                    child: Text(e.userName ?? e.name ?? ''),
                                   ))
                               .toList(),
                           onChanged: (value) {

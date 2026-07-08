@@ -76,16 +76,18 @@ class _LeavePlannerState extends State<LeavePlanner> {
                   children: [
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'From'.tr(
+                      placeholder: 'From'.tr(
                         context: context,
                       ),
+                      dateField: LeaveRequestDateField.from,
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'To'.tr(
+                      placeholder: 'To'.tr(
                         context: context,
                       ),
+                      dateField: LeaveRequestDateField.to,
                     )),
                   ],
                 ),

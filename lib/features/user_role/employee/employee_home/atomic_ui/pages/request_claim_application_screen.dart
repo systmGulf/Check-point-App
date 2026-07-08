@@ -76,12 +76,14 @@ class _RequestClaimApplicationScreenState
                   children: [
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'From'.tr(context: context),
+                      placeholder: 'From'.tr(context: context),
+                      dateField: LeaveRequestDateField.from,
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      text: 'To'.tr(context: context),
+                      placeholder: 'To'.tr(context: context),
+                      dateField: LeaveRequestDateField.to,
                     )),
                   ],
                 ),

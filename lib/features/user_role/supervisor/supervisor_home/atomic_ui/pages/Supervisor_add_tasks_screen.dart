@@ -123,7 +123,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                         if (value != null) {
                           setState(() {
                             String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(value);
+                                DateFormat('yyyy-MM-dd', 'en').format(value);
                             context.read<TasksCubit>().dueDate = formattedDate;
                           });
                         }

@@ -56,7 +56,7 @@ class MembersInDepartmentListView extends StatelessWidget {
               contentPadding: const EdgeInsets.all(0),
               leading: UserImage(imageUrl: manger[index].imageUrl ?? '', height: 50),
               title: Text(
-                manger[index].name ?? '',
+                manger[index].userName ?? manger[index].name ?? '',
                 style: AppStylesManger.font16BoldBlack.copyWith(
                   fontSize: 14,
                 ),

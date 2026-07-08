@@ -72,7 +72,7 @@ class _SupervisorAttendSomeEmployeeScreenState
               ),
             ),
             verticalSpace(15),
-            Text(widget.getEmployeesValue.name!,
+            Text(widget.getEmployeesValue.userName ?? widget.getEmployeesValue.name ?? '',
                 style: AppStylesManger.font16BoldBlack),
             verticalSpace(15),
             Text(widget.getEmployeesValue.position!,

@@ -69,7 +69,10 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                     if (state is GetEmployeeSuccess) {
                       return UserNameAndTimeAndCheckInAndOutItem(
                         image: state.employeeLoginModel.imageUrl ?? '',
-                        name: "${state.employeeLoginModel.name}",
+                        name:
+                            state.employeeLoginModel.userName ??
+                            state.employeeLoginModel.name ??
+                            '',
                       );
                     } else if (state is GetEmployeeFailure) {
                       return Text(state.error);

@@ -84,7 +84,7 @@ class GetMembersByDepartment extends StatelessWidget {
         contentPadding: const EdgeInsets.all(0),
         leading: UserImage(imageUrl: employee.imageUrl ?? '', height: 50),
         title: Text(
-          employee.name ?? '',
+          employee.userName ?? employee.name ?? '',
           style: AppStylesManger.font16BoldBlack.copyWith(fontSize: 14),
         ),
         subtitle: Text(

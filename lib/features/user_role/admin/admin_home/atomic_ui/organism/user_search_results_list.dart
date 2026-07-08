@@ -51,7 +51,7 @@ class UserSearchResultsList extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.person, color: ColorsManger.primaryColor),
         trailing: Icon(Icons.chevron_right, color: ColorsManger.primaryColor),
-        title: Text(employee.name ?? ''),
+        title: Text(employee.userName ?? employee.name ?? ''),
         onTap: () => _navigateToEditUser(context, employee),
       ),
     );

@@ -133,6 +133,12 @@ class RecentLeaveApplication extends StatelessWidget {
                                                   .value!
                                                   .data![index]
                                                   .employee
+                                                  ?.userName ??
+                                              state
+                                                  .getLeaveRequestModel
+                                                  .value!
+                                                  .data![index]
+                                                  .employee
                                                   ?.name ??
                                               "",
                                           from: state

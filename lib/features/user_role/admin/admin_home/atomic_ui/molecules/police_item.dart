@@ -181,7 +181,7 @@ class PoliceItem extends StatelessWidget {
               children: employees.isNotEmpty
                   ? employees
                       .map((employee) => EmployeeAssignedWidget(
-                            name: employee.name ?? '',
+                            name: employee.userName ?? employee.name ?? '',
                             imageUrl: employee.imageUrl ?? '',
                             position: employee.position ?? '',
                             departmentName: employee.departmentName ?? '',

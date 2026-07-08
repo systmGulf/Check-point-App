@@ -6,54 +6,58 @@ import 'package:intl/intl.dart';
 
 import '../../controller/leave_application/leave_application_cubit.dart';
 
+enum LeaveRequestDateField { from, to }
+
 class DateButtonLeaveRequest extends StatefulWidget {
   const DateButtonLeaveRequest({
     super.key,
-    this.text,
+    this.placeholder,
+    this.dateField,
   });
-  final String? text;
+  final String? placeholder;
+  final LeaveRequestDateField? dateField;
 
   @override
   State<DateButtonLeaveRequest> createState() => _DateButtonLeaveRequestState();
 }
 
 class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
-  DateTime selectedDate = DateTime.now();
+  DateTime? selectedDate;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            widget.text ??
-                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
-            style: const TextStyle(
-              color: Color(0xFF7F7F7F),
-              fontSize: 14,
-              fontFamily: 'DM Sans',
-              fontWeight: FontWeight.w400,
-              height: 0.10,
-              letterSpacing: 0.20,
+    return GestureDetector(
+      onTap: pickDate,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              selectedDate != null
+                  ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+                  : (widget.placeholder ??
+                      DateFormat('yyyy-MM-dd').format(DateTime.now())),
+              style: const TextStyle(
+                color: Color(0xFF7F7F7F),
+                fontSize: 14,
+                fontFamily: 'DM Sans',
+                fontWeight: FontWeight.w400,
+                height: 0.10,
+                letterSpacing: 0.20,
+              ),
             ),
-          ),
-          const Spacer(),
-          GestureDetector(
-            onTap: () async {
-              pickDate();
-            },
-            child: SizedBox(
+            const Spacer(),
+            SizedBox(
                 height: 24,
                 width: 24,
                 child: Center(
                     child: SvgPicture.asset('assets/images/calendar.svg'))),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -61,19 +65,23 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
   pickDate() async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
+        initialDate: selectedDate ?? DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
+      final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
       setState(() {
         selectedDate = picked;
-        DateFormat('yyyy-MM-dd').format(selectedDate);
-        if (widget.text == 'From' || widget.text == 'من') {
-          BlocProvider.of<LeaveApplicationCubit>(context).from =
-              selectedDate.toString().substring(0, 10);
-        } else {
-          BlocProvider.of<LeaveApplicationCubit>(context).to =
-              selectedDate.toString().substring(0, 10);
+        switch (widget.dateField) {
+          case LeaveRequestDateField.from:
+            BlocProvider.of<LeaveApplicationCubit>(context).from =
+                formattedDate;
+            break;
+          case LeaveRequestDateField.to:
+            BlocProvider.of<LeaveApplicationCubit>(context).to = formattedDate;
+            break;
+          case null:
+            break;
         }
       });
     }

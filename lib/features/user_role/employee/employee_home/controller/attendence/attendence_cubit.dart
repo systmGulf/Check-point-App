@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/core/common_methods/biometric_service.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
@@ -33,6 +32,13 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   String planStatus = 'FollowUp';
   String? customerId;
   TextEditingController planFeedbackController = TextEditingController();
+
+  bool get _hasAssignedShift {
+    final shiftName = ApiConstant.shiftName.trim().toLowerCase();
+    return shiftName.isNotEmpty &&
+        shiftName != 'null' &&
+        shiftName != 'no shift assigned';
+  }
 
   Future<void> getUserBranch() async {
     emit(GetUserBranchLoading());
@@ -153,23 +159,15 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   void attend({required String typeAttendance, required String area}) async {
-    var hasBiometrics = await LocalAuthApi.fingerPrintAuthenticate();
-
-    if (hasBiometrics) {
+    if (!_hasAssignedShift) {
       if (isClosed) return;
-      emit(AuthenticationSuccess());
-      if (typeAttendance == 'check_in') {
-        doCheckIn(area: area);
-      } else {
-        doCheckOut();
-      }
+      emit(NoShiftAssigned());
+      return;
+    }
+    if (typeAttendance == 'check_in') {
+      doCheckIn(area: area);
     } else {
-      if (isClosed) return;
-      if (typeAttendance == 'check_in') {
-        doCheckIn(area: area);
-      } else {
-        doCheckOut();
-      }
+      doCheckOut();
     }
   }
 
