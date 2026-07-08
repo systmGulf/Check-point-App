@@ -18,9 +18,7 @@ jobs:
     name: Build unsigned IPA
     runs-on: macos-26
     env:
-      BASE_URL: ${{ secrets.BASE_URL || vars.BASE_URL }}
-      CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID || vars.CF_ACCESS_CLIENT_ID }}
-      CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET || vars.CF_ACCESS_CLIENT_SECRET }}
+      BASE_URL: ${{ secrets.BASE_URL || vars.BASE_URL || 'http://ems.runasp.net/api/' }}
 
     steps:
       - name: Checkout App Code
@@ -48,25 +46,17 @@ jobs:
 
       - name: Check required app config
         run: |
-          missing=""
-          for var in BASE_URL CF_ACCESS_CLIENT_ID CF_ACCESS_CLIENT_SECRET; do
-            if [ -z "${!var}" ]; then
-              echo "::error::Config $var is empty or unset."
-              missing="$missing $var"
-            else
-              echo "$var is set: yes"
-            fi
-          done
-          if [ -n "$missing" ]; then
-            echo "Missing required configuration:$missing"
+          if [ -z "$BASE_URL" ]; then
+            echo "::error::Config BASE_URL is empty or unset."
+            echo "Missing required configuration: BASE_URL"
             exit 1
           fi
+          echo "BASE_URL is set: yes"
 
-      - name: Create .env file
+      - name: Create package env files
         run: |
-          echo "BASE_URL=$BASE_URL" > .env
-          echo "CF_ACCESS_CLIENT_ID=$CF_ACCESS_CLIENT_ID" >> .env
-          echo "CF_ACCESS_CLIENT_SECRET=$CF_ACCESS_CLIENT_SECRET" >> .env
+          echo "BASE_URL=$BASE_URL" > ../Check-point-package/.env.dev
+          echo "BASE_URL=$BASE_URL" > ../Check-point-package/.env.prod
 
       - name: Get dependencies
         run: flutter pub get
