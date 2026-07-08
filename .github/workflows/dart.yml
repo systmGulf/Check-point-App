@@ -1,52 +1,141 @@
-name: iOS-ipa-build
+name: Build iOS IPA (unsigned)
 
 on:
   workflow_dispatch:
+    inputs:
+      build_mode:
+        description: 'Build mode'
+        required: false
+        default: 'release'
+        type: choice
+        options:
+          - release
+          - profile
+          - debug
 
 jobs:
   build-ios:
-    name: 🎉 iOS Build
-    runs-on: macos-15  
+    name: Build unsigned IPA
+    runs-on: macos-26
+    env:
+      BASE_URL: ${{ secrets.BASE_URL || vars.BASE_URL }}
+      CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID || vars.CF_ACCESS_CLIENT_ID }}
+      CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET || vars.CF_ACCESS_CLIENT_SECRET }}
 
     steps:
-      - uses: actions/checkout@v3
-
-      
-      - uses: subosito/flutter-action@v2
+      - name: Checkout App Code
+        uses: actions/checkout@v7
         with:
-          flutter-version: '3.32.0'
+          fetch-depth: 0
+
+      - name: Checkout path dependency
+        uses: actions/checkout@v7
+        with:
+          repository: systmGulf/Check-point-package
+          ref: TOT
+          path: Check-point-package
+          fetch-depth: 0
+          token: ${{ secrets.CHECK_POINT_PACKAGE_TOKEN || github.token }}
+
+      - name: Link local package dependency
+        run: ln -sfn "$GITHUB_WORKSPACE/Check-point-package" ../Check-point-package
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
           channel: 'stable'
-          architecture: x64
+          cache: true
 
-      - run: flutter --version
-      - run: flutter pub get
+      - name: Check required app config
+        run: |
+          missing=""
+          for var in BASE_URL CF_ACCESS_CLIENT_ID CF_ACCESS_CLIENT_SECRET; do
+            if [ -z "${!var}" ]; then
+              echo "::error::Config $var is empty or unset."
+              missing="$missing $var"
+            else
+              echo "$var is set: yes"
+            fi
+          done
+          if [ -n "$missing" ]; then
+            echo "Missing required configuration:$missing"
+            exit 1
+          fi
 
-      - name: Print Xcode version
-        run: xcodebuild -version
+      - name: Create .env file
+        run: |
+          echo "BASE_URL=$BASE_URL" > .env
+          echo "CF_ACCESS_CLIENT_ID=$CF_ACCESS_CLIENT_ID" >> .env
+          echo "CF_ACCESS_CLIENT_SECRET=$CF_ACCESS_CLIENT_SECRET" >> .env
 
-      - run: pod repo update
-        working-directory: ios
+      - name: Get dependencies
+        run: flutter pub get
 
-      - run: flutter build ios --release --no-codesign
+      - name: Build Runner (Code Generation)
+        run: dart run build_runner build --delete-conflicting-outputs --force-jit
 
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
+      - name: Show toolchain versions
+        run: |
+          flutter --version
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+          pod --version
 
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
+      - name: Verify required Apple SDK
+        run: |
+          XCODE_VERSION=$(xcodebuild -version | awk '/Xcode/ {print $2}')
+          IOS_SDK_VERSION=$(xcrun --sdk iphoneos --show-sdk-version)
+          XCODE_MAJOR=${XCODE_VERSION%%.*}
+          IOS_SDK_MAJOR=${IOS_SDK_VERSION%%.*}
 
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
+          echo "Detected Xcode: $XCODE_VERSION"
+          echo "Detected iPhoneOS SDK: $IOS_SDK_VERSION"
 
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
+          if [ "$XCODE_MAJOR" -lt 26 ] || [ "$IOS_SDK_MAJOR" -lt 26 ]; then
+            echo "::error::IPA builds for App Store delivery now require Xcode 26+ and the iOS 26 SDK+."
+            exit 1
+          fi
+
+      - name: Precache iOS artifacts
+        run: flutter precache --ios
+
+      - name: Build iOS (no codesign)
+        env:
+          CODE_SIGNING_ALLOWED: 'NO'
+          CODE_SIGNING_REQUIRED: 'NO'
+          CODE_SIGN_IDENTITY: ''
+          EXPANDED_CODE_SIGN_IDENTITY: ''
+          DEVELOPMENT_TEAM: ''
+          PROVISIONING_PROFILE_SPECIFIER: ''
+        run: flutter build ios --${{ github.event.inputs.build_mode || 'release' }} --no-codesign
+
+      - name: Upload Runner.app artifact
+        uses: actions/upload-artifact@v4
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.06
-          overwrite: true
-          body: " release using Flutter 3.32.0 & Xcode 16.1 ✅✈️" 
+          name: check-point-runner-app
+          path: build/ios/iphoneos/Runner.app
+          if-no-files-found: error
+          retention-days: 14
 
+      - name: Package unsigned IPA
+        run: |
+          set -e
+          APP_PATH=$(find build/ios/iphoneos -maxdepth 1 -name '*.app' | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app found under build/ios/iphoneos" >&2
+            exit 1
+          fi
+          echo "Packaging $APP_PATH"
+          rm -rf build/ipa-payload
+          mkdir -p build/ipa-payload/Payload
+          cp -R "$APP_PATH" build/ipa-payload/Payload/
+          (cd build/ipa-payload && zip -qr ../check-point-unsigned.ipa Payload)
+          echo "Created build/check-point-unsigned.ipa"
 
-    
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-point-unsigned-ipa
+          path: build/check-point-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
