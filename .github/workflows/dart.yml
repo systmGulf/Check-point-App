@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: systmGulf/Check-point-package
-          ref: TOT
+          ref: tot-6ff5d02
           path: Check-point-package
           fetch-depth: 0
           token: ${{ secrets.CHECK_POINT_PACKAGE_TOKEN || github.token }}
