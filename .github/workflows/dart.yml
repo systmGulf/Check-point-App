@@ -62,7 +62,21 @@ jobs:
         run: flutter pub get
 
       - name: Build Runner (Code Generation)
-        run: dart run build_runner build --delete-conflicting-outputs --force-jit
+        run: |
+          if grep -q "build_runner:" pubspec.yaml; then
+            dart run build_runner build --delete-conflicting-outputs --force-jit
+          else
+            echo "No build_runner dependency in app pubspec, skipping app code generation."
+          fi
+
+          if grep -q "build_runner:" ../Check-point-package/pubspec.yaml; then
+            (
+              cd ../Check-point-package
+              dart run build_runner build --delete-conflicting-outputs --force-jit
+            )
+          else
+            echo "No build_runner dependency in package pubspec, skipping package code generation."
+          fi
 
       - name: Show toolchain versions
         run: |
