@@ -61,7 +61,8 @@ class DepartmentItem extends StatelessWidget {
                       child: BlocProvider.value(
                       value: context.read<DepartmentCubit>(),
                       child: EditDepartmentDialog(
-                          departmentId: departmentId))),
+                          departmentId: departmentId,
+                          departmentName: departmentName))),
                 );
               },
             ),

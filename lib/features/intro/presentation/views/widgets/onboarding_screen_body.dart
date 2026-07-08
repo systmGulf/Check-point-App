@@ -121,8 +121,7 @@ class OnboardingScreenBody extends StatelessWidget {
                                 verticalSpace(12),
                                 Text(
                                   'Workforce management made simple'.tr(),
-                                  style: AppStylesManger.font26RegularBlack
-                                      .copyWith(
+                                  style: AppStylesManger.font14BoldRed.copyWith(
                                     fontWeight: FontWeight.w800,
                                     height: 1.12,
                                     letterSpacing: -0.2,

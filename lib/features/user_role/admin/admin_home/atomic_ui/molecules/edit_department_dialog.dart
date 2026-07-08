@@ -14,9 +14,11 @@ class EditDepartmentDialog extends StatefulWidget {
   const EditDepartmentDialog({
     super.key,
     required this.departmentId,
+    required this.departmentName,
   });
 
   final int departmentId;
+  final String departmentName;
 
   @override
   State<EditDepartmentDialog> createState() => _EditDepartmentDialogState();
@@ -26,8 +28,8 @@ class _EditDepartmentDialogState extends State<EditDepartmentDialog> {
   @override
   void initState() {
     super.initState();
-    context.read<DepartmentCubit>().editDepartmentNameController =
-        TextEditingController();
+    context.read<DepartmentCubit>().editDepartmentNameController.text =
+        widget.departmentName;
   }
 
   @override
@@ -46,8 +48,11 @@ class _EditDepartmentDialogState extends State<EditDepartmentDialog> {
               style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(20),
-            CustomAppTextFormField(hint: 'Department Name'.tr(),   controller:  context.read<DepartmentCubit>().editDepartmentNameController,)
-            ,
+            CustomAppTextFormField(
+              hint: 'Department Name'.tr(),
+              controller:
+                  context.read<DepartmentCubit>().editDepartmentNameController,
+            ),
             verticalSpace(20),
             CustomAppButton(
               textButton: 'Edit'.tr(),

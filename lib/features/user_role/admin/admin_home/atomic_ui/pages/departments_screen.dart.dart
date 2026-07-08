@@ -66,7 +66,21 @@ class DepartmentScreen extends StatelessWidget {
                   searchText: 'Search for Department...'.tr(context: context),
                   child: BlocBuilder<DepartmentCubit, DepartmentState>(
                       builder: (context, state) {
-                    if (state is SearchDepartmentSuccess) {
+                    if (state is SearchDepartmentLoading) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Material(
+                          color: Colors.white,
+                          elevation: 4.0,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else if (state is SearchDepartmentSuccess) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Material(
