@@ -18,6 +18,7 @@ import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branc
 import '../../features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/department_cubit/department_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/mange_employee_cubit/employee_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
@@ -86,6 +87,11 @@ void registerFactory() {
   getIt.registerFactory<ShiftsAndPolicesCubit>(
     () => ShiftsAndPolicesCubit(
       shiftsAndPolicesRepo: getIt<ShiftsAndPolicesRepo>(),
+    ),
+  );
+  getIt.registerFactory<AdminAttendanceCubit>(
+    () => AdminAttendanceCubit(
+      apiService: getIt<ApiService>(),
     ),
   );
 

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import '../../../../../../core/common/excel_export_service.dart';
 
 part 'employee_state.dart';
 
@@ -270,5 +271,68 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     }, (r) {
       if (!isClosed) emit(SetPlanPermissionSuccess());
     });
+  }
+
+  Future<void> exportEmployeesToExcel() async {
+    emit(ExportEmployeesLoading());
+    try {
+      final result = await adminManageEmployeeRepo.getAllEmployees(
+        pageNumber: 0,
+        itemCount: 1000,
+      );
+      result.fold(
+        (error) {
+          if (!isClosed) emit(ExportEmployeesFailure(error: error.message));
+        },
+        (employeesPage) async {
+          final data = employeesPage.data ?? [];
+          if (data.isEmpty) {
+            if (!isClosed) emit(ExportEmployeesFailure(error: 'No employees to export'));
+            return;
+          }
+          final excelService = ExcelExportService();
+          final headers = [
+            'ID',
+            'Name',
+            'Username',
+            'Position',
+            'Mobile ID',
+            'Role',
+            'Branch',
+            'Department',
+            'Shift'
+          ];
+          final rows = data.map((e) => [
+            e.id ?? '',
+            e.name ?? '',
+            e.userName ?? '',
+            e.position ?? '',
+            e.mobileId ?? '',
+            e.role ?? '',
+            e.branchName ?? '',
+            e.departmentName ?? '',
+            e.shiftName ?? '',
+          ]).toList();
+          
+          final bytes = excelService.generateExcel(
+            sheetName: 'Employees',
+            headers: headers,
+            data: rows,
+          );
+          if (bytes == null) {
+            if (!isClosed) emit(ExportEmployeesFailure(error: 'Failed to generate Excel'));
+            return;
+          }
+          await excelService.shareExcel(
+            fileBytes: bytes,
+            fileName: 'Employees_List.xlsx',
+            message: 'Here is the employee list.',
+          );
+          if (!isClosed) emit(ExportEmployeesSuccess());
+        },
+      );
+    } catch (e) {
+      if (!isClosed) emit(ExportEmployeesFailure(error: e.toString()));
+    }
   }
 }

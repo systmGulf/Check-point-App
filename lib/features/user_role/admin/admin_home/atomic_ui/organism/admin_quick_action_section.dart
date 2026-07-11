@@ -6,8 +6,8 @@ import '../../../../../../core/animations/animations.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
-import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/styles/styles.dart';
 import 'admin_quick_actions_item.dart';
 
 class AdminQuickActionsSection extends StatelessWidget {
@@ -70,6 +70,17 @@ class AdminQuickActionsSection extends StatelessWidget {
                 text: 'Add New Customer'.tr(),
                 action: () {
                   context.pushName(Routes.clientsScreen);
+                },
+              ),
+            ),
+            verticalSpace(15),
+            AnimatedListItemWidget(
+              index: 4,
+              child: QuickActionsItem(
+                icon: Icons.calendar_month,
+                text: 'Employees Attendance'.tr(),
+                action: () {
+                  context.pushName(Routes.adminAttendanceScreen);
                 },
               ),
             )

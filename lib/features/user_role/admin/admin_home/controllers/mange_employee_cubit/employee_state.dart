@@ -113,3 +113,10 @@ class GetAccountRequestsPaginationFailure extends EmployeeState {
   final String error;
   GetAccountRequestsPaginationFailure({required this.error});
 }
+
+class ExportEmployeesLoading extends EmployeeState {}
+class ExportEmployeesSuccess extends EmployeeState {}
+class ExportEmployeesFailure extends EmployeeState {
+  final String error;
+  ExportEmployeesFailure({required this.error});
+}

@@ -18,34 +18,33 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
     emit(ShareAttAndanceLoading());
     try {
       var excel = Excel.createExcel();
-      excel['Sheet1'];
+      var sheet = excel['Sheet1'];
 
       // Add headers
-      // sheet.appendRow([
-      //   'Employee ID',
-      //   'Customer ID',
-      //   'Employee Name',
-      //   'Location',
-      //   'In Time',
-      //   'Out Time',
-      //   'Total Hours',
-      //   'Data',
-      // ]);
+      sheet.appendRow([
+        TextCellValue('Employee ID'),
+        TextCellValue('Customer ID'),
+        TextCellValue('Employee Name'),
+        TextCellValue('Location'),
+        TextCellValue('In Time'),
+        TextCellValue('Out Time'),
+        TextCellValue('Total Hours'),
+        TextCellValue('Date'),
+      ]);
 
-      // // Add data
-      // for (var item in data) {
-      //   sheet.appendRow([
-
-      //     item.employeeId ,
-      //     item.customerId,
-      //     item.employeeName,
-      //     item.area,
-      //     item.clockInTime?.substring(0, 5),
-      //     item.clockOutTime?.substring(0, 5),
-      //     item.totalHours.toString(),
-      //     item.attendanceDate
-      //   ]);
-      // }
+      // Add data
+      for (var item in data) {
+        sheet.appendRow([
+          TextCellValue(item.employeeId ?? ''),
+          TextCellValue(item.customerId?.toString() ?? ''),
+          TextCellValue(item.employeeName ?? ''),
+          TextCellValue(item.area ?? ''),
+          TextCellValue(item.clockInTime != null && item.clockInTime!.length >= 5 ? item.clockInTime!.substring(0, 5) : (item.clockInTime ?? '')),
+          TextCellValue(item.clockOutTime != null && item.clockOutTime!.length >= 5 ? item.clockOutTime!.substring(0, 5) : (item.clockOutTime ?? '')),
+          TextCellValue(item.totalHours?.toString() ?? ''),
+          TextCellValue(item.attendanceDate ?? ''),
+        ]);
+      }
 
       List<int>? bytesList = excel.save();
       if (bytesList == null) {

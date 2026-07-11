@@ -12,15 +12,21 @@ class ExcelExportService {
   }) {
     try {
       var excel = Excel.createExcel();
-      excel[sheetName];
+      var sheet = excel[sheetName];
 
       // Add headers
-      // sheet.appendRow(headers);
+      sheet.appendRow(headers.map((e) => TextCellValue(e)).toList());
 
-      // // Add data rows
-      // for (var row in data) {
-      //   sheet.appendRow(row );
-      // }
+      // Add data rows
+      for (var row in data) {
+        sheet.appendRow(row.map((val) {
+          if (val == null) return null;
+          if (val is int) return IntCellValue(val);
+          if (val is double) return DoubleCellValue(val);
+          if (val is bool) return BoolCellValue(val);
+          return TextCellValue(val.toString());
+        }).toList());
+      }
 
       List<int>? bytesList = excel.save();
       if (bytesList == null) {

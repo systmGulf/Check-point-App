@@ -14,6 +14,8 @@ import '../../features/user_role/admin/admin_auth/ui/view/views/admin_login_scre
 import '../../features/user_role/admin/admin_home/atomic_ui/enitities/user_item_entity.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_home_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_notification_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attendance_screen.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/clients_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_branches_details_screen.dart';
@@ -333,6 +335,13 @@ abstract class AppRouter {
       case Routes.termsAndConditionsScreen:
         return BaseRoute(
           page: const TermsAndConditionsScreen(),
+        );
+      case Routes.adminAttendanceScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<AdminAttendanceCubit>()..getAdminAttendance(),
+            child: const AdminAttendanceScreen(),
+          ),
         );
       case Routes.allUsersScreen:
         return BaseRoute(
