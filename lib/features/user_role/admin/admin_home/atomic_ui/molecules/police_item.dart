@@ -11,6 +11,7 @@ import 'package:hr_management_system_package/admin_infrastructure/data/models/sh
 
 import '../../../../../../core/common/formate_hours.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import 'add_employees_to_police_model_botttom_sheet.dart';
@@ -117,7 +118,7 @@ class PoliceItem extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0XFF7BDDB5),
+                  color: ColorsManger.tealGreen,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -128,14 +129,14 @@ class PoliceItem extends StatelessWidget {
                           fontFamily: 'Inter',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1F4F45),
+                          color: ColorsManger.darkTeal,
                         )),
                     Text(formatHour(timeIn),
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1F4F45),
+                          color: ColorsManger.darkTeal,
                         )),
                   ],
                 ),
@@ -145,7 +146,7 @@ class PoliceItem extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0XFF7BDDB5),
+                  color: ColorsManger.tealGreen,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -156,14 +157,14 @@ class PoliceItem extends StatelessWidget {
                           fontFamily: 'Inter',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1F4F45),
+                          color: ColorsManger.darkTeal,
                         )),
                     Text(formatHour(timeOut),
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1F4F45),
+                          color: ColorsManger.darkTeal,
                         )),
                   ],
                 ),

@@ -13,7 +13,7 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/user_item_list_view.dart';
 import '../molecules/custom_search_bar.dart';
-import 'user_item_load.dart';
+import '../molecules/users_loading_skeleton.dart';
 import 'user_search_results_list.dart';
 import 'users_list_header.dart';
 
@@ -89,6 +89,10 @@ class _AllUsersListViewState extends State<AllUsersListView> {
         color: ColorsManger.primaryColor,
         onRefresh: () async => _refreshList(),
         child: BlocListener<EmployeeCubit, EmployeeState>(
+          listenWhen: (previous, current) =>
+              current is AddEmployeeSuccess ||
+              current is EditEmployeeSuccess ||
+              current is DeleteUserAccountSuccess,
           listener: _handleStateChanges,
           child: Stack(
             children: [
@@ -105,12 +109,32 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                           fetchNextPage: fetchNextPage,
                           builderDelegate:
                               PagedChildBuilderDelegate<EmployeeData>(
-                            itemBuilder: (context, user, index) =>
-                                _buildUserItem(user),
+                            itemBuilder: (context, user, index) => Padding(
+                              padding: const EdgeInsets.only(bottom: 7),
+                              child: UserItemListView(
+                                userItemEntity: UserItemEntity(
+                                  imageUrl: user.imageUrl ?? '',
+                                  onDelete: () => _deleteUser(user),
+                                  branchId: user.branchId ?? 0,
+                                  branch: user.branchName ?? "",
+                                  departmentId: user.departmentId ?? 0,
+                                  role: user.role ?? "",
+                                  mobileId: user.mobileId ?? "",
+                                  userName: user.userName ?? "",
+                                  department: user.departmentName ?? "",
+                                  userId: user.id ?? "",
+                                  name: user.name ?? "",
+                                  position: user.position ?? "",
+                                  shiftEndTime: user.clockOutTime ?? "",
+                                  shiftName: user.shiftName ?? "",
+                                  shiftStartTime: user.clockInTime ?? "",
+                                ),
+                              ),
+                            ),
                             firstPageProgressIndicatorBuilder: (_) =>
-                                _buildLoadingSkeleton(10),
+                                const UsersLoadingSkeleton(count: 10),
                             newPageProgressIndicatorBuilder: (_) =>
-                                _buildLoadingSkeleton(3),
+                                const UsersLoadingSkeleton(count: 3),
                             firstPageErrorIndicatorBuilder: (_) =>
                                 NoInternetConnectionWidget(
                                     onPressed: _refreshList),
@@ -150,7 +174,6 @@ class _AllUsersListViewState extends State<AllUsersListView> {
       ),
     );
   }
-
   void _handleStateChanges(BuildContext context, EmployeeState state) {
     if (state is AddEmployeeSuccess ||
         state is EditEmployeeSuccess ||
@@ -158,41 +181,6 @@ class _AllUsersListViewState extends State<AllUsersListView> {
       _refreshList();
     }
   }
-
-  Widget _buildUserItem(EmployeeData user) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 7),
-      child: UserItemListView(
-        userItemEntity: UserItemEntity(
-          imageUrl: user.imageUrl ?? '',
-          onDelete: () => _deleteUser(user),
-          branchId: user.branchId ?? 0,
-          branch: user.branchName ?? "",
-          departmentId: user.departmentId ?? 0,
-          role: user.role ?? "",
-          mobileId: user.mobileId ?? "",
-          userName: user.userName ?? "",
-          department: user.departmentName ?? "",
-          userId: user.id ?? "",
-          name: user.name ?? "",
-          position: user.position ?? "",
-          shiftEndTime: user.clockOutTime ?? "",
-          shiftName: user.shiftName ?? "",
-          shiftStartTime: user.clockInTime ?? "",
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoadingSkeleton(int count) {
-    return Column(
-      children: List.generate(
-        count,
-        (index) => Padding(
-          padding: EdgeInsets.only(bottom: index < count - 1 ? 10 : 0),
-          child: const UserItemLoad(),
-        ),
-      ),
-    );
-  }
 }
+
+

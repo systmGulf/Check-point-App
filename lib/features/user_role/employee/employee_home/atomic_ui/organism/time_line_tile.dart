@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 
 class TimeLineTile extends StatelessWidget {
   const TimeLineTile(
@@ -70,7 +71,7 @@ class TimeLineTile extends StatelessWidget {
                   title: Text(
                     name,
                     style: const TextStyle(
-                      color: Color(0xFF24252C),
+                      color: ColorsManger.timelineText,
                       fontSize: 16,
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.w700,
@@ -79,14 +80,14 @@ class TimeLineTile extends StatelessWidget {
                   ),
                   leading: visitType == "Customer"
                       ? CircleAvatar(
-                          backgroundColor: Color(0XFFF0ECFF),
+                          backgroundColor: ColorsManger.timelineBackground,
                           child: const Icon(
                             Icons.person_4,
                             color: Colors.black,
                           ),
                         )
                       : CircleAvatar(
-                          backgroundColor: Color(0XFFF0ECFF),
+                          backgroundColor: ColorsManger.timelineBackground,
                           child: const Icon(
                             Icons.factory_outlined,
                             color: Colors.black,
@@ -100,7 +101,7 @@ class TimeLineTile extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: ShapeDecoration(
-                      color: const Color(0xFFF0ECFF),
+                      color: ColorsManger.timelineBackground,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
@@ -111,7 +112,7 @@ class TimeLineTile extends StatelessWidget {
                           child: Text(
                             visitType,
                             style: const TextStyle(
-                              color: Color(0xFF5F33E1),
+                              color: ColorsManger.timelinePurple,
                               fontSize: 11,
                               fontFamily: 'DM Sans',
                               fontWeight: FontWeight.w500,
@@ -141,15 +142,15 @@ class TimeLineTile extends StatelessWidget {
                               horizontalSpace(5),
                               Text(
                                 location,
-                                style:
-                                    const TextStyle(color: Color(0XFF24252C)),
+                                    style:
+                                    const TextStyle(color: ColorsManger.timelineText),
                               ),
                               Expanded(
                                 child: Text(
                                   date.substring(0, 10),
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
-                                    color: Color(0x9924252C),
+                                    color: ColorsManger.timelineTextFaded,
                                     fontSize: 12,
                                     fontFamily: 'DM Sans',
                                     fontWeight: FontWeight.w400,

@@ -39,6 +39,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
         pageNumber: pageNumber, itemCount: itemCount);
     result.fold(
       (error) {
+        if (isClosed) return;
         if (pageNumber == 0) {
           emit(GetAllEmployeesFailure(error: error.message));
         } else {
@@ -46,6 +47,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
         }
       },
       (allEmployeesList) {
+        if (isClosed) return;
         totalEmployeesCount = allEmployeesList.totalCount;
         emit(GetAllEmployeesSuccess(value: allEmployeesList));
       },
@@ -79,10 +81,10 @@ class EmployeeCubit extends Cubit<EmployeeState> {
         await adminManageEmployeeRepo.searchEmployees(searchKey: name);
     result.fold(
       (error) {
-        emit(SearchEmployeeFailure(error: error.message));
+        if (!isClosed) emit(SearchEmployeeFailure(error: error.message));
       },
       (employeeList) {
-        emit(SearchEmployeeSuccess(employeeList: employeeList));
+        if (!isClosed) emit(SearchEmployeeSuccess(employeeList: employeeList));
       },
     );
   }
@@ -93,10 +95,10 @@ class EmployeeCubit extends Cubit<EmployeeState> {
         pageKey: 0, pageSize: 10, id: departmentId);
     await result.fold(
       (error) {
-        emit(GetEmployeeByDepartmentError(error.message));
+        if (!isClosed) emit(GetEmployeeByDepartmentError(error.message));
       },
       (employeeList) async {
-        emit(GetEmployeeByDepartmentSuccess(employeeList));
+        if (!isClosed) emit(GetEmployeeByDepartmentSuccess(employeeList));
       },
     );
   }
@@ -145,10 +147,12 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     );
 
     result.fold(
-      (l) => emit(AddEmployeeFailure(error: l.message)),
+      (l) {
+        if (!isClosed) emit(AddEmployeeFailure(error: l.message));
+      },
       (r) async {
         await getAllEmployees(pageNumber: 0, itemCount: 10);
-        emit(AddEmployeeSuccess());
+        if (!isClosed) emit(AddEmployeeSuccess());
       },
     );
   }
@@ -160,8 +164,11 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       itemCount: 10,
     );
     result.fold(
-      (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
+      (l) {
+        if (!isClosed) emit(GetAddAccountRequestsFailure(error: l.message));
+      },
       (r) {
+        if (isClosed) return;
         totalAccountRequestsCount = r.totalCount;
         emit(GetAddAccountRequestsSuccess(value: r));
       },
@@ -197,10 +204,12 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     final result =
         await adminManageEmployeeRepo.deleteAddAccountRequestsForAdmin(id: id);
     result.fold(
-      (l) => emit(DeleteAddAccountRequestFailure(error: l.message)),
+      (l) {
+        if (!isClosed) emit(DeleteAddAccountRequestFailure(error: l.message));
+      },
       (r) async {
         await getAddAccountRequests();
-        emit(DeleteAddAccountRequestSuccess());
+        if (!isClosed) emit(DeleteAddAccountRequestSuccess());
       },
     );
   }
@@ -245,9 +254,9 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     final result = await adminManageEmployeeRepo.attendAntherUserPermission(
         supervisorId: employeeId, permission: permission);
     result.fold((l) {
-      emit(AttendAntherEmployeePermissionFailure(l.message));
+      if (!isClosed) emit(AttendAntherEmployeePermissionFailure(l.message));
     }, (r) {
-      emit(AttendAntherEmployeePermissionSuccess());
+      if (!isClosed) emit(AttendAntherEmployeePermissionSuccess());
     });
   }
 
@@ -257,9 +266,9 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     final result = await adminManageEmployeeRepo.setPlanPermission(
         supervisorId: employeeId, permission: permission);
     result.fold((l) {
-      emit(SetPlanPermissionFailure(l.message));
+      if (!isClosed) emit(SetPlanPermissionFailure(l.message));
     }, (r) {
-      emit(SetPlanPermissionSuccess());
+      if (!isClosed) emit(SetPlanPermissionSuccess());
     });
   }
 }

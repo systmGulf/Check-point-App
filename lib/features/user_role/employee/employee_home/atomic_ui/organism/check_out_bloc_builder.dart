@@ -20,6 +20,12 @@ class CheckOutBlocBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceCubit, AttendanceState>(
+      buildWhen: (previous, current) =>
+          current is AttendanceIneDone ||
+          current is AttendanceOutedDone ||
+          current is AttendanceIneLoading ||
+          current is AttendanceOutLoading ||
+          current is AuthenticationInitial,
       builder: (context, state) {
         bool isRtl = Localizations.localeOf(context).languageCode == 'ar';
         return Padding(

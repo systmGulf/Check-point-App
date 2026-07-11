@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../../../supervisor/supervisor_home/atomic_ui/molecules/todo_flag_and_data.dart';
 import '../../../../supervisor/supervisor_home/atomic_ui/molecules/todo_title_and_state.dart';
 
@@ -52,7 +53,7 @@ class MyTaskItem extends StatelessWidget {
                   child: Text(
                     des,
                     style: TextStyle(
-                      color: Color(0x9924252C),
+                      color: ColorsManger.timelineTextFaded,
                       fontSize: 14.sp,
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.w400,

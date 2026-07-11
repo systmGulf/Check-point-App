@@ -41,10 +41,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     final result = await shiftsAndPolicesRepo.addShift(
         shiftName: shiftNameController.text);
     result.fold((l) {
-      emit(AddShiftError(error: l.message));
+      if (!isClosed) emit(AddShiftError(error: l.message));
     }, (r) {
       getShifts(isLoading: false);
-      emit(AddShiftSuccess());
+      if (!isClosed) emit(AddShiftSuccess());
     });
   }
 
@@ -55,10 +55,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
       shiftName: shiftNameController.text,
     );
     result.fold((l) {
-      emit(EditShiftError(error: l.message));
+      if (!isClosed) emit(EditShiftError(error: l.message));
     }, (r) {
       getShifts(isLoading: false);
-      emit(EditShiftSuccess());
+      if (!isClosed) emit(EditShiftSuccess());
     });
   }
 
@@ -67,9 +67,9 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     if (isLoading) emit(GetShiftsLoading());
     final result = await shiftsAndPolicesRepo.getShifts();
     result.fold((l) {
-      emit(GetShiftsError(error: l.message));
+      if (!isClosed) emit(GetShiftsError(error: l.message));
     }, (r) {
-      emit(GetShiftsSuccess(shiftModel: r));
+      if (!isClosed) emit(GetShiftsSuccess(shiftModel: r));
     });
   }
 
@@ -78,12 +78,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     emit(DeleteShiftLoading());
     final result = await shiftsAndPolicesRepo.deleteShift(id: id);
     result.fold((l) {
-      emit(DeleteShiftError(error: l.message));
+      if (!isClosed) emit(DeleteShiftError(error: l.message));
     }, (r) {
-      getShifts(
-        isLoading: false,
-      );
-      emit(DeleteShiftSuccess());
+      getShifts(isLoading: false);
+      if (!isClosed) emit(DeleteShiftSuccess());
     });
   }
   // get police by shift id
@@ -95,9 +93,9 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
       final result =
           await shiftsAndPolicesRepo.getPoliceByShiftId(shiftId: shiftId);
       result.fold((l) {
-        emit(GetPoliceByShiftIDError(error: l.message));
+        if (!isClosed) emit(GetPoliceByShiftIDError(error: l.message));
       }, (response) {
-        emit(GetPoliceByShiftIDSuccess(policeResponse: response));
+        if (!isClosed) emit(GetPoliceByShiftIDSuccess(policeResponse: response));
       });
     } on Exception catch (e) {
       emit(GetPoliceByShiftIDError(error: e.toString()));
@@ -116,10 +114,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
             shiftId: shiftId.toString(),
             area: "Office"));
     result.fold((errorMassage) {
-      emit(AddPoliceFailure(error: errorMassage.message));
+      if (!isClosed) emit(AddPoliceFailure(error: errorMassage.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      emit(AddPoliceSuccess());
+      if (!isClosed) emit(AddPoliceSuccess());
     });
   }
 
@@ -137,10 +135,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
       ),
     );
     result.fold((errorMassage) {
-      emit(EditPoliceFailure(error: errorMassage.message));
+      if (!isClosed) emit(EditPoliceFailure(error: errorMassage.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      emit(EditPoliceSuccess());
+      if (!isClosed) emit(EditPoliceSuccess());
     });
   }
 
@@ -149,10 +147,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     emit(DeletePoliceLoading());
     final result = await shiftsAndPolicesRepo.deletePolice(id: id);
     result.fold((l) {
-      emit(DeletePoliceError(error: l.message));
+      if (!isClosed) emit(DeletePoliceError(error: l.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      emit(DeletePoliceSuccess());
+      if (!isClosed) emit(DeletePoliceSuccess());
     });
   }
 
@@ -165,11 +163,11 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
           assignShiftsRequestBody: AssignShiftsRequestBody(
               shiftId: shiftId, branchesIds: branchesIds));
       result.fold((l) {
-        emit(AssignShiftError(error: l.message));
+        if (!isClosed) emit(AssignShiftError(error: l.message));
       }, (r) {
         getShifts(isLoading: false);
         branchesIds = [];
-        emit(AssignShiftSuccess());
+        if (!isClosed) emit(AssignShiftSuccess());
       });
     } else {
       emit(AssignShiftError(error: "Select Branches First"));
@@ -185,11 +183,11 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
           assignShiftsRequestBody: AssignPoliceRequestBody(
               policyId: policeId, employeeIds: employeesIds));
       result.fold((l) {
-        emit(AssignPoliceError(error: l.message));
+        if (!isClosed) emit(AssignPoliceError(error: l.message));
       }, (r) {
         getPoliceByShiftId(shiftId: shiftId, isLoading: false);
         employeesIds = [];
-        emit(AssignPoliceSuccess());
+        if (!isClosed) emit(AssignPoliceSuccess());
       });
     } else {
       emit(AssignPoliceError(error: "Select Employees First"));
@@ -204,10 +202,10 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
         remove: RemoveAssignPolicyRequestBody(
             policyId: policeId, employeeId: employeeId));
     result.fold((l) {
-      emit(RemoveAssignPolicyFailureState(error: l.message));
+      if (!isClosed) emit(RemoveAssignPolicyFailureState(error: l.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      emit(RemoveAssignPolicySuccessState(message: r));
+      if (!isClosed) emit(RemoveAssignPolicySuccessState(message: r));
     });
   }
 

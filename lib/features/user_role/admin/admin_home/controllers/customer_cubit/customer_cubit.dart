@@ -43,10 +43,10 @@ class CustomerCubit extends Cubit<CustomerState> {
         location: locationController.text));
 
     result.fold((l) {
-      emit(AddCustomerError(error: l.message));
+      if (!isClosed) emit(AddCustomerError(error: l.message));
     }, (r) {
       resetAddForm();
-      emit(AddCustomerSuccess());
+      if (!isClosed) emit(AddCustomerSuccess());
       getCustomersByType(customerType: customerType, isLoading: false);
     });
   }
@@ -66,10 +66,10 @@ class CustomerCubit extends Cubit<CustomerState> {
     );
 
     result.fold((l) {
-      emit(EditCustomerError(error: l.message));
+      if (!isClosed) emit(EditCustomerError(error: l.message));
     }, (r) {
       resetEditForm();
-      emit(EditCustomerSuccess());
+      if (!isClosed) emit(EditCustomerSuccess());
       getCustomersByType(customerType: customerType, isLoading: false);
     });
   }
@@ -80,14 +80,12 @@ class CustomerCubit extends Cubit<CustomerState> {
     try {
       final result = await customerRepo.deleteCustomer(id: id);
       result.fold(
-        (l) => emit(
-          DeleteCustomerError(
-            error: l.toString(),
-          ),
-        ),
+        (l) {
+          if (!isClosed) emit(DeleteCustomerError(error: l.message));
+        },
         (r) {
           getCustomersByType(customerType: customerType, isLoading: false);
-          emit(DeleteCustomerSuccess());
+          if (!isClosed) emit(DeleteCustomerSuccess());
         },
       );
     } on Exception catch (e) {

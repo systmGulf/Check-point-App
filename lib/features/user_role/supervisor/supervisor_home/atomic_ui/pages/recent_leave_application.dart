@@ -9,7 +9,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/error_widget.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
-import '../pages/recent_leave_application_loading_skeleton.dart';
+import '../molecules/recent_leave_application_loading_skeleton.dart';
 
 class RecentLeaveApplication extends StatelessWidget {
   const RecentLeaveApplication({

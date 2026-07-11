@@ -21,7 +21,7 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../atoms/task_item.dart';
-import '../pages/supervisor_tasks_loading_skeleton.dart';
+import '../molecules/supervisor_tasks_loading_skeleton.dart';
 import 'assign_task_screen.dart';
 
 class SupervisorTasksScreen extends StatefulWidget {

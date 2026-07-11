@@ -14,6 +14,10 @@ class EmployeeAttendanceBlocBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetEmployeeHistoryCubit, GetEmployeeHistoryState>(
+        buildWhen: (previous, current) =>
+            current is GetEmployeeHistorySuccess ||
+            current is GetEmployeeHistoryFailure ||
+            current is GetEmployeeHistoryLoading,
         builder: (context, state) {
       if (state is GetEmployeeHistorySuccess) {
         return state.attendanceHistory.data!.isNotEmpty

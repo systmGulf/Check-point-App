@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../atoms/taks_card.dart';
-import '../pages/my_tasks_loading_skeleton.dart';
+import '../molecules/my_tasks_loading_skeleton.dart';
 
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);

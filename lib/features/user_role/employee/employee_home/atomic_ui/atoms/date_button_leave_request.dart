@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../controller/leave_application/leave_application_cubit.dart';
+import '../../../../../../core/styles/colors.dart';
 
 enum LeaveRequestDateField { from, to }
 
@@ -42,7 +43,7 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
                   : (widget.placeholder ??
                       DateFormat('yyyy-MM-dd').format(DateTime.now())),
               style: const TextStyle(
-                color: Color(0xFF7F7F7F),
+                color: ColorsManger.greyMedium,
                 fontSize: 14,
                 fontFamily: 'DM Sans',
                 fontWeight: FontWeight.w400,

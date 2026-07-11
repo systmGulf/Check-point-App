@@ -17,10 +17,10 @@ class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
     final result = await supervisorRepo.getEmployeeByDepartmentId();
     result.fold(
       (error) {
-        emit(GetAllEmployeesFailure(errorMsg: error.message));
+        if (!isClosed) emit(GetAllEmployeesFailure(errorMsg: error.message));
       },
       (allEmployeesList) {
-        emit(GetAllEmployeesSuccess(allEmployeesValue: allEmployeesList));
+        if (!isClosed) emit(GetAllEmployeesSuccess(allEmployeesValue: allEmployeesList));
       },
     );
   }
@@ -31,9 +31,9 @@ class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
     final result = await supervisorRepo
         .supervisorAttendSomeEmployeeCheckIn(employeeCheckInRequestBody);
     result.fold((l) {
-      emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
+      if (!isClosed) emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
     }, (r) {
-      emit(SupervisorAttendSomeEmployeeSuccess(
+      if (!isClosed) emit(SupervisorAttendSomeEmployeeSuccess(
         successMsg: 'User Attended Successfully',
       ));
     });
@@ -44,9 +44,9 @@ class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
     final result =
         await supervisorRepo.supervisorAttendSomeEmployeeCheckOut(employeeId, image);
     result.fold((l) {
-      emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
+      if (!isClosed) emit(SupervisorAttendSomeEmployeeFailure(errorMsg: l.message));
     }, (r) {
-      emit(
+      if (!isClosed) emit(
         SupervisorAttendSomeEmployeeSuccess(
           successMsg: 'User Checked Out Successfully',
         ),
@@ -65,9 +65,9 @@ class GetEmployeesDataCubit extends Cubit<GetEmployeesDataState> {
     final result = await supervisorRepo.getEmployeeSummary(
         employeeId: employeeId, month: month, year: year);
     result.fold((l) {
-      emit(GetEmployeeSummaryFailure(errorMsg: l.message));
+      if (!isClosed) emit(GetEmployeeSummaryFailure(errorMsg: l.message));
     }, (r) {
-      emit(GetEmployeeSummarySuccess(getEmployeeSummaryValue: r));
+      if (!isClosed) emit(GetEmployeeSummarySuccess(getEmployeeSummaryValue: r));
     });
   }
 }

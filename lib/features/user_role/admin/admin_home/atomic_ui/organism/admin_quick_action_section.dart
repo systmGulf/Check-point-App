@@ -7,6 +7,7 @@ import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/styles/colors.dart';
 import 'admin_quick_actions_item.dart';
 
 class AdminQuickActionsSection extends StatelessWidget {
@@ -24,7 +25,7 @@ class AdminQuickActionsSection extends StatelessWidget {
       ),
       verticalSpace(10),
       AnimatedContainerWidget(
-        backgroundColor: const Color(0XFFFAFAFA),
+        backgroundColor: ColorsManger.backgroundWhiteFaint,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(

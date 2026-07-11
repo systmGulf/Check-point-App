@@ -11,6 +11,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../atoms/client_item.dart';
+import '../molecules/clients_loading_skeleton.dart';
 import '../molecules/custom_admin_app_bar.dart';
 import 'add_client_bottom_sheet.dart';
 
@@ -86,6 +87,10 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CustomerCubit, CustomerState>(
+      listenWhen: (previous, current) =>
+          current is AddCustomerSuccess ||
+          current is EditCustomerSuccess ||
+          current is DeleteCustomerSuccess,
       listener: (context, state) {
         if (state is AddCustomerSuccess ||
             state is EditCustomerSuccess ||
@@ -112,12 +117,43 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
                       state: state,
                       fetchNextPage: fetchNextPage,
                       builderDelegate: PagedChildBuilderDelegate<CustomerData>(
-                        itemBuilder: (context, client, index) =>
-                            _buildClientItem(client),
+                        itemBuilder: (context, client, index) => ClientItem(
+                            onTap: () {},
+                            onEdit: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                builder: (BuildContext cnx) {
+                                  return BlocProvider.value(
+                                    value: context.read<CustomerCubit>(),
+                                    child: AddClientBottomSheet(
+                                      customerId: client.id,
+                                      initialName: client.name,
+                                      initialWorkedAs: client.workesAs,
+                                      initialLocation: client.location,
+                                      initialCoordinates: client.coordinates,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            color: selectedClients.contains(client.id)
+                                ? Colors.grey.shade300
+                                : Colors.white,
+                            id: client.id!,
+                            name: client.name!,
+                            workedAs: client.workesAs!,
+                            location: client.location!,
+                          ),
                         firstPageProgressIndicatorBuilder: (_) =>
-                            _buildLoadingSkeleton(10),
+                            const ClientsLoadingSkeleton(count: 10),
                         newPageProgressIndicatorBuilder: (_) =>
-                            _buildLoadingSkeleton(3),
+                            const ClientsLoadingSkeleton(count: 3),
                         firstPageErrorIndicatorBuilder: (_) =>
                             NoInternetConnectionWidget(
                           onPressed: _refreshList,
@@ -145,62 +181,6 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildClientItem(CustomerData client) {
-    return ClientItem(
-      onTap: () {},
-      onEdit: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
-          ),
-          builder: (BuildContext cnx) {
-            return BlocProvider.value(
-              value: context.read<CustomerCubit>(),
-              child: AddClientBottomSheet(
-                customerId: client.id,
-                initialName: client.name,
-                initialWorkedAs: client.workesAs,
-                initialLocation: client.location,
-                initialCoordinates: client.coordinates,
-              ),
-            );
-          },
-        );
-      },
-      color: selectedClients.contains(client.id)
-          ? Colors.grey.shade300
-          : Colors.white,
-      id: client.id!,
-      name: client.name!,
-      workedAs: client.workesAs!,
-      location: client.location!,
-    );
-  }
-
-  Widget _buildLoadingSkeleton(int count) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(
-        count,
-        (index) => Skeletonizer(
-          child: ClientItem(
-            onTap: () {},
-            onEdit: () {},
-            color: Colors.white,
-            id: '',
-            name: 'Load Data',
-            workedAs: 'Load Data',
-            location: 'Load Data',
-          ),
-        ),
       ),
     );
   }

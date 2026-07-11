@@ -62,6 +62,10 @@ class _GetDepartmentBlocBuilderState extends State<GetDepartmentBlocBuilder> {
 
   Widget build(BuildContext context) {
     return BlocListener<DepartmentCubit, DepartmentState>(
+      listenWhen: (previous, current) =>
+          current is AddDepartmentSuccess ||
+          current is DeleteDepartmentSuccess ||
+          current is EditDepartmentSuccess,
       listener: (context, state) {
         if (state is AddDepartmentSuccess ||
             state is DeleteDepartmentSuccess ||

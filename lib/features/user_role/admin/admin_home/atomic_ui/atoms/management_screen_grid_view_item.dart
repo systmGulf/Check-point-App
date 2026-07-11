@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 
 class ManagementScreenGridViewItem extends StatelessWidget {
@@ -27,7 +28,7 @@ class ManagementScreenGridViewItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0x29000000),
+                  color: ColorsManger.shadowBlack,
                   spreadRadius: 1,
                   blurRadius: 2,
                   offset: Offset(0, 3),
