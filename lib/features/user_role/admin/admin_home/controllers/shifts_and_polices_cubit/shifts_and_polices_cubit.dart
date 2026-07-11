@@ -19,6 +19,22 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
   String clockOutTime = '';
   int shiftId = 00;
 
+  void resetShiftForm() {
+    shiftNameController.clear();
+  }
+
+  void setPoliceForm({
+    required String month,
+    required String year,
+    required String clockInTime,
+    required String clockOutTime,
+  }) {
+    mounth = month;
+    this.year = year;
+    this.clockInTime = clockInTime;
+    this.clockOutTime = clockOutTime;
+  }
+
   // add shift
   Future<void> addShift() async {
     emit(AddShiftLoading());
@@ -29,6 +45,20 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
     }, (r) {
       getShifts(isLoading: false);
       emit(AddShiftSuccess());
+    });
+  }
+
+  Future<void> editShift({required int id}) async {
+    emit(EditShiftLoading());
+    final result = await shiftsAndPolicesRepo.editShift(
+      id: id,
+      shiftName: shiftNameController.text,
+    );
+    result.fold((l) {
+      emit(EditShiftError(error: l.message));
+    }, (r) {
+      getShifts(isLoading: false);
+      emit(EditShiftSuccess());
     });
   }
 
@@ -76,7 +106,7 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
 
   // add police
   Future<void> addPolice() async {
-    AddPoliceLoading();
+    emit(AddPoliceLoading());
     final result = await shiftsAndPolicesRepo.addPolice(
         addPoliceRequestBody: AddPoliceRequestBody(
             month: mounth,
@@ -86,10 +116,31 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
             shiftId: shiftId.toString(),
             area: "Office"));
     result.fold((errorMassage) {
-      AddPoliceFailure(error: errorMassage.message);
+      emit(AddPoliceFailure(error: errorMassage.message));
     }, (r) {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
-      AddPoliceSuccess();
+      emit(AddPoliceSuccess());
+    });
+  }
+
+  Future<void> editPolice({required int id}) async {
+    emit(EditPoliceLoading());
+    final result = await shiftsAndPolicesRepo.editPolice(
+      id: id,
+      addPoliceRequestBody: AddPoliceRequestBody(
+        month: mounth,
+        year: year,
+        clockInTime: clockInTime,
+        clockOutTime: clockOutTime,
+        shiftId: shiftId.toString(),
+        area: "Office",
+      ),
+    );
+    result.fold((errorMassage) {
+      emit(EditPoliceFailure(error: errorMassage.message));
+    }, (r) {
+      getPoliceByShiftId(shiftId: shiftId, isLoading: false);
+      emit(EditPoliceSuccess());
     });
   }
 
@@ -158,5 +209,11 @@ class ShiftsAndPolicesCubit extends Cubit<ShiftsAndPolicesState> {
       getPoliceByShiftId(shiftId: shiftId, isLoading: false);
       emit(RemoveAssignPolicySuccessState(message: r));
     });
+  }
+
+  @override
+  Future<void> close() {
+    shiftNameController.dispose();
+    return super.close();
   }
 }

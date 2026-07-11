@@ -21,6 +21,7 @@ class CompanyBranchLoadingSkeleton extends StatelessWidget {
             (BuildContext context, int index) {
               return Skeletonizer(
                 child: CompanyBranchItem(
+                  onEdit: () {},
                   onDelete: () {},
                   name: 'data Load',
                   location: 'data Load',

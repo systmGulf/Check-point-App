@@ -151,7 +151,13 @@ class _AllUsersListViewState extends State<AllUsersListView> {
     );
   }
 
-  void _handleStateChanges(BuildContext context, EmployeeState state) {}
+  void _handleStateChanges(BuildContext context, EmployeeState state) {
+    if (state is AddEmployeeSuccess ||
+        state is EditEmployeeSuccess ||
+        state is DeleteUserAccountSuccess) {
+      _refreshList();
+    }
+  }
 
   Widget _buildUserItem(EmployeeData user) {
     return Padding(

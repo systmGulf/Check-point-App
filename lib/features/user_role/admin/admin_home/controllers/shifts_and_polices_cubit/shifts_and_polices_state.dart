@@ -9,6 +9,16 @@ class AddShiftLoading extends ShiftsAndPolicesState {}
 
 class AddShiftSuccess extends ShiftsAndPolicesState {}
 
+class EditShiftLoading extends ShiftsAndPolicesState {}
+
+class EditShiftSuccess extends ShiftsAndPolicesState {}
+
+class EditShiftError extends ShiftsAndPolicesState {
+  final String error;
+
+  EditShiftError({required this.error});
+}
+
 class AddShiftError extends ShiftsAndPolicesState {
   final String error;
 
@@ -56,6 +66,16 @@ class GetPoliceByShiftIDError extends ShiftsAndPolicesState {
 class AddPoliceLoading extends ShiftsAndPolicesState {}
 
 class AddPoliceSuccess extends ShiftsAndPolicesState {}
+
+class EditPoliceLoading extends ShiftsAndPolicesState {}
+
+class EditPoliceSuccess extends ShiftsAndPolicesState {}
+
+class EditPoliceFailure extends ShiftsAndPolicesState {
+  final String error;
+
+  EditPoliceFailure({required this.error});
+}
 
 class AddPoliceFailure extends ShiftsAndPolicesState {
   final String error;

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
@@ -13,7 +14,22 @@ import '../molecules/select_location_of_client_bottom_sheet.dart';
 import 'add_customer_bloc_listener.dart';
 
 class AddClientBottomSheet extends StatefulWidget {
-  const AddClientBottomSheet({super.key});
+  const AddClientBottomSheet({
+    super.key,
+    this.customerId,
+    this.initialName,
+    this.initialWorkedAs,
+    this.initialLocation,
+    this.initialCoordinates,
+  });
+
+  final String? customerId;
+  final String? initialName;
+  final String? initialWorkedAs;
+  final String? initialLocation;
+  final List<CustomerCoordinates>? initialCoordinates;
+
+  bool get isEdit => customerId != null;
 
   @override
   State<AddClientBottomSheet> createState() => _AddClientBottomSheetState();
@@ -22,14 +38,23 @@ class AddClientBottomSheet extends StatefulWidget {
 class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
   @override
   void initState() {
-    BlocProvider.of<CustomerCubit>(context).nameController =
-        TextEditingController();
-    BlocProvider.of<CustomerCubit>(context).workedAsController =
-        TextEditingController();
-    BlocProvider.of<CustomerCubit>(context).customersLocation = [];
-    BlocProvider.of<CustomerCubit>(context).locationController =
-        TextEditingController();
     super.initState();
+    final customerCubit = context.read<CustomerCubit>();
+    if (widget.isEdit) {
+      customerCubit.editNameController.text = widget.initialName ?? '';
+      customerCubit.editWorkedAsController.text = widget.initialWorkedAs ?? '';
+      customerCubit.editLocationController.text = widget.initialLocation ?? '';
+      customerCubit.customersLocation = (widget.initialCoordinates ?? [])
+          .map(
+            (coordinate) => CustomerLocation(
+              latitude: coordinate.latitude ?? 0,
+              longitude: coordinate.longitude ?? 0,
+            ),
+          )
+          .toList();
+    } else {
+      customerCubit.resetAddForm();
+    }
   }
 
   @override
@@ -63,7 +88,9 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                         )),
                     SizedBox(
                       child: Text(
-                        'Add New Client'.tr(context: context),
+                        widget.isEdit
+                            ? 'Edit Client'.tr(context: context)
+                            : 'Add New Client'.tr(context: context),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsManger.primaryColor,
@@ -78,8 +105,9 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .nameController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editNameController
+                          : context.read<CustomerCubit>().nameController,
                       hint: 'Name'.tr(context: context),
                     ),
                     verticalSpace(7),
@@ -91,8 +119,9 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .workedAsController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editWorkedAsController
+                          : context.read<CustomerCubit>().workedAsController,
                       hint: 'Worked as'.tr(context: context),
                     ),
                     verticalSpace(7),
@@ -105,7 +134,11 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                           builder: (builder) {
                             return BlocProvider.value(
                               value: context.read<CustomerCubit>(),
-                              child: const SelectLocationOfClientBottomSheet(),
+                              child: SelectLocationOfClientBottomSheet(
+                                initialCoordinates: context
+                                    .read<CustomerCubit>()
+                                    .customersLocation,
+                              ),
                             );
                           },
                         ).then((value) {
@@ -136,13 +169,16 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .locationController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editLocationController
+                          : context.read<CustomerCubit>().locationController,
                       hint: 'Location'.tr(context: context),
                     ),
                     verticalSpace(7),
                     CustomAppButton(
-                        textButton: 'Submit'.tr(context: context),
+                        textButton: widget.isEdit
+                            ? 'Save'.tr(context: context)
+                            : 'Submit'.tr(context: context),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: () {
                           if (BlocProvider.of<CustomerCubit>(context)
@@ -153,9 +189,17 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                                 .read<CustomerCubit>()
                                 .customersLocation
                                 .isNotEmpty) {
-                              BlocProvider.of<CustomerCubit>(context)
-                                  .addCustomer(
-                                      customerType: CustomerType.Customer);
+                              if (widget.isEdit) {
+                                BlocProvider.of<CustomerCubit>(context)
+                                    .editCustomer(
+                                  id: widget.customerId!,
+                                  customerType: CustomerType.Customer,
+                                );
+                              } else {
+                                BlocProvider.of<CustomerCubit>(context)
+                                    .addCustomer(
+                                        customerType: CustomerType.Customer);
+                              }
                             } else {
                               showTopSnackBar(
                                 Overlay.of(context),
@@ -168,7 +212,12 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                             }
                           }
                         }),
-                    const AddCustomerBlocListener()
+                    AddCustomerBlocListener(
+                      addSuccessMessage:
+                          'Customer Added Successfully'.tr(context: context),
+                      editSuccessMessage:
+                          'Customer Updated Successfully'.tr(context: context),
+                    )
                   ],
                 ),
               ),

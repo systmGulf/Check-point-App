@@ -12,9 +12,11 @@ class CompanyBranchItem extends StatelessWidget {
     required this.location,
     required this.decoration,
     required this.onDelete,
+    required this.onEdit,
   });
   final String name, location, decoration;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,14 @@ class CompanyBranchItem extends StatelessWidget {
                 ],
               ),
             ),
-            AppActionIconButton.delete(onPressed: onDelete, size: 34),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppActionIconButton.edit(onPressed: onEdit, size: 34),
+                const SizedBox(width: 8),
+                AppActionIconButton.delete(onPressed: onDelete, size: 34),
+              ],
+            ),
           ],
         ),
       ),

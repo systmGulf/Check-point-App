@@ -24,11 +24,13 @@ class PoliceItem extends StatelessWidget {
     required this.timeOut,
     required this.policeId,
     required this.employees,
+    required this.onEdit,
     this.onDeleteEmployee,
   });
   final String month, year, timeIn, timeOut;
   final int policeId;
   final List<Employee> employees;
+  final VoidCallback onEdit;
   final void Function(String employeeId)? onDeleteEmployee;
 
   @override
@@ -89,6 +91,11 @@ class PoliceItem extends StatelessWidget {
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
               ),
+              AppActionIconButton.edit(
+                onPressed: onEdit,
+                size: 34,
+              ),
+              horizontalSpace(8.w),
               AppActionIconButton.delete(
                 onPressed: () {
                   buildDeleteAlertDialog(

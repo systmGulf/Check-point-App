@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/error_widget.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
+import '../molecules/build_add_police_time_dialog.dart';
 import '../molecules/police_item.dart';
 import 'add_police_bloc_listener.dart';
 
@@ -80,6 +82,23 @@ class PoliceScreenBody extends StatelessWidget {
                                         employeeId: employeeId,
                                       );
                                 },
+                                onEdit: () {
+                                  buildAddPoliceTimeDialog(
+                                    context,
+                                    policeId: state
+                                        .policeResponse.value!.data![index].id,
+                                    initialMonth: state.policeResponse.value!
+                                        .data![index].month
+                                        ?.toString(),
+                                    initialYear: state
+                                        .policeResponse.value!.data![index].year
+                                        ?.toString(),
+                                    initialClockInTime: state.policeResponse
+                                        .value!.data![index].clockInTime,
+                                    initialClockOutTime: state.policeResponse
+                                        .value!.data![index].clockOutTime,
+                                  );
+                                },
                               ),
                             ),
                           );
@@ -99,7 +118,11 @@ class PoliceScreenBody extends StatelessWidget {
               }
             },
           ),
-          AddPoliceBlocListener(),
+          AddPoliceBlocListener(
+            addSuccessMessage: 'Police Added Successfully'.tr(context: context),
+            editSuccessMessage:
+                'Police Updated Successfully'.tr(context: context),
+          ),
         ],
       ),
     );

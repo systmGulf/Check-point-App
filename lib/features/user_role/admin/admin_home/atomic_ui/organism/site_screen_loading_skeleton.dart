@@ -21,11 +21,12 @@ class SiteScreenLoadingSkeleton extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-            child: const SitesItem(
+            child: SitesItem(
               id: '',
               name: 'data loading',
               descritption: 'data loading',
               location: 'data loading',
+              onEdit: _noop,
             ),
           );
         },
@@ -33,3 +34,5 @@ class SiteScreenLoadingSkeleton extends StatelessWidget {
     );
   }
 }
+
+void _noop() {}

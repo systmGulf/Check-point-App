@@ -18,6 +18,21 @@ class CustomerCubit extends Cubit<CustomerState> {
   TextEditingController editWorkedAsController = TextEditingController();
   TextEditingController editLocationController = TextEditingController();
   List<CustomerLocation> customersLocation = [];
+
+  void resetAddForm() {
+    nameController.clear();
+    workedAsController.clear();
+    locationController.clear();
+    customersLocation.clear();
+  }
+
+  void resetEditForm() {
+    editNameController.clear();
+    editWorkedAsController.clear();
+    editLocationController.clear();
+    customersLocation.clear();
+  }
+
   Future<void> addCustomer({required CustomerType customerType}) async {
     emit(AddCustomerLoading());
     final result = await customerRepo.addCustomer(AddOrEditCustomerRequestBody(
@@ -30,9 +45,7 @@ class CustomerCubit extends Cubit<CustomerState> {
     result.fold((l) {
       emit(AddCustomerError(error: l.message));
     }, (r) {
-      nameController.clear();
-      workedAsController.clear();
-      locationController.clear();
+      resetAddForm();
       emit(AddCustomerSuccess());
       getCustomersByType(customerType: customerType, isLoading: false);
     });
@@ -55,9 +68,7 @@ class CustomerCubit extends Cubit<CustomerState> {
     result.fold((l) {
       emit(EditCustomerError(error: l.message));
     }, (r) {
-      nameController.clear();
-      workedAsController.clear();
-      locationController.clear();
+      resetEditForm();
       emit(EditCustomerSuccess());
       getCustomersByType(customerType: customerType, isLoading: false);
     });
@@ -128,5 +139,16 @@ class CustomerCubit extends Cubit<CustomerState> {
         return customers;
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    nameController.dispose();
+    workedAsController.dispose();
+    locationController.dispose();
+    editNameController.dispose();
+    editWorkedAsController.dispose();
+    editLocationController.dispose();
+    return super.close();
   }
 }

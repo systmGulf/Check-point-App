@@ -8,15 +8,25 @@ import '../../../../../../core/widgets/custom_loading_indicator.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 
 class AddCustomerBlocListener extends StatelessWidget {
-  const AddCustomerBlocListener({super.key});
+  const AddCustomerBlocListener({
+    super.key,
+    required this.addSuccessMessage,
+    required this.editSuccessMessage,
+  });
+
+  final String addSuccessMessage;
+  final String editSuccessMessage;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<CustomerCubit, CustomerState>(
       listenWhen: (state, current) =>
           current is AddCustomerSuccess ||
+          current is EditCustomerSuccess ||
           current is AddCustomerError ||
-          current is AddCustomerLoading,
+          current is EditCustomerError ||
+          current is AddCustomerLoading ||
+          current is EditCustomerLoading,
       listener: (context, state) {
         if (state is AddCustomerSuccess) {
           context.pop();
@@ -25,8 +35,17 @@ class AddCustomerBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Customer Added Successfully'.tr(context: context),
-              // backgroundColor: Colors.red,
+              message: addSuccessMessage,
+            ),
+          );
+        } else if (state is EditCustomerSuccess) {
+          context.pop();
+          context.pop();
+
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.success(
+              message: editSuccessMessage,
             ),
           );
         } else if (state is AddCustomerError) {
@@ -35,7 +54,14 @@ class AddCustomerBlocListener extends StatelessWidget {
             Overlay.of(context),
             CustomSnackBar.error(
               message: state.error,
-              // backgroundColor: Colors.red,
+            ),
+          );
+        } else if (state is EditCustomerError) {
+          context.pop();
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.error(
+              message: state.error,
             ),
           );
         } else {

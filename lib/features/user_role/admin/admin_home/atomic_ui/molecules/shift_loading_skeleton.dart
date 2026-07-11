@@ -23,6 +23,7 @@ class ShiftLoadingSkeleton extends StatelessWidget {
             child: ShiftItem(
               onAdd: () {},
               onTap: () {},
+              onEdit: () {},
               onDelete: () {},
               shiftName: 'Data Loading',
             ),

@@ -21,10 +21,12 @@ class ClientItem extends StatelessWidget {
     required this.id,
     required this.color,
     required this.onTap,
+    required this.onEdit,
   });
   final String name, workedAs, location, id;
   final Color color;
   final VoidCallback onTap;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +73,28 @@ class ClientItem extends StatelessWidget {
               ),
             ],
           ),
-          trailing: AppActionIconButton.delete(
-            onPressed: () {
-              buildDeleteAlertDialog(context,
-                  title: 'Delete Client'.tr(context: context),
-                  message: 'Are you sure you want to delete this client?'
-                      .tr(context: context), onYes: () {
-                context.pop();
-                BlocProvider.of<CustomerCubit>(context).deleteCustomer(
-                    customerType: CustomerType.Customer, id: id);
-              });
-            },
-            size: 34,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppActionIconButton.edit(
+                onPressed: onEdit,
+                size: 34,
+              ),
+              const SizedBox(width: 8),
+              AppActionIconButton.delete(
+                onPressed: () {
+                  buildDeleteAlertDialog(context,
+                      title: 'Delete Client'.tr(context: context),
+                      message: 'Are you sure you want to delete this client?'
+                          .tr(context: context), onYes: () {
+                    context.pop();
+                    BlocProvider.of<CustomerCubit>(context).deleteCustomer(
+                        customerType: CustomerType.Customer, id: id);
+                  });
+                },
+                size: 34,
+              ),
+            ],
           )),
     );
   }

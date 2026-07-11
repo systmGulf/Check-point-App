@@ -14,6 +14,7 @@ import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/branch_cubit/branch_cubit.dart';
 import '../atoms/company_branch_item.dart';
 import '../organism/company_branch_loading_skeleton.dart';
+import 'company_branch_bottom_sheet.dart';
 
 class CompanyBranchesBlocBuilder extends StatelessWidget {
   const CompanyBranchesBlocBuilder({
@@ -88,6 +89,32 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                         ]);
                       },
                       child: CompanyBranchItem(
+                        onEdit: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
+                              ),
+                            ),
+                            builder: (BuildContext cnx) {
+                              return BlocProvider.value(
+                                value: context.read<BranchCubit>(),
+                                child: AddBranchBottomSheet(
+                                  branchId: state.branches.data![index].id,
+                                  initialName: state.branches.data![index].name,
+                                  initialLocation:
+                                      state.branches.data![index].location,
+                                  initialDescription:
+                                      state.branches.data![index].description,
+                                  initialCoordinates:
+                                      state.branches.data![index].coordinates,
+                                ),
+                              );
+                            },
+                          );
+                        },
                         onDelete: () {
                           buildDeleteAlertDialog(context,
                               title: 'Delete Branch'.tr(context: context),

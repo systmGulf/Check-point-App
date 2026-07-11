@@ -20,6 +20,7 @@ class CustomerLoadingSkeleton extends StatelessWidget {
             (context, index) =>  Skeletonizer(
               child: ClientItem(
                 onTap:() {},
+                onEdit: () {},
                 color: Colors.white,
                 id: '',
                 name: 'Load Data',

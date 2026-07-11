@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -13,7 +14,22 @@ import '../../controllers/branch_cubit/branch_cubit.dart';
 import 'add_branch_bloc_listener.dart';
 
 class AddBranchBottomSheet extends StatefulWidget {
-  const AddBranchBottomSheet({super.key});
+  const AddBranchBottomSheet({
+    super.key,
+    this.branchId,
+    this.initialName,
+    this.initialLocation,
+    this.initialDescription,
+    this.initialCoordinates,
+  });
+
+  final int? branchId;
+  final String? initialName;
+  final String? initialLocation;
+  final String? initialDescription;
+  final List<GetBranchesCoordinates>? initialCoordinates;
+
+  bool get isEdit => branchId != null;
 
   @override
   State<AddBranchBottomSheet> createState() => _AddBranchBottomSheetState();
@@ -26,10 +42,25 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
   void initState() {
     super.initState();
     final branchCubit = context.read<BranchCubit>();
-    branchCubit.nameController.clear();
-    branchCubit.locationController.clear();
-    branchCubit.descriptionController.clear();
-    branchCubit.locationFrame.clear();
+    if (widget.isEdit) {
+      branchCubit.nameController.text = widget.initialName ?? '';
+      branchCubit.locationController.text = widget.initialLocation ?? '';
+      branchCubit.descriptionController.text = widget.initialDescription ?? '';
+      branchCubit.locationFrame
+        ..clear()
+        ..addAll(
+          (widget.initialCoordinates ?? [])
+              .map(
+                (coordinate) => LocationFrameLatLng(
+                  latitude: coordinate.latitude ?? 0,
+                  longitude: coordinate.longitude ?? 0,
+                ),
+              )
+              .toList(),
+        );
+    } else {
+      branchCubit.resetForm();
+    }
   }
 
   @override
@@ -38,7 +69,7 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: IntrinsicHeight(
+      child: SingleChildScrollView(
         child: Form(
           key: formKey,
           child: Container(
@@ -52,6 +83,7 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
               ),
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Align(
                     alignment: Alignment.topRight,
@@ -63,7 +95,9 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                     )),
                 SizedBox(
                   child: Text(
-                    'Add New Company Branch'.tr(context: context),
+                    widget.isEdit
+                        ? 'Edit Company Branch'.tr(context: context)
+                        : 'Add New Company Branch'.tr(context: context),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorsManger.primaryColor,
@@ -103,7 +137,15 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                       builder: (builder) {
                         return BlocProvider.value(
                           value: BlocProvider.of<BranchCubit>(context),
-                          child: const MapDialog(),
+                          child: MapDialog(
+                            initialCoordinates:
+                                BlocProvider.of<BranchCubit>(context)
+                                    .locationFrame,
+                            initialAddress:
+                                BlocProvider.of<BranchCubit>(context)
+                                    .locationController
+                                    .text,
+                          ),
                         );
                       },
                     ).then((value) {
@@ -134,7 +176,9 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                 verticalSpace(20),
                 CustomAppButton(
                   buttonColor: ColorsManger.primaryColor,
-                  textButton: 'Save'.tr(context: context),
+                  textButton: widget.isEdit
+                      ? 'Save'.tr(context: context)
+                      : 'Add Branch'.tr(context: context),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (BlocProvider.of<BranchCubit>(context)
@@ -152,13 +196,23 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                           ),
                         );
                       } else {
-                        BlocProvider.of<BranchCubit>(context).addBranch();
+                        if (widget.isEdit) {
+                          BlocProvider.of<BranchCubit>(context)
+                              .editBranch(id: widget.branchId!);
+                        } else {
+                          BlocProvider.of<BranchCubit>(context).addBranch();
+                        }
                       }
                     }
                   },
                 ),
                 verticalSpace(20),
-                const AddBranchBlocListener(),
+                AddBranchBlocListener(
+                  addSuccessMessage:
+                      'Branch Added Successfully'.tr(context: context),
+                  editSuccessMessage:
+                      'Branch Updated Successfully'.tr(context: context),
+                ),
               ],
             ),
           ),

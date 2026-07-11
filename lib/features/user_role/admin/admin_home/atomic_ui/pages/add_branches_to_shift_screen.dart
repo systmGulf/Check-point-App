@@ -62,6 +62,7 @@ class AddBranchesToShiftScreen extends StatelessWidget {
               name: 'name',
               location: 'location',
               decoration: ' sd',
+              onEdit: () {},
               onDelete: () {
                 buildDeleteAlertDialog(
                   context,

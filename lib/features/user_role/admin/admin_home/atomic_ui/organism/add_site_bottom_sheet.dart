@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
@@ -13,7 +14,22 @@ import 'add_customer_bloc_listener.dart';
 import 'select_location_of_site_bottom_sheet.dart';
 
 class AddSiteBottomSheet extends StatefulWidget {
-  const AddSiteBottomSheet({super.key});
+  const AddSiteBottomSheet({
+    super.key,
+    this.customerId,
+    this.initialName,
+    this.initialWorkedAs,
+    this.initialLocation,
+    this.initialCoordinates,
+  });
+
+  final String? customerId;
+  final String? initialName;
+  final String? initialWorkedAs;
+  final String? initialLocation;
+  final List<CustomerCoordinates>? initialCoordinates;
+
+  bool get isEdit => customerId != null;
 
   @override
   State<AddSiteBottomSheet> createState() => _AddSiteBottomSheetState();
@@ -23,13 +39,22 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
   @override
   initState() {
     super.initState();
-    BlocProvider.of<CustomerCubit>(context).nameController =
-        TextEditingController();
-    BlocProvider.of<CustomerCubit>(context).workedAsController =
-        TextEditingController();
-    BlocProvider.of<CustomerCubit>(context).customersLocation = [];
-    BlocProvider.of<CustomerCubit>(context).locationController =
-        TextEditingController();
+    final customerCubit = context.read<CustomerCubit>();
+    if (widget.isEdit) {
+      customerCubit.editNameController.text = widget.initialName ?? '';
+      customerCubit.editWorkedAsController.text = widget.initialWorkedAs ?? '';
+      customerCubit.editLocationController.text = widget.initialLocation ?? '';
+      customerCubit.customersLocation = (widget.initialCoordinates ?? [])
+          .map(
+            (coordinate) => CustomerLocation(
+              latitude: coordinate.latitude ?? 0,
+              longitude: coordinate.longitude ?? 0,
+            ),
+          )
+          .toList();
+    } else {
+      customerCubit.resetAddForm();
+    }
   }
 
   @override
@@ -46,7 +71,7 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only( 
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(20),
                   )),
@@ -63,7 +88,9 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                         )),
                     SizedBox(
                       child: Text(
-                        'Add New Site'.tr(context: context),
+                        widget.isEdit
+                            ? 'Edit Site'.tr(context: context)
+                            : 'Add New Site'.tr(context: context),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsManger.primaryColor,
@@ -78,8 +105,9 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .nameController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editNameController
+                          : context.read<CustomerCubit>().nameController,
                       hint: 'Name'.tr(context: context),
                     ),
                     verticalSpace(7),
@@ -91,8 +119,9 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .workedAsController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editWorkedAsController
+                          : context.read<CustomerCubit>().workedAsController,
                       hint: 'Describe'.tr(context: context),
                     ),
                     verticalSpace(7),
@@ -105,7 +134,21 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                           builder: (builder) {
                             return BlocProvider.value(
                               value: context.read<CustomerCubit>(),
-                              child: const SelectLocationOfSiteBottomSheet(),
+                              child: SelectLocationOfSiteBottomSheet(
+                                useEditControllers: widget.isEdit,
+                                initialCoordinates: context
+                                    .read<CustomerCubit>()
+                                    .customersLocation,
+                                initialAddress: widget.isEdit
+                                    ? context
+                                        .read<CustomerCubit>()
+                                        .editLocationController
+                                        .text
+                                    : context
+                                        .read<CustomerCubit>()
+                                        .locationController
+                                        .text,
+                              ),
                             );
                           },
                         ).then((value) {
@@ -136,13 +179,16 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                         }
                         return null;
                       },
-                      controller: BlocProvider.of<CustomerCubit>(context)
-                          .locationController,
+                      controller: widget.isEdit
+                          ? context.read<CustomerCubit>().editLocationController
+                          : context.read<CustomerCubit>().locationController,
                       hint: 'Location'.tr(context: context),
                     ),
                     verticalSpace(7),
                     CustomAppButton(
-                        textButton: 'Submit'.tr(context: context),
+                        textButton: widget.isEdit
+                            ? 'Save'.tr(context: context)
+                            : 'Submit'.tr(context: context),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: () {
                           if (BlocProvider.of<CustomerCubit>(context)
@@ -153,10 +199,18 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                                 .read<CustomerCubit>()
                                 .customersLocation
                                 .isNotEmpty) {
-                              BlocProvider.of<CustomerCubit>(context)
-                                  .addCustomer(
-                                customerType: CustomerType.Site,
-                              );
+                              if (widget.isEdit) {
+                                BlocProvider.of<CustomerCubit>(context)
+                                    .editCustomer(
+                                  id: widget.customerId!,
+                                  customerType: CustomerType.Site,
+                                );
+                              } else {
+                                BlocProvider.of<CustomerCubit>(context)
+                                    .addCustomer(
+                                  customerType: CustomerType.Site,
+                                );
+                              }
                             } else {
                               showTopSnackBar(
                                 Overlay.of(context),
@@ -168,7 +222,12 @@ class _AddSiteBottomSheetState extends State<AddSiteBottomSheet> {
                             }
                           }
                         }),
-                    const AddCustomerBlocListener()
+                    AddCustomerBlocListener(
+                      addSuccessMessage:
+                          'Site Added Successfully'.tr(context: context),
+                      editSuccessMessage:
+                          'Site Updated Successfully'.tr(context: context),
+                    )
                   ],
                 ),
               ),

@@ -11,7 +11,16 @@ import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import 'add_shift_bloc_listener.dart';
 
 class AddShiftBottomSheet extends StatefulWidget {
-  const AddShiftBottomSheet({super.key});
+  const AddShiftBottomSheet({
+    super.key,
+    this.shiftId,
+    this.initialName,
+  });
+
+  final int? shiftId;
+  final String? initialName;
+
+  bool get isEdit => shiftId != null;
 
   @override
   State<AddShiftBottomSheet> createState() => _AddShiftBottomSheetState();
@@ -21,14 +30,14 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
   @override
   initState() {
     super.initState();
-
-    context.read<ShiftsAndPolicesCubit>().shiftNameController.clear();
+    final cubit = context.read<ShiftsAndPolicesCubit>();
+    cubit.shiftNameController.text = widget.initialName ?? '';
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
+    return SingleChildScrollView(
       child: Container(
           padding: const EdgeInsets.all(20),
           width: double.infinity,
@@ -51,6 +60,12 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
                     child: const Icon(Icons.close),
                   )),
               verticalSpace(20.h),
+              Text(
+                widget.isEdit
+                    ? 'Edit Shift'.tr(context: context)
+                    : 'Add Shift'.tr(context: context),
+              ),
+              verticalSpace(20.h),
               CustomAppTextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -63,15 +78,28 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
                   hint: 'Shift Name'.tr(context: context)),
               verticalSpace(20.h),
               CustomAppButton(
-                textButton: 'Add Shift'.tr(context: context),
+                textButton: widget.isEdit
+                    ? 'Save'.tr(context: context)
+                    : 'Add Shift'.tr(context: context),
                 buttonColor: ColorsManger.primaryColor,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    context.read<ShiftsAndPolicesCubit>().addShift();
+                    if (widget.isEdit) {
+                      context
+                          .read<ShiftsAndPolicesCubit>()
+                          .editShift(id: widget.shiftId!);
+                    } else {
+                      context.read<ShiftsAndPolicesCubit>().addShift();
+                    }
                   }
                 },
               ),
-              AddShiftBlocListener()
+              AddShiftBlocListener(
+                addSuccessMessage:
+                    'Shift Added Successfully'.tr(context: context),
+                editSuccessMessage:
+                    'Shift Updated Successfully'.tr(context: context),
+              )
             ]),
           )),
     );

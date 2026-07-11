@@ -31,6 +31,15 @@ final class AddBranchError extends BranchState {
 }
 final class DeleteBranchSuccess extends BranchState {}
 
+final class EditBranchLoading extends BranchState {}
+
+final class EditBranchSuccess extends BranchState {}
+
+final class EditBranchError extends BranchState {
+  final String error;
+  EditBranchError({required this.error});
+}
+
 final class DeleteBranchError extends BranchState {
   final String error;
   DeleteBranchError({required this.error});

@@ -37,17 +37,7 @@ class ManagementScreen extends StatelessWidget {
           icon: Icons.group,
         ),
       ),
-      SlideInLeft(
-        from: 200,
-        child: AdminManagementScreenItems(
-          color: Colors.blueGrey,
-          onTap: () {
-            context.pushName(Routes.notifyUsersScreen);
-          },
-          text: 'Notifications'.tr(context: context),
-          icon: Icons.notifications_outlined,
-        ),
-      ),
+
     ];
     return Stack(
       children: [

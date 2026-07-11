@@ -1,19 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/enums/customer_type.dart';
-import 'package:employee_mangement/core/helpers/extention.dart';
-import 'package:employee_mangement/core/routing/routes.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/no_interet_connextion_widget.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_management_system_package/admin_infrastructure/data/models/customers_model/get_customer_model.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../atoms/client_item.dart';
 import '../molecules/custom_admin_app_bar.dart';
+import 'add_client_bottom_sheet.dart';
 
 class ClientsBodyScreen extends StatefulWidget {
   const ClientsBodyScreen({Key? key}) : super(key: key);
@@ -88,7 +87,9 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
   Widget build(BuildContext context) {
     return BlocListener<CustomerCubit, CustomerState>(
       listener: (context, state) {
-        if (state is DeleteCustomerSuccess) {
+        if (state is AddCustomerSuccess ||
+            state is EditCustomerSuccess ||
+            state is DeleteCustomerSuccess) {
           _refreshList();
         }
       },
@@ -150,8 +151,29 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
 
   Widget _buildClientItem(CustomerData client) {
     return ClientItem(
-      onTap: () {
-        context.pushName(Routes.ClientDetailsScreen);
+      onTap: () {},
+      onEdit: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+          ),
+          builder: (BuildContext cnx) {
+            return BlocProvider.value(
+              value: context.read<CustomerCubit>(),
+              child: AddClientBottomSheet(
+                customerId: client.id,
+                initialName: client.name,
+                initialWorkedAs: client.workesAs,
+                initialLocation: client.location,
+                initialCoordinates: client.coordinates,
+              ),
+            );
+          },
+        );
       },
       color: selectedClients.contains(client.id)
           ? Colors.grey.shade300
@@ -171,6 +193,7 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
         (index) => Skeletonizer(
           child: ClientItem(
             onTap: () {},
+            onEdit: () {},
             color: Colors.white,
             id: '',
             name: 'Load Data',

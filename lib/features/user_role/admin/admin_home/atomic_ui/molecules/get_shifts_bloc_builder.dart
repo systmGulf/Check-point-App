@@ -11,6 +11,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import '../atoms/shift_item.dart';
+import '../organism/add_shifts_bottom_sheet.dart';
 import './shift_loading_skeleton.dart';
 
 class GetShiftsBlocBuilder extends StatelessWidget {
@@ -59,6 +60,36 @@ class GetShiftsBlocBuilder extends StatelessWidget {
                                     context.pushName(Routes.policeScreen,
                                         arguments: state
                                             .shiftModel.value!.data![index].id);
+                                  },
+                                  onEdit: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(20),
+                                        ),
+                                      ),
+                                      builder: (BuildContext cnx) {
+                                        return BlocProvider.value(
+                                          value: context
+                                              .read<ShiftsAndPolicesCubit>(),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom,
+                                            ),
+                                            child: AddShiftBottomSheet(
+                                              shiftId: state.shiftModel.value!
+                                                  .data![index].id,
+                                              initialName: state.shiftModel
+                                                  .value!.data![index].name,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
                                   onDelete: () async {
                                     context

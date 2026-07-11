@@ -8,15 +8,25 @@ import '../../../../../../core/widgets/custom_loading_indicator.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 
 class AddPoliceBlocListener extends StatelessWidget {
-  const AddPoliceBlocListener({super.key});
+  const AddPoliceBlocListener({
+    super.key,
+    required this.addSuccessMessage,
+    required this.editSuccessMessage,
+  });
+
+  final String addSuccessMessage;
+  final String editSuccessMessage;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
       listenWhen: (previous, current) =>
           current is AddPoliceSuccess ||
+          current is EditPoliceSuccess ||
           current is AddPoliceFailure ||
+          current is EditPoliceFailure ||
           current is AddPoliceLoading ||
+          current is EditPoliceLoading ||
           current is RemoveAssignPolicySuccessState ||
           current is AssignPoliceError ||
           current is DeletePoliceError,
@@ -45,7 +55,17 @@ class AddPoliceBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Police Added Successfully'.tr(context: context),
+              message: addSuccessMessage,
+            ),
+          );
+        }
+        if (state is EditPoliceSuccess) {
+          context.pop();
+          context.pop();
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.success(
+              message: editSuccessMessage,
             ),
           );
         }
@@ -64,7 +84,15 @@ class AddPoliceBlocListener extends StatelessWidget {
               message: state.error,
             ),
           );
-        } else if (state is AddPoliceLoading) {
+        } else if (state is EditPoliceFailure) {
+          context.pop();
+          showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.error(
+              message: state.error,
+            ),
+          );
+        } else if (state is AddPoliceLoading || state is EditPoliceLoading) {
           customLoadingIndicator(context);
         }
       },

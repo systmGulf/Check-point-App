@@ -170,7 +170,12 @@ class _EmployeeAddNewCustomerScreenState
                             }
                           }
                         }),
-                    const AddCustomerBlocListener()
+                    AddCustomerBlocListener(
+                      addSuccessMessage:
+                          'Customer Added Successfully'.tr(context: context),
+                      editSuccessMessage:
+                          'Customer Updated Successfully'.tr(context: context),
+                    )
                   ],
                 ),
               ),

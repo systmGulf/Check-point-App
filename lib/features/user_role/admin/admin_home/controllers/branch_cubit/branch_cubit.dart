@@ -13,6 +13,13 @@ class BranchCubit extends Cubit<BranchState> {
   final TextEditingController descriptionController = TextEditingController();
   final List<LocationFrameLatLng> locationFrame = [];
 
+  void resetForm() {
+    nameController.clear();
+    locationController.clear();
+    descriptionController.clear();
+    locationFrame.clear();
+  }
+
   Future<void> getBranches({required bool isLoading}) async {
     if (isLoading) emit(GetBranchLoading());
     final result = await branchesRepo.getAllBranches();
@@ -42,6 +49,28 @@ class BranchCubit extends Cubit<BranchState> {
     }, (r) async {
       if (isClosed) return;
       emit(AddBranchSuccess());
+      await getBranches(isLoading: false);
+    });
+  }
+
+  Future<void> editBranch({required int id}) async {
+    emit(EditBranchLoading());
+    final result = await branchesRepo.editBranch(
+      id: id,
+      addBranchRequestBody: AddBrachRequestBody(
+        name: nameController.text,
+        location: locationController.text,
+        description: descriptionController.text,
+        coordinates: locationFrame,
+      ),
+    );
+
+    result.fold((l) {
+      if (isClosed) return;
+      emit(EditBranchError(error: l.message));
+    }, (r) async {
+      if (isClosed) return;
+      emit(EditBranchSuccess());
       await getBranches(isLoading: false);
     });
   }

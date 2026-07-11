@@ -14,11 +14,13 @@ class ShiftItem extends StatelessWidget {
     required this.onDelete,
     required this.onTap,
     required this.onAdd,
+    required this.onEdit,
   });
   final String shiftName;
   final VoidCallback onDelete;
   final VoidCallback onTap;
   final VoidCallback onAdd;
+  final VoidCallback onEdit;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,6 +40,8 @@ class ShiftItem extends StatelessWidget {
                 Text(shiftName, style: AppStylesManger.font15BoldBlack)
               ]),
           Spacer(),
+          AppActionIconButton.edit(onPressed: onEdit, size: 34),
+          horizontalSpace(8.w),
           AppActionIconButton.delete(onPressed: onDelete, size: 34)
         ]),
       ),

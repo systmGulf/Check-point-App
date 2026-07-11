@@ -17,9 +17,11 @@ class SitesItem extends StatelessWidget {
     required this.descritption,
     required this.location,
     required this.id,
+    required this.onEdit,
   });
   final String name, descritption, location;
   final String id;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +62,31 @@ class SitesItem extends StatelessWidget {
               ),
             ],
           ),
-          trailing: AppActionIconButton.delete(
-            onPressed: () {
-              buildDeleteAlertDialog(context,
-                  title: 'Delete Site'.tr(context: context),
-                  message: 'Are you sure you want to delete this Site?'
-                      .tr(context: context), onYes: () {
-                context
-                    .read<CustomerCubit>()
-                    .deleteCustomer(id: id, customerType: CustomerType.Site);
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppActionIconButton.edit(
+                onPressed: onEdit,
+                size: 34,
+              ),
+              const SizedBox(width: 8),
+              AppActionIconButton.delete(
+                onPressed: () {
+                  buildDeleteAlertDialog(context,
+                      title: 'Delete Site'.tr(context: context),
+                      message: 'Are you sure you want to delete this Site?'
+                          .tr(context: context), onYes: () {
+                    context
+                        .read<CustomerCubit>()
+                        .deleteCustomer(
+                            id: id, customerType: CustomerType.Site);
 
-                context.pop();
-              });
-            },
-            size: 34,
+                    context.pop();
+                  });
+                },
+                size: 34,
+              ),
+            ],
           )),
     );
   }

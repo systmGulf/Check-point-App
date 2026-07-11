@@ -1,6 +1,5 @@
 import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_user_image_cubit.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/add_branches_to_shift_screen.dart';
-import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/clients_details_screen.dart';
 import 'package:employee_mangement/features/user_role/admin/admin_home/atomic_ui/pages/police_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,10 +91,6 @@ abstract class AppRouter {
             create: (context) => getIt<TasksCubit>(),
             child: const SupervisorAddTasksScreen(),
           ),
-        );
-      case Routes.ClientDetailsScreen:
-        return BaseRoute(
-          page: const ClientDetailsScreen(),
         );
       case Routes.leaveApplicationScreen:
         return BaseRoute(

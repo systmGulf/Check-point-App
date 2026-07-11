@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/enums/customer_type.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -10,6 +11,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
 import '../../controllers/customer_cubit/customer_cubit.dart';
 import '../atoms/sites_item.dart';
+import 'add_site_bottom_sheet.dart';
 import './site_screen_loading_skeleton.dart';
 
 class SiteScreenBody extends StatelessWidget {
@@ -85,6 +87,33 @@ class SiteScreenBody extends StatelessWidget {
                           name: sites[index].name as String,
                           descritption: sites[index].workesAs as String,
                           location: sites[index].location as String,
+                          onEdit: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              builder: (BuildContext cnx) {
+                                return BlocProvider.value(
+                                  value: context.read<CustomerCubit>(),
+                                  child: AddSiteBottomSheet(
+                                    customerId: sites[index].id as String,
+                                    initialName: sites[index].name as String,
+                                    initialWorkedAs:
+                                        sites[index].workesAs as String,
+                                    initialLocation:
+                                        sites[index].location as String,
+                                    initialCoordinates:
+                                        sites[index].coordinates
+                                            as List<CustomerCoordinates>?,
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ),
                     );

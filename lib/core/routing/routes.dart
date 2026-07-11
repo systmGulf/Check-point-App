@@ -42,7 +42,6 @@ class Routes {
   static const String termsAndConditionsScreen = '/termsAndConditionsScreen';
   static const String employeeAddNewCustomerScreen =
       '/employeeAddNewCustomerScreen';
-  static const String ClientDetailsScreen = '/ClientDetailsScreen';
   static const String myPlansScreen = '/myPlansScreen';
   static const String employeeAttendanceHistoryScreen =
       '/employeeAttendanceHistoryScreen';

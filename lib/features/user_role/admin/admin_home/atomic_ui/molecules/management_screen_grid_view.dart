@@ -26,17 +26,7 @@ class ManagementScreenGridView extends StatelessWidget {
           color2: Colors.white,
         ),
       ),
-      BounceInLeft(
-        child: ManagementScreenGridViewItem(
-          onTap: () {
-            context.pushName(Routes.holidaysScreen);
-          },
-          image: 'assets/images/calendar-date.png',
-          text: 'Holidays'.tr(context: context),
-          color1: const Color.fromARGB(255, 96, 161, 214),
-          color2: Colors.white,
-        ),
-      ),
+
       BounceInLeft(
         child: ManagementScreenGridViewItem(
           onTap: () {
@@ -71,7 +61,7 @@ class ManagementScreenGridView extends StatelessWidget {
       itemBuilder: (context, index) {
         return items[index];
       },
-      itemCount: 4,
+      itemCount: 3,
     );
   }
 }
