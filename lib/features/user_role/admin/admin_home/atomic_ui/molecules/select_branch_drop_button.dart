@@ -27,7 +27,7 @@ class _SelectBranchDropButtonState extends State<SelectBranchDropButton> {
           borderRadius: BorderRadius.circular(10)),
       child: DropdownButton(
         hint: Text(
-          'Select Branch'.tr(context: context),
+          'Select Branch'.tr(),
         ),
         isExpanded: true,
         icon: const Icon(Icons.keyboard_arrow_down),

@@ -65,7 +65,7 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                   backgroundColor: Colors.white,
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.1,
-                    title: Text('Company Branches'.tr(context: context),
+                    title: Text('Company Branches'.tr(),
                         style: AppStylesManger.font18BoldBlack),
                   ),
                 ),
@@ -117,10 +117,10 @@ class CompanyBranchesBlocBuilder extends StatelessWidget {
                         },
                         onDelete: () {
                           buildDeleteAlertDialog(context,
-                              title: 'Delete Branch'.tr(context: context),
+                              title: 'Delete Branch'.tr(),
                               message:
                                   'Are you sure you want to delete this branch?'
-                                      .tr(context: context), onYes: () {
+                                      .tr(), onYes: () {
                             context.pop();
                             BlocProvider.of<BranchCubit>(context).deleteBranch(
                               state.branches.data![index].id ?? 0,

@@ -23,7 +23,7 @@ class AddTaskBlocListener extends StatelessWidget {
 
           buildSnackBar(context,
               customSnackBar: CustomSnackBar.success(
-                  message: "Task added successfully".tr(context: context)));
+                  message: "Task added successfully".tr()));
         } else if (state is AddTaskError) {
           Navigator.pop(context);
           buildSnackBar(context,

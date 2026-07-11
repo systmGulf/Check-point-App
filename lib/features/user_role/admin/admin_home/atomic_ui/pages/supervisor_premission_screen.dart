@@ -24,7 +24,7 @@ class _SupervisorPermissionState extends State<SupervisorPermission> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, "Permission".tr(context: context)),
+        appBar: buildCustomAppBar(context, "Permission".tr()),
         body: Column(
           children: [
             SupervisorPermissionItem(
@@ -34,7 +34,7 @@ class _SupervisorPermissionState extends State<SupervisorPermission> {
                 setState(() {});
               },
               isChecked: widget.attendancePermission,
-              text: 'Can attend employee'.tr(context: context),
+              text: 'Can attend employee'.tr(),
               icon: Icons.verified,
               iconColor: Colors.blue,
             ),
@@ -45,7 +45,7 @@ class _SupervisorPermissionState extends State<SupervisorPermission> {
                 setState(() {});
               },
               isChecked: widget.planPermission,
-              text: 'Set Plan and Location'.tr(context: context),
+              text: 'Set Plan and Location'.tr(),
               icon: Icons.location_on,
               iconColor: const Color.fromARGB(255, 207, 171, 168),
             ),

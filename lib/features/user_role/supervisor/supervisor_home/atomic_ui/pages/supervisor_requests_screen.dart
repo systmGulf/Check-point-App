@@ -20,11 +20,11 @@ class _SupervisorRequestsScreenState extends State<SupervisorRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     final texts = <String>[
-      'Leave Requests'.tr(context: context),
-      'Claim Requests'.tr(context: context),
-      'Leave Schedule'.tr(context: context),
-      'Leave Planner'.tr(context: context),
-      'accident'.tr(context: context),
+      'Leave Requests'.tr(),
+      'Claim Requests'.tr(),
+      'Leave Schedule'.tr(),
+      'Leave Planner'.tr(),
+      'accident'.tr(),
     ];
     return ListView(
       children: [

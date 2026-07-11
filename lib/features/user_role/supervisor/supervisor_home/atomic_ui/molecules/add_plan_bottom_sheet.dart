@@ -46,7 +46,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
                   child: const Icon(Icons.close),
                 )),
             Text(
-              'Set Plan'.tr(context: context),
+              'Set Plan'.tr(),
               style: AppStylesManger.font16BoldBlack,
             ),
             verticalSpace(5),
@@ -54,7 +54,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
               children: [
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Date of plan'.tr(context: context),
+                  child: Text('Date of plan'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -96,7 +96,7 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
                 letterSpacing: 0.20,
               ),
               hint: context.read<PlanCubit>().planDate == '0'
-                  ? 'choose due date...'.tr(context: context)
+                  ? 'choose due date...'.tr()
                   : context.read<PlanCubit>().planDate,
               suffixIcon: SizedBox(
                   height: 24,
@@ -107,20 +107,20 @@ class _AddPlanBottomSheetState extends State<AddPlanBottomSheet> {
             verticalSpace(10),
             Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text('Note'.tr(context: context),
+              child: Text('Note'.tr(),
                   style: AppStylesManger.font12RegularGrey),
             ),
             verticalSpace(10),
             CustomAppTextFormField(
                 controller: context.read<PlanCubit>().noteController,
                 maxLines: 3,
-                hint: 'Note'.tr(context: context)),
+                hint: 'Note'.tr()),
             verticalSpace(10),
             CustomAppButton(
               onPressed: () {
                 validateAndAddPlan(context);
               },
-              textButton: 'Add'.tr(context: context),
+              textButton: 'Add'.tr(),
               buttonColor: ColorsManger.primaryColor,
             ),
             const AddPlanBlocListener()

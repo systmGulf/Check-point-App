@@ -46,7 +46,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            buildCustomAppBar(context, 'Incident Team'.tr(context: context)),
+            buildCustomAppBar(context, 'Incident Team'.tr()),
         body: Form(
           key: formKey,
           child: Padding(
@@ -55,7 +55,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
               child: Column(children: [
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('For a while'.tr(context: context),
+                  child: Text('For a while'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -63,13 +63,13 @@ class _IncidentTeamState extends State<IncidentTeam> {
                   children: [
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      placeholder: 'From'.tr(context: context),
+                      placeholder: 'From'.tr(),
                       dateField: LeaveRequestDateField.from,
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      placeholder: 'To'.tr(context: context),
+                      placeholder: 'To'.tr(),
                       dateField: LeaveRequestDateField.to,
                     )),
                   ],
@@ -77,7 +77,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('who'.tr(context: context),
+                  child: Text('who'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -179,7 +179,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Reason'.tr(context: context),
+                  child: Text('Reason'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -193,11 +193,11 @@ class _IncidentTeamState extends State<IncidentTeam> {
                     },
                     maxLines: 5,
                     hint:
-                        'Reason * (200 Chaaracters Max)'.tr(context: context)),
+                        'Reason * (200 Chaaracters Max)'.tr()),
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Remark'.tr(context: context),
+                  child: Text('Remark'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -209,13 +209,13 @@ class _IncidentTeamState extends State<IncidentTeam> {
                       return null;
                     },
                     controller: remarkController,
-                    hint: 'Remark'.tr(context: context)),
+                    hint: 'Remark'.tr()),
                 verticalSpace(10),
                 CustomAppButton(
                   onPressed: () {
                     validateAndSubmitLeaveRequest();
                   },
-                  textButton: 'Submit'.tr(context: context),
+                  textButton: 'Submit'.tr(),
                   buttonColor: ColorsManger.primaryColor,
                 ),
                 const CreateLeaveApplicationBlocListener(

@@ -96,14 +96,14 @@ class _SelectLocationOfSiteBottomSheetState
                 Align(
                   alignment: AlignmentDirectional.topStart,
                   child: Text(
-                    'Pick Location'.tr(context: context),
+                    'Pick Location'.tr(),
                     style: AppStylesManger.font15BoldBlack,
                   ),
                 ),
                 verticalSpace(12),
                 CustomAppTextFormField(
                   controller: _searchController,
-                  hint: 'Search Location'.tr(context: context),
+                  hint: 'Search Location'.tr(),
                   onChanged: _onSearchChanged,
                   suffixIcon: _isSearching
                       ? const Padding(
@@ -173,7 +173,7 @@ class _SelectLocationOfSiteBottomSheetState
                               height: 48.h,
                               child: OutlinedButton(
                                 onPressed: _undoLastPoint,
-                                child: Text('Undo'.tr(context: context)),
+                                child: Text('Undo'.tr()),
                               ),
                             ),
                           ),
@@ -183,7 +183,7 @@ class _SelectLocationOfSiteBottomSheetState
                               height: 48.h,
                               child: OutlinedButton(
                                 onPressed: _clearAllPoints,
-                                child: Text('Clear All'.tr(context: context)),
+                                child: Text('Clear All'.tr()),
                               ),
                             ),
                           ),
@@ -202,7 +202,7 @@ class _SelectLocationOfSiteBottomSheetState
                               ),
                               onPressed: _setAddressFromFirstPoint,
                               child: Text(
-                                'set'.tr(context: context),
+                                'set'.tr(),
                                 style: AppStylesManger.font14regularWhite
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
@@ -222,7 +222,7 @@ class _SelectLocationOfSiteBottomSheetState
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                'cancel'.tr(context: context),
+                                'cancel'.tr(),
                                 style: AppStylesManger.font14regularWhite
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
@@ -243,7 +243,7 @@ class _SelectLocationOfSiteBottomSheetState
                         ),
                         onPressed: _applyAndClose,
                         child: Text(
-                          'Done'.tr(context: context),
+                          'Done'.tr(),
                           style: AppStylesManger.font14regularWhite
                               .copyWith(fontWeight: FontWeight.bold),
                         ),

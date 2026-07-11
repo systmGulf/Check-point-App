@@ -34,21 +34,21 @@ class AddPlanBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: "Plan added successfully".tr(context: context),
+              message: "Plan added successfully".tr(),
             ),
           );
         } else if (state is DeletePlanError) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: state.error.tr(context: context),
+              message: state.error.tr(),
             ),
           );
         } else if (state is DeletePlanSuccess) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: "Plan deleted successfully".tr(context: context),
+              message: "Plan deleted successfully".tr(),
             ),
           );
         } else if (state is AddPlanLoading) {

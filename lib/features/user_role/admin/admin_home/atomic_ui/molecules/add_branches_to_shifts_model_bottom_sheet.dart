@@ -63,14 +63,14 @@ class _AddBranchesToShiftsModalBottomSheetState
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    hintText: 'select branches'.tr(context: context),
+                    hintText: 'select branches'.tr(),
                   ),
                   searchEnabled: true,
                   searchDecoration: SearchFieldDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    hintText: 'Search'.tr(context: context),
+                    hintText: 'Search'.tr(),
                   ),
                   chipDecoration: ChipDecoration(
                     backgroundColor: ColorsManger.primaryColor,

@@ -14,7 +14,7 @@
 - **State management:** `flutter_bloc` (Cubit) — states are **hand-written abstract classes** (NOT Freezed).
 - **Networking:** `http` package via the `hr_management_system_package` local package; results are returned as `Either<Failure, T>` (Left = failure, Right = success).
 - **Dependency injection:** `get_it`, registered in `lib/core/dependencyـinjection/registerـfactory.dart`.
-- **Localization:** `easy_localization` with string keys, always called with `'key'.tr(context: context)`.
+- **Localization:** `easy_localization` with string keys, always called with `'key'.tr()`.
 - **Responsive sizing:** `flutter_screenutil` — use `16.w`, `24.h`, `12.r`, `14.sp`. Never raw pixel literals.
 - **Storage:** `flutter_secure_storage` for tokens; `shared_preferences` for non-sensitive flags.
 - **Routing:** Navigator 1.0 with string constants in `Routes` and a single `AppRouter` switch.
@@ -423,10 +423,12 @@ Text('Hello', style: AppStylesManger.font16BoldBlack);
 
 ## 10. Localization (Arabic + English, RTL-aware)
 
-- **Never** hardcode user-facing strings. Always `'key'.tr(context: context)`.
+- **Never** hardcode user-facing strings. Always `'key'.tr()`.
+- Key naming: `feature.screen.element` (e.g., `login.form.emailHint`). Keep keys in sync between `ar.json` and `en.json`.
 - For directional layouts, use `EdgeInsetsDirectional`, `AlignmentDirectional`, and `start`/`end` instead of `left`/`right`.
-- Icons implying direction (arrows, chevrons) must mirror in RTL — use `Directionality` wrapper where needed.
-- Numbers and dates formatted via `intl` with the current locale.
+- Icons that imply direction (arrows, chevrons) must mirror in RTL.
+- Numbers, dates, and currency formatted via `intl` with the current locale.
+- Failure messages: repos/use cases return **localization keys**, not raw strings. UI translates on display.
 
 ```dart
 // ❌ BAD
@@ -438,7 +440,7 @@ Padding(
 // ✅ GOOD
 Padding(
   padding: EdgeInsetsDirectional.only(start: 16.w),
-  child: Text('Departments'.tr(context: context)),
+  child: Text('Departments'.tr()),
 )
 ```
 

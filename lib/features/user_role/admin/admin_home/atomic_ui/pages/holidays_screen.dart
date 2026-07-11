@@ -10,7 +10,7 @@ class HolidaysScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, 'Holidays'.tr(context: context)),
+        appBar: buildCustomAppBar(context, 'Holidays'.tr()),
         body: Center(child: Image.asset(Assets.NodataImage)));
   }
 }

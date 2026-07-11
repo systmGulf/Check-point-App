@@ -24,7 +24,7 @@ class AssignTaskBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: "Task assigned successfully".tr(context: context),
+              message: "Task assigned successfully".tr(),
             ),
           );
         } else if (state is AssignTaskError) {

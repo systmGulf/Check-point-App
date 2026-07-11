@@ -135,14 +135,14 @@ class _SelectLocationOfClientBottomSheetState
                         Expanded(
                           child: OutlinedButton(
                             onPressed: _undoLastPoint,
-                            child: Text('Undo'.tr(context: context)),
+                            child: Text('Undo'.tr()),
                           ),
                         ),
                         horizontalSpace(12),
                         Expanded(
                           child: OutlinedButton(
                             onPressed: _clearAllPoints,
-                            child: Text('Clear All'.tr(context: context)),
+                            child: Text('Clear All'.tr()),
                           ),
                         ),
                       ],
@@ -153,7 +153,7 @@ class _SelectLocationOfClientBottomSheetState
                       bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
                     child: CustomAppButton(
-                      textButton: 'Submit'.tr(context: context),
+                      textButton: 'Submit'.tr(),
                       buttonColor: ColorsManger.primaryColor,
                       onPressed: () {
                         if (_draftLocations.isNotEmpty) {
@@ -172,7 +172,7 @@ class _SelectLocationOfClientBottomSheetState
                             Overlay.of(context),
                             CustomSnackBar.error(
                               message:
-                                  'Please Select Location'.tr(context: context),
+                                  'Please Select Location'.tr(),
                             ),
                           );
                         }
@@ -190,7 +190,7 @@ class _SelectLocationOfClientBottomSheetState
                 children: [
                   CustomAppTextFormField(
                     controller: _searchController,
-                    hint: 'Search Location'.tr(context: context),
+                    hint: 'Search Location'.tr(),
                     onChanged: _onSearchChanged,
                     suffixIcon: _isSearching
                         ? const Padding(

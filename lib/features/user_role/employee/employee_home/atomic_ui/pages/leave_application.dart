@@ -49,7 +49,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
     return Scaffold(
         appBar: buildCustomAppBar(
           context,
-          'Leave Aplication'.tr(context: context),
+          'Leave Aplication'.tr(),
           [
             IconButton(
                 onPressed: () {
@@ -69,7 +69,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                 widgetType: WidgetAnimationType.text,
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('For a while'.tr(context: context),
+                  child: Text('For a while'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
               ),
@@ -81,13 +81,13 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                   children: [
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      placeholder: 'From'.tr(context: context),
+                      placeholder: 'From'.tr(),
                       dateField: LeaveRequestDateField.from,
                     )),
                     horizontalSpace(10),
                     Expanded(
                         child: DateButtonLeaveRequest(
-                      placeholder: 'To'.tr(context: context),
+                      placeholder: 'To'.tr(),
                       dateField: LeaveRequestDateField.to,
                     )),
                   ],
@@ -99,7 +99,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                 delayDuration: const Duration(milliseconds: 200),
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Reason'.tr(context: context),
+                  child: Text('Reason'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
               ),
@@ -111,13 +111,13 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                     maxLines: 4,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Reason Required'.tr(context: context);
+                        return 'Reason Required'.tr();
                       }
                       return null;
                     },
                     controller: reasonController,
                     hint:
-                        'Reason * (200 Chaaracters Max)'.tr(context: context)),
+                        'Reason * (200 Chaaracters Max)'.tr()),
               ),
               verticalSpace(10),
               AnimatedByWidgetType(
@@ -125,7 +125,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                 delayDuration: const Duration(milliseconds: 400),
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Remark'.tr(context: context),
+                  child: Text('Remark'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
               ),
@@ -136,12 +136,12 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                 child: CustomAppTextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Remark Required'.tr(context: context);
+                        return 'Remark Required'.tr();
                       }
                       return null;
                     },
                     controller: remarkController,
-                    hint: 'Remark'.tr(context: context)),
+                    hint: 'Remark'.tr()),
               ),
               verticalSpace(20),
               AnimatedByWidgetType(
@@ -151,7 +151,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                   onPressed: () {
                     validateAndSubmitLeaveRequest();
                   },
-                  textButton: 'Submit'.tr(context: context),
+                  textButton: 'Submit'.tr(),
                   buttonColor: ColorsManger.primaryColor,
                 ),
               ),

@@ -21,7 +21,7 @@ class GetAllEmployeesLoadingSkeleton extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('Users List'.tr(context: context),
+              Text('Users List'.tr(),
                   style: AppStylesManger.font15BoldBlack),
               const Spacer(),
               const SizedBox(width: 8),

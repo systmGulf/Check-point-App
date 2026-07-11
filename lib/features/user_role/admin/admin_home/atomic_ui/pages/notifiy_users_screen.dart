@@ -23,7 +23,7 @@ class _NotifyUsersScreenState extends State<NotifyUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, 'Notify Users'.tr(context: context)),
+        appBar: buildCustomAppBar(context, 'Notify Users'.tr()),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
@@ -33,11 +33,11 @@ class _NotifyUsersScreenState extends State<NotifyUsersScreen> {
                 CustomAppTextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Enter title'.tr(context: context);
+                      return 'Enter title'.tr();
                     }
                     return null;
                   },
-                  hint: 'title'.tr(context: context),
+                  hint: 'title'.tr(),
                   controller: BlocProvider.of<NotificationCubit>(context)
                       .titleController,
                 ),
@@ -45,18 +45,18 @@ class _NotifyUsersScreenState extends State<NotifyUsersScreen> {
                 CustomAppTextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Enter body'.tr(context: context);
+                      return 'Enter body'.tr();
                     }
                     return null;
                   },
-                  hint: 'body'.tr(context: context),
+                  hint: 'body'.tr(),
                   maxLines: 5,
                   controller: BlocProvider.of<NotificationCubit>(context)
                       .bodyController,
                 ),
                 verticalSpace(20),
                 CustomAppButton(
-                    textButton: 'Send'.tr(context: context),
+                    textButton: 'Send'.tr(),
                     buttonColor: ColorsManger.primaryColor,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {

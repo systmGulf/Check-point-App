@@ -100,7 +100,7 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text('Personal Statistics'.tr(context: context),
+                            Text('Personal Statistics'.tr(),
                                 style: AppStylesManger.font18RegulerBlack),
                             verticalSpace(20),
                             SizedBox(
@@ -120,38 +120,38 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                             verticalSpace(20),
                             EmployeeAttendanceInformation(
                                 text:
-                                    'Total Working Hours'.tr(context: context),
+                                    'Total Working Hours'.tr(),
                                 days: formatTotalHoursWorked(state
                                     .getEmployeeSummaryValue.totalHoursWorked!
                                     .toDouble())),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
-                              text: 'Leaves'.tr(context: context),
-                              days: '0 ${"Days".tr(context: context)}',
+                              text: 'Leaves'.tr(),
+                              days: '0 ${"Days".tr()}',
                             ),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
-                              text: 'Total Working Days'.tr(context: context),
+                              text: 'Total Working Days'.tr(),
                               days:
-                                  '${state.getEmployeeSummaryValue.totalDaysWorked} ${"Days".tr(context: context)}',
+                                  '${state.getEmployeeSummaryValue.totalDaysWorked} ${"Days".tr()}',
                             ),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
-                              text: 'Late'.tr(context: context),
+                              text: 'Late'.tr(),
                               days:
-                                  '${state.getEmployeeSummaryValue.totalLateDays} ${"Days".tr(context: context)}',
+                                  '${state.getEmployeeSummaryValue.totalLateDays} ${"Days".tr()}',
                             ),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
-                              text: 'Early Leaves'.tr(context: context),
+                              text: 'Early Leaves'.tr(),
                               days:
-                                  '${state.getEmployeeSummaryValue.totalEarlyLeaveDays} ${"Days".tr(context: context)}',
+                                  '${state.getEmployeeSummaryValue.totalEarlyLeaveDays} ${"Days".tr()}',
                             ),
                             verticalSpace(15),
                             EmployeeAttendanceInformation(
-                              text: 'Absent'.tr(context: context),
+                              text: 'Absent'.tr(),
                               days:
-                                  '${state.getEmployeeSummaryValue.totalAbsentDays} ${"Days".tr(context: context)}',
+                                  '${state.getEmployeeSummaryValue.totalAbsentDays} ${"Days".tr()}',
                             ),
                           ]),
                     )
@@ -175,7 +175,7 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Personal Statistics'.tr(context: context),
+                          Text('Personal Statistics'.tr(),
                               style: AppStylesManger.font18RegulerBlack),
                           verticalSpace(20),
                           SizedBox(
@@ -188,32 +188,32 @@ class _EmployeePreviewState extends State<EmployeePreview> {
                           ),
                           verticalSpace(20),
                           EmployeeAttendanceInformation(
-                            text: 'Total Working Hours'.tr(context: context),
+                            text: 'Total Working Hours'.tr(),
                             days: 'Loading...',
                           ),
                           verticalSpace(15),
                           EmployeeAttendanceInformation(
-                            text: 'Leaves'.tr(context: context),
+                            text: 'Leaves'.tr(),
                             days: 'Loading...',
                           ),
                           verticalSpace(15),
                           EmployeeAttendanceInformation(
-                            text: 'Total Working Days'.tr(context: context),
+                            text: 'Total Working Days'.tr(),
                             days: 'Loading...',
                           ),
                           verticalSpace(15),
                           EmployeeAttendanceInformation(
-                            text: 'Late'.tr(context: context),
+                            text: 'Late'.tr(),
                             days: 'Loading...',
                           ),
                           verticalSpace(15),
                           EmployeeAttendanceInformation(
-                            text: 'Early Leaves'.tr(context: context),
+                            text: 'Early Leaves'.tr(),
                             days: 'Loading...',
                           ),
                           verticalSpace(15),
                           EmployeeAttendanceInformation(
-                            text: 'Absent'.tr(context: context),
+                            text: 'Absent'.tr(),
                             days: 'Loading...',
                           ),
                         ],

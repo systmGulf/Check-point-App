@@ -52,7 +52,7 @@ class _OfficeMapScreenState extends State<OfficeMapScreen> {
                     context,
                     customSnackBar: CustomSnackBar.error(
                       message:
-                          'Location Permission Denied'.tr(context: context),
+                          'Location Permission Denied'.tr(),
                     ),
                   );
                   return;

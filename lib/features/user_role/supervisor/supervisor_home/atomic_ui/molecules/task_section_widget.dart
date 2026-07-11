@@ -48,7 +48,7 @@ class TasksSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'New tasks today'.tr(context: context),
+                        'New tasks today'.tr(),
                         style: TextStyle(
                           color: Color(0xFF111827),
                           fontSize: 16,
@@ -58,7 +58,7 @@ class TasksSection extends StatelessWidget {
                       if (taskCount > 0) ...[
                         const SizedBox(height: 2),
                         Text(
-                          '$taskCount ${"pending task".tr(context: context)}${taskCount != 1 ? 's' : ''}',
+                          '$taskCount ${"pending task".tr()}${taskCount != 1 ? 's' : ''}',
                           style: TextStyle(
                             color: Colors.grey.shade500,
                             fontSize: 14,

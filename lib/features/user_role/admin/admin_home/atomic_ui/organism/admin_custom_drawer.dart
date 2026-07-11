@@ -24,25 +24,25 @@ class AdminCustomDrawer extends StatelessWidget {
           },
           icon: Icons.warning_rounded,
           trailingIcon: Icons.arrow_forward_ios,
-          title: 'Terms & Conditions'.tr(context: context)),
+          title: 'Terms & Conditions'.tr()),
       AdminDrawerItem(
           icon: Icons.notifications,
           trailingIcon: Icons.arrow_forward_ios,
           onTap: () {
             context.pushName(Routes.notifyUsersScreen);
           },
-          title: 'Notifications'.tr(context: context)),
+          title: 'Notifications'.tr()),
       AdminDrawerItem(
           icon: Icons.person_add_alt,
           trailingIcon: Icons.arrow_forward_ios,
           onTap: () {
             context.pushName(Routes.allUsersScreen);
           },
-          title: 'Add User'.tr(context: context)),
+          title: 'Add User'.tr()),
       AdminDrawerItem(
           icon: Icons.language,
           trailingIcon: Icons.arrow_forward_ios,
-          title: 'Change Language'.tr(context: context),
+          title: 'Change Language'.tr(),
           onTap: () {
             buildChangeLanguageBottomSheet(context);
           }),
@@ -57,7 +57,7 @@ class AdminCustomDrawer extends StatelessWidget {
           icon: Icons.logout,
           color: Colors.red,
           trailingIcon: Icons.arrow_forward_ios,
-          title: 'Logout'.tr(context: context)),
+          title: 'Logout'.tr()),
     ];
     return Drawer(
       backgroundColor: Colors.white,

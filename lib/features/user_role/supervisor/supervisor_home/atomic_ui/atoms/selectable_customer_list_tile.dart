@@ -54,7 +54,7 @@ class _SelectableCustomerListState extends State<SelectableCustomerList> {
             planType: widget.planType,
           );
         } else if (state is GetAllCustomersError) {
-          return Text('Error loading ${widget.planType}'.tr(context: context));
+          return Text('Error loading ${widget.planType}'.tr());
         } else {
           return const SizedBox();
         }
@@ -101,7 +101,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
           dropdownColor: Colors.white,
           isExpanded: true,
           hint: Text(
-            'Select ${widget.planType}'.tr(context: context),
+            'Select ${widget.planType}'.tr(),
             style: AppStylesManger.font15BoldBlue.copyWith(color: Colors.black),
           ),
           initialValue: widget.dropdownItems.firstWhereOrNull(
@@ -126,7 +126,7 @@ class _SelectCustomersForTheSubPLanDropButtonState
                   Overlay.of(context),
                   CustomSnackBar.info(
                     message: "${widget.planType} is already selected"
-                        .tr(context: context),
+                        .tr(),
                   ),
                 );
               }
@@ -134,10 +134,10 @@ class _SelectCustomersForTheSubPLanDropButtonState
           },
         ),
         const SizedBox(height: 20),
-        Text('Selected ${widget.planType}:'.tr(context: context)),
+        Text('Selected ${widget.planType}:'.tr()),
         const SizedBox(height: 10),
         context.read<PlanCubit>().customerId.isEmpty
-            ? Text('No ${widget.planType} selected'.tr(context: context))
+            ? Text('No ${widget.planType} selected'.tr())
             : Card(
                 elevation: 1,
                 color: Colors.white,

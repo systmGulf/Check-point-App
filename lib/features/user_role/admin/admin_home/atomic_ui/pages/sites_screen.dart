@@ -13,7 +13,7 @@ class SitesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton:CustomFloatingActionButton(text: 'Add Site'.tr(context: context), onTap: (){
+        floatingActionButton:CustomFloatingActionButton(text: 'Add Site'.tr(), onTap: (){
           showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,

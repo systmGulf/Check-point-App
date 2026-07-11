@@ -59,7 +59,7 @@ class _EmployeeAttendanceHistoryScreenState
     return Scaffold(
       appBar: buildCustomAppBar(
         context,
-        'Attendance Report'.tr(context: context),
+        'Attendance Report'.tr(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

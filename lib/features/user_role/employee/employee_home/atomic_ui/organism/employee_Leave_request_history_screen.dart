@@ -37,7 +37,7 @@ class _EmployeeLeaveRequestsHistoryScreenState
         tr('date_format', context: context), context.locale.toString());
     return Scaffold(
         appBar: buildCustomAppBar(
-            context, 'My Leave Requests'.tr(context: context)),
+            context, 'My Leave Requests'.tr()),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: RefreshIndicator(
@@ -112,7 +112,7 @@ class _EmployeeLeaveRequestsHistoryScreenState
                                       "",
                                   status: state.employeeLeaveRequests
                                           .data![index].status
-                                          ?.tr(context: context) ??
+                                          ?.tr() ??
                                       "",
                                 ),
                               );

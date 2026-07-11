@@ -52,7 +52,7 @@ class UserItemGridView extends StatelessWidget {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: "${"Team".tr(context: context)} : ",
+                      text: "${"Team".tr()} : ",
                       style: AppStylesManger.font14RegularBlack.copyWith(
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
@@ -94,9 +94,9 @@ class UserItemGridView extends StatelessWidget {
                 AppActionIconButton.delete(
                   onPressed: () {
                     buildDeleteAlertDialog(context,
-                        title: 'Delete User'.tr(context: context),
+                        title: 'Delete User'.tr(),
                         message: 'Are you sure you want to delete this user?'
-                            .tr(context: context), onYes: () {
+                            .tr(), onYes: () {
                       context.pop();
                       BlocProvider.of<EmployeeCubit>(context)
                           .deleteUserAccount(userId: userItemEntity.userId);

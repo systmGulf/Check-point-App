@@ -48,7 +48,7 @@ class UserItemListView extends StatelessWidget {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: "${"Team".tr(context: context)} : ",
+                      text: "${"Team".tr()} : ",
                       style: AppStylesManger.font14RegularBlack.copyWith(
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
@@ -60,12 +60,12 @@ class UserItemListView extends StatelessWidget {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: "${"Shift".tr(context: context)} : ",
+                      text: "${"Shift".tr()} : ",
                       style: AppStylesManger.font14RegularBlack.copyWith(
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 122, 121, 121))),
                   TextSpan(
-                      text: userItemEntity.shiftName.tr(context: context),
+                      text: userItemEntity.shiftName.tr(),
                       style: AppStylesManger.font14RegularBlack.copyWith(
                           color: userItemEntity.shiftName == 'No Shift Assigned'
                               ? Colors.blueAccent

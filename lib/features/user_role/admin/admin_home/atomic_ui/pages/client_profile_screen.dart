@@ -108,7 +108,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       ),
                       const SizedBox(height: 16),
                       CustomAppTextFormField(
-                        hint: 'Name'.tr(context: context),
+                        hint: 'Name'.tr(),
                         controller: BlocProvider.of<CustomerCubit>(context)
                             .nameController
                           ..text = _name,
@@ -116,7 +116,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       ),
                       const SizedBox(height: 8),
                       CustomAppTextFormField(
-                        hint: 'Worked As'.tr(context: context),
+                        hint: 'Worked As'.tr(),
                         controller: BlocProvider.of<CustomerCubit>(context)
                             .workedAsController
                           ..text = _workedAs,
@@ -140,7 +140,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                           const Icon(Icons.location_on, color: Colors.blue),
                           const SizedBox(width: 8),
                           Text(
-                            'Location:'.tr(context: context),
+                            'Location:'.tr(),
                             style: AppStylesManger.font15regulerPrimaryColor,
                           ),
                           const SizedBox(width: 8),
@@ -155,7 +155,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   ),
                 if (_isEditEnabled)
                   CustomAppTextFormField(
-                    hint: 'Location'.tr(context: context),
+                    hint: 'Location'.tr(),
                     controller: BlocProvider.of<CustomerCubit>(context)
                         .locationController
                       ..text = _location,
@@ -190,7 +190,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   CustomAppButton(
                     height: 50.h,
                     width: MediaQuery.of(context).size.width,
-                    textButton: 'Save'.tr(context: context),
+                    textButton: 'Save'.tr(),
                     buttonColor: ColorsManger.primaryColor,
                     onPressed: () async {
                       if (_isEditEnabled) {

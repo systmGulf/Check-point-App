@@ -42,7 +42,7 @@ class QuickActionsItem extends StatelessWidget {
             child: CustomAppButton(
               width: 100.w,
               height: 35.h,
-              textButton: 'Add'.tr(context: context),
+              textButton: 'Add'.tr(),
               buttonColor: ColorsManger.primaryColor,
               onPressed: action,
             ),

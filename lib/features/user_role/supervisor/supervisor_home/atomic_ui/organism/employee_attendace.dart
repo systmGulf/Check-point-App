@@ -377,7 +377,7 @@ class EmployeeAttendance extends StatelessWidget {
                                   : NoDataFound());
                         },
                         child: Text(
-                          "Visit Feedback".tr(context: context),
+                          "Visit Feedback".tr(),
                           style: AppStylesManger.font15BoldrBlue
                               .copyWith(color: ColorsManger.primaryColor),
                         )),

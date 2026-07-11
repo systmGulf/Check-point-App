@@ -27,7 +27,7 @@ class RegisterAccountBlocListener extends StatelessWidget {
               CustomSnackBar.success(
                 message:
                     'Admin Recivied your request, you will recive notification soon'
-                        .tr(context: context),
+                        .tr(),
               ),
             );
           } else if (state is RegisterAccountFailure) {

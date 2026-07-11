@@ -32,7 +32,7 @@ class SupervisorLoginBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: state.error.tr(context: context),
+              message: state.error.tr(),
             ),
           );
         } else if (state is LoginLoading) {

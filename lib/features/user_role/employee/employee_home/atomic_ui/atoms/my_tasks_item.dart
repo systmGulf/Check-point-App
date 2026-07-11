@@ -45,8 +45,8 @@ class MyTaskItem extends StatelessWidget {
                   onEdit: () {},
                   onDelete: () {},
                   toDoId: "",
-                  title: title.tr(context: context),
-                  state: status.tr(context: context),
+                  title: title.tr(),
+                  state: status.tr(),
                 ),
                 SizedBox(
                   width: 219.w,
@@ -64,7 +64,7 @@ class MyTaskItem extends StatelessWidget {
                 ),
                 verticalSpace(4),
                 TodoFlagAndDateItem(
-                  priority: priority.tr(context: context),
+                  priority: priority.tr(),
                   date: DateFormat('yyyy-MM-dd').format(DateTime.parse(
                     date,
                   )),

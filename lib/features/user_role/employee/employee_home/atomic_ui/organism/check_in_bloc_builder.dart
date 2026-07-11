@@ -42,7 +42,7 @@ class CheckInBlocBuilder extends StatelessWidget {
                 });
               },
               child: Text(
-                "Swipe to Check In".tr(context: context),
+                "Swipe to Check In".tr(),
                 style: TextStyle(
                   color: ColorsManger.primaryColor,
                 ),

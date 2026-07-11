@@ -43,7 +43,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'add employees'.tr(context: context),
+              'add employees'.tr(),
               style: AppStylesManger.font14RegularBlack
                   .copyWith(fontWeight: FontWeight.bold),
             ),
@@ -76,7 +76,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    hintText: 'select employees'.tr(context: context),
+                    hintText: 'select employees'.tr(),
                   ),
                   controller: controller,
                   enabled: true,
@@ -86,7 +86,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    hintText: 'Search'.tr(context: context),
+                    hintText: 'Search'.tr(),
                   ),
                   chipDecoration: ChipDecoration(
                       backgroundColor: ColorsManger.primaryColor,
@@ -132,7 +132,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                   Overlay.of(context),
                   CustomSnackBar.success(
                     message:
-                        'Police assigned successfully'.tr(context: context),
+                        'Police assigned successfully'.tr(),
                   ),
                 );
               }
@@ -143,7 +143,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
               }
               return CustomAppButton(
                 buttonColor: ColorsManger.primaryColor,
-                textButton: 'Add'.tr(context: context),
+                textButton: 'Add'.tr(),
                 onPressed: () {
                   context
                       .read<ShiftsAndPolicesCubit>()

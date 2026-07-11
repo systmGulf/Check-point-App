@@ -111,7 +111,7 @@ class _CompanyBranchDetailsScreenState
                     ),
                     verticalSpace(20),
                     CustomAppButton(
-                      textButton: "Delete this branch".tr(context: context),
+                      textButton: "Delete this branch".tr(),
                       buttonColor: ColorsManger.primaryColor,
                       onPressed: () {
                         BlocProvider.of<BranchCubit>(widget.contextt)

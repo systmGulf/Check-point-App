@@ -36,7 +36,7 @@ class _EmployeeChangePasswordScreenState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            buildCustomAppBar(context, 'Change Password'.tr(context: context)),
+            buildCustomAppBar(context, 'Change Password'.tr()),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Form(
@@ -48,37 +48,37 @@ class _EmployeeChangePasswordScreenState
                       RegExp regex = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                       if (value!.isEmpty) {
-                        return 'Please enter Old password'.tr(context: context);
+                        return 'Please enter Old password'.tr();
                       } else {
                         if (!regex.hasMatch(value)) {
-                          return 'Enter valid password'.tr(context: context);
+                          return 'Enter valid password'.tr();
                         } else {
                           return null;
                         }
                       }
                     },
                     controller: _oldPasswordController,
-                    hint: 'Old Password'.tr(context: context)),
+                    hint: 'Old Password'.tr()),
                 verticalSpace(10),
                 CustomAppTextFormField(
                     validator: (value) {
                       RegExp regex = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                       if (value!.isEmpty) {
-                        return 'Please enter New password'.tr(context: context);
+                        return 'Please enter New password'.tr();
                       } else {
                         if (!regex.hasMatch(value)) {
-                          return 'Enter valid  password'.tr(context: context);
+                          return 'Enter valid  password'.tr();
                         } else {
                           return null;
                         }
                       }
                     },
                     controller: _newPasswordController,
-                    hint: 'New Password'.tr(context: context)),
+                    hint: 'New Password'.tr()),
                 verticalSpace(20),
                 CustomAppButton(
-                  textButton: 'Change Password'.tr(context: context),
+                  textButton: 'Change Password'.tr(),
                   buttonColor: ColorsManger.primaryColor,
                   onPressed: () {
                     _validateAndChangePassword();

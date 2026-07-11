@@ -35,7 +35,7 @@ class AddEmployeeBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.success(
-                message: 'User Added Successfully'.tr(context: context),
+                message: 'User Added Successfully'.tr(),
                 // backgroundColor: Colors.red,
               ),
             );
@@ -45,9 +45,9 @@ class AddEmployeeBlocListener extends StatelessWidget {
             getIt<NotificationRepo>().sendSingleNotification(
                 token: deviceToken,
                 title: 'you account has been created by admin'
-                    .tr(context: context),
+                    .tr(),
                 body: 'user name : $userName , password : $password'
-                    .tr(context: context));
+                    .tr());
           } else if (state is AddEmployeeFailure) {
             context.pop();
             showTopSnackBar(

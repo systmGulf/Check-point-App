@@ -47,7 +47,7 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
     return Scaffold(
         appBar: buildCustomAppBar(
           context,
-          'Leave Schedule'.tr(context: context),
+          'Leave Schedule'.tr(),
           [
             IconButton(
                 onPressed: () {
@@ -65,7 +65,7 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
               child: Column(children: [
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('For a while'.tr(context: context),
+                  child: Text('For a while'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -91,7 +91,7 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Reason'.tr(context: context),
+                  child: Text('Reason'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),
@@ -112,7 +112,7 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Remark'.tr(context: context),
+                  child: Text('Remark'.tr(),
                       style: AppStylesManger.font12RegularGrey),
                 ),
                 verticalSpace(10),

@@ -45,9 +45,9 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
   @override
   Widget build(BuildContext context) {
     List<String> checkingText = [
-      'Office'.tr(context: context),
-      'Customer'.tr(context: context),
-      'Site'.tr(context: context)
+      'Office'.tr(),
+      'Customer'.tr(),
+      'Site'.tr()
     ];
     return Stack(
       children: [

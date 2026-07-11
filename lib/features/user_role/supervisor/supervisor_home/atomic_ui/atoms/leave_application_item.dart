@@ -90,7 +90,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     Row(
                       children: [
                         const Icon(Icons.close, color: Colors.red),
-                        Text('Cancelled'.tr(context: context),
+                        Text('Cancelled'.tr(),
                             style: const TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold)),
@@ -100,7 +100,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     Row(
                       children: [
                         const Icon(Icons.check, color: Colors.green),
-                        Text('Approved'.tr(context: context),
+                        Text('Approved'.tr(),
                             style: const TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold)),
@@ -110,7 +110,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                     Row(
                       children: [
                         const Icon(Icons.watch_later, color: Colors.orange),
-                        Text('Pending'.tr(context: context),
+                        Text('Pending'.tr(),
                             style: const TextStyle(
                                 color: Colors.orange,
                                 fontWeight: FontWeight.bold)),
@@ -124,14 +124,14 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(children: [
                 Text(
-                    '${"From".tr(context: context)}: ${dateFormat.format(DateTime.parse(widget.from))}\n${"To".tr(context: context)}: ${dateFormat.format(DateTime.parse(widget.to))}',
+                    '${"From".tr()}: ${dateFormat.format(DateTime.parse(widget.from))}\n${"To".tr()}: ${dateFormat.format(DateTime.parse(widget.to))}',
                     style: AppStylesManger.font15regulerGrey
                         .copyWith(height: 1.5, color: Colors.black54)),
                 const Spacer(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.3,
                   child: Text(
-                    '${"Reason".tr(context: context)}: ${widget.reason}',
+                    '${"Reason".tr()}: ${widget.reason}',
                     style: AppStylesManger.font15regulerGrey
                       ..copyWith(height: 1.5, color: Colors.black),
                     overflow: TextOverflow.ellipsis,
@@ -143,10 +143,10 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
             verticalSpace(9),
             if (widget.type == 'Icident')
               widget.employeeId == widget.createdBy
-                  ? Text('He is Created This Request'.tr(context: context),
+                  ? Text('He is Created This Request'.tr(),
                       style: AppStylesManger.font15regulerGrey)
                   : Text(
-                      'Request Created By Anther Employee'.tr(context: context),
+                      'Request Created By Anther Employee'.tr(),
                       style: AppStylesManger.font15regulerGrey),
             verticalSpace(5),
             if (widget.status == 'Pending' && !isCancelled && !isApproved)
@@ -156,7 +156,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                   Expanded(
                     child: RequestButton(
                       text: Text(
-                        'Approve'.tr(context: context),
+                        'Approve'.tr(),
                         style: AppStylesManger.font14regularWhite.copyWith(
                             color: Colors.green[900],
                             fontWeight: FontWeight.bold),
@@ -172,7 +172,7 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
                   Expanded(
                     child: RequestButton(
                       text: Text(
-                        'Reject'.tr(context: context),
+                        'Reject'.tr(),
                         style: AppStylesManger.font14RedularRed,
                       ),
                       color: Colors.red[200]!,
@@ -212,8 +212,8 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
         .approveOrRejectLeaveRequest(status: action, id: widget.id);
     getIt<NotificationRepo>().sendSingleNotification(
         token: userToken,
-        title: 'Hi, $userName'.tr(context: context),
-        body: 'your leave request has been $action'.tr(context: context));
+        title: 'Hi, $userName'.tr(),
+        body: 'your leave request has been $action'.tr());
   }
 }
 

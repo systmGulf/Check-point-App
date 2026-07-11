@@ -32,7 +32,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
           child: const Icon(Icons.radio_button_checked_outlined),
           backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
-          label: 'Claim Application'.tr(context: context),
+          label: 'Claim Application'.tr(),
           onTap: () {
             context.pushName(Routes.requestClaimApplicationScreen);
           },
@@ -41,7 +41,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
           child: const Icon(Icons.accessibility),
           backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
-          label: 'Leave Application'.tr(context: context),
+          label: 'Leave Application'.tr(),
           onTap: () {
             context.pushName(Routes.leaveApplicationScreen);
           },
@@ -50,7 +50,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
           child: const Icon(Icons.local_hospital_outlined),
           backgroundColor: ColorsManger.primaryColor,
           foregroundColor: Colors.white,
-          label: 'accident Myself'.tr(context: context),
+          label: 'accident Myself'.tr(),
           onTap: () {
             context.pushName(Routes.incidentMyself);
           },

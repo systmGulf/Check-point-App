@@ -74,7 +74,7 @@ class CheckOutBlocBuilder extends StatelessWidget {
                           customSnackBar: CustomSnackBar.success(
                               message:
                                   "Tap on Customer to give feedback Please!👆"
-                                      .tr(context: context)));
+                                      .tr()));
                 }
               },
               child: Text(

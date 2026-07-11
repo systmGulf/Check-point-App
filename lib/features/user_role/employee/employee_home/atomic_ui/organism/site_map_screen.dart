@@ -65,7 +65,7 @@ class _SiteMapScreenState extends State<SiteMapScreen> {
                           context,
                           customSnackBar: CustomSnackBar.error(
                             message: "Location Permission Denied"
-                                .tr(context: context),
+                                .tr(),
                           ),
                         );
                         return;
@@ -236,7 +236,7 @@ class _SiteMapScreenState extends State<SiteMapScreen> {
                   ),
                   Center(
                     child: Text(
-                      'You Do Not Have Site Plans'.tr(context: context),
+                      'You Do Not Have Site Plans'.tr(),
                       style: AppStylesManger.font15BoldRed.copyWith(
                         color: ColorsManger.primaryColor,
                       ),

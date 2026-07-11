@@ -70,7 +70,7 @@ class RecentLeaveApplication extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        '${"There are".tr(context: context)} ${state.getLeaveRequestModel.value!.data!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr(context: context)}',
+                                        '${"There are".tr()} ${state.getLeaveRequestModel.value!.data!.where((e) => e.status == 'Pending').length} ${"Pending Leave Requests".tr()}',
                                         style: AppStylesManger.font15BoldBlack),
                                     horizontalSpace(10),
                                     Badge.count(

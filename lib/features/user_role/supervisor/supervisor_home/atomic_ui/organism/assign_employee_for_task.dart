@@ -48,14 +48,14 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: 'select employees'.tr(context: context),
+                hintText: 'select employees'.tr(),
               ),
               searchEnabled: true,
               searchDecoration: SearchFieldDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: 'Search'.tr(context: context),
+                hintText: 'Search'.tr(),
               ),
               chipDecoration: ChipDecoration(
                 backgroundColor: ColorsManger.primaryColor,

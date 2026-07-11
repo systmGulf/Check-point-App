@@ -21,7 +21,7 @@ class EditCustomerBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
              CustomSnackBar.success(
-              message: 'Customer Edited Successfully'.tr(context: context),
+              message: 'Customer Edited Successfully'.tr(),
               // backgroundColor: Colors.red,
             ),
           );

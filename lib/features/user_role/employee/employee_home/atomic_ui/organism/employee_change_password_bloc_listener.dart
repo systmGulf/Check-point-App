@@ -34,7 +34,7 @@ class EmployeeChangePasswordBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
                CustomSnackBar.success(
-                message: "Password changed successfully".tr(context: context),
+                message: "Password changed successfully".tr(),
                 // backgroundColor: Colors.red,
               ),
             );

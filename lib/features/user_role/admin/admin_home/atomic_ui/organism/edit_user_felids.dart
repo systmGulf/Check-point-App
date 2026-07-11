@@ -76,28 +76,28 @@ class _EditUserFelidsState extends State<EditUserFelids> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         verticalSpace(20),
-        Text('Edit name'.tr(context: context),
+        Text('Edit name'.tr(),
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
             controller: editNameController..text = widget.userItemEntity.name,
-            hint: 'Edit Name'.tr(context: context)),
-        Text(' User name'.tr(context: context),
+            hint: 'Edit Name'.tr()),
+        Text(' User name'.tr(),
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
             readOnly: true,
             controller: editUsernameController
               ..text = widget.userItemEntity.userName,
-            hint: 'Edit User Name'.tr(context: context)),
+            hint: 'Edit User Name'.tr()),
         verticalSpace(10),
-        Text('Edit Position'.tr(context: context),
+        Text('Edit Position'.tr(),
             style: AppStylesManger.font15BoldBlack),
         verticalSpace(10),
         CustomAppTextFormField(
             controller: editPositionController
               ..text = widget.userItemEntity.position,
-            hint: 'Edit User Position'.tr(context: context)),
+            hint: 'Edit User Position'.tr()),
         verticalSpace(10),
         Row(
           children: [
@@ -105,7 +105,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Edit Department'.tr(context: context),
+                Text('Edit Department'.tr(),
                     style: AppStylesManger.font15BoldBlack),
                 verticalSpace(10),
                 SelectDepartment(
@@ -119,7 +119,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Edit Branch'.tr(context: context),
+                  Text('Edit Branch'.tr(),
                       style: AppStylesManger.font15BoldBlack),
                   verticalSpace(10),
                   BlocBuilder<BranchCubit, BranchState>(
@@ -146,7 +146,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                           child: DropdownButton(
                             value: branch ?? widget.userItemEntity.department,
                             hint: Text(
-                              'Select Branch'.tr(context: context),
+                              'Select Branch'.tr(),
                             ),
                             isExpanded: true,
                             icon: SizedBox(
@@ -198,7 +198,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Edit Role'.tr(context: context),
+                Text('Edit Role'.tr(),
                     style: AppStylesManger.font15BoldBlack),
                 verticalSpace(10),
                 Container(
@@ -212,7 +212,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                     value: role ?? widget.userItemEntity.role,
                     isExpanded: true,
                     hint: Text(
-                      'Select Role'.tr(context: context),
+                      'Select Role'.tr(),
                     ),
                     icon: SizedBox(
                       height: 24,
@@ -235,15 +235,15 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                     items: [
                       DropdownMenuItem(
                         value: 'Admin',
-                        child: Text('Admin'.tr(context: context)),
+                        child: Text('Admin'.tr()),
                       ),
                       DropdownMenuItem(
                         value: 'Supervisor',
-                        child: Text('Supervisor'.tr(context: context)),
+                        child: Text('Supervisor'.tr()),
                       ),
                       DropdownMenuItem(
                         value: 'Employee',
-                        child: Text('Employee'.tr(context: context)),
+                        child: Text('Employee'.tr()),
                       ),
                     ],
                   ),
@@ -256,19 +256,19 @@ class _EditUserFelidsState extends State<EditUserFelids> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Edit MobileID'.tr(context: context),
+                Text('Edit MobileID'.tr(),
                     style: AppStylesManger.font15BoldBlack),
                 verticalSpace(10),
                 CustomAppTextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "MobileID can't be empty".tr(context: context);
+                      return "MobileID can't be empty".tr();
                     }
                     return null;
                   },
                   controller: mobileIdController
                     ..text = widget.userItemEntity.mobileId,
-                  hint: 'MobileID'.tr(context: context),
+                  hint: 'MobileID'.tr(),
                 ),
               ],
             ),
@@ -288,7 +288,7 @@ class _EditUserFelidsState extends State<EditUserFelids> {
                 Navigator.pop(context);
               });
             },
-            textButton: 'Save'.tr(context: context),
+            textButton: 'Save'.tr(),
             buttonColor: ColorsManger.primaryColor,
           ),
         ),

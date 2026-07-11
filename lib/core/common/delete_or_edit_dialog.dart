@@ -12,13 +12,13 @@ Future<String?> DeleteOrEditDialog(BuildContext context, RelativeRect position,
     ),
     items: [
       PopupMenuItem(
-        value: 'Edit'.tr(context: context),
+        value: 'Edit'.tr(),
         onTap: onEdit,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'who will work on it'.tr(context: context),
+              'who will work on it'.tr(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -30,9 +30,9 @@ Future<String?> DeleteOrEditDialog(BuildContext context, RelativeRect position,
       ),
       PopupMenuItem(
         onTap: onDelete,
-        value: 'Delete'.tr(context: context),
+        value: 'Delete'.tr(),
         child: Text(
-          'Delete'.tr(context: context),
+          'Delete'.tr(),
           style: TextStyle(
             color: Colors.red,
             fontSize: 16,

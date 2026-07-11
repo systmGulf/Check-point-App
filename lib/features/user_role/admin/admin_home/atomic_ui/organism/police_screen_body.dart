@@ -119,9 +119,9 @@ class PoliceScreenBody extends StatelessWidget {
             },
           ),
           AddPoliceBlocListener(
-            addSuccessMessage: 'Police Added Successfully'.tr(context: context),
+            addSuccessMessage: 'Police Added Successfully'.tr(),
             editSuccessMessage:
-                'Police Updated Successfully'.tr(context: context),
+                'Police Updated Successfully'.tr(),
           ),
         ],
       ),

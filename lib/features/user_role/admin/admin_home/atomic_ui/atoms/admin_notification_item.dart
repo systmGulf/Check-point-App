@@ -57,10 +57,10 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Add New User Request'.tr(context: context),
+                  Text('Add New User Request'.tr(),
                       style: AppStylesManger.font14RegularBlack),
                   Text(
-                    "${"Name".tr(context: context)} : ${widget.name} ",
+                    "${"Name".tr()} : ${widget.name} ",
                     style: AppStylesManger.font12RegularBlack.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
@@ -72,7 +72,7 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                     child: Row(
                       children: [
                         Text(
-                          "${"Mobile ".tr(context: context)} :",
+                          "${"Mobile ".tr()} :",
                           style: AppStylesManger.font12RegularBlack.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[700],
@@ -117,7 +117,7 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                       CustomAppButton(
                         height: 35.h,
                         width: 100.w,
-                        textButton: 'Add'.tr(context: context),
+                        textButton: 'Add'.tr(),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: widget.onTap,
                       ),
@@ -157,9 +157,9 @@ class _AdminNotificationItemState extends State<AdminNotificationItem> {
                     onPressed: () {
                       buildDeleteAlertDialog(
                         context,
-                        title: 'Delete Request'.tr(context: context),
+                        title: 'Delete Request'.tr(),
                         message: 'Are you sure you want to delete this request?'
-                            .tr(context: context),
+                            .tr(),
                         onYes: () {
                           context.pop();
                           context

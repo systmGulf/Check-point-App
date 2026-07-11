@@ -34,7 +34,7 @@ class _EmployeeListState extends State<EmployeeList> {
                 log("query: $query");
               });
             },
-            hint: "Search employee...".tr(context: context),
+            hint: "Search employee...".tr(),
             prefixIcon: Padding(
               padding: const EdgeInsets.all(20.0),
               child: SvgPicture.asset(
@@ -54,21 +54,21 @@ class _EmployeeListState extends State<EmployeeList> {
             children: [
               horizontalSpace(MediaQuery.of(context).size.width * 0.05),
               Text(
-                'Name'.tr(context: context),
+                'Name'.tr(),
                 style: AppStylesManger.font16BoldBlack.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const Spacer(),
               Text(
-                'attend'.tr(context: context),
+                'attend'.tr(),
                 style: AppStylesManger.font16BoldBlack.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               horizontalSpace(MediaQuery.of(context).size.width * 0.03),
               Text(
-                'Preview'.tr(context: context),
+                'Preview'.tr(),
                 style: AppStylesManger.font16BoldBlack.copyWith(
                   fontWeight: FontWeight.w600,
                 ),

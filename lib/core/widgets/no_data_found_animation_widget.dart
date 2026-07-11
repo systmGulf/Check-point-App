@@ -34,7 +34,7 @@ class NoDataFound extends StatelessWidget {
               ),
               verticalSpace(10),
               Jello(
-                child: Text('No Data Found'.tr(context: context),
+                child: Text('No Data Found'.tr(),
                     style: AppStylesManger.font16BoldBlack
                         .copyWith(color: Colors.grey)),
               ),

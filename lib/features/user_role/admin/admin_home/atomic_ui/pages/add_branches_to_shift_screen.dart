@@ -20,7 +20,7 @@ class AddBranchesToShiftScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: CustomFloatingActionButton(
-            text: 'Add Branch'.tr(context: context),
+            text: 'Add Branch'.tr(),
             onTap: () {
               showModalBottomSheet(
                   context: context,
@@ -46,14 +46,14 @@ class AddBranchesToShiftScreen extends StatelessWidget {
                   });
             }),
         appBar: buildCustomAppBar(
-            context, 'Add Branches to Shift'.tr(context: context)),
+            context, 'Add Branches to Shift'.tr()),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Text(
-                'branches in this Shift'.tr(context: context),
+                'branches in this Shift'.tr(),
                 style: AppStylesManger.font16BoldBlack
                     .copyWith(color: Colors.grey),
               ),
@@ -66,10 +66,10 @@ class AddBranchesToShiftScreen extends StatelessWidget {
               onDelete: () {
                 buildDeleteAlertDialog(
                   context,
-                  title: 'Delete Branch from this Shift'.tr(context: context),
+                  title: 'Delete Branch from this Shift'.tr(),
                   message:
                       'Are you sure you want to delete this branch from this Shift?'
-                          .tr(context: context),
+                          .tr(),
                   onYes: () {},
                 );
               },

@@ -42,7 +42,7 @@ class _EmployeeAddNewCustomerScreenState
     return Scaffold(
         appBar: buildCustomAppBar(
           context,
-          'Add New Customer'.tr(context: context),
+          'Add New Customer'.tr(),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -55,24 +55,24 @@ class _EmployeeAddNewCustomerScreenState
                     verticalSpace(7),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: Text('Customer name'.tr(context: context),
+                      child: Text('Customer name'.tr(),
                           style: AppStylesManger.font12RegularGrey),
                     ),
                     verticalSpace(10),
                     CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Name can't be empty".tr(context: context);
+                          return "Name can't be empty".tr();
                         }
                         return null;
                       },
                       controller: nameController,
-                      hint: 'Name'.tr(context: context),
+                      hint: 'Name'.tr(),
                     ),
                     verticalSpace(7),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: Text('The Customer job'.tr(context: context),
+                      child: Text('The Customer job'.tr(),
                           style: AppStylesManger.font12RegularGrey),
                     ),
                     verticalSpace(10),
@@ -80,17 +80,17 @@ class _EmployeeAddNewCustomerScreenState
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Worked as can't be empty"
-                              .tr(context: context);
+                              .tr();
                         }
                         return null;
                       },
                       controller: workedAsController,
-                      hint: 'Worked as'.tr(context: context),
+                      hint: 'Worked as'.tr(),
                     ),
                     verticalSpace(7),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: Text('Location'.tr(context: context),
+                      child: Text('Location'.tr(),
                           style: AppStylesManger.font12RegularGrey),
                     ),
                     verticalSpace(10),
@@ -123,29 +123,29 @@ class _EmployeeAddNewCustomerScreenState
                               .isEmpty
                           ? TextEditingController()
                           : TextEditingController(
-                              text: 'Location Selected'.tr(context: context)),
-                      hint: 'Location in Map'.tr(context: context),
+                              text: 'Location Selected'.tr()),
+                      hint: 'Location in Map'.tr(),
                     ),
                     verticalSpace(7),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: Text('Address'.tr(context: context),
+                      child: Text('Address'.tr(),
                           style: AppStylesManger.font12RegularGrey),
                     ),
                     verticalSpace(10),
                     CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Location can't be empty".tr(context: context);
+                          return "Location can't be empty".tr();
                         }
                         return null;
                       },
                       controller: locationController,
-                      hint: 'Address'.tr(context: context),
+                      hint: 'Address'.tr(),
                     ),
                     verticalSpace(15),
                     CustomAppButton(
-                        textButton: 'Submit'.tr(context: context),
+                        textButton: 'Submit'.tr(),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: () {
                           if (BlocProvider.of<CustomerCubit>(context)
@@ -164,7 +164,7 @@ class _EmployeeAddNewCustomerScreenState
                                 Overlay.of(context),
                                 CustomSnackBar.error(
                                   message: 'Please Select Location'
-                                      .tr(context: context),
+                                      .tr(),
                                 ),
                               );
                             }
@@ -172,9 +172,9 @@ class _EmployeeAddNewCustomerScreenState
                         }),
                     AddCustomerBlocListener(
                       addSuccessMessage:
-                          'Customer Added Successfully'.tr(context: context),
+                          'Customer Added Successfully'.tr(),
                       editSuccessMessage:
-                          'Customer Updated Successfully'.tr(context: context),
+                          'Customer Updated Successfully'.tr(),
                     )
                   ],
                 ),

@@ -87,7 +87,7 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                      '${"You are in".tr(context: context)} ${"range".tr(context: context)} ${widget.tr(context: context)}',
+                                      '${"You are in".tr()} ${"range".tr()} ${widget.tr()}',
                                       textAlign: TextAlign.center,
                                       style: AppStylesManger.font16blackMedium),
                                   const Spacer(),
@@ -121,7 +121,7 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                    '${"You are not in".tr(context: context)}  ${"range".tr(context: context)} ${widget.tr(context: context)}',
+                                    '${"You are not in".tr()}  ${"range".tr()} ${widget.tr()}',
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -146,7 +146,7 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                                 horizontalSpace(10),
                                 Expanded(
                                   child: Text(
-                                    '${"تحذير: أنت الآن خارج نطاق,  لا يمكنك ".tr()} ${attendanceType.name.tr(context: context)}.',
+                                    '${"تحذير: أنت الآن خارج نطاق,  لا يمكنك ".tr()} ${attendanceType.name.tr()}.',
                                     style: TextStyle(
                                       color: Colors.red.shade900,
                                       fontSize: 16,

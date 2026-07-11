@@ -69,9 +69,9 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   void _deleteTask(GetTasData task) {
     final taskId = int.parse(task.id.toString());
     buildDeleteAlertDialog(context,
-        title: 'Delete Task'.tr(context: context),
+        title: 'Delete Task'.tr(),
         message: 'Are you sure you want to delete this Task?'
-            .tr(context: context), onYes: () {
+            .tr(), onYes: () {
       context.pop();
 
       context.read<TasksCubit>().deleteTask(id: taskId).then((isSuccess) {
@@ -85,7 +85,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
           buildSnackBar(
             context,
             customSnackBar: CustomSnackBar.error(
-              message: 'Failed to delete task.'.tr(context: context),
+              message: 'Failed to delete task.'.tr(),
             ),
           );
         }
@@ -154,7 +154,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
             },
           ),
           CustomFloatingActionButton(
-            text: 'Add Task'.tr(context: context),
+            text: 'Add Task'.tr(),
             onTap: () {
               context.pushName(Routes.supervisorAddTasksScreen).then((value) {
                 context.read<TasksCubit>().getTasks();

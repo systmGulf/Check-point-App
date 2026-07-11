@@ -42,9 +42,9 @@ class PlanItem extends StatelessWidget {
                     onPressed: () {
                       buildDeleteAlertDialog(
                         context,
-                        title: 'Delete Plan'.tr(context: context),
+                        title: 'Delete Plan'.tr(),
                         message: 'Are you sure you want to delete this Plan?'
-                            .tr(context: context),
+                            .tr(),
                         onYes: () {
                           context.pop();
                           context.read<PlanCubit>().deletePlan(id: planId);
@@ -59,7 +59,7 @@ class PlanItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '${"Plan For".tr(context: context)} : $displayDate',
+                          '${"Plan For".tr()} : $displayDate',
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -69,7 +69,7 @@ class PlanItem extends StatelessWidget {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          '${"Note".tr(context: context)} : ${note.trim().isEmpty ? '-' : note}',
+                          '${"Note".tr()} : ${note.trim().isEmpty ? '-' : note}',
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

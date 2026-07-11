@@ -62,25 +62,25 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
               verticalSpace(20.h),
               Text(
                 widget.isEdit
-                    ? 'Edit Shift'.tr(context: context)
-                    : 'Add Shift'.tr(context: context),
+                    ? 'Edit Shift'.tr()
+                    : 'Add Shift'.tr(),
               ),
               verticalSpace(20.h),
               CustomAppTextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Shift Name Required'.tr(context: context);
+                      return 'Shift Name Required'.tr();
                     }
                     return null;
                   },
                   controller:
                       context.read<ShiftsAndPolicesCubit>().shiftNameController,
-                  hint: 'Shift Name'.tr(context: context)),
+                  hint: 'Shift Name'.tr()),
               verticalSpace(20.h),
               CustomAppButton(
                 textButton: widget.isEdit
-                    ? 'Save'.tr(context: context)
-                    : 'Add Shift'.tr(context: context),
+                    ? 'Save'.tr()
+                    : 'Add Shift'.tr(),
                 buttonColor: ColorsManger.primaryColor,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
@@ -96,9 +96,9 @@ class _AddShiftBottomSheetState extends State<AddShiftBottomSheet> {
               ),
               AddShiftBlocListener(
                 addSuccessMessage:
-                    'Shift Added Successfully'.tr(context: context),
+                    'Shift Added Successfully'.tr(),
                 editSuccessMessage:
-                    'Shift Updated Successfully'.tr(context: context),
+                    'Shift Updated Successfully'.tr(),
               )
             ]),
           )),

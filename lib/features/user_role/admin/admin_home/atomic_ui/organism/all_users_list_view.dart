@@ -70,9 +70,9 @@ class _AllUsersListViewState extends State<AllUsersListView> {
   void _deleteUser(EmployeeData user) {
     buildDeleteAlertDialog(
       context,
-      title: 'Delete User'.tr(context: context),
+      title: 'Delete User'.tr(),
       message:
-          'Are you sure you want to delete this User?'.tr(context: context),
+          'Are you sure you want to delete this User?'.tr(),
       onYes: () {
         context.pop();
         BlocProvider.of<EmployeeCubit>(context)
@@ -144,7 +144,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                                 child: TextButton(
                                   onPressed: () => _refreshList(),
                                   child: Text(
-                                    'Retry'.tr(context: context),
+                                    'Retry'.tr(),
                                     style: TextStyle(
                                         color: ColorsManger.primaryColor),
                                   ),
@@ -165,7 +165,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                   BlocProvider.of<EmployeeCubit>(context)
                       .searchEmployee(name: query);
                 },
-                searchText: 'Please enter user name'.tr(context: context),
+                searchText: 'Please enter user name'.tr(),
                 child: UserSearchResultsList(onNavigateBack: _refreshList),
               ),
             ],

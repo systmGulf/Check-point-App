@@ -164,7 +164,7 @@ class _ClientsBodyScreenState extends State<ClientsBodyScreen> {
                             child: TextButton(
                               onPressed: _refreshList,
                               child: Text(
-                                'Retry'.tr(context: context),
+                                'Retry'.tr(),
                                 style:
                                     TextStyle(color: ColorsManger.primaryColor),
                               ),

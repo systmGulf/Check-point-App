@@ -25,7 +25,7 @@ class CreateLeaveApplicationBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: "Request submited successfully".tr(context: context),
+              message: "Request submited successfully".tr(),
             ),
           );
         } else if (state is AddLeaveApplicationFailure) {

@@ -39,7 +39,7 @@ class CheckInAuthBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Check In Success'.tr(context: context),
+              message: 'Check In Success'.tr(),
             ),
           );
         } else if (state is NoShiftAssigned) {
@@ -48,7 +48,7 @@ class CheckInAuthBlocListener extends StatelessWidget {
             CustomSnackBar.error(
               message:
                   'No shift is assigned to this employee yet. Please contact your admin.'
-                      .tr(context: context),
+                      .tr(),
             ),
           );
         }

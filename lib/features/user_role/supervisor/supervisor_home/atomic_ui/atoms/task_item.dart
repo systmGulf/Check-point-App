@@ -42,8 +42,8 @@ class _TaskItemState extends State<TaskItem> {
 
   @override
   Widget build(BuildContext context) {
-    final localizedStatus = widget.state.tr(context: context);
-    final localizedPriority = widget.priority.tr(context: context);
+    final localizedStatus = widget.state.tr();
+    final localizedPriority = widget.priority.tr();
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 180),
@@ -133,7 +133,7 @@ class _TaskItemState extends State<TaskItem> {
                         ),
                         const Spacer(),
                         Text(
-                          '${'Assigned to'.tr(context: context)} (${widget.employeeName.length})',
+                          '${'Assigned to'.tr()} (${widget.employeeName.length})',
                           textAlign: TextAlign.end,
                           style: AppStylesManger.font15BoldBlack.copyWith(
                             fontSize: 14.sp,
@@ -247,21 +247,21 @@ class _TaskStatusMenu extends StatelessWidget {
         PopupMenuItem<String>(
           value: 'InProgress',
           child: Text(
-            'InProgress'.tr(context: context),
+            'InProgress'.tr(),
             style: const TextStyle(color: Color(0xFF5F33E1)),
           ),
         ),
         PopupMenuItem<String>(
           value: 'Done',
           child: Text(
-            'Done'.tr(context: context),
+            'Done'.tr(),
             style: const TextStyle(color: Color(0xFF0087FF)),
           ),
         ),
         PopupMenuItem<String>(
           value: 'Pending',
           child: Text(
-            'Pending'.tr(context: context),
+            'Pending'.tr(),
             style: const TextStyle(color: Color(0xFFE73C3C)),
           ),
         ),
@@ -275,7 +275,7 @@ class _TaskStatusMenu extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Change status'.tr(context: context),
+          'Change status'.tr(),
           style: AppStylesManger.font12RegularBlack.copyWith(
             color: ColorsManger.primaryColor,
             fontWeight: FontWeight.w600,
@@ -313,12 +313,12 @@ class _TaskMenuButton extends StatelessWidget {
       itemBuilder: (context) => [
         PopupMenuItem<String>(
           value: 'edit',
-          child: Text('who will work on it'.tr(context: context)),
+          child: Text('who will work on it'.tr()),
         ),
         PopupMenuItem<String>(
           value: 'delete',
           child: Text(
-            'Delete'.tr(context: context),
+            'Delete'.tr(),
             style: const TextStyle(color: Colors.red),
           ),
         ),
@@ -338,14 +338,14 @@ class _TaskStatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = status == 'InProgress'.tr(context: context)
+    final backgroundColor = status == 'InProgress'.tr()
         ? const Color(0xFFF0ECFF)
-        : status == 'Done'.tr(context: context)
+        : status == 'Done'.tr()
             ? const Color(0xFFE3F2FF)
             : const Color(0xFFFFE8F0);
-    final textColor = status == 'InProgress'.tr(context: context)
+    final textColor = status == 'InProgress'.tr()
         ? const Color(0xFF5F33E1)
-        : status == 'Done'.tr(context: context)
+        : status == 'Done'.tr()
             ? const Color(0xFF0087FF)
             : const Color(0xFFE73C3C);
 
@@ -373,9 +373,9 @@ class _TaskPriorityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = priority == 'Low'.tr(context: context)
+    final color = priority == 'Low'.tr()
         ? const Color(0xFF0087FF)
-        : priority == 'Medium'.tr(context: context)
+        : priority == 'Medium'.tr()
             ? const Color(0xFF5F33E1)
             : const Color(0xFFE73C3C);
 

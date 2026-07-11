@@ -25,7 +25,7 @@ class AssignShiftsButtonBlocConsumer extends StatelessWidget {
       listener: (context, state) {
         if (state is AssignShiftSuccess) {
        
-          buildSnackBar(context, customSnackBar: CustomSnackBar.success(message: 'Shifts assigned successfully'.tr(context: context)));
+          buildSnackBar(context, customSnackBar: CustomSnackBar.success(message: 'Shifts assigned successfully'.tr()));
         } else if (state is AssignShiftError) {
           buildSnackBar(context, customSnackBar: CustomSnackBar.error(message: state.error));
         }
@@ -49,7 +49,7 @@ class AssignShiftsButtonBlocConsumer extends StatelessWidget {
                 .read<ShiftsAndPolicesCubit>()
                 .assignBranchesToShift(shiftId: widget.shiftId);
           },
-          textButton: 'Add'.tr(context: context),
+          textButton: 'Add'.tr(),
           buttonColor: ColorsManger.primaryColor,
         );
       },

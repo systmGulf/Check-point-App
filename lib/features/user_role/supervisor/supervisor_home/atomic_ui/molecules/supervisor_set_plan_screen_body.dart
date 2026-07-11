@@ -40,7 +40,7 @@ class _PlansScreenState extends State<PlansScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: CustomFloatingActionButton(
-          text: 'Add Plan'.tr(context: context),
+          text: 'Add Plan'.tr(),
           onTap: () {
             showModalBottomSheet(
               context: context,
@@ -105,7 +105,7 @@ class _PlansScreenState extends State<PlansScreen> {
                                 log("query: $query");
                               });
                             },
-                            hint: "Search a plan...".tr(context: context),
+                            hint: "Search a plan...".tr(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: SvgPicture.asset(

@@ -73,9 +73,9 @@ class SitesItem extends StatelessWidget {
               AppActionIconButton.delete(
                 onPressed: () {
                   buildDeleteAlertDialog(context,
-                      title: 'Delete Site'.tr(context: context),
+                      title: 'Delete Site'.tr(),
                       message: 'Are you sure you want to delete this Site?'
-                          .tr(context: context), onYes: () {
+                          .tr(), onYes: () {
                     context
                         .read<CustomerCubit>()
                         .deleteCustomer(

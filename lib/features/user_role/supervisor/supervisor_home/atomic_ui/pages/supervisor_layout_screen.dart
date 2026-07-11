@@ -39,11 +39,11 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     List<String> texts = [
-      'Attendance'.tr(context: context),
-      'Employees Attendance'.tr(context: context),
-      'Tasks'.tr(context: context),
-      'Requests'.tr(context: context),
-      'Plans'.tr(context: context),
+      'Attendance'.tr(),
+      'Employees Attendance'.tr(),
+      'Tasks'.tr(),
+      'Requests'.tr(),
+      'Plans'.tr(),
     ];
     return Scaffold(
         key: scaffoldkey,
@@ -108,31 +108,31 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 icon: SvgPicture.asset(
                   Assets.HomeIconImage,
                 ),
-                label: 'Home'.tr(context: context),
+                label: 'Home'.tr(),
               ),
               BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(Assets.AttendanceIconImage,
                     color: ColorsManger.primaryColor),
                 icon: SvgPicture.asset(Assets.AttendanceIconImage),
-                label: 'Attendance'.tr(context: context),
+                label: 'Attendance'.tr(),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/images/client.svg'),
                 activeIcon: SvgPicture.asset('assets/images/client.svg',
                     color: ColorsManger.primaryColor),
-                label: 'Tasks'.tr(context: context),
+                label: 'Tasks'.tr(),
               ),
               BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(Assets.RequestsImage,
                     color: ColorsManger.primaryColor),
                 icon: SvgPicture.asset(Assets.RequestsImage),
-                label: 'Requests'.tr(context: context),
+                label: 'Requests'.tr(),
               ),
               BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(Assets.PlansIconImage,
                     color: ColorsManger.primaryColor),
                 icon: SvgPicture.asset(Assets.PlansIconImage),
-                label: 'Plans'.tr(context: context),
+                label: 'Plans'.tr(),
               ),
             ],
           ),

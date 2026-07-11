@@ -159,7 +159,7 @@ class UserNameAndTimeAndCheckInAndOutItem extends StatelessWidget {
                                             ApiConstant.shiftName == "null"
                                         ? Text(
                                             'you are not assigned to any shift'
-                                                .tr(context: context),
+                                                .tr(),
                                             style: AppStylesManger
                                                 .font15BoldBlack
                                                 .copyWith(

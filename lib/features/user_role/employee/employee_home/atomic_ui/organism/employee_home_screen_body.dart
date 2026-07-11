@@ -42,7 +42,7 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
   @override
   Widget build(BuildContext context) {
     List<String> checkingText = [
-      'Office'.tr(context: context),
+      'Office'.tr(),
       'Customer'.tr(
         context: context,
       ),

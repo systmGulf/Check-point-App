@@ -25,8 +25,8 @@ class _DepartmentUsersAndPermissionState
   @override
   Widget build(BuildContext context) {
     List<String> position = [
-      'Managers'.tr(context: context),
-      'Employees'.tr(context: context),
+      'Managers'.tr(),
+      'Employees'.tr(),
     ];
     BlocProvider.of<EmployeeCubit>(context).getEmployeeByDepartment(
       departmentId: widget.departmentId,

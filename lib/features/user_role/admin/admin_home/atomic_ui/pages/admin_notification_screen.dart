@@ -73,7 +73,7 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCustomAppBar(context, 'Notification'.tr(context: context)),
+      appBar: buildCustomAppBar(context, 'Notification'.tr()),
       body: RefreshIndicator(
         color: ColorsManger.primaryColor,
         onRefresh: () async => _refreshList(),
@@ -159,7 +159,7 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
           TextButton(
             onPressed: _refreshList,
             child: Text(
-              'Retry'.tr(context: context),
+              'Retry'.tr(),
               style: TextStyle(color: ColorsManger.primaryColor),
             ),
           ),
@@ -175,7 +175,7 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
         child: TextButton(
           onPressed: onRetry,
           child: Text(
-            'Retry'.tr(context: context),
+            'Retry'.tr(),
             style: TextStyle(color: ColorsManger.primaryColor),
           ),
         ),
@@ -203,7 +203,7 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
             children: [
               Flexible(
                 child: Text(
-                  "You Don't have any Notification Yet".tr(context: context),
+                  "You Don't have any Notification Yet".tr(),
                   style: AppStylesManger.font20SemiBoldBlack,
                   textAlign: TextAlign.center,
                 ),
@@ -212,7 +212,7 @@ class _AdminNotificationScreenState extends State<AdminNotificationScreen> {
           ),
           verticalSpace(10),
           Text(
-            'we will send you notification soon .'.tr(context: context),
+            'we will send you notification soon .'.tr(),
           ),
         ],
       ),

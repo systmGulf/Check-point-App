@@ -55,7 +55,7 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(children: [
                         Text(
-                          'Share as Excel : '.tr(context: context),
+                          'Share as Excel : '.tr(),
                           style: TextStyle(
                               fontSize: 16.sp,
                               color: Colors.black,

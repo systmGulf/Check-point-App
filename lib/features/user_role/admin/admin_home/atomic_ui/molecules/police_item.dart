@@ -45,7 +45,7 @@ class PoliceItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text('Date'.tr(context: context),
+                  Text('Date'.tr(),
                       style: AppStylesManger.font14RegularBlack.copyWith(
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class PoliceItem extends StatelessWidget {
                       });
                 },
                 child: Text(
-                  'ADD EMPLOYEES'.tr(context: context),
+                  'ADD EMPLOYEES'.tr(),
                   style: AppStylesManger.font13DarkBlueMedium.copyWith(
                       color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
@@ -101,9 +101,9 @@ class PoliceItem extends StatelessWidget {
                 onPressed: () {
                   buildDeleteAlertDialog(
                       message: 'Are you sure you want to delete this Police?'
-                          .tr(context: context),
+                          .tr(),
                       context,
-                      title: 'Delete Police'.tr(context: context), onYes: () {
+                      title: 'Delete Police'.tr(), onYes: () {
                     context
                         .read<ShiftsAndPolicesCubit>()
                         .deletePolice(id: policeId);
@@ -124,7 +124,7 @@ class PoliceItem extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Time in'.tr(context: context),
+                    Text('Time in'.tr(),
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 20,
@@ -152,7 +152,7 @@ class PoliceItem extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Time out'.tr(context: context),
+                    Text('Time out'.tr(),
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 20,
@@ -180,8 +180,8 @@ class PoliceItem extends StatelessWidget {
               expandedAlignment: Alignment.topLeft,
               childrenPadding: const EdgeInsets.all(0),
               title: Text(
-                '${"Employees assigned to this police".tr(context: context)} (${employees.length})'
-                    .tr(context: context),
+                '${"Employees assigned to this police".tr()} (${employees.length})'
+                    .tr(),
                 style: AppStylesManger.font12RegularGrey.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -200,7 +200,7 @@ class PoliceItem extends StatelessWidget {
                   : [
                       Text(
                         'No employees assigned to this police'
-                            .tr(context: context),
+                            .tr(),
                         style: AppStylesManger.font12RegularGrey.copyWith(
                             fontWeight: FontWeight.bold, color: Colors.red),
                       ),

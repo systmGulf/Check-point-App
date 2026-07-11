@@ -22,7 +22,7 @@ class DepartmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: CustomFloatingActionButton(
-        text: 'Add Department'.tr(context: context),
+        text: 'Add Department'.tr(),
         onTap: () {
           showModalBottomSheet(
             context: context,
@@ -43,7 +43,7 @@ class DepartmentScreen extends StatelessWidget {
       ),
       appBar: buildCustomAppBar(
         context,
-        'Departments'.tr(context: context),
+        'Departments'.tr(),
       ),
       body: Stack(
         children: [
@@ -63,7 +63,7 @@ class DepartmentScreen extends StatelessWidget {
                     BlocProvider.of<DepartmentCubit>(context)
                         .searchDepartment(query);
                   },
-                  searchText: 'Search for Department...'.tr(context: context),
+                  searchText: 'Search for Department...'.tr(),
                   child: BlocBuilder<DepartmentCubit, DepartmentState>(
                       builder: (context, state) {
                     if (state is SearchDepartmentLoading) {

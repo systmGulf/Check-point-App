@@ -25,7 +25,7 @@ class AddDepartmentBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
              CustomSnackBar.success(
-              message: 'Department Added Successfully'.tr(context: context),
+              message: 'Department Added Successfully'.tr(),
               // backgroundColor: Colors.red,
             ),
           );

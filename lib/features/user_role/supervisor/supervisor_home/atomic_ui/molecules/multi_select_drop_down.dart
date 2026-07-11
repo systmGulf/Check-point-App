@@ -44,7 +44,7 @@ class _MultiSelectEmployeesDropdownState
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: 'select employees'.tr(context: context),
+                hintText: 'select employees'.tr(),
               ),
               controller: controller,
               enabled: true,
@@ -53,7 +53,7 @@ class _MultiSelectEmployeesDropdownState
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: 'Search'.tr(context: context),
+                hintText: 'Search'.tr(),
               ),
               chipDecoration: ChipDecoration(
                   backgroundColor: ColorsManger.primaryColor,

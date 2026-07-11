@@ -14,7 +14,7 @@ class ClientsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: CustomFloatingActionButton(
-          text: 'Add Client'.tr(context: context),
+          text: 'Add Client'.tr(),
           onTap: () {
             showModalBottomSheet(
               context: context,

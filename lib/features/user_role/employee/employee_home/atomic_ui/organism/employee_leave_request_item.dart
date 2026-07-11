@@ -21,14 +21,14 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color statusColor = status == 'Approved'.tr(context: context)
+    final Color statusColor = status == 'Approved'.tr()
         ? Colors.green
-        : status == 'Cancelled'.tr(context: context)
+        : status == 'Cancelled'.tr()
             ? Colors.red
             : Colors.orange;
-    final IconData statusIcon = status == 'Approved'.tr(context: context)
+    final IconData statusIcon = status == 'Approved'.tr()
         ? Icons.check_circle
-        : status == 'Cancelled'.tr(context: context)
+        : status == 'Cancelled'.tr()
             ? Icons.cancel
             : Icons.hourglass_empty;
 
@@ -44,7 +44,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Request'.tr(context: context),
+                    'Request'.tr(),
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -52,7 +52,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '${"from".tr(context: context)}: $from',
+                    '${"from".tr()}: $from',
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -60,7 +60,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${"To".tr(context: context)}: $to',
+                    '${"To".tr()}: $to',
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -68,7 +68,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '${"Reason".tr(context: context)} : $reason',
+                    '${"Reason".tr()} : $reason',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 15,
@@ -80,7 +80,7 @@ class EmployeeLeaveRequestItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${"Status".tr(context: context)}: ',
+                        '${"Status".tr()}: ',
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,

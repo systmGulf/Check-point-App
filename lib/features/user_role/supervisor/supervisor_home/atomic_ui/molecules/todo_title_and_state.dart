@@ -52,31 +52,31 @@ class TodoTitleAndStateItem extends StatelessWidget {
               items: [
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.InProgress.name.tr(context: context));
+                    onSelected(TaskStatus.InProgress.name.tr());
                   },
-                  value: TaskStatus.InProgress.name.tr(context: context),
+                  value: TaskStatus.InProgress.name.tr(),
                   child: Text(
-                    TaskStatus.InProgress.name.tr(context: context),
+                    TaskStatus.InProgress.name.tr(),
                     style: const TextStyle(color: const Color(0xFF5F33E1)),
                   ),
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.Done.name.tr(context: context));
+                    onSelected(TaskStatus.Done.name.tr());
                   },
-                  value: TaskStatus.Done.name.tr(context: context),
+                  value: TaskStatus.Done.name.tr(),
                   child: Text(
-                    TaskStatus.Done.name.tr(context: context),
+                    TaskStatus.Done.name.tr(),
                     style: const TextStyle(color: const Color(0xFF0087FF)),
                   ),
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    onSelected(TaskStatus.Pending.name.tr(context: context));
+                    onSelected(TaskStatus.Pending.name.tr());
                   },
-                  value: TaskStatus.Pending.name.tr(context: context),
+                  value: TaskStatus.Pending.name.tr(),
                   child: Text(
-                    TaskStatus.Pending.name.tr(context: context),
+                    TaskStatus.Pending.name.tr(),
                     style: const TextStyle(color: const Color(0xFFE73C3C)),
                   ),
                 ),
@@ -86,9 +86,9 @@ class TodoTitleAndStateItem extends StatelessWidget {
           height: 22,
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: ShapeDecoration(
-            color: state == TaskStatus.InProgress.name.tr(context: context)
+            color: state == TaskStatus.InProgress.name.tr()
                 ? const Color(0xFFF0ECFF)
-                : state == TaskStatus.Done.name.tr(context: context)
+                : state == TaskStatus.Done.name.tr()
                     ? const Color(0xFFE3F2FF)
                     : Color(0XFFFFE4F2),
             shape:
@@ -101,10 +101,10 @@ class TodoTitleAndStateItem extends StatelessWidget {
                 child: Text(
                   state,
                   style: TextStyle(
-                    color: state == TaskStatus.Done.name.tr(context: context)
+                    color: state == TaskStatus.Done.name.tr()
                         ? const Color(0xFF0087FF)
                         : state ==
-                                TaskStatus.InProgress.name.tr(context: context)
+                                TaskStatus.InProgress.name.tr()
                             ? const Color(0xFF5F33E1)
                             : const Color(0xFFE73C3C),
                     fontSize: 11,

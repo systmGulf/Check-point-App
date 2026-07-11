@@ -29,7 +29,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Check Out Success'.tr(context: context),
+              message: 'Check Out Success'.tr(),
             ),
           );
           FlutterBackgroundService().invoke('stop');
@@ -49,7 +49,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
             CustomSnackBar.error(
               message:
                   'No shift is assigned to this employee yet. Please contact your admin.'
-                      .tr(context: context),
+                      .tr(),
             ),
           );
         }

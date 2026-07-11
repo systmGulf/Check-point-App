@@ -41,7 +41,7 @@ class _CustomFilterContainerState extends State<CustomFilterContainer> {
                 children: [
                   Spacer(),
                   Text(
-                    "Filter".tr(context: context),
+                    "Filter".tr(),
                     style: AppStylesManger.font16BoldBlack,
                   ),
                   Spacer(),
@@ -71,7 +71,7 @@ class _CustomFilterContainerState extends State<CustomFilterContainer> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Status".tr(context: context),
+                            "Status".tr(),
                             style: AppStylesManger.font16BoldBlack,
                           ),
                           GestureDetector(
@@ -90,7 +90,7 @@ class _CustomFilterContainerState extends State<CustomFilterContainer> {
                               Navigator.pop(context, filterData);
                             },
                             child: Text(
-                              "Reset Filters".tr(context: context),
+                              "Reset Filters".tr(),
                               style: AppStylesManger.font16BoldBlack.copyWith(
                                 color: ColorsManger.primaryColor,
                                 decoration: TextDecoration.underline,
@@ -163,7 +163,7 @@ class _CustomFilterContainerState extends State<CustomFilterContainer> {
                 children: [
                   Flexible(
                     child: CustomAppButton(
-                      textButton: "Submit".tr(context: context),
+                      textButton: "Submit".tr(),
                       buttonColor: ColorsManger.primaryColor,
                       onPressed: () {
                         final filterData = {

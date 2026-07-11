@@ -28,9 +28,9 @@ class _PoliceScreenState extends State<PoliceScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, 'Police'.tr(context: context)),
+        appBar: buildCustomAppBar(context, 'Police'.tr()),
         floatingActionButton: CustomFloatingActionButton(
-            text: 'Add Police'.tr(context: context),
+            text: 'Add Police'.tr(),
             onTap: () {
               buildAddPoliceTimeDialog(context);
             }),

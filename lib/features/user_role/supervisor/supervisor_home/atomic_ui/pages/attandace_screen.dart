@@ -24,8 +24,8 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
   @override
   Widget build(BuildContext context) {
     List<String> texts = [
-      'Attendance'.tr(context: context),
-      'Employees'.tr(context: context)
+      'Attendance'.tr(),
+      'Employees'.tr()
     ];
     return SafeArea(
       child: RefreshIndicator(

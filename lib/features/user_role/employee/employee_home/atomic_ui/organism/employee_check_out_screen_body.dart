@@ -102,7 +102,7 @@ class _EmployeeCheckOutScreenBodyState
                           widgetType: WidgetAnimationType.text,
                           child: Text(
                             'You Do Not Have ${widget.checkType} Plans'
-                                .tr(context: context),
+                                .tr(),
                             style: AppStylesManger.font15BoldRed.copyWith(
                               color: ColorsManger.primaryColor,
                             ),
@@ -119,7 +119,7 @@ class _EmployeeCheckOutScreenBodyState
             attendanceType: widget.attendanceType,
             widget: widget.checkType),
         CustomCheckingScreenAppBar(
-          text: 'Check Out'.tr(context: context),
+          text: 'Check Out'.tr(),
         ),
         const CheckOutAuthBlocListener(),
       ],

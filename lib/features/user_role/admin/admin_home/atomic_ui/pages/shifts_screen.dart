@@ -15,7 +15,7 @@ class ShiftsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingActionButton(text: 'Add Shift'.tr(context: context), onTap: (){
+      floatingActionButton: CustomFloatingActionButton(text: 'Add Shift'.tr(), onTap: (){
         showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -37,7 +37,7 @@ class ShiftsScreen extends StatelessWidget {
             },
           );
       }),
-      appBar: buildCustomAppBar(context, 'Shifts'.tr(context: context)),
+      appBar: buildCustomAppBar(context, 'Shifts'.tr()),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: GetShiftsBlocBuilder()),

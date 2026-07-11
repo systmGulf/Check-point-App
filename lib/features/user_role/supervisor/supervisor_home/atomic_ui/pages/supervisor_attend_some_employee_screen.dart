@@ -46,7 +46,7 @@ class _SupervisorAttendSomeEmployeeScreenState
       inAsyncCall: isloading,
       child: Scaffold(
         appBar: buildCustomAppBar(
-            context, 'Attend Anther Employee'.tr(context: context)),
+            context, 'Attend Anther Employee'.tr()),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

@@ -78,7 +78,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
               },
             ),
             CustomFloatingActionButton(
-                text: 'Add Plan'.tr(context: context),
+                text: 'Add Plan'.tr(),
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -108,7 +108,7 @@ class _SubPlansScreenState extends State<SubPlansScreen> {
         ),
         appBar: buildCustomAppBar(
           context,
-          'Plans For this Day'.tr(context: context),
+          'Plans For this Day'.tr(),
         ),
         body: Column(
           children: [

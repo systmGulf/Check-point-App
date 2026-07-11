@@ -36,7 +36,7 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
                   verticalSpace(MediaQuery.sizeOf(context).height * 0.4),
                   Center(
                     child: Text(
-                      'No tracking data available'.tr(context: context),
+                      'No tracking data available'.tr(),
                       style: AppStylesManger.font15BoldrBlue,
                     ),
                   ),
@@ -59,7 +59,7 @@ class EmployeeTrackingDiagramMap extends StatelessWidget {
                   verticalSpace(MediaQuery.sizeOf(context).height * 0.4),
                   Center(
                     child: Text(
-                      'No tracking data available'.tr(context: context),
+                      'No tracking data available'.tr(),
                       style: AppStylesManger.font15BoldrBlue,
                     ),
                   ),

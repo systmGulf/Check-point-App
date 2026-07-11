@@ -98,7 +98,7 @@ Future<dynamic> buildDeleteAlertDialog(
                           child: CustomAppButton(
                             buttonColor: Color(0xFFDF2727),
                             height: 59.h,
-                            textButton: 'Cancel'.tr(context: context),
+                            textButton: 'Cancel'.tr(),
                             onPressed: () => Navigator.pop(context),
                           ),
                         ),

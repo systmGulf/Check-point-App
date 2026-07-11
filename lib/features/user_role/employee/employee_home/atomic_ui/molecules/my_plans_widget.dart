@@ -54,10 +54,10 @@ class MyPlanWidget extends StatelessWidget {
                   ),
                   child: Text(
                     DateUtils.isSameDay(planDate, now)
-                        ? 'The plan is Today'.tr(context: context)
+                        ? 'The plan is Today'.tr()
                         : planDate.isBefore(now)
-                            ? 'The plan is Over'.tr(context: context)
-                            : '${planDate.difference(now).inDays} ${"Days Left".tr(context: context)}',
+                            ? 'The plan is Over'.tr()
+                            : '${planDate.difference(now).inDays} ${"Days Left".tr()}',
                     style: DateUtils.isSameDay(planDate, now)
                         ? AppStylesManger.font14RedularGreen
                             .copyWith(fontWeight: FontWeight.bold)
@@ -68,13 +68,13 @@ class MyPlanWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Status".tr(context: context),
+                      "Status".tr(),
                       style: AppStylesManger.font14RegularBlack.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      " : ${item.visited == true ? "Visited".tr(context: context) : "Not Visited".tr(context: context)}",
+                      " : ${item.visited == true ? "Visited".tr() : "Not Visited".tr()}",
                       style: AppStylesManger.font14RegularBlack.copyWith(
                         color: item.visited == true ? Colors.green : Colors.red,
                       ),
@@ -84,14 +84,14 @@ class MyPlanWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      ' ${"Notes".tr(context: context)}',
+                      ' ${"Notes".tr()}',
                       style: AppStylesManger.font14RegularBlack.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Flexible(
                       child: Text(
-                        ' : ${item.note != null || item.note != '' ? ' No Notes'.tr(context: context) : item.note}',
+                        ' : ${item.note != null || item.note != '' ? ' No Notes'.tr() : item.note}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: AppStylesManger.font14RegularBlack,
@@ -199,7 +199,7 @@ class MyPlanWidget extends StatelessWidget {
                                       : NoDataFound());
                             },
                             child: Text(
-                              "Feedback".tr(context: context),
+                              "Feedback".tr(),
                               style:
                                   AppStylesManger.font13DarkBlueMedium.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -217,9 +217,9 @@ class MyPlanWidget extends StatelessWidget {
             onPressed: () {
               buildDeleteAlertDialog(
                   message: 'Are you sure you want to delete this plan?'
-                      .tr(context: context),
+                      .tr(),
                   context,
-                  title: 'Delete Plan'.tr(context: context), onYes: () {
+                  title: 'Delete Plan'.tr(), onYes: () {
                 context.read<AttendanceCubit>().removeAssignCustomerPlan(
                       customerPlanId: item.id!,
                     );

@@ -54,7 +54,7 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
                     child: const Icon(Icons.close),
                   )),
               Text(
-                'Set Sub Plan'.tr(context: context),
+                'Set Sub Plan'.tr(),
                 style: AppStylesManger.font16BoldBlack,
               ),
               verticalSpace(10),
@@ -87,13 +87,13 @@ class _AddSubPlanBottomSheetState extends State<AddSubPlanBottomSheet> {
               CustomAppTextFormField(
                   controller: context.read<PlanCubit>().noteController,
                   maxLines: 3,
-                  hint: 'Note'.tr(context: context)),
+                  hint: 'Note'.tr()),
               verticalSpace(10),
               CustomAppButton(
                 onPressed: () {
                   context.read<PlanCubit>().setSubPlan();
                 },
-                textButton: 'Add'.tr(context: context),
+                textButton: 'Add'.tr(),
                 buttonColor: ColorsManger.primaryColor,
               ),
             ],

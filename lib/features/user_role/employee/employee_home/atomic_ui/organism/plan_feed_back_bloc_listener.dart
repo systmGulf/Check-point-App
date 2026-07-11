@@ -169,7 +169,7 @@ class _PlanFeedBackBottomSheetState extends State<PlanFeedBackBottomSheet> {
                               iconSize: 30.sp,
                               focusColor: ColorsManger.primaryColor,
                               hint: Text(
-                                  'Select Feedback Type'.tr(context: context)),
+                                  'Select Feedback Type'.tr()),
                               items: status
                                   .map((e) => DropdownMenuItem(
                                         value: e,
@@ -203,7 +203,7 @@ class _PlanFeedBackBottomSheetState extends State<PlanFeedBackBottomSheet> {
               CustomAppTextFormField(
                 controller:
                     context.read<AttendanceCubit>().planFeedbackController,
-                hint: 'Feedback'.tr(context: context),
+                hint: 'Feedback'.tr(),
                 maxLines: 5,
               ),
               verticalSpace(20),
@@ -216,14 +216,14 @@ class _PlanFeedBackBottomSheetState extends State<PlanFeedBackBottomSheet> {
                     if (state is AddPlanFeedbackLoading) {
                       return Skeletonizer(
                         child: CustomAppButton(
-                          textButton: 'Submit'.tr(context: context),
+                          textButton: 'Submit'.tr(),
                           buttonColor: ColorsManger.primaryColor,
                           onPressed: () {},
                         ),
                       );
                     } else {
                       return CustomAppButton(
-                        textButton: 'Submit'.tr(context: context),
+                        textButton: 'Submit'.tr(),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: () {
                           context

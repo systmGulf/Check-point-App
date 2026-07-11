@@ -57,7 +57,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: CustomFloatingActionButton(
-        text: 'Add User'.tr(context: context),
+        text: 'Add User'.tr(),
         onTap: () {
           showModalBottomSheet(
             context: context,
@@ -82,7 +82,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
       ),
       appBar: buildCustomAppBar(
         context,
-        'All Users'.tr(context: context),
+        'All Users'.tr(),
       ),
       body: const AllUsersListView(),
     );

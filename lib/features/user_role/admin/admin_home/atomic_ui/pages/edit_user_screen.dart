@@ -45,7 +45,7 @@ class _EditUserState extends State<EditUser> {
       child: Scaffold(
         appBar: buildCustomAppBar(
           context,
-          'Edit User'.tr(context: context),
+          'Edit User'.tr(),
         ),
         body: SingleChildScrollView(
           child: Padding(

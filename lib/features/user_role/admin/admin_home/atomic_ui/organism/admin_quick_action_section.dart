@@ -19,7 +19,7 @@ class AdminQuickActionsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       AnimatedTextWidget(
-        text: 'Quick Actions'.tr(context: context),
+        text: 'Quick Actions'.tr(),
         style: AppStylesManger.font16BoldBlack,
         textAlign: TextAlign.start,
       ),
@@ -34,7 +34,7 @@ class AdminQuickActionsSection extends StatelessWidget {
               index: 0,
               child: QuickActionsItem(
                 icon: CupertinoIcons.person_add,
-                text: 'Add New Employee'.tr(context: context),
+                text: 'Add New Employee'.tr(),
                 action: () {
                   context.pushName(Routes.allUsersScreen);
                 },
@@ -45,7 +45,7 @@ class AdminQuickActionsSection extends StatelessWidget {
               index: 1,
               child: QuickActionsItem(
                 icon: Icons.business_center_outlined,
-                text: 'Add New Department'.tr(context: context),
+                text: 'Add New Department'.tr(),
                 action: () {
                   context.pushName(Routes.supervisorPermission);
                 },
@@ -56,7 +56,7 @@ class AdminQuickActionsSection extends StatelessWidget {
               index: 2,
               child: QuickActionsItem(
                 icon: CupertinoIcons.building_2_fill,
-                text: 'Add New Branch'.tr(context: context),
+                text: 'Add New Branch'.tr(),
                 action: () {
                   context.pushName(Routes.companyBranchesScreen);
                 },
@@ -67,7 +67,7 @@ class AdminQuickActionsSection extends StatelessWidget {
               index: 3,
               child: QuickActionsItem(
                 icon: CupertinoIcons.person_crop_square,
-                text: 'Add New Customer'.tr(context: context),
+                text: 'Add New Customer'.tr(),
                 action: () {
                   context.pushName(Routes.clientsScreen);
                 },

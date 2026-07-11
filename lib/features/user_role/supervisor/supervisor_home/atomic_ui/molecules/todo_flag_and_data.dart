@@ -15,18 +15,18 @@ class TodoFlagAndDateItem extends StatelessWidget {
       children: [
         Icon(
           Icons.flag_outlined,
-          color: priority == 'Low'.tr(context: context)
+          color: priority == 'Low'.tr()
               ? const Color(0xFF0087FF)
-              : priority == 'Medium'.tr(context: context)
+              : priority == 'Medium'.tr()
                   ? const Color(0xFF5F33E1)
                   : const Color(0xFFE73C3C),
         ),
         Text(
           priority,
           style: TextStyle(
-            color: priority == 'Low'.tr(context: context)
+            color: priority == 'Low'.tr()
                 ? const Color(0xFF0087FF)
-                : priority == 'Medium'.tr(context: context)
+                : priority == 'Medium'.tr()
                     ? const Color(0xFF5F33E1)
                     : const Color(0xFFE73C3C),
             fontSize: 12,

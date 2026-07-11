@@ -21,7 +21,7 @@ class _CompanyBranchesScreenState extends State<CompanyBranchesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: CustomFloatingActionButton(
-            text: 'Add Branch'.tr(context: context),
+            text: 'Add Branch'.tr(),
             onTap: () {
               showModalBottomSheet(
                 context: context,

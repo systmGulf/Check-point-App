@@ -23,7 +23,7 @@ class AddPlanSubBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: state.error.tr(context: context),
+              message: state.error.tr(),
             ),
           );
         } else if (state is SetSubPlanError) {
@@ -31,7 +31,7 @@ class AddPlanSubBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: state.error.tr(context: context),
+              message: state.error.tr(),
             ),
           );
         } else if (state is SetSubPlanSuccess) {
@@ -41,7 +41,7 @@ class AddPlanSubBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: "Sub plan added successfully".tr(context: context),
+              message: "Sub plan added successfully".tr(),
             ),
           );
         } else if (state is SetSubPlanLoading) {

@@ -89,8 +89,8 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                     SizedBox(
                       child: Text(
                         widget.isEdit
-                            ? 'Edit Client'.tr(context: context)
-                            : 'Add New Client'.tr(context: context),
+                            ? 'Edit Client'.tr()
+                            : 'Add New Client'.tr(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsManger.primaryColor,
@@ -101,28 +101,28 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                     CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Name can't be empty".tr(context: context);
+                          return "Name can't be empty".tr();
                         }
                         return null;
                       },
                       controller: widget.isEdit
                           ? context.read<CustomerCubit>().editNameController
                           : context.read<CustomerCubit>().nameController,
-                      hint: 'Name'.tr(context: context),
+                      hint: 'Name'.tr(),
                     ),
                     verticalSpace(7),
                     CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Worked as can't be empty"
-                              .tr(context: context);
+                              .tr();
                         }
                         return null;
                       },
                       controller: widget.isEdit
                           ? context.read<CustomerCubit>().editWorkedAsController
                           : context.read<CustomerCubit>().workedAsController,
-                      hint: 'Worked as'.tr(context: context),
+                      hint: 'Worked as'.tr(),
                     ),
                     verticalSpace(7),
                     CustomAppTextFormField(
@@ -158,27 +158,27 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                               .isEmpty
                           ? TextEditingController()
                           : TextEditingController(
-                              text: 'Location Selected'.tr(context: context)),
-                      hint: 'Location in Map'.tr(context: context),
+                              text: 'Location Selected'.tr()),
+                      hint: 'Location in Map'.tr(),
                     ),
                     verticalSpace(7),
                     CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Location can't be empty".tr(context: context);
+                          return "Location can't be empty".tr();
                         }
                         return null;
                       },
                       controller: widget.isEdit
                           ? context.read<CustomerCubit>().editLocationController
                           : context.read<CustomerCubit>().locationController,
-                      hint: 'Location'.tr(context: context),
+                      hint: 'Location'.tr(),
                     ),
                     verticalSpace(7),
                     CustomAppButton(
                         textButton: widget.isEdit
-                            ? 'Save'.tr(context: context)
-                            : 'Submit'.tr(context: context),
+                            ? 'Save'.tr()
+                            : 'Submit'.tr(),
                         buttonColor: ColorsManger.primaryColor,
                         onPressed: () {
                           if (BlocProvider.of<CustomerCubit>(context)
@@ -205,7 +205,7 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                                 Overlay.of(context),
                                 CustomSnackBar.error(
                                   message: 'Please Select Location'
-                                      .tr(context: context),
+                                      .tr(),
                                   // backgroundColor: Colors.red,
                                 ),
                               );
@@ -214,9 +214,9 @@ class _AddClientBottomSheetState extends State<AddClientBottomSheet> {
                         }),
                     AddCustomerBlocListener(
                       addSuccessMessage:
-                          'Customer Added Successfully'.tr(context: context),
+                          'Customer Added Successfully'.tr(),
                       editSuccessMessage:
-                          'Customer Updated Successfully'.tr(context: context),
+                          'Customer Updated Successfully'.tr(),
                     )
                   ],
                 ),

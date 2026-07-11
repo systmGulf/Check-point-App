@@ -22,12 +22,12 @@ class SupervisorNotificationsScreen extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              "You Don't have any Notification Yet".tr(context: context),
+              "You Don't have any Notification Yet".tr(),
               style: AppStylesManger.font20semiBoldBlack,
             ),
           ),
           Text(
-            'we will send you notification soon .'.tr(context: context),
+            'we will send you notification soon .'.tr(),
           )
         ],
       ),

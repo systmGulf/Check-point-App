@@ -99,7 +99,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                     children: [
                       SizedBox(
                         child: Text(
-                          'New User'.tr(context: context),
+                          'New User'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: ColorsManger.primaryColor,
@@ -111,12 +111,12 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                         child: CustomAppTextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Name can't be empty".tr(context: context);
+                              return "Name can't be empty".tr();
                             }
                             return null;
                           },
                           controller: nameController,
-                          hint: 'Name'.tr(context: context),
+                          hint: 'Name'.tr(),
                         ),
                       ),
                       verticalSpace(7),
@@ -125,13 +125,13 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Username can't be empty"
-                                  .tr(context: context);
+                                  .tr();
                             }
                             return null;
                           },
                           controller: BlocProvider.of<EmployeeCubit>(context)
                               .usernameController,
-                          hint: 'Username'.tr(context: context),
+                          hint: 'Username'.tr(),
                         ),
                       ),
                       verticalSpace(7),
@@ -146,7 +146,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                           },
                           controller: BlocProvider.of<EmployeeCubit>(context)
                               .passwordController,
-                          hint: 'Password'.tr(context: context),
+                          hint: 'Password'.tr(),
                         ),
                       ),
                       verticalSpace(7),
@@ -155,13 +155,13 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Position can't be empty"
-                                  .tr(context: context);
+                                  .tr();
                             }
                             return null;
                           },
                           controller: BlocProvider.of<EmployeeCubit>(context)
                               .positionController,
-                          hint: 'Position'.tr(context: context),
+                          hint: 'Position'.tr(),
                         ),
                       ),
                       verticalSpace(7),
@@ -195,17 +195,17 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                                   items: [
                                     DropdownMenuItem(
                                       value: 'Admin',
-                                      child: Text('Admin'.tr(context: context)),
+                                      child: Text('Admin'.tr()),
                                     ),
                                     DropdownMenuItem(
                                       value: 'Supervisor',
                                       child: Text(
-                                          'Supervisor'.tr(context: context)),
+                                          'Supervisor'.tr()),
                                     ),
                                     DropdownMenuItem(
                                       value: 'Employee',
                                       child:
-                                          Text('Employee'.tr(context: context)),
+                                          Text('Employee'.tr()),
                                     ),
                                   ],
                                 ),
@@ -219,12 +219,12 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "MobileID can't be empty"
-                                        .tr(context: context);
+                                        .tr();
                                   }
                                   return null;
                                 },
                                 controller: mobileIdController,
-                                hint: 'MobileID'.tr(context: context),
+                                hint: 'MobileID'.tr(),
                               ),
                             ),
                           ),
@@ -258,7 +258,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                       verticalSpace(7),
                       FadeInUp(
                         child: CustomAppButton(
-                            textButton: 'Submit'.tr(context: context),
+                            textButton: 'Submit'.tr(),
                             buttonColor: ColorsManger.primaryColor,
                             onPressed: () {
                               validateAndAddUser(role: role);

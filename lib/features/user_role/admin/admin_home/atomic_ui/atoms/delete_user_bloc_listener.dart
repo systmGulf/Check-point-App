@@ -20,7 +20,7 @@ class DeleteUserBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.success(
-                message: 'User Deleted Successfully'.tr(context: context),
+                message: 'User Deleted Successfully'.tr(),
                 // backgroundColor: Colors.red,
               ),
             );
@@ -29,7 +29,7 @@ class DeleteUserBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.error(
-                message: 'Something went wrong'.tr(context: context),
+                message: 'Something went wrong'.tr(),
               ),
             );
           } else {}

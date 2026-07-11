@@ -21,7 +21,7 @@ class UsersListHeader extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Users List'.tr(context: context),
+              'Users List'.tr(),
               style: AppStylesManger.font15BoldBlack,
             ),
             const Spacer(),

@@ -19,7 +19,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
         Image.asset('assets/images/no-wifi.png', height: 100.h),
         Center(
             child: Text(
-          'No Internet Connection'.tr(context: context),
+          'No Internet Connection'.tr(),
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         )),
         verticalSpace(10),
@@ -27,7 +27,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
           child: CustomAppButton(
               border: 10,
               onPressed: onPressed,
-              textButton: 'Retry'.tr(context: context),
+              textButton: 'Retry'.tr(),
               buttonColor: ColorsManger.primaryColor),
         )
       ],

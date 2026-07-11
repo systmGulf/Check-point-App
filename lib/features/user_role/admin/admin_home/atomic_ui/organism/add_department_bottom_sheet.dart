@@ -58,7 +58,7 @@ class _AddDepartmentBottomSheetState extends State<AddDepartmentBottomSheet> {
                     )),
                 SizedBox(
                   child: Text(
-                    'Add New Department'.tr(context: context),
+                    'Add New Department'.tr(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorsManger.primaryColor,
@@ -70,17 +70,17 @@ class _AddDepartmentBottomSheetState extends State<AddDepartmentBottomSheet> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Department Name'
-                            .tr(context: context);
+                            .tr();
                       }
                       return null;
                     },
                     controller: BlocProvider.of<DepartmentCubit>(context)
                         .addDepartmentController,
-                    hint: 'Department Name'.tr(context: context)),
+                    hint: 'Department Name'.tr()),
                 verticalSpace(20),
                 CustomAppButton(
                   buttonColor: ColorsManger.primaryColor,
-                  textButton: 'Save'.tr(context: context),
+                  textButton: 'Save'.tr(),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       BlocProvider.of<DepartmentCubit>(context).addDepartment();

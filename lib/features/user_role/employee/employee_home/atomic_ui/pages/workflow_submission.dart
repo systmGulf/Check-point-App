@@ -44,7 +44,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Workflow Submission'.tr(context: context)),
+          title: Text('Workflow Submission'.tr()),
           centerTitle: true,
           backgroundColor: Colors.white,
           leading: IconButton(
@@ -65,13 +65,13 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                       children: [
                         Expanded(
                             child: DateButtonLeaveRequest(
-                          placeholder: 'From'.tr(context: context),
+                          placeholder: 'From'.tr(),
                           dateField: LeaveRequestDateField.from,
                         )),
                         horizontalSpace(10),
                         Expanded(
                             child: DateButtonLeaveRequest(
-                          placeholder: 'To'.tr(context: context),
+                          placeholder: 'To'.tr(),
                           dateField: LeaveRequestDateField.to,
                         )),
                       ],
@@ -90,8 +90,8 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                       ),
                       title: Text(
                           'Pick Multiple Files'
-                              .tr(context: context)
-                              .tr(context: context),
+                              .tr()
+                              .tr(),
                           style: AppStylesManger.font16BoldBlack),
                       trailing: AdvancedSwitch(
                         controller: _controller,
@@ -105,7 +105,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                       ),
                     ),
                     verticalSpace(10),
-                    Text('Action'.tr(context: context),
+                    Text('Action'.tr(),
                         style: AppStylesManger.font16BoldBlack),
                     verticalSpace(10),
                     MaterialButton(
@@ -136,7 +136,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                           //       showTopSnackBar(
                           //         Overlay.of(context),
                           //          CustomSnackBar.error(
-                          //           message: 'No file selected'.tr(context: context),
+                          //           message: 'No file selected'.tr(),
                           //           // backgroundColor: Colors.red,
                           //         ),
                           //       );
@@ -158,7 +158,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                           //       showTopSnackBar(
                           //         Overlay.of(context),
                           //          CustomSnackBar.error(
-                          //           message: 'No file selected'.tr(context: context),
+                          //           message: 'No file selected'.tr(),
                           //           // backgroundColor: Colors.red,
                           //         ),
                           //       );
@@ -186,7 +186,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                                 Icons.file_open,
                               ),
                               horizontalSpace(10),
-                              Text('Pick File'.tr(context: context)),
+                              Text('Pick File'.tr()),
                             ],
                           ),
                         )),
@@ -195,7 +195,7 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Files'.tr(context: context),
+                              Text('Files'.tr(),
                                   style: AppStylesManger.font16BoldBlack),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -210,13 +210,13 @@ class _WorkflowSubmissionState extends State<WorkflowSubmission> {
                     verticalSpace(10),
                     CustomAppTextFormField(
                         controller: TextEditingController(),
-                        hint: 'Remark'.tr(context: context)),
+                        hint: 'Remark'.tr()),
                     verticalSpace(10),
                     const DateButtonLeaveRequest(),
                     verticalSpace(20),
                     CustomAppButton(
                       onPressed: () {},
-                      textButton: 'Submit'.tr(context: context),
+                      textButton: 'Submit'.tr(),
                       buttonColor: ColorsManger.primaryColor,
                     ),
                   ]),

@@ -28,8 +28,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<String> texts = [
-      'Home'.tr(context: context),
-      'Management'.tr(context: context),
+      'Home'.tr(),
+      'Management'.tr(),
     ];
     return Scaffold(
         endDrawer: const Drawer(
@@ -94,11 +94,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           barItems: [
             BarItem(
               icon: Icons.home,
-              title: 'Home'.tr(context: context),
+              title: 'Home'.tr(),
             ),
             BarItem(
               icon: Icons.settings,
-              title: 'Management'.tr(context: context),
+              title: 'Management'.tr(),
             ),
           ],
         ),

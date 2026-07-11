@@ -101,7 +101,7 @@ class EmployeeCustomDrawer extends StatelessWidget {
                   Row(
                     children: [
                       const Spacer(),
-                      Text('${"Version".tr(context: context)} 1.0.0'),
+                      Text('${"Version".tr()} 1.0.0'),
                       const Spacer(),
                     ],
                   ),

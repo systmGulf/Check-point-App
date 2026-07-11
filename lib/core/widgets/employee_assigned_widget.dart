@@ -54,7 +54,7 @@ class EmployeeAssignedWidget extends StatelessWidget {
                     style: AppStylesManger.font12RegularGrey,
                   ),
                   Text(
-                    "${"Department".tr(context: context)}: ${departmentName}",
+                    "${"Department".tr()}: ${departmentName}",
                     style: AppStylesManger.font12RegularGrey,
                   ),
                 ],

@@ -25,7 +25,7 @@ class EditDepartmentBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Department Edited Successfully'.tr(context: context),
+              message: 'Department Edited Successfully'.tr(),
             ),
           );
         }

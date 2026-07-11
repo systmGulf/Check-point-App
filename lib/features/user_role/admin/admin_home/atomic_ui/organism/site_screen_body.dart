@@ -61,7 +61,7 @@ class SiteScreenBody extends StatelessWidget {
                   backgroundColor: Colors.white,
                   flexibleSpace: FlexibleSpaceBar(
                     title: Text(
-                      'Sites'.tr(context: context),
+                      'Sites'.tr(),
                       style: AppStylesManger.font15BoldBlack,
                     ),
                   ),

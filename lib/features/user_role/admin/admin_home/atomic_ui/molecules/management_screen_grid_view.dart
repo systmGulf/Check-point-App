@@ -21,7 +21,7 @@ class ManagementScreenGridView extends StatelessWidget {
           onTap: () {
             context.pushName(Routes.supervisorPermission);
           },
-          text: 'Departments'.tr(context: context),
+          text: 'Departments'.tr(),
           color1: ColorsManger.primaryColor,
           color2: Colors.white,
         ),
@@ -33,7 +33,7 @@ class ManagementScreenGridView extends StatelessWidget {
             context.pushName(Routes.companyBranchesScreen);
           },
           image: 'assets/images/corporate-culture.png',
-          text: 'Company branches'.tr(context: context),
+          text: 'Company branches'.tr(),
           color1: const Color.fromARGB(255, 79, 194, 83),
           color2: Colors.white,
         ),
@@ -44,7 +44,7 @@ class ManagementScreenGridView extends StatelessWidget {
             context.pushName(Routes.shiftsScreen);
           },
           image: 'assets/images/people.png',
-          text: 'Shifts & Policies'.tr(context: context),
+          text: 'Shifts & Policies'.tr(),
           color1: const Color.fromARGB(255, 207, 171, 168),
           color2: Colors.white,
         ),

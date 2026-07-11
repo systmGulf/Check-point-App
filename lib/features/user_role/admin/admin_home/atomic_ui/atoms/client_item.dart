@@ -84,9 +84,9 @@ class ClientItem extends StatelessWidget {
               AppActionIconButton.delete(
                 onPressed: () {
                   buildDeleteAlertDialog(context,
-                      title: 'Delete Client'.tr(context: context),
+                      title: 'Delete Client'.tr(),
                       message: 'Are you sure you want to delete this client?'
-                          .tr(context: context), onYes: () {
+                          .tr(), onYes: () {
                     context.pop();
                     BlocProvider.of<CustomerCubit>(context).deleteCustomer(
                         customerType: CustomerType.Customer, id: id);

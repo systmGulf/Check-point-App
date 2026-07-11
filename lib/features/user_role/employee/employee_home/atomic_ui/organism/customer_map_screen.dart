@@ -79,7 +79,7 @@ class _CustomerMapScreenState extends State<CustomerMapScreen> {
                     fit: BoxFit.cover,
                   ),
                   Text(
-                    'You Do Not Have Customer Plans Today'.tr(context: context),
+                    'You Do Not Have Customer Plans Today'.tr(),
                   ),
                 ],
               ),

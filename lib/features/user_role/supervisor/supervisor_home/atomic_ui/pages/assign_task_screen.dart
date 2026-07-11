@@ -25,7 +25,7 @@ class _AssignTaskScreenState extends State<AssignTaskScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, 'Assign Task'.tr(context: context)),
+        appBar: buildCustomAppBar(context, 'Assign Task'.tr()),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -37,7 +37,7 @@ class _AssignTaskScreenState extends State<AssignTaskScreen> {
                 AssignEmployeesForTask(),
                 verticalSpace(15),
                 CustomAppButton(
-                  textButton: 'Assign'.tr(context: context),
+                  textButton: 'Assign'.tr(),
                   onPressed: () {
                     context
                         .read<TasksCubit>()

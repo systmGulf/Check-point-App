@@ -63,7 +63,7 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                         Row(
                           children: [
                             Text(
-                              "${"Plan Date".tr(context: context)}: ${widget.planModel.planDate!.substring(0, 10)}",
+                              "${"Plan Date".tr()}: ${widget.planModel.planDate!.substring(0, 10)}",
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -75,10 +75,10 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                                 onPressed: () {
                                   buildDeleteAlertDialog(context,
                                       title: 'Delete Sub Plan'
-                                          .tr(context: context),
+                                          .tr(),
                                       message:
                                           'Are you sure you want to delete this Sub Plan?'
-                                              .tr(context: context), onYes: () {
+                                              .tr(), onYes: () {
                                     context.pop();
                                     context.read<PlanCubit>().deleteSubPlan(
                                         planId: widget.planModel.id!,
@@ -92,10 +92,10 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                         ),
                         verticalSpace(8),
                         Text(
-                            "${"Note".tr(context: context)}: ${subPlan[index].note}"),
+                            "${"Note".tr()}: ${subPlan[index].note}"),
                         verticalSpace(8),
                         Text(
-                          "${"Visited".tr(context: context)}: ${subPlan[index].visited! ? "Yes".tr(context: context) : "No".tr(context: context)} ",
+                          "${"Visited".tr()}: ${subPlan[index].visited! ? "Yes".tr() : "No".tr()} ",
                           style: AppStylesManger.font15BoldBlue.copyWith(
                               color: subPlan[index].visited == true
                                   ? Colors.green
@@ -104,13 +104,13 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                         const SizedBox(height: 8),
                         if (subPlan.isNotEmpty) ...[
                           Text(
-                            "${widget.planType.tr(context: context)}: ${subPlan[index].customer!.name}",
+                            "${widget.planType.tr()}: ${subPlan[index].customer!.name}",
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              "${"Work As".tr(context: context)}: ${subPlan[index].customer!.workesAs}"),
+                              "${"Work As".tr()}: ${subPlan[index].customer!.workesAs}"),
                           Text(
-                              "${"Location".tr(context: context)}: ${subPlan[index].customer!.location}"),
+                              "${"Location".tr()}: ${subPlan[index].customer!.location}"),
                         ],
                         const Divider(),
                         ExpansionTile(
@@ -120,8 +120,8 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                           leading: const Icon(Icons.person),
                           visualDensity: VisualDensity.comfortable,
                           title: Text(
-                            "${"Employees who will visit".tr(context: context)} (${widget.planModel.customerPlans![index].employees!.length}):"
-                                .tr(context: context),
+                            "${"Employees who will visit".tr()} (${widget.planModel.customerPlans![index].employees!.length}):"
+                                .tr(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14.sp),
                           ),
@@ -170,8 +170,8 @@ class _PlanTypeBarState extends State<PlanTypeBar> {
   @override
   Widget build(BuildContext context) {
     List<String> barText = [
-      'Customer'.tr(context: context),
-      'Site'.tr(context: context)
+      'Customer'.tr(),
+      'Site'.tr()
     ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

@@ -23,7 +23,7 @@ class SupervisorAttendUserBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.success(
-                  message: state.successMsg.tr(context: context)
+                  message: state.successMsg.tr()
                   // backgroundColor: Colors.red,
                   ),
             );
@@ -32,7 +32,7 @@ class SupervisorAttendUserBlocListener extends StatelessWidget {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.error(
-                message: state.errorMsg.tr(context: context),
+                message: state.errorMsg.tr(),
                 // backgroundColor: Colors.red,
               ),
             );

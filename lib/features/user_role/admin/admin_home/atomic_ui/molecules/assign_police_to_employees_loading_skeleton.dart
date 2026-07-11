@@ -12,7 +12,7 @@ class AssignPoliceToEmployeesLoadingSkeleton extends StatelessWidget {
     return Skeletonizer(
       child: CustomAppButton(
         buttonColor: ColorsManger.primaryColor,
-        textButton: 'Add'.tr(context: context),
+        textButton: 'Add'.tr(),
         onPressed: () {},
       ),
     );

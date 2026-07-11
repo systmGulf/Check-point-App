@@ -49,8 +49,8 @@ Future<dynamic> buildAddPoliceTimeDialog(
             backgroundColor: Colors.white,
             title: Text(
               policeId == null
-                  ? 'Select Time Range to this police'.tr(context: context)
-                  : 'Edit Time Range for this police'.tr(context: context),
+                  ? 'Select Time Range to this police'.tr()
+                  : 'Edit Time Range for this police'.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
             ),
             content: Column(
@@ -80,7 +80,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                           child: Center(
                             child: Text(
                               cubit.clockInTime.isEmpty
-                                  ? 'From'.tr(context: context)
+                                  ? 'From'.tr()
                                   : cubit.clockInTime.substring(0, 5),
                               style: const TextStyle(
                                 fontSize: 16,
@@ -104,7 +104,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                           child: Center(
                             child: Text(
                               cubit.clockOutTime.isEmpty
-                                  ? 'To'.tr(context: context)
+                                  ? 'To'.tr()
                                   : cubit.clockOutTime.substring(0, 5),
                               style: const TextStyle(
                                 fontSize: 16,
@@ -120,7 +120,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                 verticalSpace(10),
                 Text(
                   'Please make sure that the time range does not overlap with existing shift time ranges.'
-                      .tr(context: context),
+                      .tr(),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey,
@@ -136,7 +136,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'Close'.tr(context: context),
+                  'Close'.tr(),
                   style: const TextStyle(color: Colors.red),
                 ),
               ),
@@ -151,8 +151,8 @@ Future<dynamic> buildAddPoliceTimeDialog(
                 },
                 child: Text(
                   policeId == null
-                      ? 'Save'.tr(context: context)
-                      : 'Update'.tr(context: context),
+                      ? 'Save'.tr()
+                      : 'Update'.tr(),
                   style: const TextStyle(color: Colors.black),
                 ),
               ),

@@ -18,14 +18,14 @@ Future<dynamic> AskAdminToChangeDeviceIdDialog(BuildContext context) {
             color: Colors.red,
           ),
           Text(
-            ' Login Access Denied'.tr(context: context),
+            ' Login Access Denied'.tr(),
             style: AppStylesManger.font15BoldBlack,
           ),
         ],
       ),
       content: Text(
         'This Account id registered with another device do you want to ask admin to move the account to this device'
-            .tr(context: context),
+            .tr(),
         style: AppStylesManger.font14RegularBlack,
       ),
       actions: [
@@ -49,7 +49,7 @@ Future<dynamic> AskAdminToChangeDeviceIdDialog(BuildContext context) {
                   context.pop();
                 },
                 child: Text(
-                  'Cancel'.tr(context: context),
+                  'Cancel'.tr(),
                   style: AppStylesManger.font15BoldRed,
                 )),
           ],

@@ -41,26 +41,26 @@ class _priorityWidgetState extends State<priorityWidget> {
         fillColor: context
                     .read<TasksCubit>()
                     .priorityStatus
-                    .tr(context: context) ==
-                'medium'.tr(context: context)
+                    .tr() ==
+                'medium'.tr()
             ? const Color(0xFFF0ECFF)
-            : context.read<TasksCubit>().priorityStatus.tr(context: context) ==
-                    'low'.tr(context: context)
+            : context.read<TasksCubit>().priorityStatus.tr() ==
+                    'low'.tr()
                 ? const Color(0xFFE3F2FF)
                 : Color(0XFFFFE4F2),
         filled: true,
         prefixIcon: Icon(
           Icons.flag_outlined,
           color:
-              context.read<TasksCubit>().priorityStatus.tr(context: context) ==
-                      'medium'.tr(context: context)
+              context.read<TasksCubit>().priorityStatus.tr() ==
+                      'medium'.tr()
                   ? const Color(0xFF5F33E1)
                   : context
                               .read<TasksCubit>()
                               .priorityStatus
-                              .tr(context: context)
-                              .tr(context: context) ==
-                          'low'.tr(context: context)
+                              .tr()
+                              .tr() ==
+                          'low'.tr()
                       ? const Color(0xFF0087FF)
                       : Colors.red,
         ),
@@ -72,14 +72,14 @@ class _priorityWidgetState extends State<priorityWidget> {
               color: context
                           .read<TasksCubit>()
                           .priorityStatus
-                          .tr(context: context) ==
-                      'medium'.tr(context: context)
+                          .tr() ==
+                      'medium'.tr()
                   ? const Color(0xFF5F33E1)
                   : context
                               .read<TasksCubit>()
                               .priorityStatus
-                              .tr(context: context) ==
-                          'low'.tr(context: context)
+                              .tr() ==
+                          'low'.tr()
                       ? const Color(0xFF0087FF)
                       : Colors.red,
             ),
@@ -104,28 +104,28 @@ class _priorityWidgetState extends State<priorityWidget> {
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color:
-              context.read<TasksCubit>().priorityStatus.tr(context: context) ==
-                      'medium'.tr(context: context)
+              context.read<TasksCubit>().priorityStatus.tr() ==
+                      'medium'.tr()
                   ? const Color(0xFF5F33E1)
                   : context
                               .read<TasksCubit>()
                               .priorityStatus
-                              .tr(context: context) ==
-                          'low'.tr(context: context)
+                              .tr() ==
+                          'low'.tr()
                       ? const Color(0xFF0087FF)
                       : Colors.red),
       items: [
         DropdownMenuItem(
           value: 'low',
-          child: Text('low'.tr(context: context)),
+          child: Text('low'.tr()),
         ),
         DropdownMenuItem(
           value: 'medium',
-          child: Text('medium'.tr(context: context)),
+          child: Text('medium'.tr()),
         ),
         DropdownMenuItem(
           value: 'high',
-          child: Text('high'.tr(context: context)),
+          child: Text('high'.tr()),
         ),
       ],
       onChanged: widget.onChanged,

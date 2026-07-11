@@ -53,12 +53,12 @@ class EmployeeHomeSectionItem extends StatelessWidget {
                 child: Column(children: [
                   verticalSpace(10),
                   Text(
-                    'no tasks'.tr(context: context),
+                    'no tasks'.tr(),
                     style: AppStylesManger.font15BoldBlack,
                   ),
                   verticalSpace(2),
                   Text(
-                    'you have no tasks yet'.tr(context: context),
+                    'you have no tasks yet'.tr(),
                     style: AppStylesManger.font15BoldRed,
                   ),
                 ]),
@@ -94,7 +94,7 @@ class EmployeeHomeSectionItem extends StatelessWidget {
                             title: getTaskResponse[index].title ?? '',
                             state: getTaskResponse[index]
                                 .status!
-                                .tr(context: context),
+                                .tr(),
                           ),
                           SizedBox(
                             width: 219.w,

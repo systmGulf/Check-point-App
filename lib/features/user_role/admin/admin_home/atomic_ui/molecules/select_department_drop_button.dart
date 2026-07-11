@@ -35,7 +35,7 @@ class _SelectDepartmentDropButtonState
       child: DropdownButton(
         value: selectedValue ?? widget.department,
         hint: Text(
-          'Select Department'.tr(context: context),
+          'Select Department'.tr(),
         ),
         isExpanded: true,
         icon: const Icon(Icons.keyboard_arrow_down),

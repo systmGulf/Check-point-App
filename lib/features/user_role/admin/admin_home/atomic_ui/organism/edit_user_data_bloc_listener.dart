@@ -23,7 +23,7 @@ class EditUserDataBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
              CustomSnackBar.success(
-              message: 'User Updated Successfully'.tr(context: context),
+              message: 'User Updated Successfully'.tr(),
               // backgroundColor: Colors.red,
             ),
           );

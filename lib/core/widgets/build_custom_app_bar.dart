@@ -51,7 +51,7 @@ AppBar buildCustomAppBar(BuildContext context, String title,
 
             AppTopSnackBar.showInfo(
               context,
-              message: 'Press again to exit'.tr(context: context),
+              message: 'Press again to exit'.tr(),
               duration: const Duration(seconds: 2),
             );
           } else {

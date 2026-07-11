@@ -28,12 +28,12 @@ Future<dynamic> buildChangeLanguageBottomSheet(BuildContext context) {
                 verticalSpace(15),
                 Padding(
                   padding:  EdgeInsetsDirectional.only(start: 20.w),
-                  child: Text("Select Language".tr(context: context), style: AppStylesManger.font15BoldBlack,),
+                  child: Text("Select Language".tr(), style: AppStylesManger.font15BoldBlack,),
                 ),
                 verticalSpace(8),
                 Padding(
                   padding:  EdgeInsetsDirectional.only(start: 20.w),
-                  child: Text("What language do you Prefer?".tr(context: context), style: AppStylesManger.font14RegularBlack,),
+                  child: Text("What language do you Prefer?".tr(), style: AppStylesManger.font14RegularBlack,),
                 ),
                 verticalSpace(20),
                 ListTile(

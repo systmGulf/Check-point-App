@@ -46,7 +46,7 @@ class MyPlansScreen extends StatelessWidget {
             surfaceTintColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                'Plans'.tr(context: context),
+                'Plans'.tr(),
                 style: AppStylesManger.font15BoldBlack,
               ),
             ),

@@ -63,7 +63,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
               children: [
                 Row(
                   children: [
-                    Text('Users List'.tr(context: context),
+                    Text('Users List'.tr(),
                         style: AppStylesManger.font15BoldBlack),
                     const Spacer(),
                     GestureDetector(
@@ -88,7 +88,7 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
                             Routes.allUsersScreen,
                           );
                         },
-                        child: Text('see all'.tr(context: context),
+                        child: Text('see all'.tr(),
                             style: AppStylesManger.font13regulerBlue)),
                   ],
                 ),
@@ -218,9 +218,9 @@ class _GetAllEmployeesBlocBuilderState extends State<GetAllEmployeesBlocBuilder>
 
   void ValidateAndDeleteUser(String userId) {
     buildDeleteAlertDialog(context,
-        title: 'Delete User'.tr(context: context),
+        title: 'Delete User'.tr(),
         message: 'Are you sure you want to delete this User?'
-            .tr(context: context), onYes: () {
+            .tr(), onYes: () {
       context.pop();
 
       context.read<TasksCubit>().deleteTask(id: int.parse(userId));

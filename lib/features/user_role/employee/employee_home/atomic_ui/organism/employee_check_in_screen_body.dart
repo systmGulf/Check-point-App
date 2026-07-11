@@ -113,7 +113,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
                               delayDuration: const Duration(milliseconds: 200),
                               child: Text(
                                 'You Do Not Have ${widget.checkType} Plans'
-                                    .tr(context: context),
+                                    .tr(),
                                 style: AppStylesManger.font15BoldRed.copyWith(
                                   color: ColorsManger.primaryColor,
                                 ),
@@ -133,7 +133,7 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
           widget: widget.checkType,
         ),
         CustomCheckingScreenAppBar(
-          text: 'Check In'.tr(context: context),
+          text: 'Check In'.tr(),
         ),
         const CheckInAuthBlocListener()
       ],

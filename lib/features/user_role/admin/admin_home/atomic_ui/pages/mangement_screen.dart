@@ -23,7 +23,7 @@ class ManagementScreen extends StatelessWidget {
               context.pushName(Routes.sitesScreen);
             },
             color: Colors.green,
-            text: 'Sites'.tr(context: context),
+            text: 'Sites'.tr(),
             icon: Icons.location_on_outlined),
       ),
       SlideInLeft(
@@ -33,7 +33,7 @@ class ManagementScreen extends StatelessWidget {
           onTap: () {
             context.pushName(Routes.clientsScreen);
           },
-          text: 'Clients'.tr(context: context),
+          text: 'Clients'.tr(),
           icon: Icons.group,
         ),
       ),

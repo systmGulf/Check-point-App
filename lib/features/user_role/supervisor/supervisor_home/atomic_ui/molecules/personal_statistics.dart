@@ -21,9 +21,9 @@ class _PersonalStatisticsState extends State<PersonalStatistics> {
   @override
   Widget build(BuildContext context) {
     Map<String, double> dataMap = {
-      "Late".tr(context: context): widget.late / 100,
-      "Absent".tr(context: context): widget.absent / 100,
-      "Present".tr(context: context): widget.present / 100,
+      "Late".tr(): widget.late / 100,
+      "Absent".tr(): widget.absent / 100,
+      "Present".tr(): widget.present / 100,
     };
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -40,7 +40,7 @@ class _PersonalStatisticsState extends State<PersonalStatistics> {
         initialAngleInDegree: 0,
         chartType: ChartType.ring,
         ringStrokeWidth: 15,
-        centerText: "Personal Statistics".tr(context: context),
+        centerText: "Personal Statistics".tr(),
         centerTextStyle: AppStylesManger.font6BoldBlack,
         chartValuesOptions: const ChartValuesOptions(
           showChartValueBackground: false,

@@ -28,7 +28,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildCustomAppBar(context, 'Add New Task'.tr(context: context)),
+        appBar: buildCustomAppBar(context, 'Add New Task'.tr()),
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -40,42 +40,42 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                 children: [
                   Align(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text('Task title'.tr(context: context),
+                    child: Text('Task title'.tr(),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter title'.tr(context: context);
+                          return 'Please enter title'.tr();
                         }
                         return null;
                       },
                       controller: context.read<TasksCubit>().titleController,
-                      hint: 'Enter title here...'.tr(context: context)),
+                      hint: 'Enter title here...'.tr()),
                   verticalSpace(12),
                   Align(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text('Task Description'.tr(context: context),
+                    child: Text('Task Description'.tr(),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter description'.tr(context: context);
+                        return 'Please enter description'.tr();
                       }
                       return null;
                     },
                     controller:
                         context.read<TasksCubit>().descriptionController,
-                    hint: 'Enter description here...'.tr(context: context),
+                    hint: 'Enter description here...'.tr(),
                     maxLines: 5,
                   ),
                   verticalSpace(12),
                   SizedBox(
                     width: 331,
-                    child: Text('Priority'.tr(context: context),
+                    child: Text('Priority'.tr(),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(16),
@@ -90,14 +90,14 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                   verticalSpace(12),
                   Align(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text('Due date'.tr(context: context),
+                    child: Text('Due date'.tr(),
                         style: AppStylesManger.font12RegularGrey),
                   ),
                   verticalSpace(12),
                   CustomAppTextFormField(
                     hint: context.read<TasksCubit>().dueDate != ''
                         ? context.read<TasksCubit>().dueDate
-                        : 'Select date'.tr(context: context),
+                        : 'Select date'.tr(),
                     readOnly: true,
                     hintStyle: const TextStyle(
                       color: Color(0xFF7F7F7F),
@@ -132,7 +132,7 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                   ),
                   verticalSpace(12),
                   CustomAppButton(
-                    textButton: 'Add Task'.tr(context: context),
+                    textButton: 'Add Task'.tr(),
                     buttonColor: ColorsManger.primaryColor,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {

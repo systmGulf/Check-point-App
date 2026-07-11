@@ -42,8 +42,8 @@ class TaskCard extends StatelessWidget {
                             buildDeleteAlertDialog(context,
                                 message:
                                     'Are you sure you want to delete this Task?'
-                                        .tr(context: context),
-                                title: 'Delete Task'.tr(context: context),
+                                        .tr(),
+                                title: 'Delete Task'.tr(),
                                 onYes: () {
                               context
                                   .read<EmployeeTasksCubit>()

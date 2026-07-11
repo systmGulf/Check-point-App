@@ -96,8 +96,8 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                 SizedBox(
                   child: Text(
                     widget.isEdit
-                        ? 'Edit Company Branch'.tr(context: context)
-                        : 'Add New Company Branch'.tr(context: context),
+                        ? 'Edit Company Branch'.tr()
+                        : 'Add New Company Branch'.tr(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorsManger.primaryColor,
@@ -108,25 +108,25 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Branch Name Required'.tr(context: context);
+                        return 'Branch Name Required'.tr();
                       }
                       return null;
                     },
                     controller:
                         BlocProvider.of<BranchCubit>(context).nameController,
-                    hint: 'Branch Name'.tr(context: context)),
+                    hint: 'Branch Name'.tr()),
                 verticalSpace(20),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Branch Description Required'
-                            .tr(context: context);
+                            .tr();
                       }
                       return null;
                     },
                     controller: BlocProvider.of<BranchCubit>(context)
                         .descriptionController,
-                    hint: 'Branch Description'.tr(context: context)),
+                    hint: 'Branch Description'.tr()),
                 verticalSpace(20),
                 CustomAppTextFormField(
                   onTap: () {
@@ -159,26 +159,26 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                               .locationController
                               .text ==
                           ''
-                      ? 'Select Branch Location'.tr(context: context)
-                      : 'Branch Location Defined'.tr(context: context),
+                      ? 'Select Branch Location'.tr()
+                      : 'Branch Location Defined'.tr(),
                 ),
                 verticalSpace(20),
                 CustomAppTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Branch Location Required'.tr(context: context);
+                        return 'Branch Location Required'.tr();
                       }
                       return null;
                     },
                     controller: BlocProvider.of<BranchCubit>(context)
                         .locationController,
-                    hint: 'Branch Location'.tr(context: context)),
+                    hint: 'Branch Location'.tr()),
                 verticalSpace(20),
                 CustomAppButton(
                   buttonColor: ColorsManger.primaryColor,
                   textButton: widget.isEdit
-                      ? 'Save'.tr(context: context)
-                      : 'Add Branch'.tr(context: context),
+                      ? 'Save'.tr()
+                      : 'Add Branch'.tr(),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (BlocProvider.of<BranchCubit>(context)
@@ -192,7 +192,7 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                           Overlay.of(context),
                           CustomSnackBar.info(
                             message: 'Please Select Right Location'
-                                .tr(context: context),
+                                .tr(),
                           ),
                         );
                       } else {
@@ -209,9 +209,9 @@ class _AddBranchBottomSheetState extends State<AddBranchBottomSheet> {
                 verticalSpace(20),
                 AddBranchBlocListener(
                   addSuccessMessage:
-                      'Branch Added Successfully'.tr(context: context),
+                      'Branch Added Successfully'.tr(),
                   editSuccessMessage:
-                      'Branch Updated Successfully'.tr(context: context),
+                      'Branch Updated Successfully'.tr(),
                 ),
               ],
             ),

@@ -54,14 +54,14 @@ class FeedBackInPlanWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "Visit status".tr(context: context),
+                            "Visit status".tr(),
                             style: AppStylesManger.font14RegularBlack.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            status.tr(context: context),
+                            status.tr(),
                             style: AppStylesManger.font14RegularBlack.copyWith(
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class FeedBackInPlanWidget extends StatelessWidget {
                       ),
                       verticalSpace(8),
                       Text(
-                        feedBack.tr(context: context),
+                        feedBack.tr(),
                         style: AppStylesManger.font14RegularBlack.copyWith(
                           color: Colors.grey.shade700,
                         ),

@@ -41,7 +41,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
           }
         },
         child: ActiveDrawerItem(
-          text: 'My Organization'.tr(context: context),
+          text: 'My Organization'.tr(),
           icon: Icons.business,
         ),
       ),
@@ -50,7 +50,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
           context.pushName(Routes.employeeChangePasswordScreen);
         },
         child: ActiveDrawerItem(
-          text: 'Change Password'.tr(context: context),
+          text: 'Change Password'.tr(),
           icon: Icons.lock_reset_rounded,
         ),
       ),
@@ -59,7 +59,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
           context.pushName(Routes.employeeAttendanceHistoryScreen);
         },
         child: ActiveDrawerItem(
-          text: 'Attendance Report'.tr(context: context),
+          text: 'Attendance Report'.tr(),
           icon: Icons.insert_chart_outlined,
         ),
       ),
@@ -68,7 +68,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
         buildChangeLanguageBottomSheet(context);
         },
         child: ActiveDrawerItem(
-          text: 'Change Language'.tr(context: context),
+          text: 'Change Language'.tr(),
           icon: Icons.language,
         ),
       ),
@@ -79,7 +79,7 @@ class _MyWidgetState extends State<EmployeeDrawerListViewItems> {
           size: 20,
         ),
         title: Text(
-          'Notification'.tr(context: context),
+          'Notification'.tr(),
           style: AppStylesManger.font15BoldBlack,
         ),
         trailing: AdvancedSwitch(

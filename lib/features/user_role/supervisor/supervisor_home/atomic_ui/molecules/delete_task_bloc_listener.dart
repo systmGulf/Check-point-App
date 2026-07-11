@@ -20,7 +20,7 @@ class DeleteTaskBlocListener extends StatelessWidget {
           if (state is DeleteEmployeeTaskSuccess) {
             buildSnackBar(context,
                 customSnackBar: CustomSnackBar.success(
-                    message: "Task deleted successfully".tr(context: context)));
+                    message: "Task deleted successfully".tr()));
           } else if (state is DeleteEmployeeTaskError) {
                
             buildSnackBar(context,

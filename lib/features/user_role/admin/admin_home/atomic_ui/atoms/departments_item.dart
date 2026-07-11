@@ -42,9 +42,9 @@ class DepartmentItem extends StatelessWidget {
             AppActionIconButton.delete(
               onPressed: () {
                 buildDeleteAlertDialog(context,
-                    title: 'Delete Department'.tr(context: context),
+                    title: 'Delete Department'.tr(),
                     message: 'Are you sure you want to delete this department?'
-                        .tr(context: context), onYes: () {
+                        .tr(), onYes: () {
                   context.pop();
                   context
                       .read<DepartmentCubit>()
