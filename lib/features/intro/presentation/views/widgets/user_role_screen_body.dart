@@ -7,6 +7,7 @@ import '../../../../../core/animations/animations.dart';
 import '../../../../../core/helpers/app_spaces.dart';
 import '../../../../../core/helpers/extention.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../core/styles/colors.dart';
 import 'role_option.dart';
 
 class UserRoleScreenBody extends StatefulWidget {
@@ -81,10 +82,26 @@ class _UserRoleScreenBodyState extends State<UserRoleScreenBody> {
             verticalSpace(28),
             Align(
               alignment: Alignment.center,
-              child: AnimatedImageWidget(
-                imagePath: Assets.AppLogoImage,
-                width: 58.r,
-                height: 58.r,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: ColorsManger.primaryColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorsManger.primaryColor.withOpacity(0.4),
+                      blurRadius: 16,
+                      spreadRadius: 4,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: AnimatedImageWidget(
+                  imagePath: Assets.AppLogoImage,
+                  width: 110.w,
+                  height: 30.h,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ],

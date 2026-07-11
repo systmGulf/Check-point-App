@@ -31,15 +31,16 @@ class PermissionScreen extends StatelessWidget {
             Container(
               width: 220.w,
               height: 96.h,
-              padding: EdgeInsets.all(14.r),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 18.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: ColorsManger.primaryColor,
                 borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
-                    color: ColorsManger.primaryColor.withValues(alpha: 0.08),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
+                    color: ColorsManger.primaryColor.withOpacity(0.45),
+                    blurRadius: 24,
+                    spreadRadius: 3,
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
