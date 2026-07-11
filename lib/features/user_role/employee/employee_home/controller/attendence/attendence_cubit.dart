@@ -33,12 +33,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   String? customerId;
   TextEditingController planFeedbackController = TextEditingController();
 
-  bool get _hasAssignedShift {
-    final shiftName = ApiConstant.shiftName.trim().toLowerCase();
-    return shiftName.isNotEmpty &&
-        shiftName != 'null' &&
-        shiftName != 'no shift assigned';
-  }
+
 
   Future<void> getUserBranch() async {
     emit(GetUserBranchLoading());
@@ -159,11 +154,6 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   void attend({required String typeAttendance, required String area}) async {
-    if (!_hasAssignedShift) {
-      if (isClosed) return;
-      emit(NoShiftAssigned());
-      return;
-    }
     if (typeAttendance == 'check_in') {
       doCheckIn(area: area);
     } else {
