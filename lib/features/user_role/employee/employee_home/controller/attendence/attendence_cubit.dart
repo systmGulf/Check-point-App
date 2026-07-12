@@ -216,9 +216,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       location: _currentLocationLabel(area: area),
       coordinates: _currentCoordinates,
     );
-    final result = area == 'Office'
-        ? await employeeAttendanceRepo.employeeCheckIn(requestBody)
-        : await employeeAttendanceRepo.employeeCheckInWithoutPlan(requestBody);
+    final result = await employeeAttendanceRepo.employeeCheckInWithoutPlan(requestBody);
     result.fold((l) {
       if (isClosed) return;
 
@@ -233,10 +231,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void doCheckOut({required String area}) async {
     emit(AttendanceOutLoading());
-    final result = area == 'Office'
-        ? await employeeAttendanceRepo.employeeCheckOut(
-            employeeId: ApiConstant.employeeId)
-        : await employeeAttendanceRepo.employeeCheckOutWithoutPlan(
+    final result = await employeeAttendanceRepo.employeeCheckOutWithoutPlan(
             employeeId: ApiConstant.employeeId);
     result.fold((l) {
       if (isClosed) return;
