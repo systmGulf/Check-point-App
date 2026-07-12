@@ -15,6 +15,7 @@ import '../../features/user_role/admin/admin_home/atomic_ui/enitities/user_item_
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_home_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_notification_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attendance_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attend_selection_screen.dart';
 import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/clients_screen.dart';
@@ -341,6 +342,13 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) => getIt<AdminAttendanceCubit>()..getAdminAttendance(),
             child: const AdminAttendanceScreen(),
+          ),
+        );
+      case Routes.adminAttendSelectionScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(pageNumber: 0, itemCount: 50),
+            child: const AdminAttendSelectionScreen(),
           ),
         );
       case Routes.allUsersScreen:

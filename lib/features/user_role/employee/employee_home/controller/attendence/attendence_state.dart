@@ -63,6 +63,48 @@ class GetCustomerAreaError extends AttendanceState {
   GetCustomerAreaError(this.error);
 }
 
+class GetAttendanceTargetsLoading extends AttendanceState {}
+
+class GetAttendanceTargetsDone extends AttendanceState {
+  final List<CustomerData> targets;
+  final CustomerType customerType;
+
+  GetAttendanceTargetsDone({
+    required this.targets,
+    required this.customerType,
+  });
+}
+
+class GetAttendanceTargetsError extends AttendanceState {
+  final String error;
+
+  GetAttendanceTargetsError(this.error);
+}
+
+class AttendanceTargetSelected extends AttendanceState {
+  final CustomerData target;
+
+  AttendanceTargetSelected(this.target);
+}
+
+class TrackingLoading extends AttendanceState {}
+
+class TrackingStarted extends AttendanceState {}
+
+class TrackingStopped extends AttendanceState {}
+
+class TrackingStatusChanged extends AttendanceState {
+  final bool isTrackingEnabled;
+
+  TrackingStatusChanged(this.isTrackingEnabled);
+}
+
+class TrackingError extends AttendanceState {
+  final String error;
+
+  TrackingError(this.error);
+}
+
 class AccessAbleAreaState extends AttendanceState {}
 
 class AccessAbleAreaErrorState extends AttendanceState {}

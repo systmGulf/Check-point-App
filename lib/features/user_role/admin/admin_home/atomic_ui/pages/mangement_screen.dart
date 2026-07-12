@@ -37,7 +37,20 @@ class ManagementScreen extends StatelessWidget {
           icon: Icons.group,
         ),
       ),
-
+      SlideInLeft(
+        from: 150,
+        child: AdminManagementScreenItems(
+          color: ColorsManger.primaryColor,
+          onTap: () {
+            context.pushName(Routes.adminAttendanceScreen);
+          },
+          onAddTap: () {
+            context.pushName(Routes.adminAttendSelectionScreen);
+          },
+          text: 'Employees Attendance'.tr(),
+          icon: Icons.calendar_month_outlined,
+        ),
+      ),
     ];
     return Stack(
       children: [

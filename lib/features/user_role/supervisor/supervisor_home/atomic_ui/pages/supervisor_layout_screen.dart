@@ -15,9 +15,7 @@ import '../../../../employee/employee_home/atomic_ui/organism/employee_custom_dr
 import '../../../../employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../contoller/Supervisor_get_employee_attendance/supervisor_get_employee_attendance_cubit.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
-import '../../contoller/plan_cubit/plan_cubit.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
-import '../molecules/supervisor_set_plan_screen_body.dart';
 import 'attandace_screen.dart';
 import 'supervisor_home_screen.dart';
 import 'supervisor_requests_screen.dart';
@@ -43,7 +41,6 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
       'Employees Attendance'.tr(),
       'Tasks'.tr(),
       'Requests'.tr(),
-      'Plans'.tr(),
     ];
     return Scaffold(
         key: scaffoldkey,
@@ -128,12 +125,6 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
                 icon: SvgPicture.asset(Assets.RequestsImage),
                 label: 'Requests'.tr(),
               ),
-              BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.PlansIconImage,
-                    color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.PlansIconImage),
-                label: 'Plans'.tr(),
-              ),
             ],
           ),
         ),
@@ -166,10 +157,6 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
     BlocProvider(
       create: (context) => getIt<LeaveApplicationCubitSupervisor>(),
       child: const SupervisorRequestsScreen(),
-    ),
-    BlocProvider(
-      create: (context) => getIt<PlanCubit>()..getPlan(),
-      child: const SetPlanScreen(),
     ),
   ];
 }

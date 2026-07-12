@@ -68,26 +68,27 @@ class _GetSubPlanListViewState extends State<GetSubPlanListView> {
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: AppActionIconButton.delete(
-                                onPressed: () {
-                                  buildDeleteAlertDialog(context,
-                                      title: 'Delete Sub Plan'
-                                          .tr(),
-                                      message:
-                                          'Are you sure you want to delete this Sub Plan?'
-                                              .tr(), onYes: () {
-                                    context.pop();
-                                    context.read<PlanCubit>().deleteSubPlan(
-                                        planId: widget.planModel.id!,
-                                        id: subPlan[index].id!);
-                                  });
-                                },
-                                size: 30,
-                              ),
-                            )
+                            if (widget.planType != 'Customer')
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: AppActionIconButton.delete(
+                                  onPressed: () {
+                                    buildDeleteAlertDialog(context,
+                                        title: 'Delete Sub Plan'
+                                            .tr(),
+                                        message:
+                                            'Are you sure you want to delete this Sub Plan?'
+                                                .tr(), onYes: () {
+                                      context.pop();
+                                      context.read<PlanCubit>().deleteSubPlan(
+                                          planId: widget.planModel.id!,
+                                          id: subPlan[index].id!);
+                                    });
+                                  },
+                                  size: 30,
+                                ),
+                              )
                           ],
                         ),
                         verticalSpace(8),

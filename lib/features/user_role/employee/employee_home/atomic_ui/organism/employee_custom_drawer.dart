@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -9,6 +10,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/user_image_and_picking_image_button.dart';
+import '../../controller/attendence/attendence_cubit.dart';
 import 'employee_drawer_item_list_view.dart';
 import 'pick_image_bloc_listener.dart';
 
@@ -70,6 +72,11 @@ class EmployeeCustomDrawer extends StatelessWidget {
                   GestureDetector(
                     onTap: () async {
                       FlutterBackgroundService().invoke('stop');
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool(
+                        AttendanceCubit.trackingEnabledKey,
+                        false,
+                      );
                       await SecureCache.deleteFromCache();
                       ApiConstant.token =
                           await SecureCache.getFromCache(key: 'token');

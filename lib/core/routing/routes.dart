@@ -57,4 +57,6 @@ class Routes {
   static const String addBranchesToShiftScreen = '/addBranchsToShiftScreen';
   static const String gamficationRoute = '/gamficationRoute';
   static const String adminAttendanceScreen = '/adminAttendanceScreen';
+  static const String adminAttendSelectionScreen = '/adminAttendSelectionScreen';
 }
+

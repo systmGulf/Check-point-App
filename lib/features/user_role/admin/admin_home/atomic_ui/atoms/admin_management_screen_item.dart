@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 class AdminManagementScreenItems extends StatelessWidget {
-  const AdminManagementScreenItems(
-      {super.key,
-      required this.color,
-      required this.text,
-      required this.icon,
-      this.onTap});
+  const AdminManagementScreenItems({
+    super.key,
+    required this.color,
+    required this.text,
+    required this.icon,
+    this.onTap,
+    this.onAddTap,
+  });
+
   final Color color;
   final String text;
   final IconData icon;
   final Function()? onTap;
+  final Function()? onAddTap;
 
   @override
   Widget build(BuildContext context) {

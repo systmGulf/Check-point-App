@@ -1,6 +1,5 @@
-import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-
 import '../../../../../../core/enums/attendance_type_enum.dart';
+import '../../../../../../core/enums/customer_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,13 +14,18 @@ class EmployeeCheckOutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        final attendanceCubit = AttendanceCubit(
-          employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>(),
-        );
+        final attendanceCubit = getIt<AttendanceCubit>();
+        attendanceCubit.loadTrackingStatus();
         if (checkType == 'Office') {
           attendanceCubit.getUserBranch();
+        } else if (checkType == CustomerType.Customer.name) {
+          attendanceCubit.getAttendanceTargets(
+            customerType: CustomerType.Customer,
+          );
         } else {
-          attendanceCubit.getCustomerArea();
+          attendanceCubit.getAttendanceTargets(
+            customerType: CustomerType.Site,
+          );
         }
         return attendanceCubit;
       },

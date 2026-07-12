@@ -13,6 +13,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../controller/tasks/tasks_cubit.dart';
+import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../molecules/employee_home_section_item.dart';
 import '../molecules/office_checking_in.dart';
 import 'employee_attendace_bloc_builder.dart';
@@ -28,17 +29,6 @@ class EmployeeHomeScreenBody extends StatefulWidget {
 class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
   int selectedIndex = 0;
 
-  List<Widget> checkingSites = [
-    const CheckInOrCheckOutWidget(
-      attendType: 'Office',
-    ),
-    const CheckInOrCheckOutWidget(
-      attendType: 'Customer',
-    ),
-    const CheckInOrCheckOutWidget(
-      attendType: 'Site',
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     List<String> checkingText = [
@@ -111,7 +101,21 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                 AnimatedByWidgetType(
                   widgetType: WidgetAnimationType.container,
                   delayDuration: const Duration(milliseconds: 300),
-                  child: checkingSites[selectedIndex],
+                  child: BlocBuilder<LoginCubit, LoginState>(
+                    buildWhen: (previous, current) =>
+                        current is GetEmployeeSuccess ||
+                        current is GetEmployeeLoading ||
+                        current is GetEmployeeFailure,
+                    builder: (context, state) {
+                      return CheckInOrCheckOutWidget(
+                        attendType: selectedIndex == 0
+                            ? 'Office'
+                            : selectedIndex == 1
+                                ? 'Customer'
+                                : 'Site',
+                      );
+                    },
+                  ),
                 ),
                 verticalSpace(30),
                 AnimatedByWidgetType(

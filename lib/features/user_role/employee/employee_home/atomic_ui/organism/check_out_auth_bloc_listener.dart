@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
@@ -24,6 +23,7 @@ class CheckOutAuthBlocListener extends StatelessWidget {
           customLoadingIndicator(context);
         }
         if (state is AttendanceOutedDone) {
+          context.read<AttendanceCubit>().stopTracking();
           context.pop();
           context.pop();
           showTopSnackBar(
@@ -32,7 +32,6 @@ class CheckOutAuthBlocListener extends StatelessWidget {
               message: 'Check Out Success'.tr(),
             ),
           );
-          FlutterBackgroundService().invoke('stop');
         }
 
         if (state is AttendanceOutError) {

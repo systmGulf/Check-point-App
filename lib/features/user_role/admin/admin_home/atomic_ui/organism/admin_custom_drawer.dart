@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/core/core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/helpers/extention.dart';
@@ -11,6 +12,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_change_language_bottom_sheet.dart';
 import '../../../../../../core/widgets/user_image_and_picking_image_button.dart';
 import '../../../../employee/employee_home/atomic_ui/organism/pick_image_bloc_listener.dart';
+import '../../../../employee/employee_home/controller/attendence/attendence_cubit.dart';
 
 class AdminCustomDrawer extends StatelessWidget {
   const AdminCustomDrawer({super.key});
@@ -49,6 +51,11 @@ class AdminCustomDrawer extends StatelessWidget {
       AdminDrawerItem(
           onTap: () async {
             FlutterBackgroundService().invoke('stop');
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setBool(
+              AttendanceCubit.trackingEnabledKey,
+              false,
+            );
             await SecureCache.deleteFromCache();
             ApiConstant.token = await SecureCache.getFromCache(key: 'token');
             if (!context.mounted) return;

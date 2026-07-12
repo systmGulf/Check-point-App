@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 
 import '../../../../../../core/enums/attendance_type_enum.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
@@ -10,6 +9,8 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../controller/attendence/attendence_cubit.dart';
 import '../molecules/time_and_date_widget.dart';
+import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import '../../../../../../core/common/formate_hours.dart';
 import 'check_in_bloc_builder.dart';
 import 'check_out_bloc_builder.dart';
 
@@ -19,13 +20,11 @@ class AttendanceMapBottomSheet extends StatelessWidget {
     required this.widget,
     required this.attendanceType,
     required this.area,
-    required this.customerPlans,
   });
 
   final String widget;
   final AttendanceTypeEnum attendanceType;
   final String area;
-  final Data customerPlans;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +64,87 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                     ),
                   ),
                   const TimeAndDateWidet(),
+                  BlocConsumer<AttendanceCubit, AttendanceState>(
+                    listenWhen: (previous, current) =>
+                        current is TrackingError ||
+                        current is TrackingStarted ||
+                        current is TrackingStopped,
+                    listener: (context, state) {
+                      final messenger = ScaffoldMessenger.of(context);
+                      messenger.hideCurrentSnackBar();
+                      if (state is TrackingError) {
+                        messenger.showSnackBar(
+                          SnackBar(content: Text(state.error)),
+                        );
+                      } else if (state is TrackingStarted) {
+                        messenger.showSnackBar(
+                          SnackBar(content: Text('Tracking started'.tr())),
+                        );
+                      } else if (state is TrackingStopped) {
+                        messenger.showSnackBar(
+                          SnackBar(content: Text('Tracking stopped'.tr())),
+                        );
+                      }
+                    },
+                    buildWhen: (previous, current) =>
+                        current is TrackingLoading ||
+                        current is TrackingStatusChanged ||
+                        current is TrackingStarted ||
+                        current is TrackingStopped,
+                    builder: (context, state) {
+                      if (area == 'Office') {
+                        return const SizedBox.shrink();
+                      }
+
+                      final cubit = context.read<AttendanceCubit>();
+                      final isLoading = state is TrackingLoading;
+                      final isEnabled = state is TrackingStatusChanged
+                          ? state.isTrackingEnabled
+                          : cubit.isTrackingEnabled;
+
+                      final String onlineUntilText =
+                          'Online until'.tr() +
+                          ' ' +
+                          (ApiConstant.employeeCheckoutTime.isNotEmpty
+                              ? formatHour(ApiConstant.employeeCheckoutTime)
+                              : 'checkout'.tr());
+
+                      return Padding(
+                        padding: EdgeInsets.only(top: 16.h),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: isEnabled || isLoading
+                                ? null
+                                : () => cubit.goOnline(),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsManger.primaryColor,
+                              disabledBackgroundColor:
+                                  ColorsManger.primaryColor.withValues(
+                                alpha: 0.45,
+                              ),
+                              foregroundColor: Colors.white,
+                              disabledForegroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 14.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                            child: Text(
+                              isLoading
+                                  ? 'Starting...'.tr()
+                                  : isEnabled
+                                      ? onlineUntilText
+                                      : 'Go Online'.tr(),
+                              style: AppStylesManger.font16blackMedium.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   verticalSpace(40),
                   BlocBuilder<AttendanceCubit, AttendanceState>(
                     buildWhen: (previous, current) =>
@@ -103,7 +183,6 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                                   )
                                 : CheckOutBlocBuilder(
                                     area: area,
-                                    customerPlans: customerPlans,
                                   ),
                           ],
                         );

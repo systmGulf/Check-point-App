@@ -512,5 +512,11 @@
   "Export attendance for the selected day": "Export attendance for the selected day",
   "Export attendance for the current week": "Export attendance for the current week",
   "Export attendance for the current month": "Export attendance for the current month",
-  "No attendance records found for the selected range.": "No attendance records found for the selected range."
+  "No attendance records found for the selected range.": "No attendance records found for the selected range.",
+  "Select Employee": "Select Employee",
+  "Online until": "Online until",
+  "Go Online": "Go Online",
+  "checkout": "checkout"
 }
+
+

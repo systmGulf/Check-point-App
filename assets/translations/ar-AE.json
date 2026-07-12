@@ -511,5 +511,11 @@
   "Export attendance for the selected day": "تصدير حضور اليوم المحدد",
   "Export attendance for the current week": "تصدير حضور الأسبوع الحالي",
   "Export attendance for the current month": "تصدير حضور الشهر الحالي",
-  "No attendance records found for the selected range.": "لم يتم العثور على سجلات حضور للفترة المحددة."
+  "No attendance records found for the selected range.": "لم يتم العثور على سجلات حضور للفترة المحددة.",
+  "Select Employee": "اختر الموظف",
+  "Online until": "نشط حتى",
+  "Go Online": "اتصال",
+  "checkout": "تسجيل الانصراف"
 }
+
+

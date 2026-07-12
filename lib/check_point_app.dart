@@ -9,10 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
 import 'core/widgets/permission_screen.dart';
+import 'features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import 'features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 
 class CheckPointApp extends StatefulWidget {
@@ -52,6 +54,11 @@ class _CheckPointAppState extends State<CheckPointApp>
 
   Future<void> _clearSharedPreferences() async {
     FlutterBackgroundService().invoke('stop');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(
+      AttendanceCubit.trackingEnabledKey,
+      false,
+    );
     SecureCache.deleteFromCacheByKey(key: 'token');
     SecureCache.deleteFromCacheByKey(key: 'username');
     SecureCache.deleteFromCacheByKey(key: 'departmentId');
