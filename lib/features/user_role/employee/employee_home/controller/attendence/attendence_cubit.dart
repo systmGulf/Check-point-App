@@ -261,6 +261,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void checkAssessableArea(
       LatLng pointLatNong, List<LatLng> area, Enum attendanceType) async {
+    currentUserLocation = pointLatNong;
     bool inRightArea = await employeeAttendanceRepo
         .checkAccessibleAreaForPolygon(pointLatNong, area);
 
@@ -290,6 +291,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void checkAssessableAreaForCircle(LatLng pointLatNong, LatLng center,
       double radius, Enum attendanceType) async {
+    currentUserLocation = pointLatNong;
     bool isWithinCircle = employeeAttendanceRepo.checkAccessibleAreaForCircle(
             pointLatNong, center) <=
         radius;

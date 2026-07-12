@@ -152,8 +152,35 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                         current is AccessAbleAreaErrorState ||
                         current is GetFeedBackStatusLoadingState ||
                         current is GetFeedBackStatusFailureState ||
-                        current is GetFeedBackStatusSuccessState,
+                        current is GetFeedBackStatusSuccessState ||
+                        current is GetUserBranchDone ||
+                        current is GetUserBranchLoading ||
+                        current is GetAttendanceTargetsDone ||
+                        current is GetAttendanceTargetsLoading ||
+                        current is AttendanceTargetSelected,
                     builder: (context, state) {
+                      final cubit = context.read<AttendanceCubit>();
+                      if (cubit.currentUserLocation == null) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  color: ColorsManger.primaryColor,
+                                ),
+                                verticalSpace(12),
+                                Text(
+                                  'Getting current location...'.tr(),
+                                  style: AppStylesManger.font16blackMedium,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
                       if (state is AccessAbleAreaState) {
                         return Column(
                           children: [
