@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "458145211315",
+    "project_id": "check-point-abbd3",
+    "storage_bucket": "check-point-abbd3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458145211315:android:7657c45ae762ea157be1c6",
+        "android_client_info": {
+          "package_name": "com.example.employee_mangement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXrYJQ6hU6DOFGtueww_QkHha2saG4ZK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
