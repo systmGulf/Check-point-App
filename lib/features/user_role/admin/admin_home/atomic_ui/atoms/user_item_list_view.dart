@@ -74,7 +74,7 @@ class UserItemListView extends StatelessWidget {
               ],
             ),
           ),
-          const Spacer(),
+          horizontalSpace(12),
           AppActionIconButton.edit(
             onPressed: () {
               Navigator.of(context).push(
@@ -95,7 +95,7 @@ class UserItemListView extends StatelessWidget {
               });
             },
           ),
-          horizontalSpace(0),
+          horizontalSpace(8),
           AppActionIconButton.delete(
             onPressed: userItemEntity.onDelete,
           ),

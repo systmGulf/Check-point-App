@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ExcelExportService {
@@ -45,17 +47,21 @@ class ExcelExportService {
     String? message,
   }) async {
     try {
+      final tempDir = await getTemporaryDirectory();
+      final safeFileName = fileName.trim().isEmpty ? 'export.xlsx' : fileName;
+      final file = File('${tempDir.path}/$safeFileName');
+      await file.writeAsBytes(fileBytes, flush: true);
+
       await SharePlus.instance.share(
         ShareParams(
           files: [
-            XFile.fromData(
-              fileBytes,
+            XFile(
+              file.path,
               mimeType:
                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             )
           ],
           text: message,
-          fileNameOverrides: [fileName],
         ),
       );
     } catch (_) {

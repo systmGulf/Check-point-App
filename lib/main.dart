@@ -23,14 +23,16 @@ Future<void> initializeServices() async {
   // );
   // await FcmNotificationService.init();
   // await LocalNotificationService.init();
-  await Permission.storage.request();
+  if (Platform.isAndroid) {
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+  }
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
   await initializeServiceBackground();
   setUpServiceLocator();
   registerFactory();
-  if(!kReleaseMode)Bloc.observer = AppBlocObserver();
-  await Permission.manageExternalStorage.request();
+  if (!kReleaseMode) Bloc.observer = AppBlocObserver();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 }
@@ -49,7 +51,9 @@ Future<void> runMainApp() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Permission.ignoreBatteryOptimizations.request();
+  if (Platform.isAndroid) {
+    await Permission.ignoreBatteryOptimizations.request();
+  }
   PermissionStatus locationStatus =
       await Permission.locationWhenInUse.request();
   if (!locationStatus.isGranted && !Platform.isIOS) {
