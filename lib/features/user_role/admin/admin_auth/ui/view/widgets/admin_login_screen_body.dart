@@ -9,11 +9,14 @@ import '../../../../../../../core/animations/animations.dart';
 import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../../core/services/biometric_login_service.dart';
+import '../../../../../../../core/styles/colors.dart';
+import '../../../../../../../core/widgets/app_top_snack_bar.dart';
+import '../../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../../features/user_role/common/constants/auth_animation_constants.dart';
 import '../../../../../../../features/user_role/common/widgets/auth_credentials_fields.dart';
 import '../../../../../../../features/user_role/common/widgets/auth_login_body.dart';
-import '../../../../../../../core/styles/colors.dart';
-import '../../../../../../../core/widgets/custom_app_button.dart';
+import '../../../../../../../features/user_role/common/widgets/biometric_login_button.dart';
 import '../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
 import 'header_text.dart';
 import 'admin_login_bloc_listener.dart';
@@ -29,6 +32,15 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  SavedLoginAccount? _savedAccount;
+  bool _showBiometricLogin = false;
+  bool _autoBiometricTriggered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedAccount();
+  }
 
   @override
   void dispose() {
@@ -69,6 +81,13 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
               textButton: 'Sign In'.tr(),
               buttonColor: ColorsManger.primaryColor,
             ),
+            if (_showBiometricLogin && _savedAccount != null) ...[
+              verticalSpace(12),
+              BiometricLoginButton(
+                savedEmail: _savedAccount!.email,
+                onPressed: _loginWithBiometrics,
+              ),
+            ],
             const AdminLoginBlocListener(),
           ],
         ),
@@ -94,6 +113,50 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
             role: Role.Admin,
             mobileId: mobileId!,
           );
+    }
+  }
+
+  Future<void> _loadSavedAccount() async {
+    final cubit = context.read<LoginCubit>();
+    final savedAccount = await cubit.getSavedLoginForRole(Role.Admin);
+    final canUseBiometric = await cubit.canUseBiometricLogin(Role.Admin);
+    if (!mounted) return;
+
+    setState(() {
+      _savedAccount = savedAccount;
+      _showBiometricLogin = canUseBiometric;
+      if (savedAccount != null) {
+        _emailController.text = savedAccount.email;
+      }
+    });
+
+    if (canUseBiometric && !_autoBiometricTriggered) {
+      _autoBiometricTriggered = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _loginWithBiometrics();
+        }
+      });
+    }
+  }
+
+  Future<void> _loginWithBiometrics() async {
+    final mobileId = await getId();
+    if (!mounted || mobileId == null) return;
+
+    final result = await context.read<LoginCubit>().loginWithBiometrics(
+          role: Role.Admin,
+          mobileId: mobileId,
+        );
+
+    if (!mounted) return;
+    if (result == BiometricLoginResult.unavailable) {
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
+          message: 'Biometric login is not available on this device'.tr(),
+        ),
+      );
     }
   }
 }
