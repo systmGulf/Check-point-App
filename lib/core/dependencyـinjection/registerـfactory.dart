@@ -30,6 +30,7 @@ import '../../features/user_role/supervisor/supervisor_home/contoller/leave_appl
 import '../../features/user_role/supervisor/supervisor_home/contoller/plan_cubit/plan_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
 import '../contoller/roles_login_cubit/login_cubit.dart';
+import '../services/biometric_login_service.dart';
 
 final getIt = GetIt.instance;
 void registerFactory() {
@@ -125,9 +126,13 @@ void registerFactory() {
   );
 
   // ── Core/Shared cubits ──
+  getIt.registerLazySingleton<BiometricLoginService>(
+    () => BiometricLoginService(),
+  );
   getIt.registerFactory<LoginCubit>(
     () => LoginCubit(
       loginRepo: getIt<LoginRepo>(),
+      biometricLoginService: getIt<BiometricLoginService>(),
     ),
   );
   getIt.registerFactory<UploadUserImageCubit>(

@@ -56,7 +56,10 @@ class AdminCustomDrawer extends StatelessWidget {
               AttendanceCubit.trackingEnabledKey,
               false,
             );
-            await SecureCache.deleteFromCache();
+            await SecureCache.deleteFromCacheByKey(key: 'token');
+            await SecureCache.deleteFromCacheByKey(key: 'username');
+            await SecureCache.deleteFromCacheByKey(key: 'departmentId');
+            await SecureCache.deleteFromCacheByKey(key: 'position');
             ApiConstant.token = await SecureCache.getFromCache(key: 'token');
             if (!context.mounted) return;
             context.pushReplacementName(Routes.userRoleScreen);
