@@ -103,6 +103,9 @@ dependencies:
   #Local Storage & Sharing
   shared_preferences: ^2.3.5
   share_plus: ^11.0.0
+  path_provider: ^2.1.5
+  flutter_secure_storage: ^9.2.4
+  local_auth: ^2.3.0
 
   # Firebase
   # firebase_core: ^4.3.0

@@ -9,10 +9,13 @@ import '../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
 import '../../../../../../../core/enums/role_enum.dart';
 import '../../../../../../../core/helpers/app_regex.dart';
 import '../../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../../core/services/biometric_login_service.dart';
 import '../../../../../../../core/styles/colors.dart';
+import '../../../../../../../core/widgets/app_top_snack_bar.dart';
 import '../../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../../../../../../core/widgets/password_validator.dart';
+import '../../../../../common/widgets/biometric_login_button.dart';
 import 'admin_login_bloc_listener.dart';
 
 class AdminEmailAndPasswordTextField extends StatefulWidget {
@@ -36,11 +39,15 @@ class _AdminEmailAndPasswordTextFieldState
   bool hasNumber = false;
   bool hasMinLength = false;
   final GlobalKey<FormState> formKey = GlobalKey();
+  SavedLoginAccount? _savedAccount;
+  bool _showBiometricLogin = false;
+  bool _autoBiometricTriggered = false;
 
   @override
   void initState() {
     super.initState();
     _setupPasswordControllerListener();
+    _loadSavedAccount();
   }
 
   @override
@@ -125,6 +132,13 @@ class _AdminEmailAndPasswordTextFieldState
                   },
                   textButton: 'Sign In'.tr(),
                   buttonColor: ColorsManger.primaryColor),
+              if (_showBiometricLogin && _savedAccount != null) ...[
+                verticalSpace(12),
+                BiometricLoginButton(
+                  savedEmail: _savedAccount!.email,
+                  onPressed: _loginWithBiometrics,
+                ),
+              ],
               const AdminLoginBlocListener()
             ]),
           )),
@@ -141,6 +155,50 @@ class _AdminEmailAndPasswordTextFieldState
             role: Role.Admin,
             mobileId: mobileId!,
           );
+    }
+  }
+
+  Future<void> _loadSavedAccount() async {
+    final cubit = context.read<LoginCubit>();
+    final savedAccount = await cubit.getSavedLoginForRole(Role.Admin);
+    final canUseBiometric = await cubit.canUseBiometricLogin(Role.Admin);
+    if (!mounted) return;
+
+    setState(() {
+      _savedAccount = savedAccount;
+      _showBiometricLogin = canUseBiometric;
+      if (savedAccount != null) {
+        emailController.text = savedAccount.email;
+      }
+    });
+
+    if (canUseBiometric && !_autoBiometricTriggered) {
+      _autoBiometricTriggered = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _loginWithBiometrics();
+        }
+      });
+    }
+  }
+
+  Future<void> _loginWithBiometrics() async {
+    final mobileId = await getId();
+    if (!mounted || mobileId == null) return;
+
+    final result = await context.read<LoginCubit>().loginWithBiometrics(
+          role: Role.Admin,
+          mobileId: mobileId,
+        );
+
+    if (!mounted) return;
+    if (result == BiometricLoginResult.unavailable) {
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
+          message: 'Biometric login is not available on this device'.tr(),
+        ),
+      );
     }
   }
 }

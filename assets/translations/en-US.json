@@ -52,9 +52,12 @@
   "Version": "Version",
   "My Organization": "My Organization",
   "Change Password": "Change Password",
+  "Sign in with biometrics": "Sign in with biometrics",
+  "Biometric login is not available on this device": "Biometric login is not available on this device",
   "Attendance Report": "Attendance Report",
   "Notification": "Notification",
   "Request Claim": "Request Claim",
+  "Claims": "Claims",
   "Application": "Application",
   "Leave": "Leave",
   "Planner": "Planner",
@@ -62,6 +65,7 @@
   "Document Workflow": "Document Workflow",
   "submission": "submission",
   "accident": "accident",
+  "Incidents": "Incidents",
   "MySelf": "MySelf",
   "Team": "Team",
   "Add New Customer": "Add New Customer",
@@ -519,5 +523,3 @@
   "checkout": "checkout",
   "Getting current location...": "Getting current location..."
 }
-
-

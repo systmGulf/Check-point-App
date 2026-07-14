@@ -12,12 +12,12 @@ import 'option_drawer_item.dart';
 List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
   return [
     MoreOptionDrawerItem(
-      title: 'Request Claim'.tr(
+      title: 'Claims'.tr(
         context: context,
       ),
       children: [
         OptionDrawerItem(
-          title: 'Application'.tr(
+          title: 'Claim Application'.tr(
             context: context,
           ),
           onPressed: () {
@@ -28,12 +28,12 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
       ],
     ),
     MoreOptionDrawerItem(
-      title: 'Leave'.tr(
+      title: 'Leaves'.tr(
         context: context,
       ),
       children: [
         OptionDrawerItem(
-          title: 'Application'.tr(
+          title: 'Leave Application'.tr(
             context: context,
           ),
           onPressed: () {
@@ -42,7 +42,7 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
         ),
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'Planner'.tr(
+          title: 'Leave Planner'.tr(
             context: context,
           ),
           onPressed: () {
@@ -51,7 +51,7 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
         ),
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'Schedule'.tr(
+          title: 'Leave Schedule'.tr(
             context: context,
           ),
           onPressed: () {
@@ -62,13 +62,13 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
       ],
     ),
     MoreOptionDrawerItem(
-      title: 'accident'.tr(
+      title: 'Incidents'.tr(
         context: context,
       ),
       children: [
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'MySelf'.tr(
+          title: 'accident Myself'.tr(
             context: context,
           ),
           onPressed: () {
@@ -77,7 +77,7 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
         ),
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'Team'.tr(
+          title: 'Incident Team'.tr(
             context: context,
           ),
           onPressed: () {
