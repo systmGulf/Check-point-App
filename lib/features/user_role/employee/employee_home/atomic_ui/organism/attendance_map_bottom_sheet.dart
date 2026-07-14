@@ -97,13 +97,17 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                       }
 
                       final cubit = context.read<AttendanceCubit>();
+                      if (state is GetAttendanceTargetsLoading ||
+                          state is GetAttendanceTargetsError ||
+                          cubit.attendanceTargets.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
                       final isLoading = state is TrackingLoading;
                       final isEnabled = state is TrackingStatusChanged
                           ? state.isTrackingEnabled
                           : cubit.isTrackingEnabled;
 
-                      final String onlineUntilText =
-                          'Online until'.tr() +
+                      final String onlineUntilText = 'Online until'.tr() +
                           ' ' +
                           (ApiConstant.employeeCheckoutTime.isNotEmpty
                               ? formatHour(ApiConstant.employeeCheckoutTime)
@@ -157,9 +161,64 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                         current is GetUserBranchLoading ||
                         current is GetAttendanceTargetsDone ||
                         current is GetAttendanceTargetsLoading ||
+                        current is GetAttendanceTargetsError ||
                         current is AttendanceTargetSelected,
                     builder: (context, state) {
                       final cubit = context.read<AttendanceCubit>();
+                      final hasAttendanceTargets =
+                          cubit.attendanceTargets.isNotEmpty;
+
+                      if (area != 'Office') {
+                        if (state is GetAttendanceTargetsLoading) {
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    color: ColorsManger.primaryColor,
+                                  ),
+                                  verticalSpace(12),
+                                  Text(
+                                    'Loading attendance places...'.tr(),
+                                    style: AppStylesManger.font16blackMedium,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+
+                        if (state is GetAttendanceTargetsError) {
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Text(
+                                state.error,
+                                textAlign: TextAlign.center,
+                                style: AppStylesManger.font16blackMedium,
+                              ),
+                            ),
+                          );
+                        }
+
+                        if (!hasAttendanceTargets) {
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Text(
+                                area == 'Customer'
+                                    ? 'No customers found'.tr()
+                                    : 'No sites found'.tr(),
+                                textAlign: TextAlign.center,
+                                style: AppStylesManger.font16blackMedium,
+                              ),
+                            ),
+                          );
+                        }
+                      }
+
                       if (cubit.currentUserLocation == null) {
                         return Center(
                           child: Padding(

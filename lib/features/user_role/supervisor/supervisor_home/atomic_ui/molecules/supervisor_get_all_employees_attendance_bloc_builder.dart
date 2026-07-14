@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
@@ -63,7 +62,6 @@ class SupervisorGetAllEmployeesAttendanceBlocBuilder extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed: () async {
-                              await Permission.storage.request();
                               context
                                   .read<ShareattendanceCubit>()
                                   .exportAndShareExcel(filteredList);

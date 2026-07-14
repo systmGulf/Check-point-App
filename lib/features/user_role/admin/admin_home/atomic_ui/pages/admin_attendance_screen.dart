@@ -3,6 +3,9 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
+import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,9 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/user_attendace_model.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
-import 'package:employee_mangement/core/widgets/build_alart_message.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/common/formate_worked_time_function.dart';
@@ -22,7 +22,6 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../core/widgets/custom_loading_indicator.dart';
-import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import '../../controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 
 class AdminAttendanceScreen extends StatefulWidget {
@@ -134,19 +133,22 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                           verticalSpace(10),
                           ElevatedButton(
                             onPressed: () {
-                              context.read<AdminAttendanceCubit>().getAdminAttendance();
+                              context
+                                  .read<AdminAttendanceCubit>()
+                                  .getAdminAttendance();
                             },
                             child: Text('Retry'.tr()),
                           )
                         ],
                       );
                     } else if (state is AdminAttendanceSuccess) {
-                      final List<UserAttendanceData> filteredList =
-                          (state.employeeAllAttendance.attendancePage?.data ?? [])
-                              .where((attendance) =>
-                                  attendance.attendanceDate ==
-                                  state.selectedDate.toString().substring(0, 10))
-                              .toList();
+                      final List<UserAttendanceData> filteredList = (state
+                                  .employeeAllAttendance.attendancePage?.data ??
+                              [])
+                          .where((attendance) =>
+                              attendance.attendanceDate ==
+                              state.selectedDate.toString().substring(0, 10))
+                          .toList();
 
                       if (filteredList.isEmpty) {
                         return const Center(child: NoDataFound());
@@ -155,7 +157,8 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                       return ListView(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
                             child: Row(
                               children: [
                                 Text(
@@ -168,11 +171,12 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    await Permission.storage.request();
                                     if (context.mounted) {
                                       _showExportOptionsBottomSheet(
                                         context,
-                                        state.employeeAllAttendance.attendancePage?.data ?? [],
+                                        state.employeeAllAttendance
+                                                .attendancePage?.data ??
+                                            [],
                                       );
                                     }
                                   },
@@ -197,24 +201,33 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                                       vertical: 5, horizontal: 16),
                                   child: AdminEmployeeAttendanceWidget(
                                     employeeName: item.employeeName ?? '',
+                                    area: item.area ?? '',
                                     location: item.location ?? '',
                                     inTime: item.clockInTime ?? '',
                                     outTime: item.clockOutTime ?? '',
-                                    totalHours: item.totalHours?.toString() ?? '',
+                                    totalHours:
+                                        item.totalHours?.toString() ?? '',
                                     employeeImage: item.employeeImage,
                                     isLate: item.isLate ?? false,
                                     isEarly: item.isEarly ?? false,
-                                    onDelete: item.id == null ? null : () {
-                                      buildDeleteAlertDialog(
-                                        context,
-                                        title: 'Delete Attendance'.tr(),
-                                        message: 'Are you sure you want to delete this attendance?'.tr(),
-                                        onYes: () {
-                                          context.pop();
-                                          context.read<AdminAttendanceCubit>().deleteAttendance(item.id!);
-                                        },
-                                      );
-                                    },
+                                    onDelete: item.id == null
+                                        ? null
+                                        : () {
+                                            buildDeleteAlertDialog(
+                                              context,
+                                              title: 'Delete Attendance'.tr(),
+                                              message:
+                                                  'Are you sure you want to delete this attendance?'
+                                                      .tr(),
+                                              onYes: () {
+                                                context.pop();
+                                                context
+                                                    .read<
+                                                        AdminAttendanceCubit>()
+                                                    .deleteAttendance(item.id!);
+                                              },
+                                            );
+                                          },
                                   ),
                                 );
                               },
@@ -234,7 +247,8 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
     );
   }
 
-  void _showExportOptionsBottomSheet(BuildContext parentContext, List<UserAttendanceData> allAttendance) {
+  void _showExportOptionsBottomSheet(
+      BuildContext parentContext, List<UserAttendanceData> allAttendance) {
     showModalBottomSheet(
       context: parentContext,
       backgroundColor: Colors.transparent,
@@ -265,7 +279,8 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
               verticalSpace(20),
               Text(
                 'Select Export Range'.tr(),
-                style: AppStylesManger.font18SemiBold.copyWith(color: Colors.black),
+                style: AppStylesManger.font18SemiBold
+                    .copyWith(color: Colors.black),
                 textAlign: TextAlign.center,
               ),
               verticalSpace(20),
@@ -276,10 +291,12 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 subtitle: 'Export attendance for the selected day'.tr(),
                 onTap: () {
                   Navigator.pop(context);
-                  parentContext.read<AdminAttendanceCubit>().exportAttendanceToExcel(
-                    allAttendance: allAttendance,
-                    rangeType: 'daily',
-                  );
+                  parentContext
+                      .read<AdminAttendanceCubit>()
+                      .exportAttendanceToExcel(
+                        allAttendance: allAttendance,
+                        rangeType: 'daily',
+                      );
                 },
               ),
               verticalSpace(12),
@@ -290,10 +307,12 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 subtitle: 'Export attendance for the current week'.tr(),
                 onTap: () {
                   Navigator.pop(context);
-                  parentContext.read<AdminAttendanceCubit>().exportAttendanceToExcel(
-                    allAttendance: allAttendance,
-                    rangeType: 'weekly',
-                  );
+                  parentContext
+                      .read<AdminAttendanceCubit>()
+                      .exportAttendanceToExcel(
+                        allAttendance: allAttendance,
+                        rangeType: 'weekly',
+                      );
                 },
               ),
               verticalSpace(12),
@@ -304,10 +323,12 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 subtitle: 'Export attendance for the current month'.tr(),
                 onTap: () {
                   Navigator.pop(context);
-                  parentContext.read<AdminAttendanceCubit>().exportAttendanceToExcel(
-                    allAttendance: allAttendance,
-                    rangeType: 'monthly',
-                  );
+                  parentContext
+                      .read<AdminAttendanceCubit>()
+                      .exportAttendanceToExcel(
+                        allAttendance: allAttendance,
+                        rangeType: 'monthly',
+                      );
                 },
               ),
               verticalSpace(20),
@@ -381,6 +402,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
 
 class AdminEmployeeAttendanceWidget extends StatelessWidget {
   final String employeeName;
+  final String area;
   final String location;
   final String inTime;
   final String outTime;
@@ -393,6 +415,7 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
   const AdminEmployeeAttendanceWidget({
     super.key,
     required this.employeeName,
+    required this.area,
     required this.location,
     required this.inTime,
     required this.outTime,
@@ -439,13 +462,36 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
             ),
             verticalSpace(10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  location.tr(context: context),
-                  style: AppStylesManger.font15BoldrBlue
-                      .copyWith(color: Colors.black),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        area.isEmpty
+                            ? 'Unknown area'.tr(context: context)
+                            : area.tr(context: context),
+                        style: AppStylesManger.font15BoldrBlue
+                            .copyWith(color: Colors.black),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (location.isNotEmpty) ...[
+                        verticalSpace(4),
+                        Text(
+                          location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStylesManger.font12RegularGrey.copyWith(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
+                horizontalSpace(12),
                 Text(
                   'Present'.tr(context: context),
                   style: AppStylesManger.font15BoldrBlue
@@ -457,79 +503,114 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
             const DottedLine(),
             verticalSpace(12),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'Clock In'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    inTime == '00:00:00' || inTime.isEmpty
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Clock In'.tr(context: context),
+                    child: inTime == '00:00:00' || inTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            convertTo12HourFormat(
-                              inTime.length >= 5 ? inTime.substring(0, 5) : inTime,
-                            ),
-                            style: TextStyle(
-                              color: isLate ? Colors.red : Colors.green,
-                              fontWeight:
-                                  isLate ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              convertTo12HourFormat(
+                                inTime.length >= 5
+                                    ? inTime.substring(0, 5)
+                                    : inTime,
+                              ),
+                              style: TextStyle(
+                                color: isLate ? Colors.red : Colors.green,
+                                fontWeight: isLate
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'Clock Out'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    outTime == '00:00:00' || outTime.isEmpty
+                horizontalSpace(8),
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Clock Out'.tr(context: context),
+                    child: outTime == '00:00:00' || outTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            convertTo12HourFormat(
-                              outTime.length >= 5 ? outTime.substring(0, 5) : outTime,
-                            ),
-                            style: TextStyle(
-                              color: isEarly ? Colors.red : Colors.green,
-                              fontWeight:
-                                  isEarly ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              convertTo12HourFormat(
+                                outTime.length >= 5
+                                    ? outTime.substring(0, 5)
+                                    : outTime,
+                              ),
+                              style: TextStyle(
+                                color: isEarly ? Colors.red : Colors.green,
+                                fontWeight: isEarly
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'Total hr'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    inTime == '00:00:00' || outTime == '00:00:00' || inTime.isEmpty || outTime.isEmpty
+                horizontalSpace(8),
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Total hr'.tr(context: context),
+                    child: inTime == '00:00:00' ||
+                            outTime == '00:00:00' ||
+                            inTime.isEmpty ||
+                            outTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            formatWorkedTime(clockInTime: inTime, clockOutTime: outTime),
-                            style: TextStyle(
-                              color: isEarly
-                                  ? Colors.red
-                                  : ColorsManger.primaryColor,
-                              fontWeight:
-                                  isEarly ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              formatWorkedTime(
+                                  clockInTime: inTime, clockOutTime: outTime),
+                              style: TextStyle(
+                                color: isEarly
+                                    ? Colors.red
+                                    : ColorsManger.primaryColor,
+                                fontWeight: isEarly
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AttendanceTimeItem extends StatelessWidget {
+  const _AttendanceTimeItem({
+    required this.title,
+    required this.child,
+  });
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: AppStylesManger.font15BoldrBlue.copyWith(color: Colors.grey),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+        child,
+      ],
     );
   }
 }

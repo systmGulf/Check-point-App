@@ -11,6 +11,8 @@ class UserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
+
     return SizedBox(
       height: height ?? 80,
       width: height ?? 80,
@@ -19,7 +21,7 @@ class UserImage extends StatelessWidget {
         child: CircleAvatar(
           backgroundColor: ColorsManger.lightGreen,
           radius: 80.r,
-          child: imageUrl != null
+          child: hasImage
               ? ProfileView(
                   loadingIndicatorColor: ColorsManger.primaryColor,
                   fullscreenOnEnlarge: false,
@@ -40,7 +42,7 @@ class UserImage extends StatelessWidget {
                     'assets/animated_images/profile_image.json',
                   ),
                   image: NetworkImage(
-                    "http://emsdemo.runasp.net$imageUrl",
+                    "http://emsdemo.runasp.net${imageUrl!}",
                     scale: 1.0,
                   ),
                 )

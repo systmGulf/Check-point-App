@@ -103,6 +103,7 @@ dependencies:
   #Local Storage & Sharing
   shared_preferences: ^2.3.5
   share_plus: ^11.0.0
+  path_provider: ^2.1.5
 
   # Firebase
   # firebase_core: ^4.3.0
