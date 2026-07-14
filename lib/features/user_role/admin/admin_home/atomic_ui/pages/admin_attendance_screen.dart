@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/user_attendace_model.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../../core/common/convert_time_to_12_houre_format.dart';
 import '../../../../../../core/common/formate_worked_time_function.dart';
@@ -172,7 +171,6 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    await Permission.storage.request();
                                     if (context.mounted) {
                                       _showExportOptionsBottomSheet(
                                         context,
@@ -203,6 +201,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                                       vertical: 5, horizontal: 16),
                                   child: AdminEmployeeAttendanceWidget(
                                     employeeName: item.employeeName ?? '',
+                                    area: item.area ?? '',
                                     location: item.location ?? '',
                                     inTime: item.clockInTime ?? '',
                                     outTime: item.clockOutTime ?? '',
@@ -403,6 +402,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
 
 class AdminEmployeeAttendanceWidget extends StatelessWidget {
   final String employeeName;
+  final String area;
   final String location;
   final String inTime;
   final String outTime;
@@ -415,6 +415,7 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
   const AdminEmployeeAttendanceWidget({
     super.key,
     required this.employeeName,
+    required this.area,
     required this.location,
     required this.inTime,
     required this.outTime,
@@ -461,13 +462,36 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
             ),
             verticalSpace(10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  location.tr(context: context),
-                  style: AppStylesManger.font15BoldrBlue
-                      .copyWith(color: Colors.black),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        area.isEmpty
+                            ? 'Unknown area'.tr(context: context)
+                            : area.tr(context: context),
+                        style: AppStylesManger.font15BoldrBlue
+                            .copyWith(color: Colors.black),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (location.isNotEmpty) ...[
+                        verticalSpace(4),
+                        Text(
+                          location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStylesManger.font12RegularGrey.copyWith(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
+                horizontalSpace(12),
                 Text(
                   'Present'.tr(context: context),
                   style: AppStylesManger.font15BoldrBlue
@@ -479,87 +503,114 @@ class AdminEmployeeAttendanceWidget extends StatelessWidget {
             const DottedLine(),
             verticalSpace(12),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'Clock In'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    inTime == '00:00:00' || inTime.isEmpty
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Clock In'.tr(context: context),
+                    child: inTime == '00:00:00' || inTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            convertTo12HourFormat(
-                              inTime.length >= 5
-                                  ? inTime.substring(0, 5)
-                                  : inTime,
-                            ),
-                            style: TextStyle(
-                              color: isLate ? Colors.red : Colors.green,
-                              fontWeight:
-                                  isLate ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              convertTo12HourFormat(
+                                inTime.length >= 5
+                                    ? inTime.substring(0, 5)
+                                    : inTime,
+                              ),
+                              style: TextStyle(
+                                color: isLate ? Colors.red : Colors.green,
+                                fontWeight: isLate
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'Clock Out'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    outTime == '00:00:00' || outTime.isEmpty
+                horizontalSpace(8),
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Clock Out'.tr(context: context),
+                    child: outTime == '00:00:00' || outTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            convertTo12HourFormat(
-                              outTime.length >= 5
-                                  ? outTime.substring(0, 5)
-                                  : outTime,
-                            ),
-                            style: TextStyle(
-                              color: isEarly ? Colors.red : Colors.green,
-                              fontWeight:
-                                  isEarly ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              convertTo12HourFormat(
+                                outTime.length >= 5
+                                    ? outTime.substring(0, 5)
+                                    : outTime,
+                              ),
+                              style: TextStyle(
+                                color: isEarly ? Colors.red : Colors.green,
+                                fontWeight: isEarly
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'Total hr'.tr(context: context),
-                      style: AppStylesManger.font15BoldrBlue
-                          .copyWith(color: Colors.grey),
-                    ),
-                    inTime == '00:00:00' ||
+                horizontalSpace(8),
+                Expanded(
+                  child: _AttendanceTimeItem(
+                    title: 'Total hr'.tr(context: context),
+                    child: inTime == '00:00:00' ||
                             outTime == '00:00:00' ||
                             inTime.isEmpty ||
                             outTime.isEmpty
                         ? const Icon(CupertinoIcons.clock, color: Colors.grey)
-                        : Text(
-                            formatWorkedTime(
-                                clockInTime: inTime, clockOutTime: outTime),
-                            style: TextStyle(
-                              color: isEarly
-                                  ? Colors.red
-                                  : ColorsManger.primaryColor,
-                              fontWeight:
-                                  isEarly ? FontWeight.bold : FontWeight.normal,
-                              fontSize: 15.sp,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              formatWorkedTime(
+                                  clockInTime: inTime, clockOutTime: outTime),
+                              style: TextStyle(
+                                color: isEarly
+                                    ? Colors.red
+                                    : ColorsManger.primaryColor,
+                                fontWeight: isEarly
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AttendanceTimeItem extends StatelessWidget {
+  const _AttendanceTimeItem({
+    required this.title,
+    required this.child,
+  });
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: AppStylesManger.font15BoldrBlue.copyWith(color: Colors.grey),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+        child,
+      ],
     );
   }
 }
