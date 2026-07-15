@@ -70,8 +70,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
     final taskId = int.parse(task.id.toString());
     buildDeleteAlertDialog(context,
         title: 'Delete Task'.tr(),
-        message: 'Are you sure you want to delete this Task?'
-            .tr(), onYes: () {
+        message: 'Are you sure you want to delete this Task?'.tr(), onYes: () {
       context.pop();
 
       context.read<TasksCubit>().deleteTask(id: taskId).then((isSuccess) {
@@ -157,6 +156,22 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
             text: 'Add Task'.tr(),
             onTap: () {
               context.pushName(Routes.supervisorAddTasksScreen).then((value) {
+                if (value is GetTasData) {
+                  final cubit = context.read<TasksCubit>();
+                  final alreadyExists = cubit.tasks.any(
+                    (task) =>
+                        task.id == value.id ||
+                        (task.title == value.title &&
+                            task.description == value.description &&
+                            task.dueDate == value.dueDate),
+                  );
+                  if (!alreadyExists) {
+                    setState(() {
+                      cubit.tasks.insert(0, value);
+                    });
+                  }
+                  return;
+                }
                 context.read<TasksCubit>().getTasks();
               });
             },
@@ -165,20 +180,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
       ),
       body: BlocConsumer<TasksCubit, TasksState>(
         listener: (context, state) {
-          if (state is GetTasksSuccess) {
-            setState(() {
-              context.read<TasksCubit>().tasks.clear();
-              final newTasks = state.tasks;
-              for (var newTask in newTasks) {
-                if (!context
-                    .read<TasksCubit>()
-                    .tasks
-                    .any((task) => task.id == newTask.id)) {
-                  context.read<TasksCubit>().tasks.add(newTask);
-                }
-              }
-            });
-          } else if (state is GetTaskPaginationFailure) {
+          if (state is GetTaskPaginationFailure) {
             buildSnackBar(
               context,
               customSnackBar: CustomSnackBar.error(
@@ -212,7 +214,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
           if (state is GetTasksSuccess || state is GetTaskPaginationLoading) {
             final allTasks = context.read<TasksCubit>().tasks;
             final tasks = _filterTasks(allTasks);
-            return context.read<TasksCubit>().tasks.isEmpty
+            return tasks.isEmpty
                 ? const NoDataFound()
                 : RefreshIndicator(
                     onRefresh: () => context.read<TasksCubit>().getTasks(),

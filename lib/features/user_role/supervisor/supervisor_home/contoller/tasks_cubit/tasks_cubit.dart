@@ -60,7 +60,16 @@ class TasksCubit extends Cubit<TasksState> {
         if (!isClosed) emit(AddTaskError(errorMessage: l.message));
       },
       (r) {
-        if (!isClosed) emit(AddTaskSuccess());
+        final createdTask = GetTasData(
+          id: -DateTime.now().millisecondsSinceEpoch,
+          title: titleValue,
+          description: descriptionValue,
+          dueDate: dueDateValue,
+          priorityStatus: _normalizePriority(priorityValue),
+          status: 'Pending',
+          employees: const [],
+        );
+        if (!isClosed) emit(AddTaskSuccess(createdTask: createdTask));
         titleController.clear();
         descriptionController.clear();
         this.dueDate = '';
@@ -99,9 +108,16 @@ class TasksCubit extends Cubit<TasksState> {
             }
           }
         }
-        if (!isClosed) emit(GetTasksSuccess(tasks: r));
+        if (!isClosed) emit(GetTasksSuccess(tasks: List.unmodifiable(tasks)));
       },
     );
+  }
+
+  String _normalizePriority(String priorityValue) {
+    if (priorityValue.isEmpty) {
+      return priorityValue;
+    }
+    return priorityValue[0].toUpperCase() + priorityValue.substring(1);
   }
 
   Future<void> deleteTask({required int id}) async {

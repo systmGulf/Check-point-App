@@ -7,7 +7,11 @@ class TasksInitial extends TasksState {}
 
 class AddTaskLoading extends TasksState {}
 
-class AddTaskSuccess extends TasksState {}
+class AddTaskSuccess extends TasksState {
+  final GetTasData createdTask;
+
+  AddTaskSuccess({required this.createdTask});
+}
 
 class AddTaskError extends TasksState {
   final String errorMessage;

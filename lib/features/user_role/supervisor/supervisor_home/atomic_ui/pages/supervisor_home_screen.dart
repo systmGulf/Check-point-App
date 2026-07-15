@@ -44,11 +44,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
   ];
   @override
   Widget build(BuildContext context) {
-    List<String> checkingText = [
-      'Office'.tr(),
-      'Customer'.tr(),
-      'Site'.tr()
-    ];
+    List<String> checkingText = ['Office'.tr(), 'Customer'.tr(), 'Site'.tr()];
     return Stack(
       children: [
         Image.asset(
@@ -69,8 +65,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                     if (state is GetEmployeeSuccess) {
                       return UserNameAndTimeAndCheckInAndOutItem(
                         image: state.employeeLoginModel.imageUrl ?? '',
-                        name:
-                            state.employeeLoginModel.userName ??
+                        name: state.employeeLoginModel.userName ??
                             state.employeeLoginModel.name ??
                             '',
                       );
@@ -142,7 +137,7 @@ class _SupervisorHomeScreenBodyState extends State<SupervisorHomeScreenBody> {
                         taskCount: state.getTaskResponse.length,
                         onTap: () {
                           // Navigate to tasks page
-                          context.pushName(Routes.myTasksScreen);
+                          context.pushName(Routes.supervisorTasksScreen);
                         });
                   }
                   return Skeletonizer(

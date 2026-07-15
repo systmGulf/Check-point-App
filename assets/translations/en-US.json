@@ -521,5 +521,12 @@
   "Online until": "Online until",
   "Go Online": "Go Online",
   "checkout": "checkout",
-  "Getting current location...": "Getting current location..."
+  "Getting current location...": "Getting current location...",
+  "filter.period": "Period",
+  "filter.selectPeriod": "Select period",
+  "filter.last90Days": "Last 90 days",
+  "filter.last180Days": "Last 180 days",
+  "filter.lastYear": "Last year",
+  "filter.custom": "Custom",
+  "Reset Filters": "Reset Filters"
 }

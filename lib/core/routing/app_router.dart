@@ -62,6 +62,7 @@ import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/empl
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/gamfication_screen.dart'
     show LeaderboardPage;
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/my_tasks_screen.dart';
+import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_tasks_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_attend_some_employee_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_layout_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/supervisor_notification_screen.dart';
@@ -93,6 +94,13 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) => getIt<TasksCubit>(),
             child: const SupervisorAddTasksScreen(),
+          ),
+        );
+      case Routes.supervisorTasksScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<TasksCubit>()..getTasks(),
+            child: const SupervisorTasksScreen(),
           ),
         );
       case Routes.leaveApplicationScreen:
@@ -340,14 +348,16 @@ abstract class AppRouter {
       case Routes.adminAttendanceScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<AdminAttendanceCubit>()..getAdminAttendance(),
+            create: (context) =>
+                getIt<AdminAttendanceCubit>()..getAdminAttendance(),
             child: const AdminAttendanceScreen(),
           ),
         );
       case Routes.adminAttendSelectionScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()..getAllEmployees(pageNumber: 0, itemCount: 50),
+            create: (context) => getIt<EmployeeCubit>()
+              ..getAllEmployees(pageNumber: 0, itemCount: 50),
             child: const AdminAttendSelectionScreen(),
           ),
         );
@@ -437,9 +447,9 @@ abstract class AppRouter {
       case Routes.employeeAttendanceHistoryScreen:
         return BaseRoute(
           page: BlocProvider(
-            create: (context) =>
-                GetEmployeeHistoryCubit(employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>())
-                  ..getEmployeeHistory(),
+            create: (context) => GetEmployeeHistoryCubit(
+                employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>())
+              ..getEmployeeHistory(),
             child: const EmployeeAttendanceHistoryScreen(),
           ),
         );

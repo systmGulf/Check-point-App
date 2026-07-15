@@ -121,7 +121,7 @@
   "Remark Required": "الملاحظة مطلوبة",
   "Remark": "ملاحظة",
   "Submit": "إرسال",
-  "Leave Aplication": "طلب إجازة",
+  "Leave Aplication": "طلب إجازة/عطلة",
   "Workflow Submission": "تقديم سير عمل",
   "Pick File": "اختر ملف",
   "No file selected": "لم يتم اختيار ملف",
@@ -132,7 +132,7 @@
   "accident Myself": "بلاغ حادث شخصي",
   "accident Team": "حوادث الفريق",
   "Claim Application": "تقديم مطالبة مالية",
-  "Leave Application": "تقديم طلب إجازة",
+  "Leave Application": "طلب إجازة/عطلة",
   "Check In Success": "تم تسجيل الحضور بنجاح",
   "Authentication Failed": "فشل المصادقة",
   "Check Out Success": "تم تسجيل الانصراف بنجاح",
@@ -520,5 +520,12 @@
   "Online until": "نشط حتى",
   "Go Online": "اتصال",
   "checkout": "تسجيل الانصراف",
-  "Getting current location...": "جاري تحديد الموقع الحالي..."
+  "Getting current location...": "جاري تحديد الموقع الحالي...",
+  "filter.period": "الفترة",
+  "filter.selectPeriod": "اختر الفترة",
+  "filter.last90Days": "آخر 90 يومًا",
+  "filter.last180Days": "آخر 180 يومًا",
+  "filter.lastYear": "آخر سنة",
+  "filter.custom": "مخصص",
+  "Reset Filters": "إعادة تعيين الفلاتر"
 }

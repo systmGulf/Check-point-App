@@ -70,7 +70,7 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
-      final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+      final formattedDate = DateFormat('yyyy-MM-dd', 'en').format(picked);
       setState(() {
         selectedDate = picked;
         switch (widget.dateField) {
