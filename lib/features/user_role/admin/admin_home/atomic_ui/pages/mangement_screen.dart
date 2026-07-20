@@ -51,6 +51,17 @@ class ManagementScreen extends StatelessWidget {
           icon: Icons.calendar_month_outlined,
         ),
       ),
+      SlideInLeft(
+        from: 200,
+        child: AdminManagementScreenItems(
+          color: Colors.orange,
+          onTap: () {
+            context.pushName(Routes.adminLeavesScreen);
+          },
+          text: 'Leaves'.tr(),
+          icon: Icons.event_note,
+        ),
+      ),
     ];
     return Stack(
       children: [

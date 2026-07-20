@@ -15,6 +15,7 @@ import '../../features/user_role/admin/admin_home/atomic_ui/enitities/user_item_
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_home_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_notification_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attendance_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_leaves_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attend_selection_screen.dart';
 import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_screen.dart';
@@ -352,6 +353,10 @@ abstract class AppRouter {
                 getIt<AdminAttendanceCubit>()..getAdminAttendance(),
             child: const AdminAttendanceScreen(),
           ),
+        );
+      case Routes.adminLeavesScreen:
+        return BaseRoute(
+          page: const AdminLeavesScreen(),
         );
       case Routes.adminAttendSelectionScreen:
         return BaseRoute(

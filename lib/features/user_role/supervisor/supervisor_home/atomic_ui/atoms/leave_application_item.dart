@@ -23,6 +23,9 @@ class LeaveApplicationItem extends StatefulWidget {
     required this.type,
     required this.employeeId,
     required this.userToken,
+    this.position = '',
+    this.department = '',
+    this.role = '',
   });
 
   final String name,
@@ -33,7 +36,10 @@ class LeaveApplicationItem extends StatefulWidget {
       createdBy,
       type,
       employeeId,
-      userToken;
+      userToken,
+      position,
+      department,
+      role;
   final int id;
 
   @override
@@ -69,23 +75,69 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  UserImage(imageUrl: '', height: 40),
+                  const UserImage(imageUrl: '', height: 40),
                   horizontalSpace(10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.name,
-                        style: AppStylesManger.font15BoldBlack,
-                      ),
-                      Text(
-                        'Flutter Developer',
-                        style: AppStylesManger.font15BoldBlack
-                            .copyWith(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.name,
+                                style: AppStylesManger.font15BoldBlack,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (widget.role.isNotEmpty) ...[
+                              horizontalSpace(6),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: widget.role
+                                          .toLowerCase()
+                                          .contains('supervisor')
+                                      ? Colors.purple.withAlpha(30)
+                                      : Colors.blue.withAlpha(30),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: widget.role
+                                            .toLowerCase()
+                                            .contains('supervisor')
+                                        ? Colors.purple.withAlpha(80)
+                                        : Colors.blue.withAlpha(80),
+                                    width: 0.5,
+                                  ),
+                                ),
+                                child: Text(
+                                  widget.role.tr(),
+                                  style: TextStyle(
+                                    color: widget.role
+                                            .toLowerCase()
+                                            .contains('supervisor')
+                                        ? Colors.purple[800]
+                                        : Colors.blue[800],
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                        if (widget.department.isNotEmpty || widget.position.isNotEmpty)
+                          Text(
+                            '${widget.department.isNotEmpty ? widget.department : ''} ${widget.position.isNotEmpty ? "(${widget.position})" : ''}',
+                            style: AppStylesManger.font15BoldBlack
+                                .copyWith(color: Colors.grey, fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  horizontalSpace(6),
                   if (widget.status == 'Cancelled' || isCancelled)
                     Row(
                       children: [

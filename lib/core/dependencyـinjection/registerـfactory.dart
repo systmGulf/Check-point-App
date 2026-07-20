@@ -2,6 +2,7 @@ import 'package:employee_mangement/core/cubits/upload_user_image_cubit/upload_us
 import 'package:employee_mangement/features/user_role/admin/admin_home/controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/leave_requests_repo/admin_leave_requests_repo.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
@@ -14,11 +15,12 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/repo
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_leave_requests_cubit/admin_leave_requests_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/branch_cubit/branch_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/customer_cubit/customer_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/department_cubit/department_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/mange_employee_cubit/employee_cubit.dart';
-import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
@@ -93,6 +95,11 @@ void registerFactory() {
   getIt.registerFactory<AdminAttendanceCubit>(
     () => AdminAttendanceCubit(
       apiService: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerFactory<AdminLeaveRequestsCubit>(
+    () => AdminLeaveRequestsCubit(
+      adminLeaveRequestsRepo: getIt<AdminLeaveRequestsRepo>(),
     ),
   );
 

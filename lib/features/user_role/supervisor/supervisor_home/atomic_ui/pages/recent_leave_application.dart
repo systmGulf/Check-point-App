@@ -156,6 +156,15 @@ class RecentLeaveApplication extends StatelessWidget {
                                           id: state.getLeaveRequestModel.value!
                                                   .data![index].id ??
                                               0,
+                                          role: state.getLeaveRequestModel.value!
+                                                  .data![index].employee?.role ??
+                                              "",
+                                          department: state.getLeaveRequestModel.value!
+                                                  .data![index].employee?.departmentName ??
+                                              "",
+                                          position: state.getLeaveRequestModel.value!
+                                                  .data![index].employee?.position ??
+                                              "",
                                         ),
                                       ),
                                     );

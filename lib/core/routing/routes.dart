@@ -60,4 +60,5 @@ class Routes {
   static const String adminAttendanceScreen = '/adminAttendanceScreen';
   static const String adminAttendSelectionScreen =
       '/adminAttendSelectionScreen';
+  static const String adminLeavesScreen = '/adminLeavesScreen';
 }
