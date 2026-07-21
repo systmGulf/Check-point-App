@@ -4,6 +4,7 @@ import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
@@ -15,10 +16,36 @@ import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../../controllers/shifts_and_polices_cubit/shifts_and_polices_cubit.dart';
 import './assign_police_to_employees_loading_skeleton.dart';
 
-class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
-  const AddEmployeesToPoliceModelBottomSheet(
-      {super.key, required this.policeId});
+class AddEmployeesToPoliceModelBottomSheet extends StatefulWidget {
+  const AddEmployeesToPoliceModelBottomSheet({
+    super.key,
+    required this.policeId,
+    this.initialAssignedEmployees,
+  });
+
   final int policeId;
+  final List<Employee>? initialAssignedEmployees;
+
+  @override
+  State<AddEmployeesToPoliceModelBottomSheet> createState() =>
+      _AddEmployeesToPoliceModelBottomSheetState();
+}
+
+class _AddEmployeesToPoliceModelBottomSheetState
+    extends State<AddEmployeesToPoliceModelBottomSheet> {
+  late List<String> initialAssignedIds;
+
+  @override
+  void initState() {
+    super.initState();
+    initialAssignedIds = widget.initialAssignedEmployees
+            ?.map((e) => e.id)
+            .whereType<String>()
+            .toList() ??
+        [];
+    context.read<ShiftsAndPolicesCubit>().employeesIds =
+        List<String>.from(initialAssignedIds);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +90,22 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                   backgroundColor: Colors.white,
                 ));
               } else if (state is GetAllEmployeesSuccess) {
+                final assignedSet = initialAssignedIds.toSet();
                 List<DropdownItem<String>> dropdownItems = List.generate(
-                    state.value.data!.length,
-                    (index) => DropdownItem<String>(
-                        label: state.value.data![index].name.toString(),
-                        value: state.value.data![index].id.toString()));
+                  state.value.data!.length,
+                  (index) {
+                    final emp = state.value.data![index];
+                    final empId = emp.id?.toString() ?? '';
+                    final empName =
+                        (emp.userName ?? emp.name ?? '').toString();
+                    return DropdownItem<String>(
+                      label: empName,
+                      value: empId,
+                      selected: assignedSet.contains(empId),
+                    );
+                  },
+                );
 
-                MultiSelectController<String>? controller;
                 return MultiDropdown<String>(
                   items: dropdownItems,
                   fieldDecoration: FieldDecoration(
@@ -78,7 +114,6 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                     ),
                     hintText: 'select employees'.tr(),
                   ),
-                  controller: controller,
                   enabled: true,
                   searchEnabled: true,
                   closeOnBackButton: true,
@@ -90,7 +125,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                   ),
                   chipDecoration: ChipDecoration(
                       backgroundColor: ColorsManger.primaryColor,
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Colors.white,
                       ),
                       wrap: true,
@@ -103,23 +138,13 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                       )),
                   onSelectionChange: (selectedItems) {
                     context.read<ShiftsAndPolicesCubit>().employeesIds =
-                        List<String>.generate(selectedItems.length,
-                            (index) => selectedItems[index]);
-                    if (context
-                        .read<ShiftsAndPolicesCubit>()
-                        .employeesIds
-                        .contains(List<String>.generate(selectedItems.length,
-                            (index) => selectedItems[index]))) {
-                      context.read<ShiftsAndPolicesCubit>().employeesIds.remove(
-                          List<String>.generate(selectedItems.length,
-                              (index) => selectedItems[index]));
-                    }
+                        List<String>.from(selectedItems);
                   },
                 );
               } else if (state is GetAllEmployeesFailure) {
                 return const Center(child: Text('Error'));
               }
-              return SizedBox.expand();
+              return const SizedBox.shrink();
             },
           ),
           verticalSpace(20),
@@ -131,8 +156,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                 showTopSnackBar(
                   Overlay.of(context),
                   CustomSnackBar.success(
-                    message:
-                        'Police assigned successfully'.tr(),
+                    message: 'Police assigned successfully'.tr(),
                   ),
                 );
               }
@@ -147,7 +171,7 @@ class AddEmployeesToPoliceModelBottomSheet extends StatelessWidget {
                 onPressed: () {
                   context
                       .read<ShiftsAndPolicesCubit>()
-                      .assignEmployeesToPolice(policeId: policeId);
+                      .assignEmployeesToPolice(policeId: widget.policeId);
                 },
               );
             },

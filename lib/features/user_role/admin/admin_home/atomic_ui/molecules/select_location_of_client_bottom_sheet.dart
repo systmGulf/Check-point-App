@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/common/google_places_search_service.dart';
+import '../../../../../../core/common/location_link_parser.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_app_button.dart';
@@ -171,8 +173,7 @@ class _SelectLocationOfClientBottomSheetState
                           showTopSnackBar(
                             Overlay.of(context),
                             CustomSnackBar.error(
-                              message:
-                                  'Please Select Location'.tr(),
+                              message: 'Please Select Location'.tr(),
                             ),
                           );
                         }
@@ -190,7 +191,7 @@ class _SelectLocationOfClientBottomSheetState
                 children: [
                   CustomAppTextFormField(
                     controller: _searchController,
-                    hint: 'Search Location'.tr(),
+                    hint: 'Search or paste location link'.tr(),
                     onChanged: _onSearchChanged,
                     suffixIcon: _isSearching
                         ? const Padding(
@@ -201,7 +202,17 @@ class _SelectLocationOfClientBottomSheetState
                               child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                           )
-                        : const Icon(Icons.search),
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.link),
+                                tooltip: 'Paste Link'.tr(),
+                                onPressed: _pasteAndParseLink,
+                              ),
+                              const Icon(Icons.search),
+                            ],
+                          ),
                   ),
                   if (_suggestions.isNotEmpty)
                     Container(
@@ -268,6 +279,15 @@ class _SelectLocationOfClientBottomSheetState
         .toSet();
   }
 
+  Future<void> _pasteAndParseLink() async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    final linkText = clipboardData?.text ?? _searchController.text;
+    if (linkText.isNotEmpty) {
+      _searchController.text = linkText;
+      _onSearchChanged(linkText);
+    }
+  }
+
   void _onSearchChanged(String value) {
     _debounce?.cancel();
     if (value.trim().isEmpty) {
@@ -278,10 +298,35 @@ class _SelectLocationOfClientBottomSheetState
       return;
     }
 
-    _debounce = Timer(const Duration(milliseconds: 400), () async {
+    _debounce = Timer(const Duration(milliseconds: 300), () async {
       setState(() {
         _isSearching = true;
       });
+
+      final parsedLatLng = await LocationLinkParser.parseLocation(value);
+      if (!mounted) return;
+
+      if (parsedLatLng != null) {
+        setState(() {
+          _suggestions = [];
+          _isSearching = false;
+          _draftLocations.add(
+            CustomerLocation(
+              latitude: parsedLatLng.latitude,
+              longitude: parsedLatLng.longitude,
+            ),
+          );
+          _rebuildMarkers();
+        });
+
+        await _mapController?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: parsedLatLng, zoom: 16),
+          ),
+        );
+        return;
+      }
+
       final suggestions = await _placesSearchService.autocomplete(value);
       if (!mounted) return;
       setState(() {

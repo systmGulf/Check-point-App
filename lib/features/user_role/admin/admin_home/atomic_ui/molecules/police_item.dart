@@ -80,7 +80,9 @@ class PoliceItem extends StatelessWidget {
                             ),
                             child: SingleChildScrollView(
                               child: AddEmployeesToPoliceModelBottomSheet(
-                                  policeId: policeId),
+                                policeId: policeId,
+                                initialAssignedEmployees: employees,
+                              ),
                             ),
                           ),
                         );

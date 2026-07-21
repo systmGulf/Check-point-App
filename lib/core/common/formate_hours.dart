@@ -1,15 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 
 String formatHour(String timeOut) {
-  int hour = int.parse(timeOut.split(':')[0]);
-
-  if (hour == 0) {
+  if (timeOut.isEmpty || timeOut == 'null') {
     return ' ${"No Time".tr()}';
-  } else if (hour == 12) {
-    return '12 ${"PM".tr()}';
-  } else if (hour > 12) {
-    return '${hour - 12} ${"PM".tr()}';
-  } else {
-    return '$hour ${"AM".tr()}';
+  }
+  try {
+    final parts = timeOut.split(':');
+    int hour = int.parse(parts[0]);
+    int minute = parts.length > 1 ? int.parse(parts[1]) : 0;
+
+    if (hour == 0 && minute == 0 && (timeOut == '00:00' || timeOut == '00:00:00')) {
+      return ' ${"No Time".tr()}';
+    }
+
+    String period = hour >= 12 ? "PM".tr() : "AM".tr();
+    int formattedHour = hour % 12;
+    if (formattedHour == 0) formattedHour = 12;
+
+    if (minute == 0) {
+      return '$formattedHour $period';
+    } else {
+      String minStr = minute < 10 ? '0$minute' : '$minute';
+      return '$formattedHour:$minStr $period';
+    }
+  } catch (e) {
+    return ' ${"No Time".tr()}';
   }
 }

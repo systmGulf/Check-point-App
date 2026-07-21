@@ -1,9 +1,8 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/helpers/extention.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/build_snake_bar.dart';
@@ -24,10 +23,20 @@ class AssignShiftsButtonBlocConsumer extends StatelessWidget {
     return BlocConsumer<ShiftsAndPolicesCubit, ShiftsAndPolicesState>(
       listener: (context, state) {
         if (state is AssignShiftSuccess) {
-       
-          buildSnackBar(context, customSnackBar: CustomSnackBar.success(message: 'Shifts assigned successfully'.tr()));
+          context.pop();
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.success(
+              message: 'Shifts assigned successfully'.tr(),
+            ),
+          );
         } else if (state is AssignShiftError) {
-          buildSnackBar(context, customSnackBar: CustomSnackBar.error(message: state.error));
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.error(
+              message: state.error,
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -39,11 +48,8 @@ class AssignShiftsButtonBlocConsumer extends StatelessWidget {
               backgroundColor: Colors.white,
             ),
           );
-        } 
-         else if (state is AssignShiftSuccess) {
-          context.pop();
         }
-        return  CustomAppButton(
+        return CustomAppButton(
           onPressed: () {
             context
                 .read<ShiftsAndPolicesCubit>()

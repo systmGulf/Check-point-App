@@ -12,11 +12,26 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
   const CheckInOrCheckOutWidget({
     super.key,
     required this.attendType,
+    this.checkInTime,
+    this.checkOutTime,
   });
+
   final String attendType;
+  final String? checkInTime;
+  final String? checkOutTime;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveCheckIn =
+        (checkInTime != null && checkInTime!.isNotEmpty && checkInTime != 'null')
+            ? checkInTime!
+            : ApiConstant.employeeCheckinTime;
+
+    final effectiveCheckOut =
+        (checkOutTime != null && checkOutTime!.isNotEmpty && checkOutTime != 'null')
+            ? checkOutTime!
+            : ApiConstant.employeeCheckoutTime;
+
     return FadeInRight(
       duration: const Duration(seconds: 1),
       child: Row(
@@ -28,11 +43,11 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
                   arguments: attendType);
             },
             child: CheckingHomeContainer(
-              time: ApiConstant.employeeCheckinTime == ''
+              time: effectiveCheckIn.isEmpty || effectiveCheckIn == 'null'
                   ? formatHour('00:00')
-                  : formatHour(ApiConstant.employeeCheckinTime),
+                  : formatHour(effectiveCheckIn),
               iconColor: Colors.black,
-              color: Color.fromARGB(255, 170, 236, 192),
+              color: const Color.fromARGB(255, 170, 236, 192),
               image: 'assets/images/tap.png',
               string: 'Check In'.tr(
                 context: context,
@@ -45,11 +60,11 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
                   arguments: attendType);
             },
             child: CheckingHomeContainer(
-              time: ApiConstant.employeeCheckoutTime == ''
+              time: effectiveCheckOut.isEmpty || effectiveCheckOut == 'null'
                   ? formatHour('00:00')
-                  : formatHour(ApiConstant.employeeCheckoutTime),
+                  : formatHour(effectiveCheckOut),
               iconColor: Colors.black,
-              color: Color.fromARGB(255, 230, 108, 99),
+              color: const Color.fromARGB(255, 230, 108, 99),
               image: 'assets/images/tap.png',
               string: 'Check Out'.tr(
                 context: context,

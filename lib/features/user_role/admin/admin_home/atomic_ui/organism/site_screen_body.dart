@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,6 +29,10 @@ class SiteScreenBody extends StatelessWidget {
           current is GetAllCustomersLoading),
       builder: (context, state) {
         if (state is GetAllCustomersSuccess) {
+          final List sites = (state.customers.data ?? [])
+              .where((c) => c.customerType == CustomerType.Site.name)
+              .toList();
+
           return RefreshIndicator(
             onRefresh: () async {
               context.read<CustomerCubit>().getCustomersByType(
@@ -66,59 +71,62 @@ class SiteScreenBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      childCount: state.customers.data!
-                          .where(
-                            (c) => c.customerType == CustomerType.Site.name,
-                          )
-                          .length, (
-                    BuildContext context,
-                    int index,
-                  ) {
-                    final List sites = state.customers.data!
-                        .where((c) => c.customerType == CustomerType.Site.name)
-                        .toList();
-                    return FadeInUp(
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: SitesItem(
-                          id: sites[index].id as String,
-                          name: sites[index].name as String,
-                          descritption: sites[index].workesAs as String,
-                          location: sites[index].location as String,
-                          onEdit: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20),
-                                ),
-                              ),
-                              builder: (BuildContext cnx) {
-                                return BlocProvider.value(
-                                  value: context.read<CustomerCubit>(),
-                                  child: AddSiteBottomSheet(
-                                    customerId: sites[index].id as String,
-                                    initialName: sites[index].name as String,
-                                    initialWorkedAs:
-                                        sites[index].workesAs as String,
-                                    initialLocation:
-                                        sites[index].location as String,
-                                    initialCoordinates:
-                                        sites[index].coordinates
-                                            as List<CustomerCoordinates>?,
+                if (sites.isEmpty)
+                  const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: NoDataFound(),
+                    ),
+                  )
+                else
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: sites.length,
+                      (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        return FadeInUp(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: SitesItem(
+                              id: sites[index].id as String,
+                              name: sites[index].name as String,
+                              descritption: sites[index].workesAs as String,
+                              location: sites[index].location as String,
+                              onEdit: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20),
+                                    ),
                                   ),
+                                  builder: (BuildContext cnx) {
+                                    return BlocProvider.value(
+                                      value: context.read<CustomerCubit>(),
+                                      child: AddSiteBottomSheet(
+                                        customerId: sites[index].id as String,
+                                        initialName: sites[index].name as String,
+                                        initialWorkedAs:
+                                            sites[index].workesAs as String,
+                                        initialLocation:
+                                            sites[index].location as String,
+                                        initialCoordinates:
+                                            sites[index].coordinates
+                                                as List<CustomerCoordinates>?,
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  }),
-                ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
           );
@@ -140,7 +148,7 @@ class SiteScreenBody extends StatelessWidget {
                   ],
                 );
         } else {
-          return Container();
+          return const SizedBox.shrink();
         }
       },
     );

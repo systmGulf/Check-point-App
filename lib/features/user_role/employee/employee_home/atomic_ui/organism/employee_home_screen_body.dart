@@ -30,6 +30,16 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
   int selectedIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<LoginCubit>().getEmployeeById();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<String> checkingText = [
       'Office'.tr(),
@@ -57,6 +67,7 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
               BlocProvider.of<GetEmployeeHistoryCubit>(context)
                   .getEmployeeHistory();
               BlocProvider.of<EmployeeTasksCubit>(context).getMyTasks();
+              BlocProvider.of<LoginCubit>(context).getEmployeeById();
             },
             child: ListView(
               physics: const BouncingScrollPhysics(),
@@ -107,12 +118,20 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                         current is GetEmployeeLoading ||
                         current is GetEmployeeFailure,
                     builder: (context, state) {
+                      String? checkIn;
+                      String? checkOut;
+                      if (state is GetEmployeeSuccess) {
+                        checkIn = state.employeeLoginModel.clockInTime;
+                        checkOut = state.employeeLoginModel.clockOutTime;
+                      }
                       return CheckInOrCheckOutWidget(
                         attendType: selectedIndex == 0
                             ? 'Office'
                             : selectedIndex == 1
                                 ? 'Customer'
                                 : 'Site',
+                        checkInTime: checkIn,
+                        checkOutTime: checkOut,
                       );
                     },
                   ),

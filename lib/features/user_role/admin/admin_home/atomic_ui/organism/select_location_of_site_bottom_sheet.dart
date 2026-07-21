@@ -9,6 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
 import '../../../../../../core/common/google_places_search_service.dart';
+import '../../../../../../core/common/location_link_parser.dart';
+import 'package:flutter/services.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
@@ -103,7 +105,7 @@ class _SelectLocationOfSiteBottomSheetState
                 verticalSpace(12),
                 CustomAppTextFormField(
                   controller: _searchController,
-                  hint: 'Search Location'.tr(),
+                  hint: 'Search or paste location link'.tr(),
                   onChanged: _onSearchChanged,
                   suffixIcon: _isSearching
                       ? const Padding(
@@ -114,7 +116,17 @@ class _SelectLocationOfSiteBottomSheetState
                             child: CircularProgressIndicator(strokeWidth: 2),
                           ),
                         )
-                      : const Icon(Icons.search),
+                      : Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.link),
+                              tooltip: 'Paste Link'.tr(),
+                              onPressed: _pasteAndParseLink,
+                            ),
+                            const Icon(Icons.search),
+                          ],
+                        ),
                 ),
                 if (_suggestions.isNotEmpty)
                   Container(
@@ -346,6 +358,15 @@ class _SelectLocationOfSiteBottomSheetState
     }
   }
 
+  Future<void> _pasteAndParseLink() async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    final linkText = clipboardData?.text ?? _searchController.text;
+    if (linkText.isNotEmpty) {
+      _searchController.text = linkText;
+      _onSearchChanged(linkText);
+    }
+  }
+
   void _onSearchChanged(String value) {
     _debounce?.cancel();
     if (value.trim().isEmpty) {
@@ -356,10 +377,32 @@ class _SelectLocationOfSiteBottomSheetState
       return;
     }
 
-    _debounce = Timer(const Duration(milliseconds: 400), () async {
+    _debounce = Timer(const Duration(milliseconds: 300), () async {
       setState(() {
         _isSearching = true;
       });
+
+      final parsedLatLng = await LocationLinkParser.parseLocation(value);
+      if (!mounted) return;
+
+      if (parsedLatLng != null) {
+        setState(() {
+          _suggestions = [];
+          _isSearching = false;
+          points.add(parsedLatLng);
+          _rebuildMapState();
+        });
+
+        await _mapController?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: parsedLatLng, zoom: 16),
+          ),
+        );
+
+        _setAddressFromFirstPoint();
+        return;
+      }
+
       final suggestions = await _placesSearchService.autocomplete(value);
       if (!mounted) return;
       setState(() {
