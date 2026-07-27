@@ -92,13 +92,14 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   // customer or site plan feedback
   Future<void> addPlanFeedback(
-      {required int CustomerId,}) async {
+      {required int CustomerId, String status = 'Done'}) async {
     emit(AddPlanFeedbackLoading());
     final result = await employeeAttendanceRepo.addPlanFeedBack(
       planFeedBackRequestBody: PlanFeedBackRequestBody(
           imageUrl: selectedImage,
           notes: planFeedbackController.text,
-          customerPlanId: CustomerId),
+          customerPlanId: CustomerId,
+          status: status),
     );
     result.fold((l) {
       if (isClosed) return;

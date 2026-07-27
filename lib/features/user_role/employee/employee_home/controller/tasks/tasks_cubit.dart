@@ -18,7 +18,17 @@ class EmployeeTasksCubit extends Cubit<EmployeeTasksState> {
     result.fold((l) {
       emit(GetMyTasksError(l.message));
     }, (r) {
-      emit(GetMyTasksSuccess(r));
+      final List<GetTasData> tasksList = (r.value?.employeeTasks ?? [])
+          .map((task) => GetTasData(
+                id: task.id,
+                title: task.title,
+                description: task.description,
+                dueDate: task.dueDate,
+                priorityStatus: task.priorityStatus,
+                status: task.status,
+              ))
+          .toList();
+      emit(GetMyTasksSuccess(tasksList));
     });
   }
 
