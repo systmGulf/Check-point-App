@@ -81,7 +81,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                             child: Text(
                               cubit.clockInTime.isEmpty
                                   ? 'From'.tr()
-                                  : cubit.clockInTime.substring(0, 5),
+                                  : formatTime12Hour(cubit.clockInTime),
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -105,7 +105,7 @@ Future<dynamic> buildAddPoliceTimeDialog(
                             child: Text(
                               cubit.clockOutTime.isEmpty
                                   ? 'To'.tr()
-                                  : cubit.clockOutTime.substring(0, 5),
+                                  : formatTime12Hour(cubit.clockOutTime),
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -169,4 +169,19 @@ Future<dynamic> buildAddPoliceTimeDialog(
       name: 'AddPoliceTimeDialog',
     ),
   );
+}
+
+String formatTime12Hour(String timeStr) {
+  if (timeStr.isEmpty) return '';
+  try {
+    final parts = timeStr.split(':');
+    final int hour = int.parse(parts[0]);
+    final int minute = int.parse(parts[1]);
+    final String period = hour >= 12 ? 'PM' : 'AM';
+    final int hour12 = hour % 12 == 0 ? 12 : hour % 12;
+    final String minuteStr = minute.toString().padLeft(2, '0');
+    return '$hour12:$minuteStr $period';
+  } catch (e) {
+    return timeStr;
+  }
 }
