@@ -25,7 +25,7 @@
 
     <application
        
-        android:label="Check Point"
+        android:label="Demo"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/launcher_icon">
