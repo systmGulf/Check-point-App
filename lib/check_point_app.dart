@@ -16,6 +16,7 @@ import 'core/routing/routes.dart';
 import 'core/widgets/permission_screen.dart';
 import 'features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
 import 'features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
+import 'core/improvements/dynamic_theme_cubit.dart';
 
 class CheckPointApp extends StatefulWidget {
   const CheckPointApp({super.key});
@@ -106,37 +107,44 @@ class _CheckPointAppState extends State<CheckPointApp>
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocProvider(
-        create: (context) => getIt<LeaveApplicationCubit>(),
-        child: GestureDetector(
-          onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus &&
-                currentFocus.focusedChild != null) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            }
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt<LeaveApplicationCubit>()),
+          BlocProvider(create: (context) => DynamicThemeCubit()),
+        ],
+        child: BlocBuilder<DynamicThemeCubit, DynamicThemeState>(
+          builder: (context, themeState) {
+            return GestureDetector(
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus &&
+                    currentFocus.focusedChild != null) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
+              child: MaterialApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                theme: ThemeData(
+                  fontFamily: 'Cairo',
+                  scaffoldBackgroundColor: ColorsManger.scaffoldBackgroundColor,
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: themeState.primaryColor,
+                    brightness: Brightness.light,
+                  ),
+                  appBarTheme: AppBarTheme(
+                    backgroundColor: ColorsManger.scaffoldBackgroundColor,
+                    foregroundColor: ColorsManger.lightblack,
+                    surfaceTintColor: Colors.transparent,
+                  ),
+                ),
+                debugShowCheckedModeBanner: false,
+                initialRoute: Routes.splash,
+                onGenerateRoute: AppRouter.onGenerateRoute,
+              ),
+            );
           },
-          child: MaterialApp(
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            theme: ThemeData(
-              fontFamily: 'Cairo',
-              scaffoldBackgroundColor: ColorsManger.scaffoldBackgroundColor,
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: ColorsManger.primaryColor,
-                brightness: Brightness.light,
-              ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: ColorsManger.scaffoldBackgroundColor,
-                foregroundColor: ColorsManger.lightblack,
-                surfaceTintColor: Colors.transparent,
-              ),
-            ),
-            debugShowCheckedModeBanner: false,
-            initialRoute: Routes.splash,
-            onGenerateRoute: AppRouter.onGenerateRoute,
-          ),
         ),
       ),
     );
