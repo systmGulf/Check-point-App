@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 
 import '../../features/intro/presentation/cubit/register_account/register_account_cubit.dart';
 import '../../features/intro/presentation/views/screen/on_boarding_screen.dart';
@@ -368,9 +369,18 @@ abstract class AppRouter {
         );
       case Routes.allUsersScreen:
         return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<EmployeeCubit>()
-              ..getAllEmployees(pageNumber: 0, itemCount: 10),
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<EmployeeCubit>()
+                  ..getAllEmployees(pageNumber: 0, itemCount: 10),
+              ),
+              BlocProvider(
+                create: (context) => ShiftsAndPolicesCubit(
+                  shiftsAndPolicesRepo: getIt<ShiftsAndPolicesRepo>(),
+                )..getShifts(isLoading: true),
+              ),
+            ],
             child: AllUsersScreen(
               addAccountRequestValue:
                   settings.arguments as AddAccountRequestData?,

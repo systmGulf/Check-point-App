@@ -17,18 +17,46 @@ class UserItemListView extends StatelessWidget {
   const UserItemListView({
     super.key,
     required this.userItemEntity,
+    this.isSelected = false,
+    this.isSelectionMode = false,
+    this.onSelectedChanged,
   });
   final UserItemEntity userItemEntity;
+  final bool isSelected;
+  final bool isSelectionMode;
+  final ValueChanged<bool?>? onSelectedChanged;
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedCardWidget(
-      backgroundColor: Colors.white,
-      elevation: 2,
-      borderRadius: BorderRadius.circular(12),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          UserImage(height: 50, imageUrl: userItemEntity.imageUrl),
+    return GestureDetector(
+      onLongPress: () {
+        if (onSelectedChanged != null) {
+          onSelectedChanged!(!isSelected);
+        }
+      },
+      onTap: () {
+        if (isSelectionMode) {
+          if (onSelectedChanged != null) {
+            onSelectedChanged!(!isSelected);
+          }
+        }
+      },
+      child: AnimatedCardWidget(
+        backgroundColor: Colors.white,
+        elevation: 2,
+        borderRadius: BorderRadius.circular(12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(
+          children: [
+            if (isSelectionMode) ...[
+              Checkbox(
+                value: isSelected,
+                activeColor: ColorsManger.primaryColor,
+                onChanged: onSelectedChanged,
+              ),
+              horizontalSpace(10),
+            ],
+            UserImage(height: 50, imageUrl: userItemEntity.imageUrl),
           horizontalSpace(20),
           Expanded(
             flex: 4,
@@ -74,33 +102,35 @@ class UserItemListView extends StatelessWidget {
               ],
             ),
           ),
-          horizontalSpace(12),
-          AppActionIconButton.edit(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return BlocProvider(
-                      create: (context) => getIt<EmployeeCubit>(),
-                      child: EditUser(
-                        userItemEntity: userItemEntity,
-                      ),
-                    );
-                  },
-                ),
-              ).then((value) {
-                context
-                    .read<EmployeeCubit>()
-                    .getAllEmployees(pageNumber: 0, itemCount: 10);
-              });
-            },
-          ),
-          horizontalSpace(8),
-          AppActionIconButton.delete(
-            onPressed: userItemEntity.onDelete,
-          ),
+          if (!isSelectionMode) ...[
+            horizontalSpace(12),
+            AppActionIconButton.edit(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => getIt<EmployeeCubit>(),
+                        child: EditUser(
+                          userItemEntity: userItemEntity,
+                        ),
+                      );
+                    },
+                  ),
+                ).then((value) {
+                  context
+                      .read<EmployeeCubit>()
+                      .getAllEmployees(pageNumber: 0, itemCount: 10);
+                });
+              },
+            ),
+            horizontalSpace(8),
+            AppActionIconButton.delete(
+              onPressed: userItemEntity.onDelete,
+            ),
+          ],
         ],
       ),
-    );
+    ),);
   }
 }

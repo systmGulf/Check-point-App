@@ -531,5 +531,15 @@
   "filter.lastYear": "Last year",
   "filter.custom": "Custom",
   "Reset Filters": "Reset Filters",
-  "Add another user": "Add another user"
+  "Add another user": "Add another user",
+  "Select Shift to Assign": "Select Shift to Assign",
+  "This shift has no active policy configured. Add a policy to this shift first.": "This shift has no active policy configured. Add a policy to this shift first.",
+  "Employees assigned to shift successfully": "Employees assigned to shift successfully",
+  "An error occurred during shift assignment": "An error occurred during shift assignment",
+  "No shifts available": "No shifts available",
+  "Assign": "Assign",
+  "Cancel": "Cancel",
+  "Selected": "Selected",
+  "Clear": "Clear",
+  "Assign Shift": "Assign Shift"
 }

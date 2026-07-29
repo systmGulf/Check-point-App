@@ -530,5 +530,15 @@
   "filter.lastYear": "آخر سنة",
   "filter.custom": "مخصص",
   "Reset Filters": "إعادة تعيين الفلاتر",
-  "Add another user": "إضافة مستخدم آخر"
+  "Add another user": "إضافة مستخدم آخر",
+  "Select Shift to Assign": "اختر الوردية للتعيين",
+  "This shift has no active policy configured. Add a policy to this shift first.": "هذه الوردية ليس لها سياسة نشطة مضافة. يرجى إضافة سياسة لهذه الوردية أولاً.",
+  "Employees assigned to shift successfully": "تم تعيين الموظفين للوردية بنجاح",
+  "An error occurred during shift assignment": "حدث خطأ أثناء تعيين الوردية",
+  "No shifts available": "لا توجد ورديات متاحة",
+  "Assign": "تعيين",
+  "Cancel": "إلغاء",
+  "Selected": "المحدد",
+  "Clear": "مسح",
+  "Assign Shift": "تعيين الوردية"
 }
