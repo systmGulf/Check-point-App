@@ -127,7 +127,19 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomScrollView(
                   slivers: [
-                    const SliverToBoxAdapter(child: UsersListHeader()),
+                    SliverToBoxAdapter(
+                      child: UsersListHeader(
+                        isSelectionMode: _isSelectionMode,
+                        onSelectionModeToggled: () {
+                          setState(() {
+                            _isSelectionMode = !_isSelectionMode;
+                            if (!_isSelectionMode) {
+                              _selectedEmployeeIds.clear();
+                            }
+                          });
+                        },
+                      ),
+                     ),
                     PagingListener(
                       controller: _pagingController,
                       builder: (context, state, fetchNextPage) {

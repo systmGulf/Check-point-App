@@ -13,7 +13,14 @@ import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../atoms/delete_user_bloc_listener.dart';
 
 class UsersListHeader extends StatelessWidget {
-  const UsersListHeader({super.key});
+  const UsersListHeader({
+    super.key,
+    this.isSelectionMode = false,
+    this.onSelectionModeToggled,
+  });
+
+  final bool isSelectionMode;
+  final VoidCallback? onSelectionModeToggled;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +63,17 @@ class UsersListHeader extends StatelessWidget {
               const Spacer(),
               _buildEmployeeCountBadge(context),
               horizontalSpace(8),
+              if (onSelectionModeToggled != null) ...[
+                IconButton(
+                  onPressed: onSelectionModeToggled,
+                  icon: Icon(
+                    isSelectionMode ? Icons.check_box : Icons.checklist_outlined,
+                    size: 20.sp,
+                    color: ColorsManger.primaryColor,
+                  ),
+                ),
+                horizontalSpace(8),
+              ],
               IconButton(
                 onPressed: () {
                   context.read<EmployeeCubit>().exportEmployeesToExcel();
