@@ -20,6 +20,7 @@ class AllUsersScreen extends StatefulWidget {
 
 class _AllUsersScreenState extends State<AllUsersScreen> {
   bool _isBottomSheetOpened = false;
+  bool _isSelectionMode = false;
 
   @override
   void didChangeDependencies() {
@@ -56,35 +57,43 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingActionButton(
-        text: 'Add User'.tr(),
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
+      floatingActionButton: _isSelectionMode
+          ? null
+          : CustomFloatingActionButton(
+              text: 'Add User'.tr(),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (cnx) {
+                    return BlocProvider.value(
+                      value: context.read<EmployeeCubit>(),
+                      child: AddEmployeeBottomSheet(
+                        name: widget.addAccountRequestValue?.name,
+                        mobileId: widget.addAccountRequestValue?.mobileId,
+                        deviceToken: widget.addAccountRequestValue?.deviceToken,
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-            builder: (cnx) {
-              return BlocProvider.value(
-                value: context.read<EmployeeCubit>(),
-                child: AddEmployeeBottomSheet(
-                  name: widget.addAccountRequestValue?.name,
-                  mobileId: widget.addAccountRequestValue?.mobileId,
-                  deviceToken: widget.addAccountRequestValue?.deviceToken,
-                ),
-              );
-            },
-          );
-        },
-      ),
       appBar: buildCustomAppBar(
         context,
         'All Users'.tr(),
       ),
-      body: const AllUsersListView(),
+      body: AllUsersListView(
+        onSelectionModeChanged: (val) {
+          setState(() {
+            _isSelectionMode = val;
+          });
+        },
+      ),
     );
   }
 }

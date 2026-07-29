@@ -21,7 +21,8 @@ import 'user_search_results_list.dart';
 import 'users_list_header.dart';
 
 class AllUsersListView extends StatefulWidget {
-  const AllUsersListView({super.key});
+  final ValueChanged<bool>? onSelectionModeChanged;
+  const AllUsersListView({super.key, this.onSelectionModeChanged});
 
   @override
   State<AllUsersListView> createState() => _AllUsersListViewState();
@@ -37,11 +38,15 @@ class _AllUsersListViewState extends State<AllUsersListView> {
     setState(() {
       if (selected) {
         _selectedEmployeeIds.add(id);
-        _isSelectionMode = true;
+        if (!_isSelectionMode) {
+          _isSelectionMode = true;
+          widget.onSelectionModeChanged?.call(true);
+        }
       } else {
         _selectedEmployeeIds.remove(id);
         if (_selectedEmployeeIds.isEmpty) {
           _isSelectionMode = false;
+          widget.onSelectionModeChanged?.call(false);
         }
       }
     });
@@ -51,6 +56,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
     setState(() {
       _selectedEmployeeIds.clear();
       _isSelectionMode = false;
+      widget.onSelectionModeChanged?.call(false);
     });
   }
 
@@ -133,6 +139,7 @@ class _AllUsersListViewState extends State<AllUsersListView> {
                         onSelectionModeToggled: () {
                           setState(() {
                             _isSelectionMode = !_isSelectionMode;
+                            widget.onSelectionModeChanged?.call(_isSelectionMode);
                             if (!_isSelectionMode) {
                               _selectedEmployeeIds.clear();
                             }
