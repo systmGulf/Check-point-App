@@ -42,7 +42,7 @@ class UserImage extends StatelessWidget {
                     'assets/animated_images/profile_image.json',
                   ),
                   image: NetworkImage(
-                    "http://emsdemo.runasp.net${imageUrl!}",
+                    "http://emstothrms.runasp.net${imageUrl!}",
                     scale: 1.0,
                   ),
                 )

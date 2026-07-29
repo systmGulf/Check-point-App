@@ -32,7 +32,7 @@ Future<dynamic> buildShowEmployeeImageDialog(BuildContext context,
                 CachedNetworkImage(
                   height: MediaQuery.sizeOf(context).height * 0.46,
                   fit: BoxFit.fill,
-                  imageUrl: "http://emsdemo.runasp.net$employeeImage",
+                  imageUrl: "http://emstothrms.runasp.net$employeeImage",
                   placeholder: (context, url) => Center(
                       child: CircularProgressIndicator(
                     color: ColorsManger.primaryColor,
