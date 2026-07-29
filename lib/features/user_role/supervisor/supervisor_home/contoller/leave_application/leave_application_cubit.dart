@@ -49,8 +49,8 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
     emit(ApproveOrRejectLeaveApplicationLoading());
     final result = await supervisorRepo.approveOrRejectLeaveRequest(
       body: ChangeRequestLeaveStatus(
-        status: status,
         leaveRequestId: id,
+        status: status,
       ),
     );
     result.fold(
