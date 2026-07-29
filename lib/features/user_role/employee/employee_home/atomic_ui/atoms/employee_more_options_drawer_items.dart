@@ -8,6 +8,7 @@ import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../molecules/more_option_item.dart';
 import 'option_drawer_item.dart';
+import '../../../../../../core/improvements/theme_picker_dialog.dart';
 
 List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
   return [
@@ -125,6 +126,24 @@ List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
         padding: EdgeInsetsDirectional.only(start: 19.w),
         child: Text(
           'My Tasks'.tr(
+            context: context,
+          ),
+          style: AppStylesManger.font18RegulerBlack,
+        ),
+      ),
+    ),
+    verticalSpace(20),
+    InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (dialogCtx) => const ThemePickerDialog(),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 19.w),
+        child: Text(
+          'Change Theme Color'.tr(
             context: context,
           ),
           style: AppStylesManger.font18RegulerBlack,
