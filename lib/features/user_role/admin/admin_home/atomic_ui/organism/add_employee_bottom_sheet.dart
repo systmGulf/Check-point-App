@@ -57,6 +57,7 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
 
     BlocProvider.of<EmployeeCubit>(context).positionController =
         TextEditingController();
+    BlocProvider.of<EmployeeCubit>(context).addAnother = false;
     mobileIdController = BlocProvider.of<EmployeeCubit>(context)
         .mobileIdController
       ..text = widget.mobileId ?? '';
@@ -255,6 +256,25 @@ class _AddEmployeeBottomSheetState extends State<AddEmployeeBottomSheet> {
                               return Container();
                             }
                           }),
+                      verticalSpace(7),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                            value: BlocProvider.of<EmployeeCubit>(context).addAnother,
+                            activeColor: ColorsManger.primaryColor,
+                            onChanged: (val) {
+                              setState(() {
+                                BlocProvider.of<EmployeeCubit>(context).addAnother = val ?? false;
+                              });
+                            },
+                          ),
+                          Text(
+                            'Add another user'.tr(),
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
                       verticalSpace(7),
                       FadeInUp(
                         child: CustomAppButton(

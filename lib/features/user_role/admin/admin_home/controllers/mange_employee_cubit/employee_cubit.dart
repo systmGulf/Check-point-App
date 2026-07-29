@@ -23,6 +23,15 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   TextEditingController editPasswordController = TextEditingController();
   TextEditingController editPositionController = TextEditingController();
   TextEditingController editMobileIdController = TextEditingController();
+  bool addAnother = false;
+
+  void clearControllers() {
+    nameController.clear();
+    usernameController.clear();
+    passwordController.clear();
+    positionController.clear();
+    mobileIdController.clear();
+  }
 
   int? totalEmployeesCount;
   int? totalAccountRequestsCount;

@@ -529,5 +529,6 @@
   "filter.last180Days": "آخر 180 يومًا",
   "filter.lastYear": "آخر سنة",
   "filter.custom": "مخصص",
-  "Reset Filters": "إعادة تعيين الفلاتر"
+  "Reset Filters": "إعادة تعيين الفلاتر",
+  "Add another user": "إضافة مستخدم آخر"
 }

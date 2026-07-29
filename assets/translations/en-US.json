@@ -530,5 +530,6 @@
   "filter.last180Days": "Last 180 days",
   "filter.lastYear": "Last year",
   "filter.custom": "Custom",
-  "Reset Filters": "Reset Filters"
+  "Reset Filters": "Reset Filters",
+  "Add another user": "Add another user"
 }

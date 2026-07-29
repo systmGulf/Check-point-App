@@ -29,19 +29,27 @@ class AddEmployeeBlocListener extends StatelessWidget {
             current is AddEmployeeLoading,
         listener: (context, state) {
           if (state is AddEmployeeSuccess) {
-            context.pop();
-            context.pop();
+            context.pop(); // Pop loading dialog
 
-            showTopSnackBar(
-              Overlay.of(context),
-              CustomSnackBar.success(
-                message: 'User Added Successfully'.tr(),
-                // backgroundColor: Colors.red,
-              ),
-            );
-            context
-                .read<EmployeeCubit>()
-                .deleteAddAccountRequest(id: requestId);
+            final cubit = context.read<EmployeeCubit>();
+            if (cubit.addAnother) {
+              cubit.clearControllers();
+              showTopSnackBar(
+                Overlay.of(context),
+                CustomSnackBar.success(
+                  message: 'User Added Successfully'.tr(),
+                ),
+              );
+            } else {
+              context.pop(); // Pop bottom sheet
+              showTopSnackBar(
+                Overlay.of(context),
+                CustomSnackBar.success(
+                  message: 'User Added Successfully'.tr(),
+                ),
+              );
+            }
+            cubit.deleteAddAccountRequest(id: requestId);
             getIt<NotificationRepo>().sendSingleNotification(
                 token: deviceToken,
                 title: 'you account has been created by admin'
