@@ -47,7 +47,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
             ],
           ),
           child: Image.asset(
-            Assets.VodafoneImage,
+            Assets.AppLogoImage,
             fit: BoxFit.contain,
           ),
         ),

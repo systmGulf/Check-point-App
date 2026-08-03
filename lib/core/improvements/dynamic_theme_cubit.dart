@@ -23,11 +23,23 @@ class DynamicThemeCubit extends Cubit<DynamicThemeState> {
     final cachedPrimary = prefs.getInt('theme_primary_color');
     final cachedLight = prefs.getInt('theme_light_color');
     if (cachedPrimary != null && cachedLight != null) {
-      final pColor = Color(cachedPrimary);
-      final lColor = Color(cachedLight);
-      ColorsManger.primaryColor = pColor;
-      ColorsManger.primaryColorLight = lColor;
-      emit(DynamicThemeState(primaryColor: pColor, primaryColorLight: lColor));
+      if (cachedPrimary == 0XFFF97316 || cachedPrimary == 4294538006) {
+        // Upgrade legacy orange cache to new Art Attack Gold theme
+        ColorsManger.primaryColor = const Color(0xFFDA9F2A);
+        ColorsManger.primaryColorLight = const Color(0xFFE8BE6B);
+        await prefs.setInt('theme_primary_color', ColorsManger.primaryColor.value);
+        await prefs.setInt('theme_light_color', ColorsManger.primaryColorLight.value);
+        emit(DynamicThemeState(
+          primaryColor: ColorsManger.primaryColor,
+          primaryColorLight: ColorsManger.primaryColorLight,
+        ));
+      } else {
+        final pColor = Color(cachedPrimary);
+        final lColor = Color(cachedLight);
+        ColorsManger.primaryColor = pColor;
+        ColorsManger.primaryColorLight = lColor;
+        emit(DynamicThemeState(primaryColor: pColor, primaryColorLight: lColor));
+      }
     }
   }
 
