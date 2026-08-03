@@ -25,7 +25,7 @@
 
     <application
        
-        android:label="Demo"
+        android:label="Art Attack"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/launcher_icon">
