@@ -1,7 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:employee_mangement/core/common/formate_hours.dart';
 import 'package:flutter/material.dart';
+
 import 'package:hr_management_system_package/core/networking/api_constant.dart';
 
 import '../../../../../../core/helpers/extention.dart';
@@ -14,11 +15,13 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
     required this.attendType,
     this.checkInTime,
     this.checkOutTime,
+    this.onTypeChanged,
   });
 
   final String attendType;
   final String? checkInTime;
   final String? checkOutTime;
+  final Function(String)? onTypeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +42,10 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.pushName(Routes.employeeCheckInScreen,
-                  arguments: attendType);
+              context.pushName(
+                Routes.employeeCheckInScreen,
+                arguments: attendType,
+              );
             },
             child: CheckingHomeContainer(
               time: effectiveCheckIn.isEmpty || effectiveCheckIn == 'null'
@@ -56,8 +61,10 @@ class CheckInOrCheckOutWidget extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              context.pushName(Routes.employeeCheckOutScreen,
-                  arguments: attendType);
+              context.pushName(
+                Routes.employeeCheckOutScreen,
+                arguments: attendType,
+              );
             },
             child: CheckingHomeContainer(
               time: effectiveCheckOut.isEmpty || effectiveCheckOut == 'null'

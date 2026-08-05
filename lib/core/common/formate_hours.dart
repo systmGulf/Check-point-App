@@ -4,12 +4,25 @@ String formatHour(String timeOut) {
   if (timeOut.isEmpty || timeOut == 'null') {
     return ' ${"No Time".tr()}';
   }
-  try {
-    final parts = timeOut.split(':');
-    int hour = int.parse(parts[0]);
-    int minute = parts.length > 1 ? int.parse(parts[1]) : 0;
+  
+  final trimmed = timeOut.trim();
+  final upper = trimmed.toUpperCase();
+  if (upper.contains('AM') || upper.contains('PM')) {
+    return trimmed;
+  }
 
-    if (hour == 0 && minute == 0 && (timeOut == '00:00' || timeOut == '00:00:00')) {
+  try {
+    final parts = trimmed.split(':');
+    if (parts.isEmpty) return ' ${"No Time".tr()}';
+    
+    int hour = int.parse(parts[0].trim());
+    int minute = 0;
+    if (parts.length > 1) {
+      final minPart = parts[1].trim().split(' ').first;
+      minute = int.parse(minPart);
+    }
+
+    if (hour == 0 && minute == 0 && (trimmed == '00:00' || trimmed == '00:00:00')) {
       return ' ${"No Time".tr()}';
     }
 
@@ -17,13 +30,9 @@ String formatHour(String timeOut) {
     int formattedHour = hour % 12;
     if (formattedHour == 0) formattedHour = 12;
 
-    if (minute == 0) {
-      return '$formattedHour $period';
-    } else {
-      String minStr = minute < 10 ? '0$minute' : '$minute';
-      return '$formattedHour:$minStr $period';
-    }
+    String minStr = minute < 10 ? '0$minute' : '$minute';
+    return '$formattedHour:$minStr $period';
   } catch (e) {
-    return ' ${"No Time".tr()}';
+    return trimmed;
   }
 }

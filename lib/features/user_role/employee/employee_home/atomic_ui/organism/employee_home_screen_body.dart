@@ -1,7 +1,9 @@
-import 'package:easy_localization/easy_localization.dart' as el;
+import 'dart:ui' as ui;
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_switcher/slide_switcher.dart';
 
@@ -11,6 +13,7 @@ import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
+import '../../controller/attendence/attendence_cubit.dart';
 import '../../controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../controller/tasks/tasks_cubit.dart';
 import '../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
@@ -35,6 +38,7 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<LoginCubit>().getEmployeeById();
+        context.read<GetEmployeeHistoryCubit>().getEmployeeHistory(pageNumber: 0);
       }
     });
   }
@@ -78,33 +82,36 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                   delayDuration: Duration(milliseconds: 100),
                   child: GetEmployeeDataInEmployeeHomeScreenBlocBuilder(),
                 ),
+                verticalSpace(15),
                 AnimatedByWidgetType(
                   widgetType: WidgetAnimationType.container,
                   delayDuration: const Duration(milliseconds: 200),
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: SlideSwitcher(
-                      initialIndex: selectedIndex,
-                      onSelect: (index) {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      containerColor: ColorsManger.primaryColor,
-                      slidersBorder:
-                          Border.all(color: ColorsManger.primaryColor),
-                      containerHeight: 40.h,
-                      containerWight: MediaQuery.sizeOf(context).width / 1.2,
-                      children: List.generate(3, (index) {
-                        return Text(
-                          checkingText[index],
-                          style: AppStylesManger.font18BoldBlack.copyWith(
-                            color: selectedIndex == index
-                                ? ColorsManger.primaryColor
-                                : Colors.white,
-                          ),
-                        );
-                      }),
+                  child: Center(
+                    child: Directionality(
+                      textDirection: ui.TextDirection.ltr,
+                      child: SlideSwitcher(
+                        initialIndex: selectedIndex,
+                        onSelect: (index) {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+                        },
+                        containerColor: ColorsManger.primaryColor,
+                        slidersBorder:
+                            Border.all(color: ColorsManger.primaryColor),
+                        containerHeight: 40.h,
+                        containerWight: MediaQuery.sizeOf(context).width / 1.2,
+                        children: List.generate(3, (index) {
+                          return Text(
+                            checkingText[index],
+                            style: AppStylesManger.font18BoldBlack.copyWith(
+                              color: selectedIndex == index
+                                  ? ColorsManger.primaryColor
+                                  : Colors.white,
+                            ),
+                          );
+                        }),
+                      ),
                     ),
                   ),
                 ),
@@ -112,28 +119,90 @@ class _EmployeeHomeScreenBodyState extends State<EmployeeHomeScreenBody> {
                 AnimatedByWidgetType(
                   widgetType: WidgetAnimationType.container,
                   delayDuration: const Duration(milliseconds: 300),
-                  child: BlocBuilder<LoginCubit, LoginState>(
-                    buildWhen: (previous, current) =>
-                        current is GetEmployeeSuccess ||
-                        current is GetEmployeeLoading ||
-                        current is GetEmployeeFailure,
-                    builder: (context, state) {
-                      String? checkIn;
-                      String? checkOut;
-                      if (state is GetEmployeeSuccess) {
-                        checkIn = state.employeeLoginModel.clockInTime;
-                        checkOut = state.employeeLoginModel.clockOutTime;
+                  child: BlocListener<AttendanceCubit, AttendanceState>(
+                    listener: (context, attendanceState) {
+                      if (attendanceState is AttendanceIneDone ||
+                          attendanceState is AttendanceOutedDone) {
+                        context.read<LoginCubit>().getEmployeeById();
+                        context
+                            .read<GetEmployeeHistoryCubit>()
+                            .getEmployeeHistory(pageNumber: 0);
                       }
-                      return CheckInOrCheckOutWidget(
-                        attendType: selectedIndex == 0
-                            ? 'Office'
-                            : selectedIndex == 1
-                                ? 'Customer'
-                                : 'Site',
-                        checkInTime: checkIn,
-                        checkOutTime: checkOut,
-                      );
                     },
+                    child: BlocBuilder<GetEmployeeHistoryCubit, GetEmployeeHistoryState>(
+                      builder: (context, historyState) {
+                        String? historyCheckIn;
+                        String? historyCheckOut;
+
+                        if (historyState is GetEmployeeHistorySuccess &&
+                            historyState.attendanceHistory.data != null &&
+                            historyState.attendanceHistory.data!.isNotEmpty) {
+                          final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+                          final todayRecords = historyState.attendanceHistory.data!.where((record) {
+                            final date = record.attendanceDate;
+                            if (date == null || date.isEmpty) return false;
+                            return date.startsWith(todayStr);
+                          }).toList();
+
+                          if (todayRecords.isNotEmpty) {
+                            final firstRecord = todayRecords.first;
+                            if (firstRecord.clockInTime != null &&
+                                firstRecord.clockInTime!.isNotEmpty &&
+                                firstRecord.clockInTime != 'null') {
+                              historyCheckIn = firstRecord.clockInTime;
+                            }
+                            if (firstRecord.clockOutTime != null &&
+                                firstRecord.clockOutTime!.isNotEmpty &&
+                                firstRecord.clockOutTime != 'null') {
+                              historyCheckOut = firstRecord.clockOutTime;
+                            }
+                          }
+                        }
+
+                        return BlocBuilder<LoginCubit, LoginState>(
+                          buildWhen: (previous, current) =>
+                              current is GetEmployeeSuccess ||
+                              current is LoginSuccess ||
+                              current is GetEmployeeLoading ||
+                              current is GetEmployeeFailure,
+                          builder: (context, loginState) {
+                            String? checkIn = historyCheckIn;
+                            String? checkOut = historyCheckOut;
+
+                            if (checkIn == null || checkIn.isEmpty) {
+                              if (loginState is GetEmployeeSuccess) {
+                                checkIn = loginState.employeeLoginModel.clockInTime;
+                                checkOut = loginState.employeeLoginModel.clockOutTime;
+                              } else if (loginState is LoginSuccess && loginState.employeeLoginModel != null) {
+                                try {
+                                  checkIn = loginState.employeeLoginModel.clockInTime;
+                                  checkOut = loginState.employeeLoginModel.clockOutTime;
+                                } catch (_) {}
+                              }
+                            }
+
+                            return CheckInOrCheckOutWidget(
+                              attendType: selectedIndex == 0
+                                  ? 'Office'
+                                  : selectedIndex == 1
+                                      ? 'Customer'
+                                      : 'Site',
+                              checkInTime: checkIn,
+                              checkOutTime: checkOut,
+                              onTypeChanged: (type) {
+                                setState(() {
+                                  selectedIndex = type == 'Office'
+                                      ? 0
+                                      : type == 'Customer'
+                                          ? 1
+                                          : 2;
+                                });
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 verticalSpace(30),
