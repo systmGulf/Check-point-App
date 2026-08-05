@@ -8,11 +8,19 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../core/widgets/user_name_and_time_and_check_in_and_out.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import '../organism/admin_dashboard_board.dart';
 import '../molecules/users_list.dart';
 import '../organism/admin_quick_action_section.dart';
 
-class AdminHomeScreenBody extends StatelessWidget {
+class AdminHomeScreenBody extends StatefulWidget {
   const AdminHomeScreenBody({super.key});
+
+  @override
+  State<AdminHomeScreenBody> createState() => _AdminHomeScreenBodyState();
+}
+
+class _AdminHomeScreenBodyState extends State<AdminHomeScreenBody> {
+  final GlobalKey<AdminDashboardBoardState> _boardKey = GlobalKey<AdminDashboardBoardState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +37,16 @@ class AdminHomeScreenBody extends StatelessWidget {
               BlocProvider.of<EmployeeCubit>(
                 context,
               ).getAllEmployees(pageNumber: 0, itemCount: 10);
+              BlocProvider.of<EmployeeCubit>(
+                context,
+              ).getAddAccountRequests();
+              await _boardKey.currentState?.fetchDashboardData();
             },
             child: ListView(physics: const BouncingScrollPhysics(), children: [
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: AnimatedHeaderWidget(
-                      child: UserNameAndTimeAndCheckInAndOutItem(
-                        image: "",
-                        name: ApiConstant.username,
-                      ),
-                    ),
+                  AnimatedHeaderWidget(
+                    child: AdminDashboardBoard(key: _boardKey),
                   ),
                   verticalSpace(5),
                   Padding(

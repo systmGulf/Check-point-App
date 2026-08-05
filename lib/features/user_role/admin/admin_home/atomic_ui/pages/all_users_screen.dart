@@ -1,10 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
-import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 import '../organism/add_employee_bottom_sheet.dart';
 import '../organism/all_users_list_view.dart';
@@ -20,7 +17,6 @@ class AllUsersScreen extends StatefulWidget {
 
 class _AllUsersScreenState extends State<AllUsersScreen> {
   bool _isBottomSheetOpened = false;
-  bool _isSelectionMode = false;
 
   @override
   void didChangeDependencies() {
@@ -57,42 +53,9 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _isSelectionMode
-          ? null
-          : CustomFloatingActionButton(
-              text: 'Add User'.tr(),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
-                  builder: (cnx) {
-                    return BlocProvider.value(
-                      value: context.read<EmployeeCubit>(),
-                      child: AddEmployeeBottomSheet(
-                        name: widget.addAccountRequestValue?.name,
-                        mobileId: widget.addAccountRequestValue?.mobileId,
-                        deviceToken: widget.addAccountRequestValue?.deviceToken,
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-      appBar: buildCustomAppBar(
-        context,
-        'All Users'.tr(),
-      ),
+      backgroundColor: const Color(0xFFF9FAFB),
       body: AllUsersListView(
-        onSelectionModeChanged: (val) {
-          setState(() {
-            _isSelectionMode = val;
-          });
-        },
+        addAccountRequestValue: widget.addAccountRequestValue,
       ),
     );
   }

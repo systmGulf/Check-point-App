@@ -1,13 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:employee_mangement/core/utils/assets_manager.dart';
+import 'package:employee_mangement/core/widgets/app_settings_screen.dart';
 import 'package:employee_mangement/features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_leave_requests_repo/employee_action_repo.dart';
 
-import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
+import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../employee/employee_home/atomic_ui/molecules/employee_more_option_drawer.dart';
@@ -34,110 +33,129 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
   PageController controller = PageController();
 
   static GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     List<String> texts = [
+      'Home'.tr(),
       'Attendance'.tr(),
-      'Employees Attendance'.tr(),
       'Tasks'.tr(),
       'Requests'.tr(),
+      'Settings'.tr(),
     ];
     return Scaffold(
-        key: scaffoldkey,
-        endDrawer: const Drawer(
-          child: EmployeeCustomDrawer(),
-        ),
-        drawer: Drawer(
-          child: BlocProvider(
-            create: (context) => LeaveApplicationCubit(
-              employeeRepo: getIt<EmployeeActionRepo>(),
-            ),
-            child: const EmployeeMoreOptionDrawer(),
+      key: scaffoldkey,
+      endDrawer: const Drawer(
+        child: EmployeeCustomDrawer(),
+      ),
+      drawer: Drawer(
+        child: BlocProvider(
+          create: (context) => LeaveApplicationCubit(
+            employeeRepo: getIt<EmployeeActionRepo>(),
           ),
+          child: const EmployeeMoreOptionDrawer(),
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  scaffoldkey.currentState?.openEndDrawer();
-                },
-                icon: CircleAvatar(
+      ),
+      appBar: selectedIndex == 4
+          ? null // AppSettingsScreen has its own header
+          : AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    scaffoldkey.currentState?.openEndDrawer();
+                  },
+                  icon: CircleAvatar(
                     backgroundColor: ColorsManger.primaryColor,
                     radius: 20,
-                    child: const Icon(Icons.person, color: Colors.white)))
-          ],
-          centerTitle: true,
-          leadingWidth: 80.w,
-
-          // leading:
-          title: Text(texts[selectedIndex],
-              style: AppStylesManger.font18BoldBlack),
-        ),
-        bottomNavigationBar: IntrinsicHeight(
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: selectedIndex,
-            onTap: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-              controller.jumpToPage(
-                selectedIndex,
-              );
-            },
-            iconSize: 30.h,
-            selectedItemColor: ColorsManger.primaryColor,
-            unselectedItemColor: Colors.grey,
-            selectedLabelStyle: AppStylesManger.font12RegularGrey.copyWith(
-              color: ColorsManger.primaryColor,
-              fontWeight: FontWeight.bold,
+                    child: const Icon(Icons.person, color: Colors.white),
+                  ),
+                ),
+              ],
+              centerTitle: true,
+              leadingWidth: 80.w,
+              title: Text(
+                texts[selectedIndex],
+                style: AppStylesManger.font18BoldBlack,
+              ),
             ),
-            unselectedLabelStyle: AppStylesManger.font12RegularGrey,
-            items: [
-              BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(
-                  Assets.HomeIconImage,
-                  color: ColorsManger.primaryColor,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 10,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: BottomNavigationBar(
+              currentIndex: selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+                controller.animateToPage(
+                  selectedIndex,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutQuad,
+                );
+              },
+              backgroundColor: Colors.white,
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: ColorsManger.primaryColor,
+              unselectedItemColor: Colors.grey,
+              selectedFontSize: 12.sp,
+              unselectedFontSize: 11.sp,
+              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              items: [
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.home_rounded),
+                  activeIcon: Icon(Icons.home_rounded, color: ColorsManger.primaryColor),
+                  label: 'Home'.tr(),
                 ),
-                icon: SvgPicture.asset(
-                  Assets.HomeIconImage,
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.calendar_month_rounded),
+                  activeIcon: Icon(Icons.calendar_month_rounded, color: ColorsManger.primaryColor),
+                  label: 'Attendance'.tr(),
                 ),
-                label: 'Home'.tr(),
-              ),
-              BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.AttendanceIconImage,
-                    color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.AttendanceIconImage),
-                label: 'Attendance'.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/client.svg'),
-                activeIcon: SvgPicture.asset('assets/images/client.svg',
-                    color: ColorsManger.primaryColor),
-                label: 'Tasks'.tr(),
-              ),
-              BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset(Assets.RequestsImage,
-                    color: ColorsManger.primaryColor),
-                icon: SvgPicture.asset(Assets.RequestsImage),
-                label: 'Requests'.tr(),
-              ),
-            ],
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.assignment_rounded),
+                  activeIcon: Icon(Icons.assignment_rounded, color: ColorsManger.primaryColor),
+                  label: 'Tasks'.tr(),
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.pending_actions_rounded),
+                  activeIcon: Icon(Icons.pending_actions_rounded, color: ColorsManger.primaryColor),
+                  label: 'Requests'.tr(),
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.settings_rounded),
+                  activeIcon: Icon(Icons.settings_rounded, color: ColorsManger.primaryColor),
+                  label: 'Settings'.tr(),
+                ),
+              ],
+            ),
           ),
         ),
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: controller,
-          onPageChanged: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          children: screens,
-        ));
+      ),
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: controller,
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        children: screens,
+      ),
+    );
   }
 
   List<Widget> screens = [
@@ -158,5 +176,6 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
       create: (context) => getIt<LeaveApplicationCubitSupervisor>(),
       child: const SupervisorRequestsScreen(),
     ),
+    const AppSettingsScreen(),
   ];
 }
