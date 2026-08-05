@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../enums/role_enum.dart';
 import '../../services/biometric_login_service.dart';
@@ -53,6 +54,11 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<bool> canUseBiometricLogin(Role role) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isEnabledInSettings = prefs.getBool('biometric_enabled') ?? true;
+    if (!isEnabledInSettings) {
+      return false;
+    }
     final hasSavedAccount = await biometricLoginService.hasSavedAccount(role);
     if (!hasSavedAccount) {
       return false;
@@ -64,6 +70,12 @@ class LoginCubit extends Cubit<LoginState> {
     required Role role,
     required String mobileId,
   }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isEnabledInSettings = prefs.getBool('biometric_enabled') ?? true;
+    if (!isEnabledInSettings) {
+      return BiometricLoginResult.unavailable;
+    }
+
     final account = await biometricLoginService.getSavedAccount(role);
     if (account == null) {
       return BiometricLoginResult.noSavedAccount;

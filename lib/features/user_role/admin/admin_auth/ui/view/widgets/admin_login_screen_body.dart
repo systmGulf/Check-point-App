@@ -82,7 +82,6 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
               buttonColor: ColorsManger.primaryColor,
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[
-              verticalSpace(12),
               BiometricLoginButton(
                 savedEmail: _savedAccount!.email,
                 onPressed: _loginWithBiometrics,

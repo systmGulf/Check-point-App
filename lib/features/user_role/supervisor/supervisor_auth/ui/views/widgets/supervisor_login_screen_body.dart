@@ -77,7 +77,6 @@ class _SupervisorLoginScreenBodyState extends State<SupervisorLoginScreenBody> {
               buttonColor: ColorsManger.primaryColor,
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[
-              verticalSpace(12),
               BiometricLoginButton(
                 savedEmail: _savedAccount!.email,
                 onPressed: _loginWithBiometrics,

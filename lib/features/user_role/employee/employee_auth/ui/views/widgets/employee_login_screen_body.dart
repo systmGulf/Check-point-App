@@ -86,7 +86,6 @@ class _EmployeeLoginScreenBodyState extends State<EmployeeLoginScreenBody> {
               ),
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[
-              verticalSpace(12),
               AnimatedByWidgetType(
                 widgetType: WidgetAnimationType.button,
                 delayDuration: AuthAnimationConstants.buttonDelay,
