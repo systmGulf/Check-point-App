@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorsManger {
   static Color scaffoldBackgroundColor = const Color(0XFFFFFFFF);
-  static Color primaryColor = const Color(0xFF374151); // Dark Charcoal Grey
+  static Color primaryColor = const Color(0xFF757575); // Classic Grey
   static Color primaryColorLight = const Color(0xFF6B7280); // Cool Grey
   static const lightGreen = Color(0xFFF3F4F6); // Light Grey tint
   static Color lighorage = const Color(0xFF4B5563); // Medium Grey
