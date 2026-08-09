@@ -112,11 +112,11 @@ class _UsersListHeaderState extends State<UsersListHeader> {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [
-                  Color(0xFF7F1D1D), // Dark Crimson Red
-                  Color(0xFF991B1B), // Deep Red
-                  Color(0xFFB91C1C), // Primary Red
+                  ColorsManger.darkGreen,
+                  ColorsManger.primaryColor,
+                  ColorsManger.primaryColorLight,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -126,7 +126,7 @@ class _UsersListHeaderState extends State<UsersListHeader> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF7F1D1D).withOpacity(0.3),
+                  color: ColorsManger.darkGreen.withValues(alpha: 0.3),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                 ),
