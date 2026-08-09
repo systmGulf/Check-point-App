@@ -111,8 +111,8 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
-                              Color(0xFFDC2626),
-                              Color(0xFF991B1B),
+                              ColorsManger.primaryColor,
+                              ColorsManger.darkGreen,
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,

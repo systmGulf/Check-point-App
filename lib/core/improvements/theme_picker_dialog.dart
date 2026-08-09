@@ -8,7 +8,7 @@ class ThemePickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, Color>> colors = [
-      {'primary': const Color(0xFFDC2626), 'light': const Color(0xFFEF5350)}, // Red
+      {'primary': const Color(0xFF757575), 'light': const Color(0xFF6B7280)}, // Grey
       {'primary': const Color(0XFF7C3AED), 'light': const Color(0XFFC084FC)}, // Purple
       {'primary': const Color(0XFF0ea5e9), 'light': const Color(0XFF7dd3fc)}, // Sky Blue
       {'primary': const Color(0XFF10b981), 'light': const Color(0XFF6ee7b7)}, // Teal/Green

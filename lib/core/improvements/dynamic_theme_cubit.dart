@@ -23,10 +23,10 @@ class DynamicThemeCubit extends Cubit<DynamicThemeState> {
     final cachedPrimary = prefs.getInt('theme_primary_color');
     final cachedLight = prefs.getInt('theme_light_color');
     if (cachedPrimary != null && cachedLight != null) {
-      if (cachedPrimary == 0XFFF97316 || cachedPrimary == 4294538006 || cachedPrimary == 0xFFDA9F2A || cachedPrimary == 4292517674) {
-        // Upgrade legacy cached themes to new Red theme
-        ColorsManger.primaryColor = const Color(0xFFDC2626);
-        ColorsManger.primaryColorLight = const Color(0xFFEF5350);
+      if (cachedPrimary == 0XFFF97316 || cachedPrimary == 4294538006 || cachedPrimary == 0xFFDA9F2A || cachedPrimary == 4292517674 || cachedPrimary == 0xFFDC2626 || cachedPrimary == 4292584998) {
+        // Upgrade legacy cached themes (including red) to new Grey theme
+        ColorsManger.primaryColor = const Color(0xFF757575);
+        ColorsManger.primaryColorLight = const Color(0xFF6B7280);
         await prefs.setInt('theme_primary_color', ColorsManger.primaryColor.value);
         await prefs.setInt('theme_light_color', ColorsManger.primaryColorLight.value);
         emit(DynamicThemeState(
