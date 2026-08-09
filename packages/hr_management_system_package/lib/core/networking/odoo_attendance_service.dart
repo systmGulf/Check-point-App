@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../networking/api_constant.dart';
 
 class OdooAttendanceService {
   final Dio _dio;
@@ -31,68 +29,12 @@ class OdooAttendanceService {
     }
   }
 
-  Future<int?> _resolveEmployeeIdByName(String name) async {
-    if (name.isEmpty) return null;
-    
-    try {
-      print('Odoo Auto-Sync: Searching Odoo for employee name "$name"...');
-      final response = await _dio.get('/api/attendance/all', queryParameters: {'limit': 500});
-      
-      if (response.statusCode == 200 && response.data != null) {
-        final success = response.data['success'] ?? false;
-        if (success) {
-          final attendances = response.data['data']?['attendances'] as List?;
-          if (attendances != null) {
-            final String normalizedTarget = name.trim().toLowerCase();
-            
-            for (var att in attendances) {
-              final String? empName = att['employee_name']?.toString().trim().toLowerCase();
-              if (empName == normalizedTarget) {
-                final int? resolvedId = att['employee_id'] as int?;
-                if (resolvedId != null) {
-                  print('Odoo Auto-Sync: Found matching employee "$name" with Odoo ID: $resolvedId');
-                  return resolvedId;
-                }
-              }
-            }
-          }
-        }
-      }
-      print('Odoo Auto-Sync: No matching employee name "$name" found in Odoo attendance logs.');
-    } catch (e) {
-      print('Odoo Auto-Sync: Failed to resolve employee ID by name: $e');
-    }
-    return null;
-  }
-
-  Future<int?> _getOrResolveEmployeeId() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    final String? cachedIdStr = prefs.getString('odoo_employee_id');
-    if (cachedIdStr != null && cachedIdStr.isNotEmpty) {
-      final int? cachedId = int.tryParse(cachedIdStr);
-      if (cachedId != null) {
-        return cachedId;
-      }
-    }
-
-    final String name = ApiConstant.username;
-    final int? resolvedId = await _resolveEmployeeIdByName(name);
-    if (resolvedId != null) {
-      await prefs.setString('odoo_employee_id', resolvedId.toString());
-      return resolvedId;
-    }
-
-    return null;
-  }
-
   Future<bool> syncCheckIn({
     required String employeeIdStr,
     required String area,
   }) async {
-    final int? employeeId = await _getOrResolveEmployeeId();
-    if (employeeId == null) {
-      print('Odoo sync skipped: Could not resolve Odoo employee_id');
+    if (employeeIdStr.isEmpty) {
+      print('Odoo sync skipped: employeeIdStr is empty');
       return false;
     }
 
@@ -101,13 +43,13 @@ class OdooAttendanceService {
     print('--- ODOO SYNC CHECK-IN REQUEST ---');
     print('Url: ${_dio.options.baseUrl}/api/attendance/check_in');
     print('Headers: ${_dio.options.headers}');
-    print('Body: {"employee_id": $employeeId, "location": "$location"}');
+    print('Body: {"employee_id": "$employeeIdStr", "location": "$location"}');
 
     try {
       final response = await _dio.post(
         '/api/attendance/check_in',
         data: {
-          'employee_id': employeeId,
+          'employee_id': employeeIdStr,
           'location': location,
         },
       );
@@ -131,22 +73,21 @@ class OdooAttendanceService {
   Future<bool> syncCheckOut({
     required String employeeIdStr,
   }) async {
-    final int? employeeId = await _getOrResolveEmployeeId();
-    if (employeeId == null) {
-      print('Odoo sync skipped: Could not resolve Odoo employee_id');
+    if (employeeIdStr.isEmpty) {
+      print('Odoo sync skipped: employeeIdStr is empty');
       return false;
     }
 
     print('--- ODOO SYNC CHECK-OUT REQUEST ---');
     print('Url: ${_dio.options.baseUrl}/api/attendance/check_out');
     print('Headers: ${_dio.options.headers}');
-    print('Body: {"employee_id": $employeeId}');
+    print('Body: {"employee_id": "$employeeIdStr"}');
 
     try {
       final response = await _dio.post(
         '/api/attendance/check_out',
         data: {
-          'employee_id': employeeId,
+          'employee_id': employeeIdStr,
         },
       );
       print('--- ODOO SYNC CHECK-OUT SUCCESS RESPONSE ---');
