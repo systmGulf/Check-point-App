@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer' as developer;
 
 class OdooAttendanceService {
@@ -34,9 +35,17 @@ class OdooAttendanceService {
     required String employeeIdStr,
     required String area,
   }) async {
-    final int? employeeId = int.tryParse(employeeIdStr);
+    final prefs = await SharedPreferences.getInstance();
+    final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
+    
+    if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
+      developer.log('Odoo sync skipped: odoo_employee_id not set');
+      return;
+    }
+
+    final int? employeeId = int.tryParse(odooEmpIdStr);
     if (employeeId == null) {
-      developer.log('Odoo sync skipped: invalid numeric employeeId "$employeeIdStr"');
+      developer.log('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
       return;
     }
 
@@ -60,9 +69,17 @@ class OdooAttendanceService {
   Future<void> syncCheckOut({
     required String employeeIdStr,
   }) async {
-    final int? employeeId = int.tryParse(employeeIdStr);
+    final prefs = await SharedPreferences.getInstance();
+    final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
+    
+    if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
+      developer.log('Odoo sync skipped: odoo_employee_id not set');
+      return;
+    }
+
+    final int? employeeId = int.tryParse(odooEmpIdStr);
     if (employeeId == null) {
-      developer.log('Odoo sync skipped: invalid numeric employeeId "$employeeIdStr"');
+      developer.log('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
       return;
     }
 

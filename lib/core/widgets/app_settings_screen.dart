@@ -20,6 +20,7 @@ class AppSettingsScreen extends StatefulWidget {
 
 class _AppSettingsScreenState extends State<AppSettingsScreen> {
   bool _biometricEnabled = true;
+  String _odooEmployeeId = '';
 
   @override
   void initState() {
@@ -31,12 +32,56 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _biometricEnabled = prefs.getBool('biometric_enabled') ?? true;
+      _odooEmployeeId = prefs.getString('odoo_employee_id') ?? '';
     });
   }
 
   Future<void> _updateSetting(String key, bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(key, value);
+  }
+
+  Future<void> _showOdooIdDialog() async {
+    final controller = TextEditingController(text: _odooEmployeeId);
+    await showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: Text('Odoo Employee ID'.tr()),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              hintText: 'Enter Odoo Employee ID (e.g. 12)'.tr(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text('Cancel'.tr()),
+            ),
+            TextButton(
+              onPressed: () async {
+                final input = controller.text.trim();
+                if (input.isNotEmpty && int.tryParse(input) == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please enter a valid number'.tr())),
+                  );
+                  return;
+                }
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setString('odoo_employee_id', input);
+                setState(() {
+                  _odooEmployeeId = input;
+                });
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Save'.tr()),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   String _getInitials(String name) {
@@ -236,6 +281,23 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                           ),
                         ),
                       ),
+                    ),
+                  ]),
+
+                  SizedBox(height: 20.h),
+
+                  // ODOO INTEGRATION SECTION
+                  _buildSectionTitle('ODOO INTEGRATION'.tr()),
+                  _buildCardGroup([
+                    _buildActionTile(
+                      icon: Icons.sync_alt_rounded,
+                      iconBg: const Color(0xFFFEF3C7),
+                      iconColor: const Color(0xFFD97706),
+                      title: 'Odoo Employee ID'.tr(),
+                      subtitle: _odooEmployeeId.isEmpty
+                          ? 'Not Configured'.tr()
+                          : 'ID: $_odooEmployeeId',
+                      onTap: _showOdooIdDialog,
                     ),
                   ]),
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +27,8 @@ class OfflineSyncManager {
     await prefs.remove(_queueKey);
   }
 
-  static Future<void> processSyncQueue(Future<void> Function(Map<String, dynamic> body) syncAction) async {
+  static Future<void> processSyncQueue(
+      Future<void> Function(Map<String, dynamic> body) syncAction) async {
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) return;
 
