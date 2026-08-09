@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../networking/api_constant.dart';
 
 class OdooAttendanceService {
   final Dio _dio;
@@ -30,21 +31,72 @@ class OdooAttendanceService {
     }
   }
 
+  // Resolve Odoo employee ID by searching active attendances by name
+  Future<int?> _resolveEmployeeIdByName(String name) async {
+    if (name.isEmpty) return null;
+    
+    try {
+      print('Odoo Auto-Sync: Searching Odoo for employee name "$name"...');
+      final response = await _dio.get('/api/attendance/all', queryParameters: {'limit': 500});
+      
+      if (response.statusCode == 200 && response.data != null) {
+        final success = response.data['success'] ?? false;
+        if (success) {
+          final attendances = response.data['data']?['attendances'] as List?;
+          if (attendances != null) {
+            final String normalizedTarget = name.trim().toLowerCase();
+            
+            for (var att in attendances) {
+              final String? empName = att['employee_name']?.toString().trim().toLowerCase();
+              if (empName == normalizedTarget) {
+                final int? resolvedId = att['employee_id'] as int?;
+                if (resolvedId != null) {
+                  print('Odoo Auto-Sync: Found matching employee "$name" with Odoo ID: $resolvedId');
+                  return resolvedId;
+                }
+              }
+            }
+          }
+        }
+      }
+      print('Odoo Auto-Sync: No matching employee name "$name" found in Odoo attendance logs.');
+    } catch (e) {
+      print('Odoo Auto-Sync: Failed to resolve employee ID by name: $e');
+    }
+    return null;
+  }
+
+  Future<int?> _getOrResolveEmployeeId() async {
+    final prefs = await SharedPreferences.getInstance();
+    
+    // 1. Try reading manual or previously cached ID
+    final String? cachedIdStr = prefs.getString('odoo_employee_id');
+    if (cachedIdStr != null && cachedIdStr.isNotEmpty) {
+      final int? cachedId = int.tryParse(cachedIdStr);
+      if (cachedId != null) {
+        return cachedId;
+      }
+    }
+
+    // 2. Resolve automatically by matching username
+    final String name = ApiConstant.username;
+    final int? resolvedId = await _resolveEmployeeIdByName(name);
+    if (resolvedId != null) {
+      // Cache it for subsequent requests
+      await prefs.setString('odoo_employee_id', resolvedId.toString());
+      return resolvedId;
+    }
+
+    return null;
+  }
+
   Future<void> syncCheckIn({
     required String employeeIdStr,
     required String area,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
-    
-    if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
-      print('Odoo sync skipped: odoo_employee_id not set in SharedPreferences');
-      return;
-    }
-
-    final int? employeeId = int.tryParse(odooEmpIdStr);
+    final int? employeeId = await _getOrResolveEmployeeId();
     if (employeeId == null) {
-      print('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
+      print('Odoo sync skipped: Could not resolve Odoo employee_id');
       return;
     }
 
@@ -80,17 +132,9 @@ class OdooAttendanceService {
   Future<void> syncCheckOut({
     required String employeeIdStr,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
-    
-    if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
-      print('Odoo sync skipped: odoo_employee_id not set in SharedPreferences');
-      return;
-    }
-
-    final int? employeeId = int.tryParse(odooEmpIdStr);
+    final int? employeeId = await _getOrResolveEmployeeId();
     if (employeeId == null) {
-      print('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
+      print('Odoo sync skipped: Could not resolve Odoo employee_id');
       return;
     }
 
