@@ -177,30 +177,36 @@ class UserItemListView extends StatelessWidget {
                   Row(
                     children: [
                       if (userItemEntity.department.isNotEmpty) ...[
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEEF2FF),
-                            borderRadius: BorderRadius.circular(6.r),
-                          ),
-                          child: Text(
-                            userItemEntity.department.tr(),
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF4F46E5),
+                        Flexible(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEEF2FF),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Text(
+                              userItemEntity.department.tr(),
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF4F46E5),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
-                        SizedBox(width: 8.w),
+                        SizedBox(width: 6.w),
                       ],
                       Text(
                         employeeCode,
                         style: TextStyle(
-                          fontSize: 11.sp,
+                          fontSize: 10.sp,
                           color: const Color(0xFF9CA3AF),
                           fontWeight: FontWeight.w500,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

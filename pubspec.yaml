@@ -33,11 +33,7 @@ dependencies:
   #HR Management Core Package
 
   hr_management_system_package:
-    git:
-      url: https://github.com/systmGulf/Check-point-package
-      ref: demo-version
-    # Local path option:
-    # path: ../Check-point-package
+    path: packages/hr_management_system_package
 
   #UI / Animation
   flutter_screenutil: ^5.9.3

@@ -26,18 +26,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout path dependency
-        uses: actions/checkout@v7
-        with:
-          repository: systmGulf/Check-point-package
-          ref: tot-6ff5d02
-          path: Check-point-package
-          fetch-depth: 0
-          token: ${{ secrets.CHECK_POINT_PACKAGE_TOKEN || github.token }}
-
-      - name: Link local package dependency
-        run: ln -sfn "$GITHUB_WORKSPACE/Check-point-package" ../Check-point-package
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -55,8 +43,8 @@ jobs:
 
       - name: Create package env files
         run: |
-          echo "BASE_URL=$BASE_URL" > ../Check-point-package/.env.dev
-          echo "BASE_URL=$BASE_URL" > ../Check-point-package/.env.prod
+          echo "BASE_URL=$BASE_URL" > packages/hr_management_system_package/.env.dev
+          echo "BASE_URL=$BASE_URL" > packages/hr_management_system_package/.env.prod
 
       - name: Get dependencies
         run: flutter pub get
@@ -69,9 +57,9 @@ jobs:
             echo "No build_runner dependency in app pubspec, skipping app code generation."
           fi
 
-          if grep -q "build_runner:" ../Check-point-package/pubspec.yaml; then
+          if grep -q "build_runner:" packages/hr_management_system_package/pubspec.yaml; then
             (
-              cd ../Check-point-package
+              cd packages/hr_management_system_package
               dart run build_runner build --delete-conflicting-outputs --force-jit
             )
           else

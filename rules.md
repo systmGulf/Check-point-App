@@ -10,7 +10,7 @@ This file adapts Osama's Flutter config and the Haseem rules to the current Chec
 - App name/package: `employee_mangement`.
 - Product domain: employee management, attendance check-in/out, admin operations, supervisor planning/tasks, leave requests, notifications, and role-based dashboards.
 - Main roles: admin, employee, supervisor.
-- Shared business/data package: `hr_management_system_package` from `../Check-point-package`.
+- Shared business/data package: `hr_management_system_package` from `packages/hr_management_system_package`.
 - Local app code should mainly compose UI, Cubits, routing, DI, localization, and feature-specific presentation behavior.
 
 ## 2. Current Tech Stack

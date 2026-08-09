@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../../core/common/attendance_report_formatter.dart';
 import '../../../../../../core/common/excel_export_service.dart';
 
 part 'admin_attendance_state.dart';
@@ -107,18 +108,14 @@ class AdminAttendanceCubit extends Cubit<AdminAttendanceState> {
       ];
       final rows = exportList
           .map((item) => [
-                item.employeeId ?? '',
-                item.customerId?.toString() ?? '',
-                item.employeeName ?? '',
-                item.area ?? '',
-                item.clockInTime != null && item.clockInTime!.length >= 5
-                    ? item.clockInTime!.substring(0, 5)
-                    : (item.clockInTime ?? ''),
-                item.clockOutTime != null && item.clockOutTime!.length >= 5
-                    ? item.clockOutTime!.substring(0, 5)
-                    : (item.clockOutTime ?? ''),
-                item.totalHours?.toString() ?? '',
-                item.attendanceDate ?? '',
+                AttendanceReportFormatter.formatEmployeeId(item.employeeId),
+                AttendanceReportFormatter.formatCustomerId(item.customerId?.toString()),
+                item.employeeName ?? '-',
+                item.area ?? 'Office',
+                AttendanceReportFormatter.formatTime(item.clockInTime),
+                AttendanceReportFormatter.formatTime(item.clockOutTime, isOutTime: true),
+                AttendanceReportFormatter.formatTotalHours(item.totalHours),
+                item.attendanceDate ?? '-',
               ])
           .toList();
 

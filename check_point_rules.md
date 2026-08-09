@@ -18,7 +18,7 @@
 - **Responsive sizing:** `flutter_screenutil` — use `16.w`, `24.h`, `12.r`, `14.sp`. Never raw pixel literals.
 - **Storage:** `flutter_secure_storage` for tokens; `shared_preferences` for non-sensitive flags.
 - **Routing:** Navigator 1.0 with string constants in `Routes` and a single `AppRouter` switch.
-- **Package split:** All API calls, models, and repo contracts live in `../Check-point-package` (`hr_management_system_package`). The app (`employee_mangement`) only contains Cubits, UI, routing, and DI wiring.
+- **Package split:** All API calls, models, and repo contracts live in `packages/hr_management_system_package` (`hr_management_system_package`). The app (`employee_mangement`) only contains Cubits, UI, routing, and DI wiring.
 - **Animations:** `animate_do` for list/entry animations. `animations.dart` core wrapper (`AnimatedByWidgetType`, `AnimatedTextWidget`, `AnimatedListItemWidget`, `AnimatedContainerWidget`).
 - **Images:** `cached_network_image` for all network images.
 

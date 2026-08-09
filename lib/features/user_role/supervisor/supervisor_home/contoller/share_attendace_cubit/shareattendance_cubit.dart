@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:employee_mangement/core/common/attendance_report_formatter.dart';
 import 'package:employee_mangement/core/common/excel_export_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employees_attendance_model/get_employee_attendance.dart';
@@ -17,23 +18,19 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
       final excelService = ExcelExportService();
       final rows = data
           .map((item) => [
-                item.employeeId ?? '',
-                item.customerId?.toString() ?? '',
-                item.employeeName ?? '',
-                item.area ?? '',
-                item.clockInTime != null && item.clockInTime!.length >= 5
-                    ? item.clockInTime!.substring(0, 5)
-                    : (item.clockInTime ?? ''),
-                item.clockOutTime != null && item.clockOutTime!.length >= 5
-                    ? item.clockOutTime!.substring(0, 5)
-                    : (item.clockOutTime ?? ''),
-                item.totalHours?.toString() ?? '',
-                item.attendanceDate ?? '',
+                AttendanceReportFormatter.formatEmployeeId(item.employeeId),
+                AttendanceReportFormatter.formatCustomerId(item.customerId?.toString()),
+                item.employeeName ?? '-',
+                item.area ?? 'Office',
+                AttendanceReportFormatter.formatTime(item.clockInTime),
+                AttendanceReportFormatter.formatTime(item.clockOutTime, isOutTime: true),
+                AttendanceReportFormatter.formatTotalHours(item.totalHours),
+                item.attendanceDate ?? '-',
               ])
           .toList();
 
       final bytes = excelService.generateExcel(
-        sheetName: 'Attendance',
+        sheetName: 'Attendance Report',
         headers: const [
           'Employee ID',
           'Customer ID',
@@ -56,8 +53,8 @@ class ShareattendanceCubit extends Cubit<ShareattendanceState> {
 
       await excelService.shareExcel(
         fileBytes: bytes,
-        fileName: 'Employee_attendance_$formattedDate.xlsx',
-        message: 'Here is the employee attendance file for $formattedDate.',
+        fileName: 'Employee_Attendance_Report_$formattedDate.xlsx',
+        message: 'Here is the professional employee attendance report for $formattedDate.',
       );
 
       emit(ShareAttAndanceSuccess());
