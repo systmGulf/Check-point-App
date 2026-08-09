@@ -31,14 +31,16 @@ class AttendanceReportFormatter {
     if (trimmed == '00:00' || trimmed == '00:00:00') {
       return isOutTime ? 'Not Checked Out' : '--:--';
     }
-    if (trimmed.toUpperCase().contains('AM') || trimmed.toUpperCase().contains('PM')) {
+    if (trimmed.toUpperCase().contains('AM') ||
+        trimmed.toUpperCase().contains('PM')) {
       return trimmed;
     }
 
     try {
       final parts = trimmed.split(':');
       int hour = int.parse(parts[0].trim());
-      int minute = parts.length > 1 ? int.parse(parts[1].trim().split(' ').first) : 0;
+      int minute =
+          parts.length > 1 ? int.parse(parts[1].trim().split(' ').first) : 0;
 
       String period = hour >= 12 ? 'PM' : 'AM';
       int formattedHour = hour % 12;
