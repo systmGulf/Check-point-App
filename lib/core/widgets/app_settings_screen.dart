@@ -286,23 +286,6 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
 
                   SizedBox(height: 20.h),
 
-                  // ODOO INTEGRATION SECTION
-                  _buildSectionTitle('ODOO INTEGRATION'.tr()),
-                  _buildCardGroup([
-                    _buildActionTile(
-                      icon: Icons.sync_alt_rounded,
-                      iconBg: const Color(0xFFFEF3C7),
-                      iconColor: const Color(0xFFD97706),
-                      title: 'Odoo Employee ID'.tr(),
-                      subtitle: _odooEmployeeId.isEmpty
-                          ? 'Not Configured'.tr()
-                          : 'ID: $_odooEmployeeId',
-                      onTap: _showOdooIdDialog,
-                    ),
-                  ]),
-
-                  SizedBox(height: 20.h),
-
                   // SECURITY SECTION
                   _buildSectionTitle('SECURITY'.tr()),
                   _buildCardGroup([
