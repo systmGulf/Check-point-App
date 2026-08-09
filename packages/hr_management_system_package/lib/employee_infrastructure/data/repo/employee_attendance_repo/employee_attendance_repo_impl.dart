@@ -90,19 +90,19 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
     try {
+      final odooSuccess = await odooAttendanceService.syncCheckIn(
+        employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+        area: employeeCheckInRequestBody.area,
+      );
+      if (!odooSuccess) {
+        return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+      }
+
       final result = await apiService.post(
           endPoint: ApiConstant.employeeCheckIn,
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        final attendance = UserAttendanceModel.fromJson(result);
-        final odooSuccess = await odooAttendanceService.syncCheckIn(
-          employeeIdStr: employeeCheckInRequestBody.employeeIdd,
-          area: employeeCheckInRequestBody.area,
-        );
-        if (!odooSuccess) {
-          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-        }
-        return Right(attendance);
+        return Right(UserAttendanceModel.fromJson(result));
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -115,19 +115,19 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckInWithoutPlan(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
     try {
+      final odooSuccess = await odooAttendanceService.syncCheckIn(
+        employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+        area: employeeCheckInRequestBody.area,
+      );
+      if (!odooSuccess) {
+        return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+      }
+
       final result = await apiService.post(
           endPoint: ApiConstant.employeeCheckInWithoutPlan,
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        final attendance = UserAttendanceModel.fromJson(result);
-        final odooSuccess = await odooAttendanceService.syncCheckIn(
-          employeeIdStr: employeeCheckInRequestBody.employeeIdd,
-          area: employeeCheckInRequestBody.area,
-        );
-        if (!odooSuccess) {
-          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-        }
-        return Right(attendance);
+        return Right(UserAttendanceModel.fromJson(result));
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -141,6 +141,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
       {required String employeeId}) async {
     try {
+      final odooSuccess = await odooAttendanceService.syncCheckOut(
+        employeeIdStr: employeeId,
+      );
+      if (!odooSuccess) {
+        return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+      }
+
       final requestBody = EmployeeCheckOutRequestBody(
         employeeId: employeeId,
         employeeImage: null,
@@ -148,14 +155,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       final result = await apiService.post(
           endPoint: ApiConstant.employeeCheckOut, body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        final attendance = UserAttendanceModel.fromJson(result);
-        final odooSuccess = await odooAttendanceService.syncCheckOut(
-          employeeIdStr: employeeId,
-        );
-        if (!odooSuccess) {
-          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-        }
-        return Right(attendance);
+        return Right(UserAttendanceModel.fromJson(result));
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -168,6 +168,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOutWithoutPlan(
       {required String employeeId}) async {
     try {
+      final odooSuccess = await odooAttendanceService.syncCheckOut(
+        employeeIdStr: employeeId,
+      );
+      if (!odooSuccess) {
+        return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+      }
+
       final requestBody = EmployeeCheckOutRequestBody(
         employeeId: employeeId,
         employeeImage: null,
@@ -176,14 +183,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           endPoint: ApiConstant.employeeCheckOutWithoutPlan,
           body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        final attendance = UserAttendanceModel.fromJson(result);
-        final odooSuccess = await odooAttendanceService.syncCheckOut(
-          employeeIdStr: employeeId,
-        );
-        if (!odooSuccess) {
-          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-        }
-        return Right(attendance);
+        return Right(UserAttendanceModel.fromJson(result));
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }

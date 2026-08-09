@@ -104,17 +104,18 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
     try {
       if (employeeCheckInRequestBody.employeeImage != null) {
+        final odooSuccess = await odooAttendanceService.syncCheckIn(
+          employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+          area: employeeCheckInRequestBody.area,
+        );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+        }
+
         final result = await apiService.post(
             endPoint: ApiConstant.employeeCheckIn,
             body: employeeCheckInRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
-          final odooSuccess = await odooAttendanceService.syncCheckIn(
-            employeeIdStr: employeeCheckInRequestBody.employeeIdd,
-            area: employeeCheckInRequestBody.area,
-          );
-          if (!odooSuccess) {
-            return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-          }
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result, fallbackCode: ResponseCode.badRequest));
@@ -133,6 +134,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       String employeeId, String? employeeImage) async {
     try {
       if (employeeImage != null) {
+        final odooSuccess = await odooAttendanceService.syncCheckOut(
+          employeeIdStr: employeeId,
+        );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Attendance registration cancelled.'));
+        }
+
         final requestBody = SupervisorEmployeeCheckOutRequestBody(
           employeeId: employeeId,
           employeeImage: employeeImage,
@@ -141,12 +149,6 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             endPoint: ApiConstant.employeeCheckOut,
             body: requestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
-          final odooSuccess = await odooAttendanceService.syncCheckOut(
-            employeeIdStr: employeeId,
-          );
-          if (!odooSuccess) {
-            return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
-          }
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result));
