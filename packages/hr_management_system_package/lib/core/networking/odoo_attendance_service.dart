@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer' as developer;
 
 class OdooAttendanceService {
   final Dio _dio;
@@ -39,20 +38,24 @@ class OdooAttendanceService {
     final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
     
     if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
-      developer.log('Odoo sync skipped: odoo_employee_id not set');
+      print('Odoo sync skipped: odoo_employee_id not set in SharedPreferences');
       return;
     }
 
     final int? employeeId = int.tryParse(odooEmpIdStr);
     if (employeeId == null) {
-      developer.log('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
+      print('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
       return;
     }
 
     final String location = _getOdooLocation(area);
 
+    print('--- ODOO SYNC CHECK-IN REQUEST ---');
+    print('Url: ${_dio.options.baseUrl}/api/attendance/check_in');
+    print('Headers: ${_dio.options.headers}');
+    print('Body: {"employee_id": $employeeId, "location": "$location"}');
+
     try {
-      developer.log('Syncing check-in to Odoo for employee $employeeId at $location');
       final response = await _dio.post(
         '/api/attendance/check_in',
         data: {
@@ -60,9 +63,17 @@ class OdooAttendanceService {
           'location': location,
         },
       );
-      developer.log('Odoo check-in sync response: ${response.data}');
+      print('--- ODOO SYNC CHECK-IN SUCCESS RESPONSE ---');
+      print('Response Status: ${response.statusCode}');
+      print('Response Data: ${response.data}');
+    } on DioException catch (dioError) {
+      print('--- ODOO SYNC CHECK-IN DIO ERROR ---');
+      print('Status Code: ${dioError.response?.statusCode}');
+      print('Error Message: ${dioError.message}');
+      print('Response Data: ${dioError.response?.data}');
     } catch (e) {
-      developer.log('Odoo check-in sync failed: $e');
+      print('--- ODOO SYNC CHECK-IN GENERAL ERROR ---');
+      print('Error: $e');
     }
   }
 
@@ -73,27 +84,39 @@ class OdooAttendanceService {
     final String? odooEmpIdStr = prefs.getString('odoo_employee_id');
     
     if (odooEmpIdStr == null || odooEmpIdStr.isEmpty) {
-      developer.log('Odoo sync skipped: odoo_employee_id not set');
+      print('Odoo sync skipped: odoo_employee_id not set in SharedPreferences');
       return;
     }
 
     final int? employeeId = int.tryParse(odooEmpIdStr);
     if (employeeId == null) {
-      developer.log('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
+      print('Odoo sync skipped: invalid numeric odoo_employee_id "$odooEmpIdStr"');
       return;
     }
 
+    print('--- ODOO SYNC CHECK-OUT REQUEST ---');
+    print('Url: ${_dio.options.baseUrl}/api/attendance/check_out');
+    print('Headers: ${_dio.options.headers}');
+    print('Body: {"employee_id": $employeeId}');
+
     try {
-      developer.log('Syncing check-out to Odoo for employee $employeeId');
       final response = await _dio.post(
         '/api/attendance/check_out',
         data: {
           'employee_id': employeeId,
         },
       );
-      developer.log('Odoo check-out sync response: ${response.data}');
+      print('--- ODOO SYNC CHECK-OUT SUCCESS RESPONSE ---');
+      print('Response Status: ${response.statusCode}');
+      print('Response Data: ${response.data}');
+    } on DioException catch (dioError) {
+      print('--- ODOO SYNC CHECK-OUT DIO ERROR ---');
+      print('Status Code: ${dioError.response?.statusCode}');
+      print('Error Message: ${dioError.message}');
+      print('Response Data: ${dioError.response?.data}');
     } catch (e) {
-      developer.log('Odoo check-out sync failed: $e');
+      print('--- ODOO SYNC CHECK-OUT GENERAL ERROR ---');
+      print('Error: $e');
     }
   }
 }
