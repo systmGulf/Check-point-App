@@ -109,7 +109,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [
                               ColorsManger.primaryColor,
                               ColorsManger.darkGreen,
