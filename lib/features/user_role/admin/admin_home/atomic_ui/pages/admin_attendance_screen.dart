@@ -125,6 +125,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                     if (state is AdminAttendanceLoading) {
                       return Skeletonizer(
                         enabled: true,
+                        ignoreContainers: true,
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
