@@ -14,13 +14,18 @@ import '../../models/employee_attendance_model/employee_check_out_request_body.d
 import '../../models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import '../../models/employee_attendance_model/user_attendace_model.dart';
 import 'employee_attendance_repo.dart';
+import '../../../../core/networking/odoo_attendance_service.dart';
 
 class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   final ApiService apiService;
   final CheckAccessibleAreaService checkAccessibleAreaService;
+  final OdooAttendanceService odooAttendanceService;
 
-  EmployeeAttendanceRepoImpl(this.checkAccessibleAreaService,
-      {required this.apiService});
+  EmployeeAttendanceRepoImpl(
+    this.checkAccessibleAreaService, {
+    required this.apiService,
+    required this.odooAttendanceService,
+  });
 
   @override
   // Get Branch By Id for the User
@@ -89,7 +94,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           endPoint: ApiConstant.employeeCheckIn,
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(UserAttendanceModel.fromJson(result));
+        final attendance = UserAttendanceModel.fromJson(result);
+        odooAttendanceService.syncCheckIn(
+          employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+          area: employeeCheckInRequestBody.area,
+        );
+        return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -106,7 +116,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           endPoint: ApiConstant.employeeCheckInWithoutPlan,
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(UserAttendanceModel.fromJson(result));
+        final attendance = UserAttendanceModel.fromJson(result);
+        odooAttendanceService.syncCheckIn(
+          employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+          area: employeeCheckInRequestBody.area,
+        );
+        return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -127,7 +142,11 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       final result = await apiService.post(
           endPoint: ApiConstant.employeeCheckOut, body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(UserAttendanceModel.fromJson(result));
+        final attendance = UserAttendanceModel.fromJson(result);
+        odooAttendanceService.syncCheckOut(
+          employeeIdStr: employeeId,
+        );
+        return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -148,7 +167,11 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           endPoint: ApiConstant.employeeCheckOutWithoutPlan,
           body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(UserAttendanceModel.fromJson(result));
+        final attendance = UserAttendanceModel.fromJson(result);
+        odooAttendanceService.syncCheckOut(
+          employeeIdStr: employeeId,
+        );
+        return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }

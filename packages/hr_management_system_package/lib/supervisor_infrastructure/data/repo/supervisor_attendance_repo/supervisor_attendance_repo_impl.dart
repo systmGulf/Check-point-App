@@ -11,13 +11,16 @@ import '../../models/employee_summary_model/employee_attendance_summary_request_
 import '../../models/employee_summary_model/employee_summary_model.dart';
 import '../../models/employees_attendance_model/get_employee_attendance.dart';
 import '../../models/employees_attendance_model/supervisor_employee_check_out_request_body.dart';
+import '../../../../core/networking/odoo_attendance_service.dart';
 import 'supervisor_attendance_repo.dart';
 
 class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   final ApiService apiService;
+  final OdooAttendanceService odooAttendanceService;
 
   SupervisorAttendanceRepoImpl({
     required this.apiService,
+    required this.odooAttendanceService,
   });
   @override
   // Get all employees attendance
@@ -105,6 +108,10 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             endPoint: ApiConstant.employeeCheckIn,
             body: employeeCheckInRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
+          odooAttendanceService.syncCheckIn(
+            employeeIdStr: employeeCheckInRequestBody.employeeIdd,
+            area: employeeCheckInRequestBody.area,
+          );
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result, fallbackCode: ResponseCode.badRequest));
@@ -131,6 +138,9 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             endPoint: ApiConstant.employeeCheckOut,
             body: requestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
+          odooAttendanceService.syncCheckOut(
+            employeeIdStr: employeeId,
+          );
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result));

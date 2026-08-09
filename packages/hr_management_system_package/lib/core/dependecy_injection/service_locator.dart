@@ -21,6 +21,7 @@ import '../../supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervis
 import '../common_methods/network_checker.dart';
 import '../common_methods/check_accessiable_area_service.dart';
 import '../repos/shared_repo_impl.dart';
+import '../networking/odoo_attendance_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -33,6 +34,9 @@ void setUpServiceLocator() {
     () => ApiService(
       dio: DioFactory.getDio(),
     ),
+  );
+  getIt.registerLazySingleton<OdooAttendanceService>(
+    () => OdooAttendanceService(),
   );
   getIt.registerLazySingleton<SupervisorTasksRepo>(
     () => SupervisorTasksRepoImpl(
@@ -58,6 +62,7 @@ void setUpServiceLocator() {
   getIt.registerLazySingleton<SupervisorAttendanceRepo>(
     () => SupervisorAttendanceRepoImpl(
       apiService: getIt<ApiService>(),
+      odooAttendanceService: getIt<OdooAttendanceService>(),
     ),
   );
 
@@ -98,6 +103,7 @@ void setUpServiceLocator() {
     EmployeeAttendanceRepoImpl(
       getIt<CheckAccessibleAreaService>(),
       apiService: getIt<ApiService>(),
+      odooAttendanceService: getIt<OdooAttendanceService>(),
     ),
   );
 
