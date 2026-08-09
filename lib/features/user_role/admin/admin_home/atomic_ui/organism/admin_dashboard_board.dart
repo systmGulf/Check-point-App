@@ -158,18 +158,18 @@ class AdminDashboardBoardState extends State<AdminDashboardBoard> {
           margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24.r),
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [
-                Color(0xFF7F1D1D), // Dark Crimson Red
-                Color(0xFF991B1B), // Rich Red
-                Color(0xFFB91C1C), // Primary Red
+                ColorsManger.darkGreen,
+                ColorsManger.primaryColor,
+                ColorsManger.primaryColorLight,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF7F1D1D).withOpacity(0.4),
+                color: ColorsManger.darkGreen.withValues(alpha: 0.3),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -337,7 +337,7 @@ class AdminDashboardBoardState extends State<AdminDashboardBoard> {
                                   child: Text(
                                     initials,
                                     style: TextStyle(
-                                      color: const Color(0xFF7F1D1D),
+                                      color: ColorsManger.primaryColor,
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16.sp,
                                     ),

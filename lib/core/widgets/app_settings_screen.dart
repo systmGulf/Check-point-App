@@ -67,11 +67,11 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [
-                    Color(0xFF7F1D1D),
-                    Color(0xFF991B1B),
-                    Color(0xFFB91C1C),
+                    ColorsManger.darkGreen,
+                    ColorsManger.primaryColor,
+                    ColorsManger.primaryColorLight,
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -81,7 +81,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF7F1D1D).withOpacity(0.25),
+                    color: ColorsManger.darkGreen.withValues(alpha: 0.25),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
