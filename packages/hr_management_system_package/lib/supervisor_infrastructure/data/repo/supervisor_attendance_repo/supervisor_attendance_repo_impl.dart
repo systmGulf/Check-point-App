@@ -108,10 +108,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             endPoint: ApiConstant.employeeCheckIn,
             body: employeeCheckInRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
-          odooAttendanceService.syncCheckIn(
+          final odooSuccess = await odooAttendanceService.syncCheckIn(
             employeeIdStr: employeeCheckInRequestBody.employeeIdd,
             area: employeeCheckInRequestBody.area,
           );
+          if (!odooSuccess) {
+            return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+          }
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result, fallbackCode: ResponseCode.badRequest));
@@ -138,9 +141,12 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             endPoint: ApiConstant.employeeCheckOut,
             body: requestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
-          odooAttendanceService.syncCheckOut(
+          final odooSuccess = await odooAttendanceService.syncCheckOut(
             employeeIdStr: employeeId,
           );
+          if (!odooSuccess) {
+            return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+          }
           return const Right(null);
         } else {
           return Left(ErrorHandler.responseFailure(result));

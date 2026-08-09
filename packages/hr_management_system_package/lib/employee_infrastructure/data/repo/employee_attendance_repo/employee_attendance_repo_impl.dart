@@ -95,10 +95,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         final attendance = UserAttendanceModel.fromJson(result);
-        odooAttendanceService.syncCheckIn(
+        final odooSuccess = await odooAttendanceService.syncCheckIn(
           employeeIdStr: employeeCheckInRequestBody.employeeIdd,
           area: employeeCheckInRequestBody.area,
         );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+        }
         return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
@@ -117,10 +120,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         final attendance = UserAttendanceModel.fromJson(result);
-        odooAttendanceService.syncCheckIn(
+        final odooSuccess = await odooAttendanceService.syncCheckIn(
           employeeIdStr: employeeCheckInRequestBody.employeeIdd,
           area: employeeCheckInRequestBody.area,
         );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+        }
         return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
@@ -143,9 +149,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           endPoint: ApiConstant.employeeCheckOut, body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         final attendance = UserAttendanceModel.fromJson(result);
-        odooAttendanceService.syncCheckOut(
+        final odooSuccess = await odooAttendanceService.syncCheckOut(
           employeeIdStr: employeeId,
         );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+        }
         return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));
@@ -168,9 +177,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         final attendance = UserAttendanceModel.fromJson(result);
-        odooAttendanceService.syncCheckOut(
+        final odooSuccess = await odooAttendanceService.syncCheckOut(
           employeeIdStr: employeeId,
         );
+        if (!odooSuccess) {
+          return const Left(Failure(500, 'Odoo synchronization failed. Check Odoo Employee ID in Settings.'));
+        }
         return Right(attendance);
       } else {
         return Left(ErrorHandler.responseFailure(result));

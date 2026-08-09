@@ -31,7 +31,6 @@ class OdooAttendanceService {
     }
   }
 
-  // Resolve Odoo employee ID by searching active attendances by name
   Future<int?> _resolveEmployeeIdByName(String name) async {
     if (name.isEmpty) return null;
     
@@ -69,7 +68,6 @@ class OdooAttendanceService {
   Future<int?> _getOrResolveEmployeeId() async {
     final prefs = await SharedPreferences.getInstance();
     
-    // 1. Try reading manual or previously cached ID
     final String? cachedIdStr = prefs.getString('odoo_employee_id');
     if (cachedIdStr != null && cachedIdStr.isNotEmpty) {
       final int? cachedId = int.tryParse(cachedIdStr);
@@ -78,11 +76,9 @@ class OdooAttendanceService {
       }
     }
 
-    // 2. Resolve automatically by matching username
     final String name = ApiConstant.username;
     final int? resolvedId = await _resolveEmployeeIdByName(name);
     if (resolvedId != null) {
-      // Cache it for subsequent requests
       await prefs.setString('odoo_employee_id', resolvedId.toString());
       return resolvedId;
     }
@@ -90,14 +86,14 @@ class OdooAttendanceService {
     return null;
   }
 
-  Future<void> syncCheckIn({
+  Future<bool> syncCheckIn({
     required String employeeIdStr,
     required String area,
   }) async {
     final int? employeeId = await _getOrResolveEmployeeId();
     if (employeeId == null) {
       print('Odoo sync skipped: Could not resolve Odoo employee_id');
-      return;
+      return false;
     }
 
     final String location = _getOdooLocation(area);
@@ -118,24 +114,27 @@ class OdooAttendanceService {
       print('--- ODOO SYNC CHECK-IN SUCCESS RESPONSE ---');
       print('Response Status: ${response.statusCode}');
       print('Response Data: ${response.data}');
+      return response.data?['success'] ?? false;
     } on DioException catch (dioError) {
       print('--- ODOO SYNC CHECK-IN DIO ERROR ---');
       print('Status Code: ${dioError.response?.statusCode}');
       print('Error Message: ${dioError.message}');
       print('Response Data: ${dioError.response?.data}');
+      return false;
     } catch (e) {
       print('--- ODOO SYNC CHECK-IN GENERAL ERROR ---');
       print('Error: $e');
+      return false;
     }
   }
 
-  Future<void> syncCheckOut({
+  Future<bool> syncCheckOut({
     required String employeeIdStr,
   }) async {
     final int? employeeId = await _getOrResolveEmployeeId();
     if (employeeId == null) {
       print('Odoo sync skipped: Could not resolve Odoo employee_id');
-      return;
+      return false;
     }
 
     print('--- ODOO SYNC CHECK-OUT REQUEST ---');
@@ -153,14 +152,17 @@ class OdooAttendanceService {
       print('--- ODOO SYNC CHECK-OUT SUCCESS RESPONSE ---');
       print('Response Status: ${response.statusCode}');
       print('Response Data: ${response.data}');
+      return response.data?['success'] ?? false;
     } on DioException catch (dioError) {
       print('--- ODOO SYNC CHECK-OUT DIO ERROR ---');
       print('Status Code: ${dioError.response?.statusCode}');
       print('Error Message: ${dioError.message}');
       print('Response Data: ${dioError.response?.data}');
+      return false;
     } catch (e) {
       print('--- ODOO SYNC CHECK-OUT GENERAL ERROR ---');
       print('Error: $e');
+      return false;
     }
   }
 }
