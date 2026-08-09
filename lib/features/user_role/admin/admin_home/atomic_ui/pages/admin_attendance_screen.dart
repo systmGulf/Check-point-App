@@ -3,6 +3,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/common/app_container_decoration.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:employee_mangement/core/widgets/app_action_icon_button.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:employee_mangement/core/widgets/build_alart_message.dart';
@@ -122,7 +123,32 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                       current is AdminAttendanceFailure,
                   builder: (context, state) {
                     if (state is AdminAttendanceLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Skeletonizer(
+                        enabled: true,
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 16),
+                              child: AdminEmployeeAttendanceWidget(
+                                employeeName: 'Employee Name Holder',
+                                area: 'Office',
+                                location: '30.059543946827535,31.22361885831085',
+                                inTime: '9:21 AM',
+                                outTime: 'Clock Out',
+                                totalHours: 'Total hr',
+                                employeeImage: null,
+                                isLate: false,
+                                isEarly: false,
+                                onDelete: null,
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     } else if (state is AdminAttendanceFailure) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
