@@ -8,6 +8,7 @@ import 'package:hr_management_system_package/hr_manamgement_system_package.dart'
 import '../../../../../../core/dependency%D9%80injection/register%D9%80factory.dart';
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../core/styles/colors.dart';
 import '../../controllers/mange_employee_cubit/employee_cubit.dart';
 
 class AdminDashboardBoard extends StatefulWidget {
