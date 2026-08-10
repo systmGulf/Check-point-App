@@ -1,0 +1,29 @@
+name: check_point_monorepo
+
+packages:
+  - .
+
+scripts:
+  bootstrap:
+    run: flutter pub get
+    description: Get dependencies for the current workspace package.
+
+  analyze:
+    run: dart analyze .
+    description: Analyze the current workspace package.
+
+  test:
+    run: flutter test
+    description: Run the package test suite.
+
+  build_runner:
+    run: dart run build_runner build --delete-conflicting-outputs
+    description: Regenerate code for freezed/json_serializable files.
+
+  format:
+    run: dart format .
+    description: Format the current workspace package.
+
+  ci:
+    run: melos run bootstrap && melos run build_runner && melos run analyze && melos run test
+    description: Smoke-check the workspace package the same way CI should.
