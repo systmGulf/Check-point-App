@@ -21,7 +21,16 @@ class GetAllEmployeesSuccess extends EmployeeState {
   GetAllEmployeesSuccess({required this.value});
 }
 class GetAllEmployeesPaginationLoading extends EmployeeState {}
+class SearchEmployeeLoading extends EmployeeState {}
+class SearchEmployeeSuccess extends EmployeeState {
+  final GetAllEmployeesValue employeeList;
+  SearchEmployeeSuccess({required this.employeeList});
 
+}
+class SearchEmployeeFailure extends EmployeeState {
+  final String error;
+  SearchEmployeeFailure({required this.error});
+}
 class GetAllEmployeesPaginationFailure extends EmployeeState {
   final String error;
   GetAllEmployeesPaginationFailure({required this.error});
@@ -98,4 +107,16 @@ class DeleteAddAccountRequestSuccess extends EmployeeState {}
 class DeleteAddAccountRequestFailure extends EmployeeState {
   final String error;
   DeleteAddAccountRequestFailure({required this.error});
+}
+
+class GetAccountRequestsPaginationFailure extends EmployeeState {
+  final String error;
+  GetAccountRequestsPaginationFailure({required this.error});
+}
+
+class ExportEmployeesLoading extends EmployeeState {}
+class ExportEmployeesSuccess extends EmployeeState {}
+class ExportEmployeesFailure extends EmployeeState {
+  final String error;
+  ExportEmployeesFailure({required this.error});
 }

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/admin_infrastructure/data/repo/leave_requests_repo/admin_leave_requests_repo.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_leave_requests_cubit/admin_leave_requests_cubit.dart';
 
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo.dart';
@@ -116,6 +119,16 @@ void registerFactory() {
   getIt.registerFactory<PlanCubit>(
     () => PlanCubit(
       getIt<SupervisorPlanRepo>(),
+    ),
+  );
+  getIt.registerFactory<AdminAttendanceCubit>(
+    () => AdminAttendanceCubit(
+      getIt<ApiService>(),
+    ),
+  );
+  getIt.registerFactory<AdminLeaveRequestsCubit>(
+    () => AdminLeaveRequestsCubit(
+      getIt<AdminLeaveRequestsRepo>(),
     ),
   );
 }

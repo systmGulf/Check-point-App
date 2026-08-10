@@ -19,6 +19,11 @@ import '../../features/user_role/admin/admin_home/atomic_ui/pages/company_bransh
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/department_users_and_permission.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/departments_screen.dart.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/edit_user_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attendance_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_leaves_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attend_selection_screen.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/admin_leave_requests_cubit/admin_leave_requests_cubit.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/holidays_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/notifiy_users_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/shifts_screen.dart';
@@ -443,6 +448,27 @@ abstract class AppRouter {
             child: AddBranchesToShiftScreen(
               shiftId: settings.arguments! as int,
             ),
+          ),
+        );
+
+      case Routes.adminAttendanceScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) =>
+                getIt<AdminAttendanceCubit>()..getAdminAttendance(),
+            child: const AdminAttendanceScreen(),
+          ),
+        );
+      case Routes.adminLeavesScreen:
+        return BaseRoute(
+          page: const AdminLeavesScreen(),
+        );
+      case Routes.adminAttendSelectionScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<EmployeeCubit>()
+              ..getAllEmployees(pageNumber: 0, itemCount: 50),
+            child: const AdminAttendSelectionScreen(),
           ),
         );
 
