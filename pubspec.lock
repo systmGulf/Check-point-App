@@ -1476,6 +1476,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  profile_view:
+    dependency: "direct main"
+    description:
+      name: profile_view
+      sha256: "9af4f80ca39f9b7c56bb61e1017143753f500f535aa11ef4f0fbf01c3af0d6da"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   provider:
     dependency: transitive
     description:
