@@ -27,7 +27,7 @@ class BranchCubit extends Cubit<BranchState> {
   Future<void> addBranch() async {
     emit(AddBranchLoading());
     final result = await branchesRepo.addCompanyBranch(
-        AddBrachRequestBody: AddBrachRequestBody(
+        addBranchRequestBody: AddBrachRequestBody(
             name: nameController.text,
             location: locationController.text,
             description: descriptionController.text,

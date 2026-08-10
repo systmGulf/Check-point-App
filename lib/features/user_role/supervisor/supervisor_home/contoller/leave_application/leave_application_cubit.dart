@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
+import 'package:hr_management_system_package/supervisor.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
 
 part 'leave_application_state.dart';
@@ -46,8 +47,10 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
     _isRequesting = true;
     emit(ApproveOrRejectLeaveApplicationLoading());
     final result = await supervisorRepo.approveOrRejectLeaveRequest(
-      status: status,
-      id: id,
+      body: ChangeRequestLeaveStatus(
+        leaveRequestId: id,
+        status: status,
+      ),
     );
     result.fold(
       (l) {

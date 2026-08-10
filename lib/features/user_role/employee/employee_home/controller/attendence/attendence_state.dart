@@ -58,7 +58,7 @@ class GetUserBranchError extends AttendanceState {
 class GetCustomerAreaLoading extends AttendanceState {}
 
 class GetCustomerAreaDone extends AttendanceState {
-  final GetPlanByEmployeeIdValue customerArea;
+  final EmployeePlansModel customerArea;
   GetCustomerAreaDone(this.customerArea);
 }
 

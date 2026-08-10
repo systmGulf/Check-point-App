@@ -64,8 +64,8 @@ class MyPlansScreen extends StatelessWidget {
                           BuildContext context,
                           int index,
                         ) {
-                          return state.customerArea.data![index].planDate !=
-                                  null
+                          final plan = state.customerArea.data![index].plan;
+                          return plan?.planDate != null
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.push(context,
@@ -102,11 +102,7 @@ class MyPlansScreen extends StatelessWidget {
                                                 style: AppStylesManger
                                                     .font15BoldBlack),
                                             Text(
-                                                dateFormat.format(
-                                                    DateTime.parse(state
-                                                        .customerArea
-                                                        .data![index]
-                                                        .planDate!)),
+                                                dateFormat.format(plan!.planDate!),
                                                 style: AppStylesManger
                                                     .font14RegularBlack),
                                             SizedBox(
@@ -122,22 +118,18 @@ class MyPlansScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                                dateFormat.format(DateTime.parse(state.customerArea.data![index].planDate!)) ==
+                                                dateFormat.format(plan.planDate!) ==
                                                         DateFormat('dd MMMM yyyy').format(
                                                             DateTime.now())
                                                     ? 'The plan is Today'
                                                         .tr(context: context)
-                                                    : int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].planDate!))) <
+                                                    : int.parse(DateFormat('dd').format(plan.planDate!)) <
                                                             int.parse(DateFormat('dd').format(
                                                                 DateTime.now()))
                                                         ? "The plan is Over".tr(
                                                             context: context)
-                                                        : ' ${int.parse(DateFormat('dd').format(DateTime.parse(state.customerArea.data![index].planDate!))) - int.parse(DateFormat('dd').format(DateTime.now()))} ${"Days Left".tr(context: context)}',
-                                                style: dateFormat.format(
-                                                            DateTime.parse(state
-                                                                .customerArea
-                                                                .data![index]
-                                                                .planDate!)) ==
+                                                        : ' ${int.parse(DateFormat('dd').format(plan.planDate!)) - int.parse(DateFormat('dd').format(DateTime.now()))} ${"Days Left".tr(context: context)}',
+                                                style: dateFormat.format(plan.planDate!) ==
                                                         DateFormat('dd MMMM yyyy').format(DateTime.now())
                                                     ? AppStylesManger.font14RedularGreen
                                                     : AppStylesManger.font14RedularRed),

@@ -80,7 +80,7 @@ class SupervisorGetEmployeeAttendanceCubit
   Future<void> supervisorGetCustomerInAttendance(
       {required String CustomerId}) async {
     emit(GetCustomerCustomerInAttendanceLoading(state.selectedDate));
-    final result = await supervisorRepo.getCustomerById(CustomerId: CustomerId);
+    final result = await supervisorRepo.getCustomerById(customerId: CustomerId);
     result.fold((error) {
       if (isClosed) return;
       emit(GetCustomerCustomerInAttendanceFailure(

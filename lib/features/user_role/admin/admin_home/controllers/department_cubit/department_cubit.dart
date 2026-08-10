@@ -22,9 +22,12 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> getAllDepartments() async {
+  Future<void> getAllDepartments({int pageKey = 1, int pageSize = 100}) async {
     emit(GetDepartmentLoading());
-    final result = await departmentRepo.getAllDepartments();
+    final result = await departmentRepo.getAllDepartments(
+      pageKey: pageKey,
+      pageSize: pageSize,
+    );
     result.fold(
       (error) {
         emit(GetDepartmentError(error.message));

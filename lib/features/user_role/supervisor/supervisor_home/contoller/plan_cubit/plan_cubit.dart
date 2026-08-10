@@ -105,7 +105,7 @@ class PlanCubit extends Cubit<PlanState> {
     emit(SetSubPlanLoading());
     if (dropdownItems.isNotEmpty && customerId != '') {
       final result = await supervisorRepo.setSubPlan(
-          setSubPlansRequestBody: setSubPlansRequestBody(
+          setSubPlansRequestBody: SetSubPlansRequestBody(
               planId: planId,
               customerIdOrSiteId: customerId,
               note: noteController?.text ?? '',

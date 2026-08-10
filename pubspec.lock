@@ -936,7 +936,7 @@ packages:
   hr_management_system_package:
     dependency: "direct main"
     description:
-      path: "../Check-point-package"
+      path: "packages/hr_management_system_package"
       relative: true
     source: path
     version: "1.0.0+1"

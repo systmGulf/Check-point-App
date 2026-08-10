@@ -46,10 +46,10 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     );
   }
 
-  Future<void> getEmployeeByDepartment({required int departmentId}) async {
+  Future<void> getEmployeeByDepartment({required int departmentId, int pageKey = 1, int pageSize = 100}) async {
     emit(GetEmployeeByDepartmentLoading());
-    final result = await adminManageEmployeeRepo.GetEmployeesInDepartment(
-        id: departmentId);
+    final result = await adminManageEmployeeRepo.getEmployeesInDepartment(
+        id: departmentId, pageKey: pageKey, pageSize: pageSize);
     await result.fold(
       (error) {
         emit(GetEmployeeByDepartmentError(error.message));
@@ -96,10 +96,10 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     );
   }
 
-  Future<void> getAddAccountRequests() async {
+  Future<void> getAddAccountRequests({int pageNumber = 0, int itemCount = 100}) async {
     emit(GetAddAccountRequestsLoading());
     final result =
-        await adminManageEmployeeRepo.getAddAccountRequestsForAdmin();
+        await adminManageEmployeeRepo.getAddAccountRequestsForAdmin(pageNumber: pageNumber, itemCount: itemCount);
     result.fold(
       (l) => emit(GetAddAccountRequestsFailure(error: l.message)),
       (r) => emit(GetAddAccountRequestsSuccess(value: r)),
