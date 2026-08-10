@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/no_data_found_animation_widget.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
+import 'package:employee_mangement/core/common/app_container_decoration.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/leave_application_item.dart';
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/molecules/recent_leave_application_loading_skeleton.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
