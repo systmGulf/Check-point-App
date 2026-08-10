@@ -3,15 +3,18 @@ import 'package:hr_management_system_package/core/repos/shared_model/upload_user
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
-class SharedRepoImpl  implements SharedRepo{
+class SharedRepoImpl implements SharedRepo {
   final ApiService apiService;
   SharedRepoImpl({required this.apiService});
   @override
-  Future<Either<Failure, String>> uploadUserImage({required UploadUserImageRequestBody uploadUserImageRequestBody})async {
+  Future<Either<Failure, String>> uploadUserImage(
+      {required UploadUserImageRequestBody uploadUserImageRequestBody}) async {
     try {
-      final result = await apiService.put(endPoint: "Employee/${ApiConstant.uploadUserImage}", body: uploadUserImageRequestBody.toJson());
+      final result = await apiService.put(
+          endPoint: "Employee/${ApiConstant.uploadUserImage}",
+          body: uploadUserImageRequestBody.toJson());
       if (result['isSuccess'] == true) {
-        return Right( "Image uploaded successfully");
+        return Right("Image uploaded successfully");
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
