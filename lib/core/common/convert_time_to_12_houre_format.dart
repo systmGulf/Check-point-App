@@ -20,7 +20,8 @@ String convertTo12HourFormat(String clockOutTime) {
     int displayHour = hour % 12;
     displayHour = displayHour == 0 ? 12 : displayHour;
 
-    String formattedTime = '$displayHour:${minute.toString().padLeft(2, '0')} $period';
+    String formattedTime =
+        '$displayHour:${minute.toString().padLeft(2, '0')} $period';
 
     return formattedTime;
   } catch (_) {
