@@ -6,6 +6,7 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/molecules/recent_leave_application_loading_skeleton.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:employee_mangement/core/widgets/build_snake_bar.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart' as top_snackbar;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
@@ -62,14 +63,14 @@ class AdminLeavesScreenBody extends StatelessWidget {
             if (state is DeleteAdminLeaveRequestSuccess) {
               buildSnackBar(
                 context,
-                customSnackBar: CustomSnackBar.success(
+                customSnackBar: top_snackbar.CustomSnackBar.success(
                   message: 'Request deleted successfully'.tr(),
                 ),
               );
             } else if (state is DeleteAdminLeaveRequestFailure) {
               buildSnackBar(
                 context,
-                customSnackBar: CustomSnackBar.error(
+                customSnackBar: top_snackbar.CustomSnackBar.error(
                   message: state.error,
                 ),
               );
@@ -222,7 +223,7 @@ class _AdminLeaveItemState extends State<AdminLeaveItem> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: AppConatinerDecoration(),
+      decoration: AppContainerDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/widgets/custom_loading_indicator.dart';
@@ -18,7 +17,7 @@ class CheckInAuthBlocListener extends StatelessWidget {
           current is AttendanceIneLoading ||
           current is AttendanceInError ||
           current is AttendanceIneDone ||
-          current is AuthenticationFailed,
+          current is NoShiftAssigned,
       listener: (context, state) {
         if (state is AttendanceInError) {
           context.pop();
@@ -40,17 +39,16 @@ class CheckInAuthBlocListener extends StatelessWidget {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Check In Success'.tr(context: context),
+              message: 'Check In Success'.tr(),
             ),
-         
           );
-           
-        } else if (state is AuthenticationFailed) {
-          context.pop();
+        } else if (state is NoShiftAssigned) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: 'Authentication Failed'.tr(context: context),
+              message:
+                  'No shift is assigned to this employee yet. Please contact your admin.'
+                      .tr(),
             ),
           );
         }

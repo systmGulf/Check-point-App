@@ -19,7 +19,7 @@ class EmployeeCheckInScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) {
           final attendanceCubit =
-              AttendanceCubit(getIt<EmployeeAttendanceRepo>());
+              AttendanceCubit(employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>());
           if (checkType == 'Office') {
             attendanceCubit.getUserBranch();
           } else {

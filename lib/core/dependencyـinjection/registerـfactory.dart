@@ -96,7 +96,7 @@ void registerFactory() {
   );
   getIt.registerFactory<AttendanceCubit>(
     () => AttendanceCubit(
-      getIt<EmployeeAttendanceRepo>(),
+      employeeAttendanceRepo: getIt<EmployeeAttendanceRepo>(),
     ),
   );
   getIt.registerFactory<BranchCubit>(

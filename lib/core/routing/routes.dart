@@ -54,6 +54,7 @@ class Routes {
   static const String supervisorAddTasksScreen = '/supervisorAddTasksScreen';
   static const String myTasksScreen = '/myTasksScreen';
   static const String policeScreen = '/policeScreen';
+  static const String addBranchsToShiftScreen = '/addBranchsToShiftScreen';
   static const String adminAttendanceScreen = '/adminAttendanceScreen';
   static const String adminAttendSelectionScreen =
       '/adminAttendSelectionScreen';

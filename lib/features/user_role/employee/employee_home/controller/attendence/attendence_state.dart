@@ -5,17 +5,13 @@ abstract class AttendanceState {}
 
 class AuthenticationInitial extends AttendanceState {}
 
-class AuthenticationSuccess extends AttendanceState {}
-
-class AuthenticationFailed extends AttendanceState {}
-
-class AuthenticationLoading extends AttendanceState {}
+class NoShiftAssigned extends AttendanceState {}
 
 class PickImageSuccess extends AttendanceState {}
 
 class PickImageFailed extends AttendanceState {}
-class PickImageLoading extends AttendanceState {}
 
+class PickImageLoading extends AttendanceState {}
 
 class AttendanceIneDone extends AttendanceState {
   final UserAttendanceModel userAttendanceModel;
@@ -67,6 +63,48 @@ class GetCustomerAreaError extends AttendanceState {
   GetCustomerAreaError(this.error);
 }
 
+class GetAttendanceTargetsLoading extends AttendanceState {}
+
+class GetAttendanceTargetsDone extends AttendanceState {
+  final List<CustomerData> targets;
+  final CustomerType customerType;
+
+  GetAttendanceTargetsDone({
+    required this.targets,
+    required this.customerType,
+  });
+}
+
+class GetAttendanceTargetsError extends AttendanceState {
+  final String error;
+
+  GetAttendanceTargetsError(this.error);
+}
+
+class AttendanceTargetSelected extends AttendanceState {
+  final CustomerData target;
+
+  AttendanceTargetSelected(this.target);
+}
+
+class TrackingLoading extends AttendanceState {}
+
+class TrackingStarted extends AttendanceState {}
+
+class TrackingStopped extends AttendanceState {}
+
+class TrackingStatusChanged extends AttendanceState {
+  final bool isTrackingEnabled;
+
+  TrackingStatusChanged(this.isTrackingEnabled);
+}
+
+class TrackingError extends AttendanceState {
+  final String error;
+
+  TrackingError(this.error);
+}
+
 class AccessAbleAreaState extends AttendanceState {}
 
 class AccessAbleAreaErrorState extends AttendanceState {}
@@ -85,11 +123,33 @@ class GetPlanByIdError extends AttendanceState {
 
 class AddPlanFeedbackLoading extends AttendanceState {}
 
-class AddPlanFeedbackDone extends AttendanceState {
-  
-}
+class AddPlanFeedbackDone extends AttendanceState {}
 
 class AddPlanFeedbackError extends AttendanceState {
   final String error;
   AddPlanFeedbackError(this.error);
+}
+
+class RemoveAssignCustomerPlanLoadingState extends AttendanceState {}
+
+class RemoveAssignCustomerPlanSuccessState extends AttendanceState {}
+
+class RemoveAssignCustomerPlanFailureState extends AttendanceState {
+  final String error;
+
+  RemoveAssignCustomerPlanFailureState(this.error);
+}
+
+class GetFeedBackStatusLoadingState extends AccessAbleAreaState {}
+
+class GetFeedBackStatusSuccessState extends AccessAbleAreaState {
+  final List<String> status;
+
+  GetFeedBackStatusSuccessState(this.status);
+}
+
+class GetFeedBackStatusFailureState extends AccessAbleAreaState {
+  final String error;
+
+  GetFeedBackStatusFailureState(this.error);
 }

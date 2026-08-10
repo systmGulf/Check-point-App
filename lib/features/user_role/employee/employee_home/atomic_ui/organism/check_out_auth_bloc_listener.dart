@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 
 import '../../../../../../core/helpers/extention.dart';
 import '../../../../../../core/widgets/custom_loading_indicator.dart';
@@ -19,21 +17,21 @@ class CheckOutAuthBlocListener extends StatelessWidget {
           current is AttendanceOutLoading ||
           current is AttendanceOutedDone ||
           current is AttendanceOutError ||
-          current is AuthenticationFailed,
+          current is NoShiftAssigned,
       listener: (context, state) {
         if (state is AttendanceOutLoading) {
           customLoadingIndicator(context);
         }
         if (state is AttendanceOutedDone) {
+          context.read<AttendanceCubit>().stopTracking();
           context.pop();
           context.pop();
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.success(
-              message: 'Check Out Success'.tr(context: context),
+              message: 'Check Out Success'.tr(),
             ),
           );
-            FlutterBackgroundService().invoke('stop');
         }
 
         if (state is AttendanceOutError) {
@@ -44,12 +42,13 @@ class CheckOutAuthBlocListener extends StatelessWidget {
               message: state.error,
             ),
           );
-        } else if (state is AuthenticationFailed) {
-          context.pop();
+        } else if (state is NoShiftAssigned) {
           showTopSnackBar(
             Overlay.of(context),
             CustomSnackBar.error(
-              message: 'Authentication Failed'.tr(context: context),
+              message:
+                  'No shift is assigned to this employee yet. Please contact your admin.'
+                      .tr(),
             ),
           );
         }
