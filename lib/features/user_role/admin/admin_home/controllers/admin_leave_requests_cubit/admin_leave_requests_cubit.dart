@@ -46,7 +46,7 @@ class AdminLeaveRequestsCubit extends Cubit<AdminLeaveRequestsState> {
   }) async {
     if (_isRequesting) return;
     _isRequesting = true;
-    emit(ApproveOrRejectAdminLeaveRequestLoading());
+    emit(ApproveOrRejectAdminLeaveRequestLoading(id: id));
     final result = await adminLeaveRequestsRepo.approveOrRejectLeaveRequest(
       body: ChangeRequestLeaveStatus(
         status: status,
@@ -57,12 +57,12 @@ class AdminLeaveRequestsCubit extends Cubit<AdminLeaveRequestsState> {
       (l) {
         if (isClosed) return;
         _isRequesting = false;
-        emit(ApproveOrRejectAdminLeaveRequestFailure(error: l.message));
+        emit(ApproveOrRejectAdminLeaveRequestFailure(error: l.message, id: id));
       },
       (r) {
         if (isClosed) return;
         _isRequesting = false;
-        emit(ApproveOrRejectAdminLeaveRequestSuccess());
+        emit(ApproveOrRejectAdminLeaveRequestSuccess(id: id, status: status));
         getAllLeaveRequests();
       },
     );

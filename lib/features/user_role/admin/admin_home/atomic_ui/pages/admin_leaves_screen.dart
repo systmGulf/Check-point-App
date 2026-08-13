@@ -7,6 +7,7 @@ import 'package:employee_mangement/features/user_role/supervisor/supervisor_home
 import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/molecules/recent_leave_application_loading_skeleton.dart';
 import 'package:employee_mangement/core/widgets/app_top_snack_bar.dart';
 import 'package:employee_mangement/core/widgets/build_snake_bar.dart';
+import 'package:employee_mangement/core/widgets/custom_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
@@ -46,8 +47,15 @@ class AdminLeavesScreen extends StatelessWidget {
   }
 }
 
-class AdminLeavesScreenBody extends StatelessWidget {
+class AdminLeavesScreenBody extends StatefulWidget {
   const AdminLeavesScreenBody({super.key});
+
+  @override
+  State<AdminLeavesScreenBody> createState() => _AdminLeavesScreenBodyState();
+}
+
+class _AdminLeavesScreenBodyState extends State<AdminLeavesScreenBody> {
+  bool isLoadingDialogShowing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,102 +65,104 @@ class AdminLeavesScreenBody extends StatelessWidget {
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: BlocConsumer<AdminLeaveRequestsCubit, AdminLeaveRequestsState>(
-          listener: (context, state) {
-            if (state is DeleteAdminLeaveRequestSuccess) {
-              buildSnackBar(
-                context,
-                customSnackBar: CustomSnackBar.success(
-                  message: 'Request deleted successfully'.tr(),
-                ),
-              );
-            } else if (state is DeleteAdminLeaveRequestFailure) {
-              buildSnackBar(
-                context,
-                customSnackBar: CustomSnackBar.error(
-                  message: state.error,
-                ),
-              );
-            }
-          },
-          buildWhen: (previous, current) =>
-              current is GetAllLeaveRequestsSuccess ||
-              current is GetAllLeaveRequestsFailure ||
-              current is GetAllLeaveRequestsLoading,
-          builder: (context, state) {
-            if (state is GetAllLeaveRequestsFailure) {
-              return CustomErrorWidget(
-                error: state.error,
-                onRetry: () {
-                  BlocProvider.of<AdminLeaveRequestsCubit>(context)
-                      .getAllLeaveRequests();
-                },
-              );
-            }
-            if (state is GetAllLeaveRequestsSuccess) {
-              final leaveRequests =
-                  state.getLeaveRequestModel.value?.data ?? [];
-              if (leaveRequests.isEmpty) {
-                return const Center(child: NoDataFound());
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: BlocConsumer<AdminLeaveRequestsCubit, AdminLeaveRequestsState>(
+            listenWhen: (previous, current) =>
+                current is DeleteAdminLeaveRequestSuccess ||
+                current is DeleteAdminLeaveRequestFailure ||
+                current is ApproveOrRejectAdminLeaveRequestLoading ||
+                current is ApproveOrRejectAdminLeaveRequestSuccess ||
+                current is ApproveOrRejectAdminLeaveRequestFailure,
+            listener: (context, state) {
+              if (state is ApproveOrRejectAdminLeaveRequestLoading) {
+                if (!isLoadingDialogShowing) {
+                  isLoadingDialogShowing = true;
+                  customLoadingIndicator(context);
+                }
+              } else if (state is ApproveOrRejectAdminLeaveRequestSuccess ||
+                  state is ApproveOrRejectAdminLeaveRequestFailure) {
+                if (isLoadingDialogShowing) {
+                  Navigator.pop(context); // Pop loading dialog
+                  isLoadingDialogShowing = false;
+                }
               }
-              final pendingCount =
-                  leaveRequests.where((e) => e.status == 'Pending').length;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${"There are".tr()} $pendingCount ${"Pending Leave Requests".tr()}',
-                        style: AppStylesManger.font15BoldBlack,
-                      ),
-                      horizontalSpace(10),
-                      Badge.count(
-                        backgroundColor: Colors.red,
-                        count: pendingCount,
-                        child: Icon(Icons.notifications_on,
-                            color: Colors.grey.shade400),
-                      )
-                    ],
+
+              if (state is DeleteAdminLeaveRequestSuccess) {
+                buildSnackBar(
+                  context,
+                  customSnackBar: CustomSnackBar.success(
+                    message: 'Request deleted successfully'.tr(),
                   ),
-                  verticalSpace(15),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: leaveRequests.length,
-                    itemBuilder: (context, index) {
-                      final item = leaveRequests[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: ElasticInUp(
-                          child: AdminLeaveItem(
-                            id: item.id ?? 0,
-                            name: item.employee?.userName ??
-                                item.employee?.name ??
-                                'Employee',
-                            userToken:
-                                item.employee?.deviceTokens?.isNotEmpty == true
-                                    ? item.employee!.deviceTokens!.first
-                                    : '',
-                            position: item.employee?.position ?? '',
-                            department: item.employee?.departmentName ?? '',
-                            role: item.employee?.role ?? '',
-                            from: item.startDate ?? '',
-                            to: item.endDate ?? '',
-                            reason: item.reason ?? '',
-                            status: item.status ?? '',
-                            leaveType: item.leaveRequestType ?? '',
+                );
+              } else if (state is DeleteAdminLeaveRequestFailure) {
+                buildSnackBar(
+                  context,
+                  customSnackBar: CustomSnackBar.error(
+                    message: state.error,
+                  ),
+                );
+              }
+            },
+            buildWhen: (previous, current) =>
+                current is GetAllLeaveRequestsSuccess ||
+                current is GetAllLeaveRequestsFailure ||
+                current is GetAllLeaveRequestsLoading,
+            builder: (context, state) {
+              if (state is GetAllLeaveRequestsFailure) {
+                return CustomErrorWidget(
+                  error: state.error,
+                  onRetry: () {
+                    BlocProvider.of<AdminLeaveRequestsCubit>(context)
+                        .getAllLeaveRequests();
+                  },
+                );
+              }
+              if (state is GetAllLeaveRequestsSuccess) {
+                final leaveRequests =
+                    state.getLeaveRequestModel.value?.data ?? [];
+                if (leaveRequests.isEmpty) {
+                  return const Center(child: NoDataFound());
+                }
+                return Column(
+                  children: [
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: leaveRequests.length,
+                      itemBuilder: (context, index) {
+                        final item = leaveRequests[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: ElasticInUp(
+                            child: AdminLeaveItem(
+                              id: item.id ?? 0,
+                              name: item.employee?.userName ??
+                                  item.employee?.name ??
+                                  '',
+                              userToken: item.employee?.deviceTokens?.isNotEmpty ==
+                                      true
+                                  ? item.employee!.deviceTokens!.first
+                                  : '',
+                              position: item.employee?.position ?? '',
+                              department: item.employee?.departmentName ?? '',
+                              role: item.employee?.role ?? '',
+                              from: item.startDate ?? '',
+                              to: item.endDate ?? '',
+                              reason: item.reason ?? '',
+                              status: item.status ?? 'Pending',
+                              leaveType: item.leaveRequestType ?? '',
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              );
-            }
-            return const RecentLeaveApplicationLoadingSkeleton();
-          },
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+              return const RecentLeaveApplicationLoadingSkeleton();
+            },
+          ),
         ),
       ),
     );
@@ -192,19 +202,6 @@ class AdminLeaveItem extends StatefulWidget {
 }
 
 class _AdminLeaveItemState extends State<AdminLeaveItem> {
-  bool isApproved = false;
-  bool isCancelled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.status == 'Approved') {
-      isApproved = true;
-    } else if (widget.status == 'Cancelled') {
-      isCancelled = true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat(
@@ -221,196 +218,225 @@ class _AdminLeaveItemState extends State<AdminLeaveItem> {
       }
     } catch (_) {}
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: AppConatinerDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const UserImage(imageUrl: '', height: 40),
-              horizontalSpace(10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            widget.name,
-                            style: AppStylesManger.font15BoldBlack,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (widget.role.isNotEmpty) ...[
-                          horizontalSpace(6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: widget.role
-                                      .toLowerCase()
-                                      .contains('supervisor')
-                                  ? Colors.purple.withAlpha(30)
-                                  : Colors.blue.withAlpha(30),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color: widget.role
-                                        .toLowerCase()
-                                        .contains('supervisor')
-                                    ? Colors.purple.withAlpha(80)
-                                    : Colors.blue.withAlpha(80),
-                                width: 0.5,
-                              ),
-                            ),
-                            child: Text(
-                              widget.role.tr(),
-                              style: TextStyle(
-                                color: widget.role
-                                        .toLowerCase()
-                                        .contains('supervisor')
-                                    ? Colors.purple[800]
-                                    : Colors.blue[800],
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    if (widget.department.isNotEmpty ||
-                        widget.position.isNotEmpty)
-                      Text(
-                        '${widget.department.isNotEmpty ? widget.department : ''} ${widget.position.isNotEmpty ? "(${widget.position})" : ''}',
-                        style: AppStylesManger.font15BoldBlack
-                            .copyWith(color: Colors.grey, fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                  ],
-                ),
-              ),
-              horizontalSpace(6),
-              if (widget.status == 'Cancelled' || isCancelled)
-                Row(
-                  children: [
-                    const Icon(Icons.close, color: Colors.red, size: 18),
-                    horizontalSpace(4),
-                    Text('Cancelled'.tr(),
-                        style: const TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              if (widget.status == 'Approved' || isApproved)
-                Row(
-                  children: [
-                    const Icon(Icons.check, color: Colors.green, size: 18),
-                    horizontalSpace(4),
-                    Text('Approved'.tr(),
-                        style: const TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              if (widget.status == 'Pending' && !isCancelled && !isApproved)
-                Row(
-                  children: [
-                    const Icon(Icons.watch_later,
-                        color: Colors.orange, size: 18),
-                    horizontalSpace(4),
-                    Text('Pending'.tr(),
-                        style: const TextStyle(
-                            color: Colors.orange, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              horizontalSpace(6),
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: const Icon(Icons.delete_outline,
-                    color: Colors.red, size: 20),
-                onPressed: () => _confirmDelete(context),
-              ),
-            ],
-          ),
-          verticalSpace(10),
-          if (widget.leaveType.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: ColorsManger.primaryColor.withAlpha(25),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  widget.leaveType.tr(),
-                  style: AppStylesManger.font15BoldBlack.copyWith(
-                    color: ColorsManger.primaryColor,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
+    return BlocListener<AdminLeaveRequestsCubit, AdminLeaveRequestsState>(
+      listenWhen: (previous, current) =>
+          (current is ApproveOrRejectAdminLeaveRequestSuccess && current.id == widget.id) ||
+          (current is ApproveOrRejectAdminLeaveRequestFailure && current.id == widget.id),
+      listener: (context, state) {
+        if (state is ApproveOrRejectAdminLeaveRequestSuccess) {
+          if (widget.userToken.isNotEmpty) {
+            getIt<NotificationRepo>().sendSingleNotification(
+              token: widget.userToken,
+              title: 'Hi, ${widget.name}'.tr(),
+              body: 'your leave request has been ${state.status.tr()}'.tr(),
+            );
+          }
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.success(
+              message: 'Request updated successfully'.tr(),
             ),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  '${"From".tr()}: $formattedFrom\n${"To".tr()}: $formattedTo',
-                  style: AppStylesManger.font15regulerGrey
-                      .copyWith(height: 1.5, color: Colors.black54),
-                ),
-              ),
-              if (widget.reason.isNotEmpty)
-                Expanded(
-                  child: Text(
-                    '${"Reason".tr()}: ${widget.reason}',
-                    style: AppStylesManger.font15regulerGrey
-                        .copyWith(height: 1.5, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ),
-            ],
-          ),
-          if (widget.status == 'Pending' && !isCancelled && !isApproved) ...[
-            verticalSpace(10),
+          );
+        } else if (state is ApproveOrRejectAdminLeaveRequestFailure) {
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.error(
+              message: state.error.tr(),
+            ),
+          );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: AppConatinerDecoration(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: RequestButton(
-                    text: Text(
-                      'Approve'.tr(),
-                      style: AppStylesManger.font14regularWhite.copyWith(
-                          color: Colors.green[900],
-                          fontWeight: FontWeight.bold),
-                    ),
-                    color: Colors.green[200]!,
-                    onPressed: () {
-                      _approveOrReject('Approved');
-                    },
-                  ),
-                ),
+                const UserImage(imageUrl: '', height: 40),
                 horizontalSpace(10),
                 Expanded(
-                  child: RequestButton(
-                    text: Text(
-                      'Reject'.tr(),
-                      style: AppStylesManger.font14RedularRed,
-                    ),
-                    color: Colors.red[200]!,
-                    onPressed: () {
-                      _approveOrReject('Cancelled');
-                    },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.name,
+                              style: AppStylesManger.font15BoldBlack,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (widget.role.isNotEmpty) ...[
+                            horizontalSpace(6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: widget.role
+                                        .toLowerCase()
+                                        .contains('supervisor')
+                                    ? Colors.purple.withAlpha(30)
+                                    : Colors.blue.withAlpha(30),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: widget.role
+                                          .toLowerCase()
+                                          .contains('supervisor')
+                                      ? Colors.purple.withAlpha(80)
+                                      : Colors.blue.withAlpha(80),
+                                  width: 0.5,
+                                ),
+                              ),
+                              child: Text(
+                                widget.role.tr(),
+                                style: TextStyle(
+                                  color: widget.role
+                                          .toLowerCase()
+                                          .contains('supervisor')
+                                      ? Colors.purple[800]
+                                      : Colors.blue[800],
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      if (widget.department.isNotEmpty ||
+                          widget.position.isNotEmpty)
+                        Text(
+                          '${widget.department.isNotEmpty ? widget.department : ''} ${widget.position.isNotEmpty ? "(${widget.position})" : ''}',
+                          style: AppStylesManger.font15BoldBlack
+                              .copyWith(color: Colors.grey, fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
                   ),
                 ),
+                horizontalSpace(6),
+                if (widget.status == 'Cancelled')
+                  Row(
+                    children: [
+                      const Icon(Icons.close, color: Colors.red, size: 18),
+                      horizontalSpace(4),
+                      Text('Cancelled'.tr(),
+                          style: const TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                if (widget.status == 'Approved')
+                  Row(
+                    children: [
+                      const Icon(Icons.check, color: Colors.green, size: 18),
+                      horizontalSpace(4),
+                      Text('Approved'.tr(),
+                          style: const TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                if (widget.status == 'Pending')
+                  Row(
+                    children: [
+                      const Icon(Icons.watch_later,
+                          color: Colors.orange, size: 18),
+                      horizontalSpace(4),
+                      Text('Pending'.tr(),
+                          style: const TextStyle(
+                              color: Colors.orange, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                horizontalSpace(6),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(Icons.delete_outline,
+                      color: Colors.red, size: 20),
+                  onPressed: () => _confirmDelete(context),
+                ),
               ],
-            )
-          ]
-        ],
+            ),
+            verticalSpace(10),
+            if (widget.leaveType.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: ColorsManger.primaryColor.withAlpha(25),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    widget.leaveType.tr(),
+                    style: AppStylesManger.font15BoldBlack.copyWith(
+                      color: ColorsManger.primaryColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${"From".tr()}: $formattedFrom\n${"To".tr()}: $formattedTo',
+                    style: AppStylesManger.font15regulerGrey
+                        .copyWith(height: 1.5, color: Colors.black54),
+                  ),
+                ),
+                if (widget.reason.isNotEmpty)
+                  Expanded(
+                    child: Text(
+                      '${"Reason".tr()}: ${widget.reason}',
+                      style: AppStylesManger.font15regulerGrey
+                          .copyWith(height: 1.5, color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+              ],
+            ),
+            if (widget.status == 'Pending') ...[
+              verticalSpace(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: RequestButton(
+                      text: Text(
+                        'Approve'.tr(),
+                        style: AppStylesManger.font14regularWhite.copyWith(
+                            color: Colors.green[900],
+                            fontWeight: FontWeight.bold),
+                      ),
+                      color: Colors.green[200]!,
+                      onPressed: () {
+                        _approveOrReject('Approved');
+                      },
+                    ),
+                  ),
+                  horizontalSpace(10),
+                  Expanded(
+                    child: RequestButton(
+                      text: Text(
+                        'Reject'.tr(),
+                        style: AppStylesManger.font14RedularRed,
+                      ),
+                      color: Colors.red[200]!,
+                      onPressed: () {
+                        _approveOrReject('Cancelled');
+                      },
+                    ),
+                  ),
+                ],
+              )
+            ]
+          ],
+        ),
       ),
     );
   }
@@ -444,25 +470,7 @@ class _AdminLeaveItemState extends State<AdminLeaveItem> {
   }
 
   void _approveOrReject(String action) {
-    setState(() {
-      if (action == 'Approved') {
-        isApproved = true;
-        isCancelled = false;
-      } else {
-        isApproved = false;
-        isCancelled = true;
-      }
-    });
-
     BlocProvider.of<AdminLeaveRequestsCubit>(context)
         .approveOrRejectLeaveRequest(status: action, id: widget.id);
-
-    if (widget.userToken.isNotEmpty) {
-      getIt<NotificationRepo>().sendSingleNotification(
-        token: widget.userToken,
-        title: 'Hi, ${widget.name}'.tr(),
-        body: 'your leave request has been $action'.tr(),
-      );
-    }
   }
 }

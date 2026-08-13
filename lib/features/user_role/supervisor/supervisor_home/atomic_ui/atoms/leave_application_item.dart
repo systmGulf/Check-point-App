@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:employee_mangement/core/widgets/user_image.dart';
-import 'package:employee_mangement/features/user_role/supervisor/supervisor_home/atomic_ui/atoms/taks_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 
 import '../../../../../../core/dependencyـinjection/registerـfactory.dart';
-import '../../../../../../core/helpers/app_spaces.dart';
+import '../../../../../../core/widgets/build_snake_bar.dart';
+import '../../../../../../core/widgets/app_top_snack_bar.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 
@@ -47,195 +48,356 @@ class LeaveApplicationItem extends StatefulWidget {
 }
 
 class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
-  bool isApproved = false;
-  bool isCancelled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.status == 'Approved') {
-      isApproved = true;
-    } else if (widget.status == 'Cancelled') {
-      isCancelled = true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat(
         tr('date_format', context: context), context.locale.toString());
-    return IntrinsicHeight(
+
+    final status = widget.status;
+    final backgroundColor = status == 'Approved'
+        ? const Color(0xFFE3F2FF)
+        : status == 'Cancelled'
+            ? const Color(0xFFFFE8F0)
+            : const Color(0xFFFFF7ED);
+    final textColor = status == 'Approved'
+        ? const Color(0xFF0087FF)
+        : status == 'Cancelled'
+            ? const Color(0xFFE73C3C)
+            : const Color(0xFFF97316);
+    final iconData = status == 'Approved'
+        ? Icons.check_circle_outline_rounded
+        : status == 'Cancelled'
+            ? Icons.cancel_outlined
+            : Icons.watch_later_outlined;
+
+    return BlocListener<LeaveApplicationCubitSupervisor, LeaveApplicationState>(
+      listenWhen: (previous, current) =>
+          (current is ApproveOrRejectLeaveApplicationSuccess && current.id == widget.id) ||
+          (current is ApproveOrRejectLeaveApplicationFailure && current.id == widget.id),
+      listener: (context, state) {
+        if (state is ApproveOrRejectLeaveApplicationSuccess) {
+          if (widget.userToken.isNotEmpty) {
+            getIt<NotificationRepo>().sendSingleNotification(
+              token: widget.userToken,
+              title: 'Hi, ${widget.name}'.tr(),
+              body: 'your leave request has been ${state.status.tr()}'.tr(),
+            );
+          }
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.success(
+              message: 'Request updated successfully'.tr(),
+            ),
+          );
+          BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
+              .getLeaveApplication(type: widget.type);
+        } else if (state is ApproveOrRejectLeaveApplicationFailure) {
+          buildSnackBar(
+            context,
+            customSnackBar: CustomSnackBar.error(
+              message: state.error.tr(),
+            ),
+          );
+        }
+      },
       child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: AppConatinerDecoration(),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        padding: EdgeInsets.all(16.r),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(
+            color: const Color(0xFFEFEFEF),
+            width: 1,
+          ),
+        ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const UserImage(imageUrl: '', height: 40),
-                  horizontalSpace(10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                widget.name,
-                                style: AppStylesManger.font15BoldBlack,
-                                overflow: TextOverflow.ellipsis,
+            // Top Row: Profile Details & Status Chip
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const UserImage(imageUrl: '', height: 44),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.name,
+                              style: AppStylesManger.font15BoldBlack.copyWith(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w700,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            if (widget.role.isNotEmpty) ...[
-                              horizontalSpace(6),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
+                          ),
+                          if (widget.role.isNotEmpty) ...[
+                            SizedBox(width: 6.w),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w, vertical: 3.h),
+                              decoration: BoxDecoration(
+                                color: widget.role
+                                        .toLowerCase()
+                                        .contains('supervisor')
+                                    ? const Color(0xFFF0ECFF)
+                                    : const Color(0xFFE3F2FF),
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Text(
+                                widget.role.tr(),
+                                style: TextStyle(
                                   color: widget.role
                                           .toLowerCase()
                                           .contains('supervisor')
-                                      ? Colors.purple.withAlpha(30)
-                                      : Colors.blue.withAlpha(30),
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(
-                                    color: widget.role
-                                            .toLowerCase()
-                                            .contains('supervisor')
-                                        ? Colors.purple.withAlpha(80)
-                                        : Colors.blue.withAlpha(80),
-                                    width: 0.5,
-                                  ),
+                                      ? const Color(0xFF5F33E1)
+                                      : const Color(0xFF0087FF),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                child: Text(
-                                  widget.role.tr(),
-                                  style: TextStyle(
-                                    color: widget.role
-                                            .toLowerCase()
-                                            .contains('supervisor')
-                                        ? Colors.purple[800]
-                                        : Colors.blue[800],
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      if (widget.department.isNotEmpty || widget.position.isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(top: 2.h),
+                          child: Text(
+                            '${widget.department.isNotEmpty ? widget.department : ''} ${widget.position.isNotEmpty ? "(${widget.position})" : ''}',
+                            style: AppStylesManger.font15BoldBlack.copyWith(
+                              color: const Color(0xFF8B8B94),
+                              fontSize: 12.sp,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                // Status Pill
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(iconData, color: textColor, size: 14.sp),
+                      SizedBox(width: 4.w),
+                      Text(
+                        status.tr(),
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
+
+            // Date Range Section
+            Container(
+              padding: EdgeInsets.all(12.r),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF9FAFB),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16.sp,
+                          color: const Color(0xFF9CA3AF),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'From'.tr(),
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: const Color(0xFF9CA3AF),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                dateFormat.format(DateTime.parse(widget.from)),
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: const Color(0xFF374151),
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
-                          ],
-                        ),
-                        if (widget.department.isNotEmpty || widget.position.isNotEmpty)
-                          Text(
-                            '${widget.department.isNotEmpty ? widget.department : ''} ${widget.position.isNotEmpty ? "(${widget.position})" : ''}',
-                            style: AppStylesManger.font15BoldBlack
-                                .copyWith(color: Colors.grey, fontSize: 12),
-                            overflow: TextOverflow.ellipsis,
                           ),
+                        ),
                       ],
                     ),
                   ),
-                  horizontalSpace(6),
-                  if (widget.status == 'Cancelled' || isCancelled)
-                    Row(
+                  Container(
+                    height: 24.h,
+                    width: 1,
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: Row(
                       children: [
-                        const Icon(Icons.close, color: Colors.red),
-                        Text('Cancelled'.tr(),
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold)),
+                        Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16.sp,
+                          color: const Color(0xFF9CA3AF),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'To'.tr(),
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: const Color(0xFF9CA3AF),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                dateFormat.format(DateTime.parse(widget.to)),
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: const Color(0xFF374151),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  if (widget.status == 'Approved' || isApproved)
-                    Row(
-                      children: [
-                        const Icon(Icons.check, color: Colors.green),
-                        Text('Approved'.tr(),
-                            style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  if (widget.status == 'Pending' && !isCancelled && !isApproved)
-                    Row(
-                      children: [
-                        const Icon(Icons.watch_later, color: Colors.orange),
-                        Text('Pending'.tr(),
-                            style: const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
+                  ),
                 ],
               ),
             ),
-            verticalSpace(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(children: [
-                Text(
-                    '${"From".tr()}: ${dateFormat.format(DateTime.parse(widget.from))}\n${"To".tr()}: ${dateFormat.format(DateTime.parse(widget.to))}',
-                    style: AppStylesManger.font15regulerGrey
-                        .copyWith(height: 1.5, color: Colors.black54)),
-                const Spacer(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Text(
-                    '${"Reason".tr()}: ${widget.reason}',
-                    style: AppStylesManger.font15regulerGrey
-                      ..copyWith(height: 1.5, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
+            SizedBox(height: 12.h),
+
+            // Reason Block
+            if (widget.reason.isNotEmpty) ...[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${'Reason'.tr()}: ',
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF374151),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.reason,
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: const Color(0xFF6B7280),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-              ]),
-            ),
-            verticalSpace(9),
-            if (widget.type == 'Icident')
-              widget.employeeId == widget.createdBy
-                  ? Text('He is Created This Request'.tr(),
-                      style: AppStylesManger.font15regulerGrey)
-                  : Text(
-                      'Request Created By Anther Employee'.tr(),
-                      style: AppStylesManger.font15regulerGrey),
-            verticalSpace(5),
-            if (widget.status == 'Pending' && !isCancelled && !isApproved)
+              ),
+              SizedBox(height: 16.h),
+            ],
+
+            // Action Buttons (Only when Pending)
+            if (status == 'Pending') ...[
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
-                    child: RequestButton(
-                      text: Text(
-                        'Approve'.tr(),
-                        style: AppStylesManger.font14regularWhite.copyWith(
-                            color: Colors.green[900],
-                            fontWeight: FontWeight.bold),
+                    child: InkWell(
+                      onTap: () => approveOrCancelLeaveRequest('Approved', context),
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFDCFCE7),
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: const Color(0xFFBBF7D0),
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Approve'.tr(),
+                            style: TextStyle(
+                              color: const Color(0xFF15803D),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
                       ),
-                      color: Colors.green[200]!,
-                      onPressed: () {
-                        approveOrCancelLeaveRequest(
-                            'Approved', context, widget.userToken, widget.name);
-                      },
                     ),
                   ),
-                  horizontalSpace(10),
+                  SizedBox(width: 12.w),
                   Expanded(
-                    child: RequestButton(
-                      text: Text(
-                        'Reject'.tr(),
-                        style: AppStylesManger.font14RedularRed,
+                    child: InkWell(
+                      onTap: () => approveOrCancelLeaveRequest('Cancelled', context),
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEE2E2),
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: const Color(0xFFFECACA),
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Reject'.tr(),
+                            style: TextStyle(
+                              color: const Color(0xFFB91C1C),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
                       ),
-                      color: Colors.red[200]!,
-                      onPressed: () {
-                        approveOrCancelLeaveRequest('Cancelled', context,
-                            widget.userToken, widget.name);
-                      },
                     ),
                   ),
                 ],
-              )
+              ),
+            ],
           ],
         ),
       ),
@@ -245,27 +407,9 @@ class _LeaveApplicationItemState extends State<LeaveApplicationItem> {
   void approveOrCancelLeaveRequest(
     String action,
     BuildContext context,
-    String userToken,
-    String userName,
   ) {
-    if (action == 'Approved') {
-      setState(() {
-        isApproved = true;
-        isCancelled = false;
-      });
-    } else if (action == 'Cancelled') {
-      setState(() {
-        isApproved = false;
-        isCancelled = true;
-      });
-    }
-
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
         .approveOrRejectLeaveRequest(status: action, id: widget.id);
-    getIt<NotificationRepo>().sendSingleNotification(
-        token: userToken,
-        title: 'Hi, $userName'.tr(),
-        body: 'your leave request has been $action'.tr());
   }
 }
 

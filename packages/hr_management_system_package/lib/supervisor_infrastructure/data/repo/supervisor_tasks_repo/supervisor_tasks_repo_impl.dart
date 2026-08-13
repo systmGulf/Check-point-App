@@ -14,13 +14,24 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
 
   @override
   // add Task
-  Future<Either<Failure, void>> addTask(
+  Future<Either<Failure, int?>> addTask(
       {required AddTaskRequestBody addTaskRequestBody}) async {
     try {
       final result = await apiService.post(
           endPoint: ApiConstant.task, body: addTaskRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return const Right(null);
+        dynamic taskValue = result['value'];
+        int? createdTaskId;
+        if (taskValue != null) {
+          if (taskValue is Map && taskValue['id'] != null) {
+            createdTaskId = int.tryParse(taskValue['id'].toString());
+          } else if (taskValue is int) {
+            createdTaskId = taskValue;
+          } else if (taskValue is String) {
+            createdTaskId = int.tryParse(taskValue);
+          }
+        }
+        return Right(createdTaskId);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
@@ -34,9 +45,10 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   Future<Either<Failure, List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber}) async {
     try {
-      final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.task}/department/${ApiConstant.departmentId}");
+      final endPoint = ApiConstant.departmentId.isEmpty
+          ? ApiConstant.task
+          : "${ApiConstant.task}/department/${ApiConstant.departmentId}";
+      final result = await apiService.get(endPoint: endPoint);
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
           List<GetTasData>.from((result['value']['data'] as List)

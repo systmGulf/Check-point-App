@@ -19,20 +19,20 @@ import '../../../../../../core/widgets/custom_filter_container.dart';
 import '../../../../../../core/widgets/custom_filter_floating_action_button.dart';
 import '../../../../../../core/widgets/no_data_found_animation_widget.dart';
 import '../../../../../../core/widgets/no_interet_connextion_widget.dart';
-import '../../contoller/get_employees_data_cubit/get_employees_data_cubit.dart';
-import '../../contoller/tasks_cubit/tasks_cubit.dart';
-import '../atoms/task_item.dart';
-import '../molecules/supervisor_tasks_loading_skeleton.dart';
-import 'assign_task_screen.dart';
+import '../../../../supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
+import '../../../../supervisor/supervisor_home/atomic_ui/atoms/task_item.dart';
+import '../../../../supervisor/supervisor_home/atomic_ui/molecules/supervisor_tasks_loading_skeleton.dart';
+import '../../controllers/mange_employee_cubit/employee_cubit.dart';
+import 'admin_assign_task_screen.dart';
 
-class SupervisorTasksScreen extends StatefulWidget {
-  const SupervisorTasksScreen({super.key});
+class AdminTasksScreen extends StatefulWidget {
+  const AdminTasksScreen({super.key});
 
   @override
-  State<SupervisorTasksScreen> createState() => _SupervisorTasksScreenState();
+  State<AdminTasksScreen> createState() => _AdminTasksScreenState();
 }
 
-class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
+class _AdminTasksScreenState extends State<AdminTasksScreen> {
   final ScrollController _scrollController = ScrollController();
   int nextPageNumber = 1;
   bool isLoading = false;
@@ -99,6 +99,16 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF9FAFB),
+      appBar: AppBar(
+        title: Text('Tasks'.tr(), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
@@ -136,10 +146,8 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                     selectedStatus = TaskStatus.InProgress.name;
                   } else if (filterData['statusTwo'] == true) {
                     selectedStatus = TaskStatus.Done.name;
-                    ;
                   } else if (filterData['statusThree'] == true) {
                     selectedStatus = TaskStatus.Pending.name;
-                    ;
                   } else {
                     selectedStatus = null;
                   }
@@ -150,7 +158,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
           CustomFloatingActionButton(
             text: 'Add Task'.tr(),
             onTap: () {
-              context.pushName(Routes.supervisorAddTasksScreen).then((value) {
+              context.pushName(Routes.adminAddTasksScreen).then((value) {
                 context.read<TasksCubit>().getTasks();
               });
             },
@@ -211,8 +219,9 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                     context.read<TasksCubit>().getTasks();
                   })
                 : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.error, color: Colors.red),
+                      const Center(child: Icon(Icons.error, color: Colors.red, size: 40)),
                       verticalSpace(20),
                       Text(state.errorMessage)
                     ],
@@ -227,6 +236,7 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                     onRefresh: () => context.read<TasksCubit>().getTasks(),
                     child: ListView(
                       shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       children: [
                         ListView.builder(
                           controller: _scrollController,
@@ -255,12 +265,11 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                                               value: context.read<TasksCubit>(),
                                             ),
                                             BlocProvider(
-                                              create: (context) => getIt<
-                                                  GetEmployeesDataCubit>()
-                                                ..getEmployeesByDepartmentId(),
+                                              create: (context) => getIt<EmployeeCubit>()
+                                                ..getAllEmployees(pageNumber: 0, itemCount: 1000),
                                             ),
                                           ],
-                                          child: AssignTaskScreen(
+                                          child: AdminAssignTaskScreen(
                                             taskId: currentTask.id!,
                                           ),
                                         ),
@@ -283,9 +292,11 @@ class _SupervisorTasksScreenState extends State<SupervisorTasksScreen> {
                         if (state is GetTaskPaginationLoading &&
                             !maxScrollExtent)
                           Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: CircularProgressIndicator(
-                                color: ColorsManger.primaryColor),
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                  color: ColorsManger.primaryColor),
+                            ),
                           ),
                       ],
                     ),

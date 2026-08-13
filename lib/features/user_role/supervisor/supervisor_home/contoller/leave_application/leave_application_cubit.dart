@@ -46,7 +46,7 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
   }) async {
     if (_isRequesting) return;
     _isRequesting = true;
-    emit(ApproveOrRejectLeaveApplicationLoading());
+    emit(ApproveOrRejectLeaveApplicationLoading(id: id));
     final result = await supervisorRepo.approveOrRejectLeaveRequest(
       body: ChangeRequestLeaveStatus(
         leaveRequestId: id,
@@ -57,12 +57,12 @@ class LeaveApplicationCubitSupervisor extends Cubit<LeaveApplicationState> {
       (l) {
         if (isClosed) return;
         _isRequesting = false;
-        emit(ApproveOrRejectLeaveApplicationFailure(error: l.message));
+        emit(ApproveOrRejectLeaveApplicationFailure(error: l.message, id: id));
       },
       (r) {
         if (isClosed) return;
         _isRequesting = false;
-        emit(ApproveOrRejectLeaveApplicationSuccess());
+        emit(ApproveOrRejectLeaveApplicationSuccess(id: id, status: status));
       },
     );
   }

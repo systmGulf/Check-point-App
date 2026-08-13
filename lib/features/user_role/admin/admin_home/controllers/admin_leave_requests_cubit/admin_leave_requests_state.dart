@@ -29,17 +29,31 @@ class GetAllLeaveRequestsFailure extends AdminLeaveRequestsState {
   List<Object?> get props => [error];
 }
 
-class ApproveOrRejectAdminLeaveRequestLoading extends AdminLeaveRequestsState {}
+class ApproveOrRejectAdminLeaveRequestLoading extends AdminLeaveRequestsState {
+  final int id;
+  const ApproveOrRejectAdminLeaveRequestLoading({required this.id});
 
-class ApproveOrRejectAdminLeaveRequestSuccess extends AdminLeaveRequestsState {}
+  @override
+  List<Object?> get props => [id];
+}
+
+class ApproveOrRejectAdminLeaveRequestSuccess extends AdminLeaveRequestsState {
+  final int id;
+  final String status;
+  const ApproveOrRejectAdminLeaveRequestSuccess({required this.id, required this.status});
+
+  @override
+  List<Object?> get props => [id, status];
+}
 
 class ApproveOrRejectAdminLeaveRequestFailure extends AdminLeaveRequestsState {
   final String error;
+  final int id;
 
-  const ApproveOrRejectAdminLeaveRequestFailure({required this.error});
+  const ApproveOrRejectAdminLeaveRequestFailure({required this.error, required this.id});
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [error, id];
 }
 
 class DeleteAdminLeaveRequestLoading extends AdminLeaveRequestsState {}

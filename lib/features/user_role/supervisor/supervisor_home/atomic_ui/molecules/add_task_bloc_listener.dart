@@ -14,6 +14,7 @@ class AddTaskBlocListener extends StatelessWidget {
     return BlocListener<TasksCubit, TasksState>(
       listenWhen: (previous, current) =>
           current is AddTaskLoading ||
+          current is AssignTaskLoading ||
           current is AddTaskError ||
           current is AddTaskSuccess,
       listener: (context, state) {
@@ -29,7 +30,7 @@ class AddTaskBlocListener extends StatelessWidget {
           buildSnackBar(context,
               customSnackBar:
                   CustomSnackBar.error(message: state.errorMessage));
-        } else {
+        } else if (state is AddTaskLoading || state is AssignTaskLoading) {
           customLoadingIndicator(context);
         }
       },

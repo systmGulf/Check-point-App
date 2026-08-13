@@ -18,6 +18,8 @@ import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_notifica
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attendance_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_leaves_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_attend_selection_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_tasks_screen.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/admin_add_tasks_screen.dart';
 import '../../features/user_role/admin/admin_home/controllers/admin_attendance_cubit/admin_attendance_cubit.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/all_users_screen.dart';
 import '../../features/user_role/admin/admin_home/atomic_ui/pages/clients_screen.dart';
@@ -93,8 +95,15 @@ abstract class AppRouter {
         );
       case Routes.supervisorAddTasksScreen:
         return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<TasksCubit>(),
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<TasksCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<GetEmployeesDataCubit>()..getEmployeesByDepartmentId(),
+              ),
+            ],
             child: const SupervisorAddTasksScreen(),
           ),
         );
@@ -103,6 +112,27 @@ abstract class AppRouter {
           page: BlocProvider(
             create: (context) => getIt<TasksCubit>()..getTasks(),
             child: const SupervisorTasksScreen(),
+          ),
+        );
+      case Routes.adminTasksScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<TasksCubit>()..getTasks(),
+            child: const AdminTasksScreen(),
+          ),
+        );
+      case Routes.adminAddTasksScreen:
+        return BaseRoute(
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<TasksCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<EmployeeCubit>()..getAllEmployees(pageNumber: 0, itemCount: 1000),
+              ),
+            ],
+            child: const AdminAddTasksScreen(),
           ),
         );
       case Routes.leaveApplicationScreen:

@@ -7,11 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/error_widget.dart';
+import '../../../../../../core/widgets/custom_loading_indicator.dart';
 import '../../contoller/leave_application/leave_application_cubit.dart';
 import '../atoms/leave_application_item.dart';
 import '../molecules/recent_leave_application_loading_skeleton.dart';
 
-class RecentLeaveApplication extends StatelessWidget {
+class RecentLeaveApplication extends StatefulWidget {
   const RecentLeaveApplication({
     super.key,
     required this.type,
@@ -19,30 +20,61 @@ class RecentLeaveApplication extends StatelessWidget {
   final String type;
 
   @override
-  Widget build(BuildContext context) {
+  State<RecentLeaveApplication> createState() => _RecentLeaveApplicationState();
+}
+
+class _RecentLeaveApplicationState extends State<RecentLeaveApplication> {
+  bool isLoadingDialogShowing = false;
+
+  @override
+  void initState() {
+    super.initState();
     BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
         .getLeaveApplication(
-      type: type,
+      type: widget.type,
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
         BlocProvider.of<LeaveApplicationCubitSupervisor>(context)
             .getLeaveApplication(
-          type: type,
+          type: widget.type,
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            child: Column(
-              children: [
-                verticalSpace(10),
-                BlocBuilder<LeaveApplicationCubitSupervisor,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: Column(
+                children: [
+                  verticalSpace(10),
+                BlocConsumer<LeaveApplicationCubitSupervisor,
                     LeaveApplicationState>(
+                  listenWhen: (previous, current) =>
+                      current is ApproveOrRejectLeaveApplicationLoading ||
+                      current is ApproveOrRejectLeaveApplicationSuccess ||
+                      current is ApproveOrRejectLeaveApplicationFailure,
+                  listener: (context, state) {
+                    if (state is ApproveOrRejectLeaveApplicationLoading) {
+                      if (!isLoadingDialogShowing) {
+                        isLoadingDialogShowing = true;
+                        customLoadingIndicator(context);
+                      }
+                    } else {
+                      if (isLoadingDialogShowing) {
+                        Navigator.pop(context); // Pop loading dialog
+                        isLoadingDialogShowing = false;
+                      }
+                    }
+                  },
                   buildWhen: (previous, current) =>
                       current is GetLeaveApplicationSuccess ||
                       current is GetLeaveApplicationFailure ||
@@ -55,7 +87,7 @@ class RecentLeaveApplication extends StatelessWidget {
                             BlocProvider.of<LeaveApplicationCubitSupervisor>(
                                     context)
                                 .getLeaveApplication(
-                              type: type,
+                              type: widget.type,
                             );
                           });
                     }
@@ -118,7 +150,7 @@ class RecentLeaveApplication extends StatelessWidget {
                                                   .employee
                                                   ?.id ??
                                               '',
-                                          type: type,
+                                          type: widget.type,
                                           createdBy: state
                                                   .getLeaveRequestModel
                                                   .value!
@@ -181,6 +213,7 @@ class RecentLeaveApplication extends StatelessWidget {
           )
         ],
       ),
+     ),
     );
   }
 }

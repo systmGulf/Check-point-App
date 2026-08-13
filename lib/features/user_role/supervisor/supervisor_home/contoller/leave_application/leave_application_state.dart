@@ -23,12 +23,29 @@ class GetLeaveApplicationFailure extends LeaveApplicationState {
   const GetLeaveApplicationFailure({required this.error});
 }
 
-class ApproveOrRejectLeaveApplicationLoading extends LeaveApplicationState {}
+class ApproveOrRejectLeaveApplicationLoading extends LeaveApplicationState {
+  final int id;
+  const ApproveOrRejectLeaveApplicationLoading({required this.id});
 
-class ApproveOrRejectLeaveApplicationSuccess extends LeaveApplicationState {}
+  @override
+  List<Object> get props => [id];
+}
+
+class ApproveOrRejectLeaveApplicationSuccess extends LeaveApplicationState {
+  final int id;
+  final String status;
+  const ApproveOrRejectLeaveApplicationSuccess({required this.id, required this.status});
+
+  @override
+  List<Object> get props => [id, status];
+}
 
 class ApproveOrRejectLeaveApplicationFailure extends LeaveApplicationState {
   final String error;
+  final int id;
 
-  const ApproveOrRejectLeaveApplicationFailure({required this.error});
+  const ApproveOrRejectLeaveApplicationFailure({required this.error, required this.id});
+
+  @override
+  List<Object> get props => [error, id];
 }

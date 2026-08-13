@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 
@@ -21,114 +20,90 @@ class priorityWidget extends StatefulWidget {
 
 class _priorityWidgetState extends State<priorityWidget> {
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField(
-      dropdownColor: Colors.white,
-      isExpanded: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: Colors.white,
-            width: 1,
-          ),
-        ),
-        fillColor: context
-                    .read<TasksCubit>()
-                    .priorityStatus
-                    .tr() ==
-                'medium'.tr()
-            ? const Color(0xFFF0ECFF)
-            : context.read<TasksCubit>().priorityStatus.tr() ==
-                    'low'.tr()
-                ? const Color(0xFFE3F2FF)
-                : Color(0XFFFFE4F2),
-        filled: true,
-        prefixIcon: Icon(
-          Icons.flag_outlined,
-          color:
-              context.read<TasksCubit>().priorityStatus.tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr()
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red,
-        ),
-        suffixIcon: SizedBox(
-          width: 24,
-          child: Center(
-            child: SvgPicture.asset(
-              'assets/images/arrow_down.svg',
-              color: context
-                          .read<TasksCubit>()
-                          .priorityStatus
-                          .tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red,
+    final currentPriority = context.watch<TasksCubit>().priorityStatus;
+
+    final priorities = [
+      {
+        'value': 'low',
+        'label': 'Low'.tr(),
+        'color': const Color(0xFF0087FF),
+        'bg': const Color(0xFFE3F2FF),
+      },
+      {
+        'value': 'medium',
+        'label': 'Medium'.tr(),
+        'color': const Color(0xFF5F33E1),
+        'bg': const Color(0xFFF0ECFF),
+      },
+      {
+        'value': 'high',
+        'label': 'High'.tr(),
+        'color': const Color(0xFFE73C3C),
+        'bg': const Color(0xFFFFE8F0),
+      },
+    ];
+
+    return Row(
+      children: priorities.map((p) {
+        final isSelected = currentPriority == p['value'];
+        final color = p['color'] as Color;
+        final bg = p['bg'] as Color;
+        final label = p['label'] as String;
+        final value = p['value'] as String;
+
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: InkWell(
+              onTap: () {
+                widget.onChanged(value);
+              },
+              borderRadius: BorderRadius.circular(12.r),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: isSelected ? bg : Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: isSelected ? color : const Color(0xFFE8D9D9),
+                    width: isSelected ? 2.0 : 1.2,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: color.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          )
+                        ]
+                      : null,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      isSelected ? Icons.flag : Icons.flag_outlined,
+                      color: isSelected ? color : const Color(0xFF8B8B94),
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 6.w),
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        color: isSelected ? color : const Color(0xFF5C4B4B),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-      ),
-      icon: const SizedBox(),
-      initialValue: context.read<TasksCubit>().priorityStatus,
-      style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w500,
-          color:
-              context.read<TasksCubit>().priorityStatus.tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red),
-      items: [
-        DropdownMenuItem(
-          value: 'low',
-          child: Text('low'.tr()),
-        ),
-        DropdownMenuItem(
-          value: 'medium',
-          child: Text('medium'.tr()),
-        ),
-        DropdownMenuItem(
-          value: 'high',
-          child: Text('high'.tr()),
-        ),
-      ],
-      onChanged: widget.onChanged,
+        );
+      }).toList(),
     );
   }
 }

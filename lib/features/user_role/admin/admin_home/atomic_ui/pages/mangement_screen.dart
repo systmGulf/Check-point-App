@@ -62,6 +62,17 @@ class ManagementScreen extends StatelessWidget {
           icon: Icons.event_note,
         ),
       ),
+      SlideInLeft(
+        from: 250,
+        child: AdminManagementScreenItems(
+          color: Colors.blue,
+          onTap: () {
+            context.pushName(Routes.adminTasksScreen);
+          },
+          text: 'Tasks'.tr(),
+          icon: Icons.task_alt_outlined,
+        ),
+      ),
     ];
     return Stack(
       children: [

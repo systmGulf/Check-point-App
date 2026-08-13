@@ -59,7 +59,7 @@ class TasksCubit extends Cubit<TasksState> {
       (l) {
         if (!isClosed) emit(AddTaskError(errorMessage: l.message));
       },
-      (r) async {
+      (createdId) async {
         await getTasks();
         titleController.clear();
         descriptionController.clear();
@@ -68,7 +68,7 @@ class TasksCubit extends Cubit<TasksState> {
         final taskToEmit = tasks.isNotEmpty
             ? tasks.first
             : GetTasData(
-                id: 0,
+                id: createdId ?? 0,
                 title: titleValue,
                 description: descriptionValue,
                 dueDate: dueDateValue,
@@ -76,7 +76,104 @@ class TasksCubit extends Cubit<TasksState> {
                 status: 'Pending',
                 employees: const [],
               );
+        if (createdId != null) {
+          taskToEmit.id = createdId;
+        }
         if (!isClosed) emit(AddTaskSuccess(createdTask: taskToEmit));
+      },
+    );
+  }
+
+  Future<void> addAndAssignTask({
+    required String title,
+    required String description,
+    required String dueDate,
+    required String priorityStatus,
+    required List<DropdownItemModel> assignees,
+  }) async {
+    emit(AddTaskLoading());
+    if (title.isEmpty || description.isEmpty || dueDate.isEmpty) {
+      if (!isClosed) {
+        emit(
+          AddTaskError(errorMessage: 'supervisor.tasks.completeAllFields'),
+        );
+      }
+      return;
+    }
+    if (assignees.isEmpty) {
+      if (!isClosed) {
+        emit(
+          AddTaskError(errorMessage: 'supervisor.tasks.selectEmployee'),
+        );
+      }
+      return;
+    }
+    final result = await supervisorRepo.addTask(
+      addTaskRequestBody: AddTaskRequestBody(
+        title: title,
+        description: description,
+        dueDate: dueDate,
+        priorityStatus: priorityStatus,
+        status: 'Pending',
+      ),
+    );
+    await result.fold(
+      (l) async {
+        if (!isClosed) emit(AddTaskError(errorMessage: l.message));
+      },
+      (createdId) async {
+        await getTasks();
+        titleController.clear();
+        descriptionController.clear();
+        this.dueDate = '';
+        this.priorityStatus = 'medium';
+
+        int? taskId = createdId;
+        GetTasData newlyCreatedTask;
+        try {
+          newlyCreatedTask = tasks.firstWhere((t) => t.id == taskId);
+        } catch (_) {
+          try {
+            newlyCreatedTask = tasks.firstWhere(
+              (t) => t.title == title && t.description == description,
+            );
+          } catch (_) {
+            newlyCreatedTask = tasks.isNotEmpty
+                ? tasks.first
+                : GetTasData(
+                    id: taskId ?? 0,
+                    title: title,
+                    description: description,
+                    dueDate: dueDate,
+                    priorityStatus: _normalizePriority(priorityStatus),
+                    status: 'Pending',
+                    employees: const [],
+                  );
+          }
+        }
+        taskId ??= newlyCreatedTask.id;
+
+        if (assignees.isNotEmpty && taskId != null && taskId != 0) {
+          emit(AssignTaskLoading());
+          final assignResult = await supervisorRepo.assignTask(
+            employeeIds: assignees.map((e) => e.id).toList(),
+            taskId: taskId,
+          );
+          assignResult.fold(
+            (assignErr) {
+              if (!isClosed) emit(AddTaskError(errorMessage: assignErr.message));
+            },
+            (_) {
+              _notifyEmployees(employees: assignees);
+              if (taskId != null) {
+                newlyCreatedTask.id = taskId;
+              }
+              if (!isClosed) emit(AddTaskSuccess(createdTask: newlyCreatedTask));
+            },
+          );
+        } else {
+          if (!isClosed) emit(AddTaskSuccess(createdTask: newlyCreatedTask));
+        }
       },
     );
   }
@@ -123,15 +220,17 @@ class TasksCubit extends Cubit<TasksState> {
     return priorityValue[0].toUpperCase() + priorityValue.substring(1);
   }
 
-  Future<void> deleteTask({required int id}) async {
+  Future<bool> deleteTask({required int id}) async {
     emit(DeleteTaskLoading());
     final result = await supervisorRepo.deleteTaskById(id: id);
-    result.fold(
+    return result.fold(
       (l) {
         if (!isClosed) emit(DeleteTaskError(errorMessage: l.message));
+        return false;
       },
       (r) {
         if (!isClosed) emit(DeleteTaskSuccess());
+        return true;
       },
     );
   }

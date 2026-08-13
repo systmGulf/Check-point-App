@@ -26,8 +26,8 @@ class AdminLeaveRequestsRepoImpl implements AdminLeaveRequestsRepo {
       {required ChangeRequestLeaveStatus body}) async {
     try {
       final result = await apiservice.put(
-        endPoint: "${ApiConstant.leaveRequest}/leaveRequestStatus",
-        body: body.toJson(),
+        endPoint: "${ApiConstant.leaveRequest}/leaveRequestStatus/${body.leaveRequestId}/${body.status}",
+        body: const {},
       );
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);

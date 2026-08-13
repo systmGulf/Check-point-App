@@ -72,6 +72,7 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                 spacing: 10,
               ),
               onSelectionChange: (selectedItems) {
+                context.read<TasksCubit>().dropdownItems.clear();
                 context.read<TasksCubit>().dropdownItems.addAll(selectedItems);
               },
             );
