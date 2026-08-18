@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../core/styles/styles.dart';
-
 class CheckingHomeContainer extends StatelessWidget {
   const CheckingHomeContainer({
     super.key,
@@ -18,34 +16,57 @@ class CheckingHomeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerEnd,
-      child: Container(
-        height: 152.h,
-        width: 152.h,
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Align(
-                alignment: AlignmentDirectional.center,
-                child: Image.asset(
-                  height: 50.h,
-                  color: iconColor,
-                  image,
-                )),
-            Text(string,
-                style: AppStylesManger.font15BoldBlack
-                    .copyWith(color: Colors.black)),
-            Text(time,
-                style: AppStylesManger.font12RegularGrey
-                    .copyWith(color: Colors.black)),
+    // Check if Check In or Check Out based on the label string
+    final isCheckIn = string.toLowerCase().contains('in') || string.contains('حضور');
+
+    final Color themeColor = isCheckIn ? Colors.green.shade700 : Colors.red.shade700;
+    final Color iconBgColor = isCheckIn ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE);
+    final IconData iconData = isCheckIn ? Icons.login_rounded : Icons.logout_rounded;
+
+    return Container(
+      height: 152.h,
+      width: 152.h,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: themeColor.withOpacity(0.3), width: 1.2),
+        borderRadius: BorderRadius.circular(24.r),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(12.r),
+            decoration: BoxDecoration(
+              color: iconBgColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              iconData,
+              color: themeColor,
+              size: 24.sp,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            string,
+            style: TextStyle(
+              color: themeColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (time.isNotEmpty && time != '00:00' && time != '--' && time != 'null' && time != '09:00 AM' && time != '05:00 PM') ...[
+            const SizedBox(height: 4),
+            Text(
+              time,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
