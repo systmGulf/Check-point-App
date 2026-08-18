@@ -31,7 +31,11 @@ class LocalNotificationService {
     await init();
 
     const notificationDetails = NotificationDetails(
-      iOS: DarwinNotificationDetails(),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
       android: AndroidNotificationDetails('channel_id', 'channel_name',
           priority: Priority.high, importance: Importance.max),
     );
@@ -47,7 +51,11 @@ class LocalNotificationService {
     await init();
 
     const notificationDetails = NotificationDetails(
-      iOS: DarwinNotificationDetails(),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
       android: AndroidNotificationDetails('channel_id', 'channel_name',
           priority: Priority.high, importance: Importance.max),
     );
