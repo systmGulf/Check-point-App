@@ -26,7 +26,7 @@ class CustomCheckingScreenAppBar extends StatelessWidget {
           ],
         ),
       ),
-      padding: EdgeInsets.only(
+      padding: EdgeInsetsDirectional.only(
         start: 16.w,
         end: 16.w,
         top: MediaQuery.of(context).padding.top + 8.h,
