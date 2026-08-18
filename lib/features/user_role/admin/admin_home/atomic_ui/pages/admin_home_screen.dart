@@ -92,8 +92,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         ),
         child: SafeArea(
           child: Container(
-            height: 64.h,
-            padding: EdgeInsets.symmetric(vertical: 4.h),
+            padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(texts.length, (index) {
@@ -126,7 +125,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       );
                     },
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           width: 24.w,
@@ -136,11 +135,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
+                        SizedBox(height: 6.h),
                         Icon(
                           iconData,
                           color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
                           size: 24.sp,
                         ),
+                        SizedBox(height: 4.h),
                         Text(
                           texts[index],
                           style: TextStyle(
