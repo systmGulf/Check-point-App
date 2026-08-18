@@ -30,31 +30,10 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(),
-        Container(
-          width: 220.w,
-          height: 120.h,
-          padding: EdgeInsets.all(18.r),
-          decoration: BoxDecoration(
-            color: ColorsManger.primaryColor,
-            borderRadius: BorderRadius.circular(28.r),
-            boxShadow: [
-              BoxShadow(
-                color: ColorsManger.primaryColor.withValues(alpha: 0.12),
-                blurRadius: 24,
-                offset: const Offset(0, 12),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              'Enlighten',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+        Image.asset(
+          'assets/images/enlighten_logo_gold-02.png',
+          width: 280.w,
+          fit: BoxFit.contain,
         ),
         const Spacer(),
         const Align(alignment: Alignment.center, child: ProgressLoadingBar()),

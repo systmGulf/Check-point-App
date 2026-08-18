@@ -7,6 +7,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: SplashScreenBody());
+    return const Scaffold(
+      backgroundColor: Colors.black,
+      body: SplashScreenBody(),
+    );
   }
 }
