@@ -6,7 +6,7 @@ import '../../models/task_model/add_task_request_body.dart';
 
 abstract class SupervisorTasksRepo {
   // add Tasks
-  Future<Either<Failure, void>> addTask(
+  Future<Either<Failure, int>> addTask(
       {required AddTaskRequestBody addTaskRequestBody});
   // Get all Tasks by department Id
   Future<Either<Failure, List<GetTasData>>> getAllTasksByDepartmentId(

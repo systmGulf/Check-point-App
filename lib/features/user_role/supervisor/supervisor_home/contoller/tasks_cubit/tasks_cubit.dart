@@ -65,17 +65,15 @@ class TasksCubit extends Cubit<TasksState> {
         descriptionController.clear();
         this.dueDate = '';
         this.priorityStatus = 'medium';
-        final taskToEmit = tasks.isNotEmpty
-            ? tasks.first
-            : GetTasData(
-                id: 0,
-                title: titleValue,
-                description: descriptionValue,
-                dueDate: dueDateValue,
-                priorityStatus: _normalizePriority(priorityValue),
-                status: 'Pending',
-                employees: const [],
-              );
+        final taskToEmit = GetTasData(
+          id: r,
+          title: titleValue,
+          description: descriptionValue,
+          dueDate: dueDateValue,
+          priorityStatus: _normalizePriority(priorityValue),
+          status: 'Pending',
+          employees: const [],
+        );
         if (!isClosed) emit(AddTaskSuccess(createdTask: taskToEmit));
       },
     );

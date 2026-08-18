@@ -14,13 +14,14 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
 
   @override
   // add Task
-  Future<Either<Failure, void>> addTask(
+  Future<Either<Failure, int>> addTask(
       {required AddTaskRequestBody addTaskRequestBody}) async {
     try {
       final result = await apiService.post(
           endPoint: ApiConstant.task, body: addTaskRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
-        return const Right(null);
+        final id = result['value']['id'] as int;
+        return Right(id);
       } else {
         return Left(ErrorHandler.responseFailure(result));
       }
