@@ -53,6 +53,9 @@ Future<void> main() async {
 
   if (Platform.isAndroid) {
     await Permission.ignoreBatteryOptimizations.request();
+    await Permission.notification.request();
+  } else {
+    await Permission.notification.request();
   }
   PermissionStatus locationStatus =
       await Permission.locationWhenInUse.request();
