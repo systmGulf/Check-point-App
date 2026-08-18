@@ -1,5 +1,4 @@
 import 'package:employee_mangement/core/helpers/extention.dart';
-import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
@@ -36,7 +35,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           height: 120.h,
           padding: EdgeInsets.all(18.r),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorsManger.primaryColor,
             borderRadius: BorderRadius.circular(28.r),
             boxShadow: [
               BoxShadow(
@@ -46,9 +45,15 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
               ),
             ],
           ),
-          child: Image.asset(
-            Assets.AppLogoImage,
-            fit: BoxFit.contain,
+          child: Center(
+            child: Text(
+              'Enlighten',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         const Spacer(),

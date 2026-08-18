@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../controller/leave_application/leave_application_cubit.dart';
 import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/services/odoo_timeoff_service.dart';
 
 enum LeaveRequestDateField { from, to }
 
@@ -64,11 +65,39 @@ class _DateButtonLeaveRequestState extends State<DateButtonLeaveRequest> {
   }
 
   pickDate() async {
+    final cubit = BlocProvider.of<LeaveApplicationCubit>(context);
+    
+    DateTime initial = selectedDate ?? DateTime.now();
+    
+    bool isHoliday(DateTime day) {
+      for (var holiday in cubit.publicHolidays) {
+        try {
+          final from = DateTime.parse(holiday.dateFrom);
+          final to = DateTime.parse(holiday.dateTo);
+          final checkDay = DateTime(day.year, day.month, day.day);
+          final start = DateTime(from.year, from.month, from.day);
+          final end = DateTime(to.year, to.month, to.day);
+          if (checkDay.compareTo(start) >= 0 && checkDay.compareTo(end) <= 0) {
+            return true;
+          }
+        } catch (_) {}
+      }
+      return false;
+    }
+
+    while (isHoliday(initial)) {
+      initial = initial.add(const Duration(days: 1));
+    }
+
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate ?? DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101));
+        initialDate: initial,
+        firstDate: DateTime.now().subtract(const Duration(days: 365)),
+        lastDate: DateTime(2101),
+        selectableDayPredicate: (DateTime day) {
+          return !isHoliday(day);
+        },
+    );
     if (picked != null && picked != selectedDate) {
       final formattedDate = DateFormat('yyyy-MM-dd', 'en').format(picked);
       setState(() {

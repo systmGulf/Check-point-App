@@ -96,11 +96,13 @@ class _UserRoleScreenBodyState extends State<UserRoleScreenBody> {
                     ),
                   ],
                 ),
-                child: AnimatedImageWidget(
-                  imagePath: Assets.AppLogoImage,
-                  width: 110.w,
-                  height: 30.h,
-                  fit: BoxFit.contain,
+                child: Text(
+                  'Enlighten',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

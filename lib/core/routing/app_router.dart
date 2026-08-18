@@ -57,6 +57,10 @@ import '../../features/user_role/employee/employee_home/controller/attendence/at
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
+import '../../features/user_role/employee/employee_home/controller/odoo_dashboard/odoo_dashboard_cubit.dart';
+import '../../features/user_role/employee/employee_home/atomic_ui/pages/odoo_dashboard_screen.dart';
+import '../../features/user_role/admin/admin_home/controllers/odoo_admin_dashboard/odoo_admin_dashboard_cubit.dart';
+import '../../features/user_role/admin/admin_home/atomic_ui/pages/odoo_admin_dashboard_screen.dart';
 import '../../features/user_role/employee/employee_home/controller/tasks/tasks_cubit.dart';
 import '../../features/user_role/supervisor/supervisor_auth/ui/views/widgets/screen/supervisor_login_screen.dart';
 import '../../features/user_role/supervisor/supervisor_home/atomic_ui/pages/Supervisor_add_tasks_screen.dart';
@@ -106,10 +110,25 @@ abstract class AppRouter {
           ),
         );
       case Routes.leaveApplicationScreen:
+        final int initialTabIndex = (settings.arguments as int?) ?? 0;
         return BaseRoute(
           page: BlocProvider(
             create: (context) => getIt<LeaveApplicationCubit>(),
-            child: const LeaveApplication(),
+            child: LeaveApplication(initialTabIndex: initialTabIndex),
+          ),
+        );
+      case Routes.odooDashboardScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<OdooDashboardCubit>()..fetchDashboardData(),
+            child: const OdooDashboardScreen(),
+          ),
+        );
+      case Routes.odooAdminDashboardScreen:
+        return BaseRoute(
+          page: BlocProvider(
+            create: (context) => getIt<OdooAdminDashboardCubit>()..fetchAdminDashboardData(),
+            child: const OdooAdminDashboardScreen(),
           ),
         );
       case Routes.onboardingscreen:
@@ -188,7 +207,10 @@ abstract class AppRouter {
               BlocProvider(
                 create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
               ),
-              BlocProvider(create: (context) => getIt<UploadUserImageCubit>())
+              BlocProvider(create: (context) => getIt<UploadUserImageCubit>()),
+              BlocProvider(
+                create: (context) => getIt<AttendanceCubit>()..getCustomerArea(),
+              ),
             ],
             child: const EmployeeHomeScreen(),
           ),

@@ -61,4 +61,6 @@ class Routes {
   static const String adminAttendSelectionScreen =
       '/adminAttendSelectionScreen';
   static const String adminLeavesScreen = '/adminLeavesScreen';
+  static const String odooDashboardScreen = '/odooDashboardScreen';
+  static const String odooAdminDashboardScreen = '/odooAdminDashboardScreen';
 }

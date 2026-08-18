@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../organism/employee_more_option_list_view.dart';
 
@@ -34,9 +33,15 @@ class EmployeeMoreOptionDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Image.asset(
-                  Assets.AppLogoImage,
-                  fit: BoxFit.contain,
+                child: Center(
+                  child: Text(
+                    'Enlighten',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               verticalSpace(20),

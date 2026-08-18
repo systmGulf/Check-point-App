@@ -1,5 +1,4 @@
 import 'package:employee_mangement/core/helpers/app_spaces.dart';
-import 'package:employee_mangement/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -44,9 +43,15 @@ class PermissionScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Image.asset(
-                Assets.AppLogoImage,
-                fit: BoxFit.contain,
+              child: Center(
+                child: Text(
+                  'Enlighten',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             verticalSpace(20),

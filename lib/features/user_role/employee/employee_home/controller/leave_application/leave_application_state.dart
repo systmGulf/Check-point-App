@@ -9,6 +9,41 @@ abstract class LeaveApplicationState extends Equatable {
 
 class LeaveApplicationInitial extends LeaveApplicationState {}
 
+class GetLeaveTypesLoading extends LeaveApplicationState {}
+class GetLeaveTypesSuccess extends LeaveApplicationState {
+  final List<OdooLeaveType> leaveTypes;
+  const GetLeaveTypesSuccess(this.leaveTypes);
+  @override
+  List<Object> get props => [leaveTypes];
+}
+class GetLeaveTypesFailure extends LeaveApplicationState {
+  final String error;
+  const GetLeaveTypesFailure(this.error);
+  @override
+  List<Object> get props => [error];
+}
+
+class GetPublicHolidaysLoading extends LeaveApplicationState {}
+class GetPublicHolidaysSuccess extends LeaveApplicationState {
+  final List<OdooPublicHoliday> publicHolidays;
+  const GetPublicHolidaysSuccess(this.publicHolidays);
+  @override
+  List<Object> get props => [publicHolidays];
+}
+class GetPublicHolidaysFailure extends LeaveApplicationState {
+  final String error;
+  const GetPublicHolidaysFailure(this.error);
+  @override
+  List<Object> get props => [error];
+}
+
+class OdooGetLeaveRequestsSuccess extends LeaveApplicationState {
+  final List<OdooLeaveRequest> requests;
+  const OdooGetLeaveRequestsSuccess(this.requests);
+  @override
+  List<Object> get props => [requests];
+}
+
 class AddLeaveApplicationLoading extends LeaveApplicationState {}
 
 class AddLeaveApplicationSuccess extends LeaveApplicationState {}

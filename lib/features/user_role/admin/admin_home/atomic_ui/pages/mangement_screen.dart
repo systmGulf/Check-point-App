@@ -62,6 +62,17 @@ class ManagementScreen extends StatelessWidget {
           icon: Icons.event_note,
         ),
       ),
+      SlideInLeft(
+        from: 250,
+        child: AdminManagementScreenItems(
+          color: Colors.blue,
+          onTap: () {
+            context.pushName(Routes.odooAdminDashboardScreen);
+          },
+          text: 'Odoo Dashboard'.tr(),
+          icon: Icons.dashboard_rounded,
+        ),
+      ),
     ];
     return Stack(
       children: [

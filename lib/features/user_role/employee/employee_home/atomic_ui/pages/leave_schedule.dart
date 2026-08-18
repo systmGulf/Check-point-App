@@ -11,6 +11,7 @@ import '../../../../../../core/styles/styles.dart';
 import '../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../core/widgets/custom_app_text_form_field.dart';
+import '../../../../../../core/services/odoo_timeoff_service.dart';
 import '../../controller/leave_application/leave_application_cubit.dart';
 import '../atoms/date_button_leave_request.dart';
 import '../organism/create_leave_application_bloc_listiner.dart';
@@ -32,6 +33,9 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
         BlocProvider.of<LeaveApplicationCubit>(context).reasonController;
     remarkController =
         BlocProvider.of<LeaveApplicationCubit>(context).remarkController;
+    final cubit = BlocProvider.of<LeaveApplicationCubit>(context);
+    cubit.fetchLeaveTypes();
+    cubit.fetchPublicHolidays();
     super.initState();
   }
 
@@ -63,6 +67,45 @@ class _LeaveScheduleState extends State<LeaveSchedule> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(children: [
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Leave Type'.tr(),
+                      style: AppStylesManger.font12RegularGrey),
+                ),
+                verticalSpace(10),
+                BlocBuilder<LeaveApplicationCubit, LeaveApplicationState>(
+                  buildWhen: (previous, current) =>
+                      current is GetLeaveTypesSuccess ||
+                      current is GetLeaveTypesFailure ||
+                      current is GetLeaveTypesLoading,
+                  builder: (context, state) {
+                    final cubit = BlocProvider.of<LeaveApplicationCubit>(context);
+                    if (state is GetLeaveTypesLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return DropdownButtonFormField<OdooLeaveType>(
+                      value: cubit.selectedLeaveType,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      ),
+                      items: cubit.leaveTypes.map((type) {
+                        return DropdownMenuItem<OdooLeaveType>(
+                          value: type,
+                          child: Text(type.name),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          cubit.selectedLeaveType = value;
+                        });
+                      },
+                    );
+                  },
+                ),
+                verticalSpace(15),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('For a while'.tr(),

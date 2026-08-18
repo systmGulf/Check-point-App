@@ -21,6 +21,13 @@ class AdminCustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     List<AdminDrawerItem> drawerItems = [
       AdminDrawerItem(
+          icon: Icons.dashboard_rounded,
+          trailingIcon: Icons.arrow_forward_ios,
+          onTap: () {
+            context.pushName(Routes.odooAdminDashboardScreen);
+          },
+          title: 'Odoo Dashboard'.tr()),
+      AdminDrawerItem(
           onTap: () {
             context.pushName(Routes.termsAndConditionsScreen);
           },

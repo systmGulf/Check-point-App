@@ -13,78 +13,37 @@ import '../../../../../../core/improvements/theme_picker_dialog.dart';
 List<Widget> employeeMoreOptionsDrawerItems(BuildContext context) {
   return [
     MoreOptionDrawerItem(
-      title: 'Claims'.tr(
-        context: context,
-      ),
-      children: [
-        OptionDrawerItem(
-          title: 'Claim Application'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.requestClaimApplicationScreen);
-          },
-        ),
-        verticalSpace(10),
-      ],
-    ),
-    MoreOptionDrawerItem(
       title: 'Leaves'.tr(
         context: context,
       ),
       children: [
         OptionDrawerItem(
-          title: 'Leave Application'.tr(
+          title: 'Request Leave'.tr(
             context: context,
           ),
           onPressed: () {
-            context.pushName(Routes.leaveApplicationScreen);
+            context.pushName(Routes.leaveApplicationScreen, arguments: 0);
           },
         ),
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'Leave Planner'.tr(
+          title: 'Public Holidays'.tr(
             context: context,
           ),
           onPressed: () {
-            context.pushName(Routes.leavePlanner);
+            context.pushName(Routes.leaveApplicationScreen, arguments: 1);
           },
         ),
         verticalSpace(10),
         OptionDrawerItem(
-          title: 'Leave Schedule'.tr(
+          title: 'My Leaves'.tr(
             context: context,
           ),
           onPressed: () {
-            context.pushName(Routes.leaveSchedule);
+            context.pushName(Routes.leaveApplicationScreen, arguments: 2);
           },
         ),
         verticalSpace(10),
-      ],
-    ),
-    MoreOptionDrawerItem(
-      title: 'Incidents'.tr(
-        context: context,
-      ),
-      children: [
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'accident Myself'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.incidentMyself);
-          },
-        ),
-        verticalSpace(10),
-        OptionDrawerItem(
-          title: 'Incident Team'.tr(
-            context: context,
-          ),
-          onPressed: () {
-            context.pushName(Routes.incidentTeam);
-          },
-        ),
       ],
     ),
     verticalSpace(10),

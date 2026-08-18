@@ -45,8 +45,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            buildCustomAppBar(context, 'Incident Team'.tr()),
+        appBar: buildCustomAppBar(context, 'Incident Team'.tr()),
         body: Form(
           key: formKey,
           child: Padding(
@@ -192,8 +191,7 @@ class _IncidentTeamState extends State<IncidentTeam> {
                       return null;
                     },
                     maxLines: 5,
-                    hint:
-                        'Reason * (200 Chaaracters Max)'.tr()),
+                    hint: 'Reason * (200 Chaaracters Max)'.tr()),
                 verticalSpace(10),
                 Align(
                   alignment: AlignmentDirectional.centerStart,

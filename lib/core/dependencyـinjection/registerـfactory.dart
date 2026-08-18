@@ -22,6 +22,8 @@ import '../../features/user_role/admin/admin_home/controllers/customer_cubit/cus
 import '../../features/user_role/admin/admin_home/controllers/department_cubit/department_cubit.dart';
 import '../../features/user_role/admin/admin_home/controllers/mange_employee_cubit/employee_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/attendence/attendence_cubit.dart';
+import '../../features/user_role/employee/employee_home/controller/odoo_dashboard/odoo_dashboard_cubit.dart';
+import '../../features/user_role/admin/admin_home/controllers/odoo_admin_dashboard/odoo_admin_dashboard_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/change_password/change_password_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/get_employee_history/get_employee_history_cubit.dart';
 import '../../features/user_role/employee/employee_home/controller/leave_application/leave_application_cubit.dart';
@@ -33,16 +35,25 @@ import '../../features/user_role/supervisor/supervisor_home/contoller/plan_cubit
 import '../../features/user_role/supervisor/supervisor_home/contoller/tasks_cubit/tasks_cubit.dart';
 import '../contoller/roles_login_cubit/login_cubit.dart';
 import '../services/biometric_login_service.dart';
+import '../services/odoo_timeoff_service.dart';
 
 final getIt = GetIt.instance;
 void registerFactory() {
   final navigatorKey = GlobalKey<NavigatorState>();
   getIt.registerSingleton<GlobalKey<NavigatorState>>(navigatorKey);
 
+  getIt.registerLazySingleton<OdooTimeOffService>(() => OdooTimeOffService());
+
   // ── Employee cubits ──
   getIt.registerFactory<LeaveApplicationCubit>(
     () => LeaveApplicationCubit(
       employeeRepo: getIt<EmployeeActionRepo>(),
+      odooTimeOffService: getIt<OdooTimeOffService>(),
+    ),
+  );
+  getIt.registerFactory<OdooDashboardCubit>(
+    () => OdooDashboardCubit(
+      odooTimeOffService: getIt<OdooTimeOffService>(),
     ),
   );
   getIt.registerFactory<EmployeeTasksCubit>(
@@ -100,6 +111,11 @@ void registerFactory() {
   getIt.registerFactory<AdminLeaveRequestsCubit>(
     () => AdminLeaveRequestsCubit(
       adminLeaveRequestsRepo: getIt<AdminLeaveRequestsRepo>(),
+    ),
+  );
+  getIt.registerFactory<OdooAdminDashboardCubit>(
+    () => OdooAdminDashboardCubit(
+      odooTimeOffService: getIt<OdooTimeOffService>(),
     ),
   );
 

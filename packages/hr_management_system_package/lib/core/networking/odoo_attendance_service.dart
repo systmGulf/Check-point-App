@@ -6,7 +6,7 @@ class OdooAttendanceService {
   OdooAttendanceService()
       : _dio = Dio(
           BaseOptions(
-            baseUrl: 'https://masteameg-newenlighten-test-36134872.dev.odoo.com',
+            baseUrl: 'https://masteameg-newenlighten-test-36387693.dev.odoo.com',
             headers: {
               'Accept': 'application/json',
               'API-KEY': 'jkashda_891273yubk_hjsda92',
@@ -43,13 +43,13 @@ class OdooAttendanceService {
     print('--- ODOO SYNC CHECK-IN REQUEST ---');
     print('Url: ${_dio.options.baseUrl}/api/attendance/check_in');
     print('Headers: ${_dio.options.headers}');
-    print('Body: {"employee_id": "$employeeIdStr", "location": "$location"}');
+    print('Body: {"mobile_employee_id": "$employeeIdStr", "location": "$location"}');
 
     try {
       final response = await _dio.post(
         '/api/attendance/check_in',
-        data: {
-          'employee_id': employeeIdStr,
+        queryParameters: {
+          'mobile_employee_id': employeeIdStr,
           'location': location,
         },
       );
@@ -81,13 +81,13 @@ class OdooAttendanceService {
     print('--- ODOO SYNC CHECK-OUT REQUEST ---');
     print('Url: ${_dio.options.baseUrl}/api/attendance/check_out');
     print('Headers: ${_dio.options.headers}');
-    print('Body: {"employee_id": "$employeeIdStr"}');
+    print('Body: {"mobile_employee_id": "$employeeIdStr"}');
 
     try {
       final response = await _dio.post(
         '/api/attendance/check_out',
-        data: {
-          'employee_id': employeeIdStr,
+        queryParameters: {
+          'mobile_employee_id': employeeIdStr,
         },
       );
       print('--- ODOO SYNC CHECK-OUT SUCCESS RESPONSE ---');
