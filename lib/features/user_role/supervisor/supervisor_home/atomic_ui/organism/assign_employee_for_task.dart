@@ -69,7 +69,8 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                 hintText: 'Search'.tr(),
               ),
               chipDecoration: ChipDecoration(
-                backgroundColor: const Color(0xFFEFF6FF), // Soft light blue background
+                backgroundColor:
+                    const Color(0xFFEFF6FF), // Soft light blue background
                 wrap: true,
                 runSpacing: 8.h,
                 labelStyle: TextStyle(
