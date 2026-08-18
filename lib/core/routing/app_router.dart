@@ -97,8 +97,15 @@ abstract class AppRouter {
         );
       case Routes.supervisorAddTasksScreen:
         return BaseRoute(
-          page: BlocProvider(
-            create: (context) => getIt<TasksCubit>(),
+          page: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<TasksCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<GetEmployeesDataCubit>()..getEmployeesByDepartmentId(),
+              ),
+            ],
             child: const SupervisorAddTasksScreen(),
           ),
         );
