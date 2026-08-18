@@ -13,6 +13,8 @@ import '../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../core/widgets/custom_app_text_form_field.dart';
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 import '../molecules/add_task_bloc_listener.dart';
+import '../molecules/assign_task_bloc_listener.dart';
+import '../organism/assign_employee_for_task.dart';
 import '../molecules/priority_widget.dart';
 
 class SupervisorAddTasksScreen extends StatefulWidget {
@@ -25,6 +27,13 @@ class SupervisorAddTasksScreen extends StatefulWidget {
 
 class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<TasksCubit>().dropdownItems.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +140,14 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                     },
                   ),
                   verticalSpace(12),
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text('Assign Employees'.tr(),
+                        style: AppStylesManger.font12RegularGrey),
+                  ),
+                  verticalSpace(12),
+                  const AssignEmployeesForTask(),
+                  verticalSpace(12),
                   CustomAppButton(
                     textButton: 'Add Task'.tr(),
                     buttonColor: ColorsManger.primaryColor,
@@ -140,7 +157,8 @@ class _SupervisorAddTasksScreenState extends State<SupervisorAddTasksScreen> {
                       }
                     },
                   ),
-                  AddTaskBlocListener(),
+                  const AddTaskBlocListener(),
+                  const AssignTaskBlocListener(),
                 ],
               ),
             ),
