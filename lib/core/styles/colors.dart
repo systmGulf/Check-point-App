@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorsManger {
   static Color scaffoldBackgroundColor = const Color(0XFFFFFFFF);
-  static Color primaryColor = const Color(0xFF2596BE); // Brand Ocean Blue
+  static Color primaryColor = const Color(0xFF295BDD); // Brand Blue
   static Color primaryColorLight = const Color(0xFF6B7280); // Cool Grey
   static const lightGreen = Color(0xFFF3F4F6); // Light Grey tint
   static Color lighorage = const Color(0xFF4B5563); // Medium Grey
@@ -25,4 +25,3 @@ class ColorsManger {
   static const Color checkOutPink = Color(0xFFD1D5DB);
   static const Color siteMapOrange = Color(0xFF4B5563);
 }
-
