@@ -144,9 +144,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         SizedBox(height: 4.h),
                         Text(
                           texts[index],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
-                            fontSize: 11.sp,
+                            fontSize: 10.5.sp,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                           ),
                         ),
