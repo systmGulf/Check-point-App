@@ -109,7 +109,7 @@ class OdooDashboardScreen extends StatelessWidget {
                   if (attendanceData.attendances.isEmpty)
                     _buildEmptyState('No attendance logs found for this period.'.tr())
                   else
-                    ...attendanceData.attendances.take(5).map((log) => _buildAttendanceCard(log)),
+                    ...attendanceData.attendances.take(5).map((log) => _buildAttendanceCard(context, log)),
 
                   verticalSpace(24),
 
@@ -119,7 +119,7 @@ class OdooDashboardScreen extends StatelessWidget {
                   if (leaveRequests.isEmpty)
                     _buildEmptyState('No leave requests found.'.tr())
                   else
-                    ...leaveRequests.take(5).map((req) => _buildLeaveRequestCard(req)),
+                    ...leaveRequests.take(5).map((req) => _buildLeaveRequestCard(context, req)),
                 ],
               );
             }
@@ -355,9 +355,9 @@ class OdooDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAttendanceCard(OdooAttendanceLog log) {
-    final DateFormat timeFormat = DateFormat('hh:mm a');
-    final DateFormat dateFormat = DateFormat('dd MMM yyyy');
+  Widget _buildAttendanceCard(BuildContext context, OdooAttendanceLog log) {
+    final DateFormat timeFormat = DateFormat('hh:mm a', context.locale.toString());
+    final DateFormat dateFormat = DateFormat('dd MMM yyyy', context.locale.toString());
     final DateTime inTime = DateTime.parse(log.checkIn);
     final DateTime? outTime = log.checkOut != null ? DateTime.parse(log.checkOut!) : null;
 
@@ -428,8 +428,8 @@ class OdooDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLeaveRequestCard(OdooLeaveRequest req) {
-    final DateFormat dateFormat = DateFormat('dd MMM yyyy');
+  Widget _buildLeaveRequestCard(BuildContext context, OdooLeaveRequest req) {
+    final DateFormat dateFormat = DateFormat('dd MMM yyyy', context.locale.toString());
     final DateTime start = DateTime.parse(req.dateFrom);
     final DateTime end = DateTime.parse(req.dateTo);
 

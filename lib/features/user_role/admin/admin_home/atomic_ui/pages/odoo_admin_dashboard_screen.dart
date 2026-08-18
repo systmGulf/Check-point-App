@@ -328,8 +328,8 @@ class _OdooAdminDashboardScreenState extends State<OdooAdminDashboardScreen> {
   }
 
   Widget _buildAdminAttendanceCard(OdooAttendanceLog log) {
-    final DateFormat timeFormat = DateFormat('hh:mm a');
-    final DateFormat dateFormat = DateFormat('dd MMM yyyy');
+    final DateFormat timeFormat = DateFormat('hh:mm a', context.locale.toString());
+    final DateFormat dateFormat = DateFormat('dd MMM yyyy', context.locale.toString());
     final DateTime inTime = DateTime.parse(log.checkIn);
     final DateTime? outTime = log.checkOut != null ? DateTime.parse(log.checkOut!) : null;
 
@@ -412,7 +412,7 @@ class _OdooAdminDashboardScreenState extends State<OdooAdminDashboardScreen> {
   }
 
   Widget _buildHolidayCard(OdooPublicHoliday holiday) {
-    final DateFormat dateFormat = DateFormat('dd MMM yyyy');
+    final DateFormat dateFormat = DateFormat('dd MMM yyyy', context.locale.toString());
     final DateTime start = DateTime.parse(holiday.dateFrom);
     final DateTime end = DateTime.parse(holiday.dateTo);
 
