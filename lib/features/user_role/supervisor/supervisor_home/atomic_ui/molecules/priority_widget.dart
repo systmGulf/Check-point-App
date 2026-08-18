@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../contoller/tasks_cubit/tasks_cubit.dart';
 
@@ -20,115 +19,115 @@ class priorityWidget extends StatefulWidget {
 }
 
 class _priorityWidgetState extends State<priorityWidget> {
+  late String selectedPriority;
+
   @override
-  initState() {
+  void initState() {
     super.initState();
+    selectedPriority = widget.prioity ?? context.read<TasksCubit>().priorityStatus;
+    if (selectedPriority.isEmpty) {
+      selectedPriority = 'low';
+    }
+  }
+
+  void _selectPriority(String val) {
+    setState(() {
+      selectedPriority = val;
+    });
+    widget.onChanged(val);
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField(
-      dropdownColor: Colors.white,
-      isExpanded: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: Colors.white,
-            width: 1,
+    return Row(
+      children: [
+        // Low Priority
+        Expanded(
+          child: _buildPriorityButton(
+            value: 'low',
+            label: 'low'.tr(),
+            activeBgColor: const Color(0xFF2E7D32),
+            inactiveBgColor: const Color(0xFFE8F5E9),
+            activeTextColor: Colors.white,
+            inactiveTextColor: const Color(0xFF2E7D32),
           ),
         ),
-        fillColor: context
-                    .read<TasksCubit>()
-                    .priorityStatus
-                    .tr() ==
-                'medium'.tr()
-            ? const Color(0xFFF0ECFF)
-            : context.read<TasksCubit>().priorityStatus.tr() ==
-                    'low'.tr()
-                ? const Color(0xFFE3F2FF)
-                : Color(0XFFFFE4F2),
-        filled: true,
-        prefixIcon: Icon(
-          Icons.flag_outlined,
-          color:
-              context.read<TasksCubit>().priorityStatus.tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr()
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red,
-        ),
-        suffixIcon: SizedBox(
-          width: 24,
-          child: Center(
-            child: SvgPicture.asset(
-              'assets/images/arrow_down.svg',
-              color: context
-                          .read<TasksCubit>()
-                          .priorityStatus
-                          .tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red,
-            ),
+        SizedBox(width: 12.w),
+        // Medium Priority
+        Expanded(
+          child: _buildPriorityButton(
+            value: 'medium',
+            label: 'medium'.tr(),
+            activeBgColor: const Color(0xFFEF6C00),
+            inactiveBgColor: const Color(0xFFFFF3E0),
+            activeTextColor: Colors.white,
+            inactiveTextColor: const Color(0xFFEF6C00),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.white,
+        SizedBox(width: 12.w),
+        // High Priority
+        Expanded(
+          child: _buildPriorityButton(
+            value: 'high',
+            label: 'high'.tr(),
+            activeBgColor: const Color(0xFFE73C3C),
+            inactiveBgColor: const Color(0xFFFFE8F0),
+            activeTextColor: Colors.white,
+            inactiveTextColor: const Color(0xFFE73C3C),
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-      ),
-      icon: const SizedBox(),
-      initialValue: context.read<TasksCubit>().priorityStatus,
-      style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w500,
-          color:
-              context.read<TasksCubit>().priorityStatus.tr() ==
-                      'medium'.tr()
-                  ? const Color(0xFF5F33E1)
-                  : context
-                              .read<TasksCubit>()
-                              .priorityStatus
-                              .tr() ==
-                          'low'.tr()
-                      ? const Color(0xFF0087FF)
-                      : Colors.red),
-      items: [
-        DropdownMenuItem(
-          value: 'low',
-          child: Text('low'.tr()),
-        ),
-        DropdownMenuItem(
-          value: 'medium',
-          child: Text('medium'.tr()),
-        ),
-        DropdownMenuItem(
-          value: 'high',
-          child: Text('high'.tr()),
         ),
       ],
-      onChanged: widget.onChanged,
+    );
+  }
+
+  Widget _buildPriorityButton({
+    required String value,
+    required String label,
+    required Color activeBgColor,
+    required Color inactiveBgColor,
+    required Color activeTextColor,
+    required Color inactiveTextColor,
+  }) {
+    final isActive = selectedPriority == value;
+
+    return GestureDetector(
+      onTap: () => _selectPriority(value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        height: 48.h,
+        decoration: BoxDecoration(
+          color: isActive ? activeBgColor : inactiveBgColor,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: activeBgColor.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive ? activeTextColor : inactiveTextColor,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 6.w),
+            Icon(
+              Icons.outlined_flag,
+              color: isActive ? activeTextColor : inactiveTextColor,
+              size: 16.sp,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

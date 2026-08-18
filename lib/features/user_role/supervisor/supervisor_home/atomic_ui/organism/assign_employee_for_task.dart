@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
 import '../../../../../../core/styles/colors.dart';
@@ -45,33 +46,50 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
               controller: controller,
               enabled: true,
               fieldDecoration: FieldDecoration(
+                backgroundColor: const Color(0xFFF9FAFB),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(16.r),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFE5E7EB),
+                    width: 1.2,
+                  ),
                 ),
                 hintText: 'select employees'.tr(),
+                hintStyle: TextStyle(
+                  color: const Color(0xFF9CA3AF),
+                  fontSize: 14.sp,
+                ),
               ),
               searchEnabled: true,
               searchDecoration: SearchFieldDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
                 ),
                 hintText: 'Search'.tr(),
               ),
               chipDecoration: ChipDecoration(
-                backgroundColor: ColorsManger.primaryColor,
+                backgroundColor: const Color(0xFFEFF6FF), // Soft light blue background
                 wrap: true,
-                runSpacing: 2,
-                labelStyle: const TextStyle(
-                  color: Colors.white,
+                runSpacing: 8.h,
+                labelStyle: TextStyle(
+                  color: ColorsManger.primaryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13.sp,
                 ),
-                deleteIcon: const Icon(
+                deleteIcon: Icon(
                   Icons.close_rounded,
-                  color: Colors.white,
-                  size: 16,
+                  color: ColorsManger.primaryColor,
+                  size: 16.sp,
                 ),
-                spacing: 10,
+                border: BorderSide(
+                  color: ColorsManger.primaryColor.withOpacity(0.2),
+                  width: 1.0,
+                ),
+                spacing: 8.w,
               ),
               onSelectionChange: (selectedItems) {
+                context.read<TasksCubit>().dropdownItems.clear();
                 context.read<TasksCubit>().dropdownItems.addAll(selectedItems);
               },
             );
@@ -82,7 +100,7 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                 child: CircularProgressIndicator(
               color: ColorsManger.primaryColor,
               strokeWidth: 2,
-              backgroundColor: ColorsManger.lighorage,
+              backgroundColor: ColorsManger.timelineBackground,
             ));
           } else {
             return const SizedBox();
