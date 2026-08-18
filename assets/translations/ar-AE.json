@@ -627,5 +627,15 @@
   "Pending": "معلق",
   "Approved": "مقبول",
   "Rejected": "مرفوض",
-  "days": "أيام"
+  "days": "أيام",
+  "Request Leave": "طلب إجازة",
+  "My Leaves": "إجازاتي",
+  "Public Holidays": "العطلات الرسمية",
+  "Leave Type": "نوع الإجازة",
+  "Duration": "المدة",
+  "Reason * (200 Characters Max)": "السبب * (حد أقصى 200 حرف)",
+  "Remaining": "المتبقي",
+  "Leave Planner": "مخطط الإجازات",
+  "For a while": "المدة",
+  "Leave Schedule": "جدول الإجازات"
 }

@@ -628,5 +628,15 @@
   "Pending": "Pending",
   "Approved": "Approved",
   "Rejected": "Rejected",
-  "days": "days"
+  "days": "days",
+  "Request Leave": "Request Leave",
+  "My Leaves": "My Leaves",
+  "Public Holidays": "Public Holidays",
+  "Leave Type": "Leave Type",
+  "Duration": "Duration",
+  "Reason * (200 Characters Max)": "Reason * (200 Characters Max)",
+  "Remaining": "Remaining",
+  "Leave Planner": "Leave Planner",
+  "For a while": "For a while",
+  "Leave Schedule": "Leave Schedule"
 }
