@@ -82,7 +82,7 @@ class _AssignEmployeesForTaskState extends State<AssignEmployeesForTask> {
                   color: ColorsManger.primaryColor,
                   size: 16.sp,
                 ),
-                border: BorderSide(
+                border: Border.all(
                   color: ColorsManger.primaryColor.withOpacity(0.2),
                   width: 1.0,
                 ),
