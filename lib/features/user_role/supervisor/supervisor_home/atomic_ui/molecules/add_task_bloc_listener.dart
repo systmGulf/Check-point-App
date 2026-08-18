@@ -21,7 +21,7 @@ class AddTaskBlocListener extends StatelessWidget {
           Navigator.pop(context);
           final cubit = context.read<TasksCubit>();
           if (cubit.dropdownItems.isNotEmpty) {
-            cubit.assignTasks(taskId: state.createdTask.id);
+            cubit.assignTasks(taskId: state.createdTask.id!);
           } else {
             Navigator.pop(context, state.createdTask);
             buildSnackBar(context,
