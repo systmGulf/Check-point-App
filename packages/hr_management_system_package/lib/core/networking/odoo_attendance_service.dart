@@ -48,10 +48,16 @@ class OdooAttendanceService {
     try {
       final response = await _dio.post(
         '/api/attendance/check_in',
-        queryParameters: {
+        data: {
           'mobile_employee_id': employeeIdStr,
           'location': location,
         },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          contentType: Headers.jsonContentType,
+        ),
       );
       print('--- ODOO SYNC CHECK-IN SUCCESS RESPONSE ---');
       print('Response Status: ${response.statusCode}');
@@ -86,9 +92,15 @@ class OdooAttendanceService {
     try {
       final response = await _dio.post(
         '/api/attendance/check_out',
-        queryParameters: {
+        data: {
           'mobile_employee_id': employeeIdStr,
         },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          contentType: Headers.jsonContentType,
+        ),
       );
       print('--- ODOO SYNC CHECK-OUT SUCCESS RESPONSE ---');
       print('Response Status: ${response.statusCode}');
