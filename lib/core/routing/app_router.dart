@@ -254,7 +254,16 @@ abstract class AppRouter {
                 create: (context) => getIt<GetEmployeesDataCubit>()
                   ..getEmployeesByDepartmentId(),
               ),
-              BlocProvider(create: (context) => getIt<UploadUserImageCubit>())
+              BlocProvider(create: (context) => getIt<UploadUserImageCubit>()),
+              BlocProvider(
+                create: (context) => getIt<GetEmployeeHistoryCubit>()..getEmployeeHistory(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<AttendanceCubit>()..getCustomerArea(),
+              ),
             ],
             child: const SupervisorLayoutScreen(),
           ),

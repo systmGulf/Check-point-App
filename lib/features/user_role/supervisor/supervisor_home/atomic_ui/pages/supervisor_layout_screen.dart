@@ -58,8 +58,8 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
           child: const EmployeeMoreOptionDrawer(),
         ),
       ),
-      appBar: selectedIndex == 4
-          ? null // AppSettingsScreen has its own header
+      appBar: selectedIndex == 0 || selectedIndex == 4
+          ? null // Home and Settings screens have their own headers
           : AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -161,10 +161,7 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
   }
 
   List<Widget> screens = [
-    BlocProvider(
-      create: (context) => getIt<EmployeeTasksCubit>()..getMyTasks(),
-      child: SupervisorHomeScreenBody(),
-    ),
+    const SupervisorHomeScreenBody(),
     BlocProvider(
       create: (context) => getIt<SupervisorGetEmployeeAttendanceCubit>()
         ..supervisorGetEmployeesAttendanceByDepartmentId(),
