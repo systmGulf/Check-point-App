@@ -640,5 +640,10 @@
   "For a while": "For a while",
   "Leave Schedule": "Leave Schedule",
   "Change Theme Color": "Change Theme Color",
-  "Select Theme Color": "Select Theme Color"
+  "Select Theme Color": "Select Theme Color",
+  "Check in for": "Check in for",
+  "Check out for": "Check out for",
+  "No Shift Assigned": "No Shift Assigned",
+  "Delay": "Delay",
+  "Absence": "Absence"
 }

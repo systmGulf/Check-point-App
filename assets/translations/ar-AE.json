@@ -639,5 +639,10 @@
   "For a while": "المدة",
   "Leave Schedule": "جدول الإجازات",
   "Change Theme Color": "تغيير لون المظهر",
-  "Select Theme Color": "اختر لون المظهر"
+  "Select Theme Color": "اختر لون المظهر",
+  "Check in for": "تسجيل الحضور ليوم",
+  "Check out for": "تسجيل الانصراف ليوم",
+  "No Shift Assigned": "لم يتم تعيين وردية",
+  "Delay": "التأخير",
+  "Absence": "الغياب"
 }
