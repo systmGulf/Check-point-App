@@ -30,11 +30,9 @@ class EmployeeCheckOutScreen extends StatelessWidget {
         return attendanceCubit;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: EmployeeCheckOutScreenBody(
-            attendanceType: AttendanceTypeEnum.checkOut,
-            checkType: checkType,
-          ),
+        body: EmployeeCheckOutScreenBody(
+          attendanceType: AttendanceTypeEnum.checkOut,
+          checkType: checkType,
         ),
       ),
     );

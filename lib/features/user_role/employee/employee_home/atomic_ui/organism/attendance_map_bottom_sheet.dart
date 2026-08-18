@@ -55,12 +55,15 @@ class AttendanceMapBottomSheet extends StatelessWidget {
               child: ListView(
                 controller: scrollController,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.40),
-                    child: Divider(
-                      color: ColorsManger.primaryColor,
-                      thickness: 1.5,
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 8.h, bottom: 16.h),
+                      width: 40.w,
+                      height: 4.h,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD1D5DB),
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
                     ),
                   ),
                   const TimeAndDateWidet(),
@@ -149,7 +152,7 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                       );
                     },
                   ),
-                  verticalSpace(40),
+                  verticalSpace(20),
                   BlocBuilder<AttendanceCubit, AttendanceState>(
                     buildWhen: (previous, current) =>
                         current is AccessAbleAreaState ||
@@ -244,21 +247,38 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                         return Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
+                              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                               decoration: BoxDecoration(
-                                color: Colors.green.shade100,
-                                borderRadius: BorderRadius.circular(16),
+                                color: const Color(0xFFE8F5E9).withOpacity(0.3),
+                                border: Border.all(color: Colors.green.shade200, width: 1.2),
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
                               child: Row(
                                 children: [
-                                  Text(
+                                  Container(
+                                    width: 8.w,
+                                    height: 8.w,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  horizontalSpace(12),
+                                  Expanded(
+                                    child: Text(
                                       '${"You are in".tr()} ${"range".tr()} ${widget.tr()}',
-                                      textAlign: TextAlign.center,
-                                      style: AppStylesManger.font16blackMedium),
-                                  const Spacer(),
-                                  const Icon(Icons.location_on,
-                                      color: Colors.green)
+                                      style: TextStyle(
+                                        color: Colors.green.shade800,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.wifi_rounded,
+                                    color: Colors.green.shade700,
+                                    size: 20.sp,
+                                  ),
                                 ],
                               ),
                             ),
@@ -276,37 +296,48 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                         return Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
+                              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                               decoration: BoxDecoration(
-                                color: Colors.red
-                                    .shade100, // Red background color for "out of range"
-                                borderRadius: BorderRadius.circular(8),
+                                color: const Color(0xFFFFEBEE).withOpacity(0.3),
+                                border: Border.all(color: Colors.red.shade200, width: 1.2),
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
                               child: Row(
                                 children: [
-                                  Text(
-                                    '${"You are not in".tr()}  ${"range".tr()} ${widget.tr()}',
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                  Container(
+                                    width: 8.w,
+                                    height: 8.w,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                  const Spacer(),
-                                  const Icon(Icons.location_off,
-                                      color: Colors.red)
+                                  horizontalSpace(12),
+                                  Expanded(
+                                    child: Text(
+                                      '${"You are not in".tr()} ${"range".tr()} ${widget.tr()}',
+                                      style: TextStyle(
+                                        color: Colors.red.shade800,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.wifi_off_rounded,
+                                    color: Colors.red.shade700,
+                                    size: 20.sp,
+                                  ),
                                 ],
                               ),
                             ),
-                            verticalSpace(30),
+                            verticalSpace(20),
                             Row(
                               children: [
                                 const Icon(
                                   Icons.warning_amber_rounded,
                                   color: Colors.red,
-                                  size: 32,
+                                  size: 28,
                                 ),
                                 horizontalSpace(10),
                                 Expanded(
@@ -314,7 +345,7 @@ class AttendanceMapBottomSheet extends StatelessWidget {
                                     '${"تحذير: أنت الآن خارج نطاق,  لا يمكنك ".tr()} ${attendanceType.name.tr()}.',
                                     style: TextStyle(
                                       color: Colors.red.shade900,
-                                      fontSize: 16,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

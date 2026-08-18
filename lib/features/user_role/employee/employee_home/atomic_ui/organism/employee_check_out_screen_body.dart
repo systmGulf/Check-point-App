@@ -50,6 +50,13 @@ class _EmployeeCheckOutScreenBodyState
             widget: widget.checkType),
         CustomCheckingScreenAppBar(
           text: 'Check Out'.tr(),
+          onGpsPressed: () {
+            if (widget.checkType == "Office") {
+              context.read<AttendanceCubit>().getUserBranch();
+            } else {
+              context.read<AttendanceCubit>().loadTrackingStatus();
+            }
+          },
         ),
         const CheckOutAuthBlocListener(),
       ],

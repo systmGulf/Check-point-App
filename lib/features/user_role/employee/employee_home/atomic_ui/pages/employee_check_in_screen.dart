@@ -32,11 +32,9 @@ class EmployeeCheckInScreen extends StatelessWidget {
           }
           return attendanceCubit;
         },
-        child: SafeArea(
-          child: EmployeeCheckInScreenBody(
-            attendanceType: AttendanceTypeEnum.checkIn,
-            checkType: checkType,
-          ),
+        child: EmployeeCheckInScreenBody(
+          attendanceType: AttendanceTypeEnum.checkIn,
+          checkType: checkType,
         ),
       ),
     );

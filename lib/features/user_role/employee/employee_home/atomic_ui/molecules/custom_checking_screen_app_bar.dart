@@ -1,54 +1,101 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../../../core/helpers/app_spaces.dart';
-import '../../../../../../core/styles/styles.dart';
+import '../../../../../../core/styles/colors.dart';
 
 class CustomCheckingScreenAppBar extends StatelessWidget {
   const CustomCheckingScreenAppBar({
     super.key,
     required this.text,
+    this.onGpsPressed,
   });
   final String text;
+  final VoidCallback? onGpsPressed;
 
   @override
-  Widget build(BuildContext context) {     final currentLocale = EasyLocalization.of(context)!.locale;
-    final currentLanguageCode = currentLocale.languageCode;
-    return Padding(
-      padding: EdgeInsetsDirectional.only(
-          start: 15.w, end: 15.w, top: 10.h, bottom: 10.h),
-      child: SafeArea(
-        child: Row(children: [
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black.withOpacity(0.35),
+            Colors.transparent,
+          ],
+        ),
+      ),
+      padding: EdgeInsets.only(
+        start: 16.w,
+        end: 16.w,
+        top: MediaQuery.of(context).padding.top + 8.h,
+        bottom: 24.h,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
           GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
-            child: SizedBox(
-              height: 24,
-              width: 24,
+            child: Container(
+              height: 40.w,
+              width: 40.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
               child: Center(
-                child: Transform(
-              alignment: Alignment.center,
-              transform: currentLanguageCode == 'ar'
-                  ? Matrix4.rotationY(3.14)
-                  : Matrix4.rotationY(0),
-              child: SvgPicture.asset('assets/images/arrow_back.svg')),
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: const Color(0xFF1F2937),
+                  size: 16.sp,
+                ),
               ),
             ),
           ),
-          horizontalSpace(10),
           Text(
             text,
-            style: AppStylesManger.font20semiBoldBlack,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          horizontalSpace(10),
-          const Icon(
-            Icons.my_location_sharp,
-            color: Colors.blue,
-          )
-        ]),
+          GestureDetector(
+            onTap: onGpsPressed,
+            child: Container(
+              height: 40.w,
+              width: 40.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.near_me_rounded,
+                  color: ColorsManger.primaryColor,
+                  size: 20.sp,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

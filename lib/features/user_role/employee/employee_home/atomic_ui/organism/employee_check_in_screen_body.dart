@@ -47,6 +47,13 @@ class _EmployeeCheckInScreenBodyState extends State<EmployeeCheckInScreenBody> {
         ),
         CustomCheckingScreenAppBar(
           text: 'Check In'.tr(),
+          onGpsPressed: () {
+            if (widget.checkType == "Office") {
+              context.read<AttendanceCubit>().getUserBranch();
+            } else {
+              context.read<AttendanceCubit>().loadTrackingStatus();
+            }
+          },
         ),
         const CheckInAuthBlocListener()
       ],

@@ -24,16 +24,14 @@ class CheckInBlocBuilder extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: SwipeButton.expand(
               height: 60.h,
-              thumb: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(isRtl ? 3.14 : 0),
-                child: const Icon(
-                  Icons.double_arrow_rounded,
-                  color: Colors.white,
-                ),
+              borderRadius: BorderRadius.circular(30.r),
+              thumb: Icon(
+                isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                color: Colors.white,
+                size: 28.sp,
               ),
               activeThumbColor: ColorsManger.primaryColor,
-              activeTrackColor: Colors.grey.shade300,
+              activeTrackColor: const Color(0xFFF3F4F6),
               onSwipe: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
                   context
@@ -44,7 +42,9 @@ class CheckInBlocBuilder extends StatelessWidget {
               child: Text(
                 "Swipe to Check In".tr(),
                 style: TextStyle(
-                  color: ColorsManger.primaryColor,
+                  color: const Color(0xFF9CA3AF),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ));
