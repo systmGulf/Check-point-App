@@ -83,42 +83,78 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 10,
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
               offset: const Offset(0, -4),
             ),
           ],
         ),
-        child: SlidingClippedNavBar(
-          backgroundColor: Colors.white,
-          onButtonPressed: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            controller.animateToPage(
-              selectedIndex,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutQuad,
-            );
-          },
-          iconSize: 26,
-          activeColor: ColorsManger.primaryColor,
-          inactiveColor: Colors.grey,
-          selectedIndex: selectedIndex,
-          barItems: [
-            BarItem(
-              icon: Icons.home_rounded,
-              title: 'Home'.tr(),
+        child: SafeArea(
+          child: Container(
+            height: 64.h,
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(texts.length, (index) {
+                final bool isSelected = selectedIndex == index;
+                IconData iconData;
+                switch (index) {
+                  case 0:
+                    iconData = isSelected ? Icons.home_rounded : Icons.home_outlined;
+                    break;
+                  case 1:
+                    iconData = isSelected ? Icons.tune_rounded : Icons.tune_outlined;
+                    break;
+                  case 2:
+                    iconData = isSelected ? Icons.settings_rounded : Icons.settings_outlined;
+                    break;
+                  default:
+                    iconData = Icons.home_rounded;
+                }
+
+                return Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      controller.animateToPage(
+                        selectedIndex,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutQuad,
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 24.w,
+                          height: 3.h,
+                          decoration: BoxDecoration(
+                            color: isSelected ? ColorsManger.primaryColor : Colors.transparent,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                        Icon(
+                          iconData,
+                          color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
+                          size: 24.sp,
+                        ),
+                        Text(
+                          texts[index],
+                          style: TextStyle(
+                            color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
+                            fontSize: 11.sp,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
-            BarItem(
-              icon: Icons.tune_rounded,
-              title: 'Management'.tr(),
-            ),
-            BarItem(
-              icon: Icons.settings_rounded,
-              title: 'Settings'.tr(),
-            ),
-          ],
+          ),
         ),
       ),
       body: PageView(

@@ -87,62 +87,82 @@ class _SupervisorLayoutScreenState extends State<SupervisorLayoutScreen> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 10,
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
               offset: const Offset(0, -4),
             ),
           ],
         ),
         child: SafeArea(
-          child: Padding(
+          child: Container(
+            height: 64.h,
             padding: EdgeInsets.symmetric(vertical: 4.h),
-            child: BottomNavigationBar(
-              currentIndex: selectedIndex,
-              onTap: (index) {
-                setState(() {
-                  selectedIndex = index;
-                });
-                controller.animateToPage(
-                  selectedIndex,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutQuad,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(texts.length, (index) {
+                final bool isSelected = selectedIndex == index;
+                IconData iconData;
+                switch (index) {
+                  case 0:
+                    iconData = isSelected ? Icons.home_rounded : Icons.home_outlined;
+                    break;
+                  case 1:
+                    iconData = isSelected ? Icons.calendar_month_rounded : Icons.calendar_month_outlined;
+                    break;
+                  case 2:
+                    iconData = isSelected ? Icons.assignment_rounded : Icons.assignment_outlined;
+                    break;
+                  case 3:
+                    iconData = isSelected ? Icons.description_rounded : Icons.description_outlined;
+                    break;
+                  case 4:
+                    iconData = isSelected ? Icons.settings_rounded : Icons.settings_outlined;
+                    break;
+                  default:
+                    iconData = Icons.home_rounded;
+                }
+
+                return Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      controller.animateToPage(
+                        selectedIndex,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutQuad,
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 24.w,
+                          height: 3.h,
+                          decoration: BoxDecoration(
+                            color: isSelected ? ColorsManger.primaryColor : Colors.transparent,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                        Icon(
+                          iconData,
+                          color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
+                          size: 24.sp,
+                        ),
+                        Text(
+                          texts[index],
+                          style: TextStyle(
+                            color: isSelected ? ColorsManger.primaryColor : const Color(0xFF9CA3AF),
+                            fontSize: 11.sp,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              },
-              backgroundColor: Colors.white,
-              elevation: 0,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: ColorsManger.primaryColor,
-              unselectedItemColor: Colors.grey,
-              selectedFontSize: 12.sp,
-              unselectedFontSize: 11.sp,
-              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home_rounded),
-                  activeIcon: Icon(Icons.home_rounded, color: ColorsManger.primaryColor),
-                  label: 'Home'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.calendar_month_rounded),
-                  activeIcon: Icon(Icons.calendar_month_rounded, color: ColorsManger.primaryColor),
-                  label: 'Attendance'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.assignment_rounded),
-                  activeIcon: Icon(Icons.assignment_rounded, color: ColorsManger.primaryColor),
-                  label: 'Tasks'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.pending_actions_rounded),
-                  activeIcon: Icon(Icons.pending_actions_rounded, color: ColorsManger.primaryColor),
-                  label: 'Requests'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.settings_rounded),
-                  activeIcon: Icon(Icons.settings_rounded, color: ColorsManger.primaryColor),
-                  label: 'Settings'.tr(),
-                ),
-              ],
+              }),
             ),
           ),
         ),
