@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../core/widgets/build_custom_app_bar.dart';
 import '../widgets/admin_login_screen_body.dart';
 
 class AdminLoginScreen extends StatelessWidget {
@@ -8,8 +7,7 @@ class AdminLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: buildCustomAppBar(context, ""),
+    return const Scaffold(
       body: AdminLoginScreenBody(),
     );
   }
