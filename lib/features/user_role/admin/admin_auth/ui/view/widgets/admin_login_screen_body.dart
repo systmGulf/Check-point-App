@@ -12,13 +12,11 @@ import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/services/biometric_login_service.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/app_top_snack_bar.dart';
-import '../../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../../../features/user_role/common/constants/auth_animation_constants.dart';
 import '../../../../../../../features/user_role/common/widgets/auth_credentials_fields.dart';
 import '../../../../../../../features/user_role/common/widgets/auth_login_body.dart';
 import '../../../../../../../features/user_role/common/widgets/biometric_login_button.dart';
 import '../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
-import 'header_text.dart';
 import 'admin_login_bloc_listener.dart';
 
 class AdminLoginScreenBody extends StatefulWidget {
@@ -59,11 +57,8 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
       formChild: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AnimatedHeaderWidget(
-              child: const HeaderText(),
-            ),
-            verticalSpace(AuthAnimationConstants.verticalSpaceLarge),
             AnimatedByWidgetType(
               widgetType: WidgetAnimationType.container,
               delayDuration: AuthAnimationConstants.formDelay,
@@ -72,14 +67,27 @@ class _AdminLoginScreenBodyState extends State<AdminLoginScreenBody> {
                 passwordController: _passwordController,
               ),
             ),
-            verticalSpace(18),
-            CustomAppButton(
-              onPressed: () {
-                TextInput.finishAutofillContext(shouldSave: true);
-                _validateAndLogin();
-              },
-              textButton: 'Sign In'.tr(),
-              buttonColor: ColorsManger.primaryColor,
+            verticalSpace(24),
+            SizedBox(
+              height: 52.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  TextInput.finishAutofillContext(shouldSave: true);
+                  _validateAndLogin();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorsManger.primaryColor,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                ),
+                child: Text(
+                  'Sign In'.tr(),
+                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+                ),
+              ),
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[
               BiometricLoginButton(

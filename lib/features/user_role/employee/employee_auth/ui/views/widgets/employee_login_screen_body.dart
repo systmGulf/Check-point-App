@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
 import '../../../../../../../core/animations/animations.dart';
@@ -11,13 +12,11 @@ import '../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../core/services/biometric_login_service.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/app_top_snack_bar.dart';
-import '../../../../../../../core/widgets/custom_app_button.dart';
 import '../../../../../common/constants/auth_animation_constants.dart';
 import '../../../../../common/widgets/auth_credentials_fields.dart';
 import '../../../../../common/widgets/auth_login_body.dart';
 import '../../../../../common/widgets/biometric_login_button.dart';
 import 'employee_login_bloc_listener.dart';
-import 'employee_login_image_and_text.dart';
 import 'text_terms_and_coditions.dart';
 
 class EmployeeLoginScreenBody extends StatefulWidget {
@@ -59,11 +58,8 @@ class _EmployeeLoginScreenBodyState extends State<EmployeeLoginScreenBody> {
       formChild: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AnimatedHeaderWidget(
-              child: const EmployeeLoginImageAndText(),
-            ),
-            verticalSpace(30),
             AnimatedByWidgetType(
               widgetType: WidgetAnimationType.container,
               delayDuration: AuthAnimationConstants.formDelay,
@@ -72,17 +68,30 @@ class _EmployeeLoginScreenBodyState extends State<EmployeeLoginScreenBody> {
                 passwordController: _passwordController,
               ),
             ),
-            verticalSpace(AuthAnimationConstants.verticalSpaceMedium),
+            verticalSpace(24),
             AnimatedByWidgetType(
               widgetType: WidgetAnimationType.button,
               delayDuration: AuthAnimationConstants.buttonDelay,
-              child: CustomAppButton(
-                onPressed: () {
-                  TextInput.finishAutofillContext(shouldSave: true);
-                  _validateAndLogin(context);
-                },
-                textButton: 'Sign In'.tr(),
-                buttonColor: ColorsManger.primaryColor,
+              child: SizedBox(
+                height: 52.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    TextInput.finishAutofillContext(shouldSave: true);
+                    _validateAndLogin(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorsManger.primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                  ),
+                  child: Text(
+                    'Sign In'.tr(),
+                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+                  ),
+                ),
               ),
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_management_system_package/register_account/repo/register_account_repo_impl.dart';
 
 import '../../../../../../../../core/contoller/roles_login_cubit/login_cubit.dart';
@@ -10,14 +11,11 @@ import '../../../../../../../../core/helpers/app_spaces.dart';
 import '../../../../../../../../core/services/biometric_login_service.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/app_top_snack_bar.dart';
-import '../../../../../../../../core/widgets/custom_app_button.dart';
-import '../../../../../../../core/animations/animations.dart';
 import '../../../../../common/widgets/auth_credentials_fields.dart';
 import '../../../../../common/widgets/auth_login_body.dart';
 import '../../../../../common/widgets/biometric_login_button.dart';
 import '../../../../../employee/employee_auth/ui/views/widgets/text_terms_and_coditions.dart';
 import 'supervisor_login_bloc_listener.dart';
-import 'supervisor_login_image_and_text.dart';
 
 class SupervisorLoginScreenBody extends StatefulWidget {
   const SupervisorLoginScreenBody({super.key});
@@ -58,23 +56,33 @@ class _SupervisorLoginScreenBodyState extends State<SupervisorLoginScreenBody> {
       formChild: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AnimatedHeaderWidget(
-              child: const SupervisorLoginImageAndText(),
-            ),
-            verticalSpace(30),
             AuthCredentialsFields(
               emailController: _emailController,
               passwordController: _passwordController,
             ),
-            verticalSpace(18),
-            CustomAppButton(
-              onPressed: () {
-                TextInput.finishAutofillContext(shouldSave: true);
-                _validateAndLogin();
-              },
-              textButton: 'Sign In'.tr(),
-              buttonColor: ColorsManger.primaryColor,
+            verticalSpace(24),
+            SizedBox(
+              height: 52.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  TextInput.finishAutofillContext(shouldSave: true);
+                  _validateAndLogin();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorsManger.primaryColor,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                ),
+                child: Text(
+                  'Sign In'.tr(),
+                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+                ),
+              ),
             ),
             if (_showBiometricLogin && _savedAccount != null) ...[
               BiometricLoginButton(
