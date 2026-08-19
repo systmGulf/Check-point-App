@@ -379,23 +379,23 @@ class _LeaveApplicationState extends State<LeaveApplication> {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
             children: [
-              // Balance Card Row
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildBalanceCard('Remaining'.tr(), '${remainingBalance.toStringAsFixed(1)} ${'Days'.tr()}', Colors.green),
-                  ),
-                  horizontalSpace(8),
-                  Expanded(
-                    child: _buildBalanceCard('Approved'.tr(), '${approvedDays.toStringAsFixed(1)} ${'Days'.tr()}', ColorsManger.primaryColor),
-                  ),
-                  horizontalSpace(8),
-                  Expanded(
-                    child: _buildBalanceCard('Pending'.tr(), '${pendingDays.toStringAsFixed(1)} ${'Days'.tr()}', Colors.orange),
-                  ),
-                ],
-              ),
-              verticalSpace(15),
+              // Balance Card Row – hidden per request
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: _buildBalanceCard('Remaining'.tr(), '${remainingBalance.toStringAsFixed(1)} ${'Days'.tr()}', Colors.green),
+              //     ),
+              //     horizontalSpace(8),
+              //     Expanded(
+              //       child: _buildBalanceCard('Approved'.tr(), '${approvedDays.toStringAsFixed(1)} ${'Days'.tr()}', ColorsManger.primaryColor),
+              //     ),
+              //     horizontalSpace(8),
+              //     Expanded(
+              //       child: _buildBalanceCard('Pending'.tr(), '${pendingDays.toStringAsFixed(1)} ${'Days'.tr()}', Colors.orange),
+              //     ),
+              //   ],
+              // ),
+              // verticalSpace(15),
 
               // Filter Chips
               SingleChildScrollView(
