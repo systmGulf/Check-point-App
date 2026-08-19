@@ -190,23 +190,34 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                   current is GetLeaveTypesLoading,
               builder: (context, state) {
                 final cubit = BlocProvider.of<LeaveApplicationCubit>(context);
-                return DropdownButtonFormField<OdooLeaveType>(
-                  value: cubit.selectedLeaveType,
+                final types = cubit.leaveTypes;
+
+                // Use id as the dropdown value to avoid reference-equality assertion
+                final selectedId = cubit.selectedLeaveType?.id;
+                // Guard: ensure selectedId exists in the current list
+                final validId = types.any((t) => t.id == selectedId)
+                    ? selectedId
+                    : (types.isNotEmpty ? types.first.id : null);
+
+                return DropdownButtonFormField<int>(
+                  value: validId,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   ),
-                  items: cubit.leaveTypes.map((type) {
-                    return DropdownMenuItem<OdooLeaveType>(
-                      value: type,
+                  items: types.map((type) {
+                    return DropdownMenuItem<int>(
+                      value: type.id,
                       child: Text(type.name),
                     );
                   }).toList(),
-                  onChanged: (value) {
+                  onChanged: (id) {
+                    if (id == null) return;
                     setState(() {
-                      cubit.selectedLeaveType = value;
+                      cubit.selectedLeaveType =
+                          types.firstWhere((t) => t.id == id);
                     });
                   },
                 );
